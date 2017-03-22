@@ -97,9 +97,6 @@ this.__DayDiplomacy_Engine_updater = function (key, value) {
 
 this.startUp = function () {
     __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_getDiplomacyEngine();
-    // FIXME 0.2: to debug, so to remove
-    __DayDiplomacy_Engine_Script.shipExitedWitchspace();
-    __DayDiplomacy_Engine_Script.shipDockedWithStation(null);
 };
 
 this.playerWillSaveGame = function (message) {
@@ -206,7 +203,7 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
 
         DefaultArbiterState: function () {
             return {
-                actorsByType: {}, // { actorType => [ actorId ]} // FIXME could be rebuilt rather than saved
+                actorsByType: {}, // { actorType => [ actorId ]} // FIXME 0.n: this could be rebuilt rather than saved. Quicker? More consistent?
                 actors: {}, // {actorId => actor}
                 responses: {}, // { eventType => { actorType => { responseId => response } } }
                 initActions: {}, // { actorType => { actionId => action } }
@@ -590,7 +587,7 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
                     // Our marvelous stack consumer
                     function (delta) {
                         var h = worldScripts["DayDiplomacy_000_Engine"].__DayDiplomacy_Engine_getDiplomacyEngine().HISTORIAN;
-                        h.frame = ((h.frame || 0) + 1) % 4;
+                        h.frame = ((h.frame || 0) + 1) % 10; // One action each 10 frames
                         if (h.frame !== 0) {
                             return; // Only one in n frames is used.
                         }
@@ -707,7 +704,6 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
                 var arr = thatActor.State.observers[thatObserverType] || (thatActor.State.observers[thatObserverType] = []);
                 arr.push(thatObserverId);
                 thatActor.stringify(thatActor);
-                log("DiplomacyEngine", "added observer, actor now: " + thatActor.toString(thatActor));
             };
         }
     };

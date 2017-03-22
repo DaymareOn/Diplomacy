@@ -3,7 +3,7 @@ Description
 
 Hello everybody,
 
-this is the version 0.1 of the Diplomacy OXP. Its intended goal is to allow historical events to happen between systems (attacks, loots, alliances, taxes...),
+this is the version 0.2 of the Diplomacy OXP. Its intended goal is to allow historical events to happen between systems (attacks, loots, alliances, taxes...),
 and to have actions depending on this (news, massed flottillas, state racket, who knows?).
 Technically, I see it as a war/diplomacy framework.
 
@@ -42,9 +42,14 @@ It's useful to limit the cpu load too by at least a factor 100.
 A "Response" encapsulates a function.
 It contains: an Id, the 'EventType' to which it responds, the 'ActorType' of actors which will use this response, and a function which may use the args given in the event.
 
+When docked in station, once every 10 frames, an action (event, response, etc) is realized.
+A 'turn' of events is allowed each jump.
+Before beginning a new 'turn', all the actions of the precedent turn have been realized.
+
 Now, how do an oxp developer interact with the engine to use these marvelous concepts?
 
-To be written :)
+To be written :) An easy API should be developed in version 0.3.
+
 But check DayDiplomacy_Systems.js and DayDiplomacy_Tax.js to see how the systems and the taxation were implemented in less than 70 lines each :)
 
 ==============================
@@ -72,4 +77,5 @@ If you are re-using any piece of this OXP, please let me know by sending an e-ma
 ==============================
 Changelog
 
+0.2     The actions are made progressively, one every 10 frames when docked, so as not to need more execution time than allowed at the same time, and to avoid slowdowns during the game.
 0.1     First version of the Diplomacy engine. Systems are introduced as a type of "Actor". "SELFTAX" is introduced as an event for systems. Tax level and treasury are displayed on the F7 screen.
