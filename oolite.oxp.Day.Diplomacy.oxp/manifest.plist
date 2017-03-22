@@ -1,0 +1,11 @@
+{
+	"identifier" = "oolite.oxp.day.Diplomacy_OXP";
+	"required_oolite_version" = "1.80";
+	"title" = "Diplomacy";
+	"version" = "0.2";
+	"category" = "Ambience";
+	"description" = "This OXP currently indicates systems' treasury and tax level.";
+	"author" = "Day";
+	"information_url" = "http://wiki.alioth.net/index.php/Diplomacy_OXP";
+	"license" = "CC BY-NC-SA 4";
+}
