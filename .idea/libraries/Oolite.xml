@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Oolite" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$USER_HOME$/workspace/oolite-master/oolite/Resources/Scripts" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$USER_HOME$/workspace/oolite-master/oolite/Resources/Scripts" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
