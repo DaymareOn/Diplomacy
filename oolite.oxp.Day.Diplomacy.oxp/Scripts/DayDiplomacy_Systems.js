@@ -8,62 +8,59 @@ this.description = "This script creates systems.";
 var __DayDiplomacy_Systems_Script = this;
 this.__DayDiplomacy_Systems_systemsByGalaxyAndSystem = {};
 
+// We set the observers. No need to use an initAction as there won't be any more system.
 this.__DayDiplomacy_Systems_setObservers = function (aGalaxyNb) {
-    var a = worldScripts["DayDiplomacy_000_Engine"].__DayDiplomacy_Engine_getDiplomacyEngine().getArbiter();
+    var api = worldScripts["DayDiplomacy_002_EngineAPI"].__DayDiplomacy_EngineAPI_methods;
 
-    // We set the observers. No need to use an initAction as there won't be any more system.
-    var actors = a.State.actorsByType["SYSTEM"];
+    var actorsByType = api.getActorsIdByType("SYSTEM");
+    var actors = api.getActors();
 
-    if (a.State.actors[actors[0]].State.observers["SYSTEM"] && a.State.actors[actors[0]].State.observers["SYSTEM"].length > 0) {
+    var knownObservers = api.getObservers(actors[actorsByType[0]], "SYSTEM");
+    if (knownObservers && knownObservers.length > 0) {
         return; // Already initialized
     }
 
     var sys = __DayDiplomacy_Systems_Script.__DayDiplomacy_Systems_systemsByGalaxyAndSystem;
-    for (var i = 0; i < actors.length; i++) {
-        var thisActor = a.State.actors[actors[i]];
-        var thisActorState = thisActor.State;
-        if (thisActorState.galaxyNb === aGalaxyNb) {
-            var observers = System.infoForSystem(thisActorState.galaxyNb, thisActorState.systemId).systemsInRange();
+    for (var i = 0; i < actorsByType.length; i++) {
+        var thisActor = actors[actorsByType[i]];
+        if (thisActor.State.galaxyNb === aGalaxyNb) {
+            var observers = System.infoForSystem(thisActor.State.galaxyNb, thisActor.State.systemId).systemsInRange();
             for (var k = 0; k < observers.length; k++) {
-                thisActor.addObserver(thisActor, "SYSTEM", sys[observers[k].galaxyID][observers[k].systemID]);
+                api.addObserverToActor(sys[observers[k].galaxyID][observers[k].systemID], "SYSTEM", thisActor);
             }
         }
     }
 };
 
 this.startUp = function () {
-    var ENGINE = worldScripts["DayDiplomacy_000_Engine"].__DayDiplomacy_Engine_getDiplomacyEngine();
-    var a = ENGINE.getArbiter();
+    var api = worldScripts["DayDiplomacy_002_EngineAPI"].__DayDiplomacy_EngineAPI_methods;
 
     // Not initializing if already done.
-    if (a.State.actorTypes.indexOf("SYSTEM") != -1) {
+    if (api.getActorTypes().indexOf("SYSTEM") != -1) {
         return;
     }
-
-    a.addActorType(a, "SYSTEM", 0);
-
+    api.addActorType("SYSTEM", 0);
 
     // We initiate the systems: id = G(galaxy number).(system number). Ex : "G2.23"
+    var sys = __DayDiplomacy_Systems_Script.__DayDiplomacy_Systems_systemsByGalaxyAndSystem;
     for (var i = 0; i < 8; i++) {
         for (var j = 0; j < 256; j++) {
-            var aSystem = new ENGINE.Actor(ENGINE.DefaultActorState("SYSTEM", a.getNewActorId(a)));
-            aSystem.State.galaxyNb = i;
-            aSystem.State.systemId = j;
-            aSystem.init(aSystem); // At the end of system construction
-            a.addActor(a, aSystem);
+            var aSystem = api.buildActor("SYSTEM", api.buildNewActorId());
+            api.setField(aSystem, "galaxyNb", i);
+            api.setField(aSystem, "systemId", j);
+            api.addActor(aSystem);
 
-            __DayDiplomacy_Systems_Script.__DayDiplomacy_Systems_systemsByGalaxyAndSystem[i] || (__DayDiplomacy_Systems_Script.__DayDiplomacy_Systems_systemsByGalaxyAndSystem[i] = {});
-            __DayDiplomacy_Systems_Script.__DayDiplomacy_Systems_systemsByGalaxyAndSystem[i][j] = aSystem.State.id; // Needed for quick access in the next part.
-            // FIXME 0.n: maybe we should init it every time? __DayDiplomacy_Systems_systemsByGalaxyAndSystem seems like a useful public map :) ?
+            sys[i] || (sys[i] = {});
+            sys[i][j] = aSystem.State.id; // Needed for quick access in the next part.
+            // FIXME 0.n: maybe we should init it every time? __DayDiplomacy_Systems_systemsByGalaxyAndSystem seems like a useful public map :) ? A system API :) ?
         }
     }
 
-    var currentGalaxy = system.info.galaxyID;
-    __DayDiplomacy_Systems_Script.__DayDiplomacy_Systems_setObservers(currentGalaxy); // We init the observers for the current galaxy
+    // We init the observers for the current galaxy
+    __DayDiplomacy_Systems_Script.__DayDiplomacy_Systems_setObservers(system.info.galaxyID);
 };
 
 // This is necessary as we can't calculate distances in other galaxies.
 this.playerEnteredNewGalaxy = function (galaxyNumber) {
-    // FIXME 0.n: __DayDiplomacy_Systems_systemsByGalaxyAndSystem must be reinit'ed
     __DayDiplomacy_Systems_Script.__DayDiplomacy_Systems_setObservers(galaxyNumber);
 };
