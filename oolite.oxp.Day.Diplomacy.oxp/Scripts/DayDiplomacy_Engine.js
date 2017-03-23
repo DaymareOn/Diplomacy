@@ -160,13 +160,6 @@ this.__DayDiplomacy_Engine_getDiplomacyEngine = function () {
 this.__DayDiplomacy_Engine_buildEngine = function () {
     return {
 
-        /**
-         * An action, whether it is init or recurrent isn't put into the History. Only Events are.
-         * @param anEventType is used to order the actions and events execution. For a same eventType, Actions are executed before Events.
-         * @param anActorType is the type of the actor which will "act" on the action.
-         * @param someFunction This function must take only one argument: the actor which will "act".
-         * @constructor
-         */
         Action: function (anActionState) {
             this.stringifyType = "Action";
             this.id = anActionState.id;
@@ -175,13 +168,6 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
             this.actionFunction = anActionState.actionFunction;
         },
 
-        /**
-         *
-         * @param anEventType
-         * @param anActor
-         * @param someArgs Have to be compatible with our implementation of JSON stringify/parse.
-         * @constructor
-         */
         Event: function (anEventState) {
             this.stringifyType = "Event";
             this.eventType = anEventState.eventType;
@@ -189,9 +175,6 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
             this.args = anEventState.args;
         },
 
-        /**
-         * A Response contains a behaviour to be executed when a certain event happens.
-         */
         Response: function (aResponseState) {
             this.stringifyType = "Response";
             this.id = aResponseState.id;
@@ -320,7 +303,6 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
                 for (var i = 0; i < ourActorIds.length; i++) {
                     var actor = thatArbiter.State.actors[ourActorIds[i]];
                     actor.executeAction(actor, anAction);
-
                 }
             };
 
