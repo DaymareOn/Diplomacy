@@ -8,11 +8,13 @@ this.description = "This script is the Diplomacy engine API for external scripts
 // <oxpDevelopersIgnore> Common variable to this script. Oxp developers: please ignore. #####################################
 var __DayDiplomacy_EngineAPI_state = {};
 this.__DayDiplomacy_EngineAPI_initState = function () {
-    __DayDiplomacy_EngineAPI_state.engine = worldScripts["DayDiplomacy_000_Engine"].__DayDiplomacy_Engine_getDiplomacyEngine();
+    __DayDiplomacy_EngineAPI_state.engine = worldScripts.DayDiplomacy_000_Engine.__DayDiplomacy_Engine_getDiplomacyEngine();
     __DayDiplomacy_EngineAPI_state.arbiter = __DayDiplomacy_EngineAPI_state.engine.getArbiter();
     __DayDiplomacy_EngineAPI_state.historian = __DayDiplomacy_EngineAPI_state.engine.getHistorian();
 };
-this.__DayDiplomacy_EngineAPI_initState();
+this.startUp = function () {
+    this.__DayDiplomacy_EngineAPI_initState();
+};
 this.__DayDiplomacy_EngineAPI_methods = {};
 // </oxpDevelopersIgnore> ####################################################################################################
 

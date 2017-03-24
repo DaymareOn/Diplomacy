@@ -10,7 +10,7 @@ this.__DayDiplomacy_Systems_systemsByGalaxyAndSystem = {};
 
 // We set the observers. No need to use an initAction as there won't be any more system.
 this.__DayDiplomacy_Systems_setObservers = function (aGalaxyNb) {
-    var api = worldScripts["DayDiplomacy_002_EngineAPI"].__DayDiplomacy_EngineAPI_methods;
+    var api = worldScripts.DayDiplomacy_002_EngineAPI.__DayDiplomacy_EngineAPI_methods;
 
     var actorsByType = api.getActorsIdByType("SYSTEM");
     var actors = api.getActors();
@@ -21,11 +21,11 @@ this.__DayDiplomacy_Systems_setObservers = function (aGalaxyNb) {
     }
 
     var sys = __DayDiplomacy_Systems_Script.__DayDiplomacy_Systems_systemsByGalaxyAndSystem;
-    for (var i = 0; i < actorsByType.length; i++) {
+    for (var i = 0, z=actorsByType.length; i < z; i++) {
         var thisActor = actors[actorsByType[i]];
         if (thisActor.State.galaxyNb === aGalaxyNb) {
             var observers = System.infoForSystem(thisActor.State.galaxyNb, thisActor.State.systemId).systemsInRange();
-            for (var k = 0; k < observers.length; k++) {
+            for (var k = 0, y=observers.length; k < y; k++) {
                 api.addObserverToActor(sys[observers[k].galaxyID][observers[k].systemID], "SYSTEM", thisActor);
             }
         }
@@ -33,7 +33,7 @@ this.__DayDiplomacy_Systems_setObservers = function (aGalaxyNb) {
 };
 
 this.startUp = function () {
-    var api = worldScripts["DayDiplomacy_002_EngineAPI"].__DayDiplomacy_EngineAPI_methods;
+    var api = worldScripts.DayDiplomacy_002_EngineAPI.__DayDiplomacy_EngineAPI_methods;
 
     // Not initializing if already done.
     if (api.getActorTypes().indexOf("SYSTEM") != -1) {
@@ -52,7 +52,6 @@ this.startUp = function () {
 
             sys[i] || (sys[i] = {});
             sys[i][j] = aSystem.State.id; // Needed for quick access in the next part.
-            // FIXME 0.n: maybe we should init it every time? __DayDiplomacy_Systems_systemsByGalaxyAndSystem seems like a useful public map :) ? A system API :) ?
         }
     }
 

@@ -5,18 +5,6 @@ this.copyright = "(C) 2017 David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
 this.description = "This script is the engine of the Diplomacy OXP.";
 
-// FIXME 0.n have an indicator "Ongoing war" per system
-// FIXME 0.n have a notion of "war zone"
-// FIXME 0.n have a notion of galaxy, station, traveller
-// FIXME 0.n tax evasion
-// FIXME 0.n identifying oneself as from some system
-// FIXME 0.n factions?
-// FIXME 0.n news
-// FIXME 0.n blockades
-// FIXME 0.n each turn, a system has an event card: a sun explodes, or a native singer becomes famous, which changes taxes, or alliances, or fights, or...
-// FIXME 0.n what about the story of a war writing itself?
-// FIXME 0.n war cargoes
-
 var __DayDiplomacy_Engine_Script = this;
 
 /*************************** Methods to save/restore *****************************************************/
@@ -41,7 +29,7 @@ this.__DayDiplomacy_Engine_reviver = function (key, value) {
 
     var myclasses = ["Actor", "Action", "Event", "Response"]; // Could be factorized with the replacer
     var check = __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_checkForReviver;
-    for (var i = 0; i < myclasses.length; i++) {
+    for (var i = 0, z = myclasses.length; i < z; i++) {
         var c = myclasses[i];
         var result = check("/" + c + "(", value);
         if (result !== -1) {
@@ -195,21 +183,7 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
                 responseMaxId: 1,
                 actionMaxId: 1, // Useful to remove recurrentActions and initActions.
                 // The base events (or actions) in our history. Some may be added. These events are ordered.
-                eventTypes: [
-                    // FIXME 0.n: implement all of that :)
-                    // "ATTACK", //(System, System)
-                    // "LOSS", //(System, System)
-                    // "VICTORY", //(System, System)
-                    // "BANKRUPTCY", //(System)
-                    // "LEAVE", //(System, Alliance)
-                    // "JOIN", //(System, Alliance)
-                    // "SPLIT", //(Alliance, Alliance...)
-                    // "COMBINE", //(Alliance, Alliance)
-                    // "TAX", //(Alliance, System)
-                    // "SUBSIDIZE", //(Alliance, System)
-                    // "DEFENSE_PREPARATION", //(System)
-                    // "ATTACK_PREPARATION" //(System)
-                ],
+                eventTypes: [],
                 actorTypes: []
             };
         },
@@ -250,7 +224,7 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
                 thatArbiter.State.actors[anActor.State.id] = anActor;
 
                 // We complete the existing actor responses with the arbiter responses in an ordered fashion.
-                for (var i = 0; i < eventTypes.length; i++) {
+                for (var i = 0, z = eventTypes.length; i < z; i++) {
                     var eventType = eventTypes[i];
                     responses[eventType] || (responses[eventType] = {});
                     var responsesToAdd = responses[eventType][anActor.State.actorType] || (responses[eventType][anActor.State.actorType] = {});
@@ -300,7 +274,7 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
 
             this.executeAction = function (thatArbiter, anAction) {
                 var ourActorIds = thatArbiter.State.actorsByType[anAction.actorType];
-                for (var i = 0; i < ourActorIds.length; i++) {
+                for (var i = 0, z = ourActorIds.length; i < z; i++) {
                     var actor = thatArbiter.State.actors[ourActorIds[i]];
                     actor.executeAction(actor, anAction);
                 }
@@ -312,7 +286,7 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
 
                 // We add the response to the existing actors in an ordered fashion.
                 var ourActorIds = thatArbiter.State.actorsByType[aResponse.actorType];
-                for (var i = 0; i < ourActorIds.length; i++) {
+                for (var i = 0, z = ourActorIds.length; i < z; i++) {
                     var actor = thatArbiter.State.actors[ourActorIds[i]];
                     actor.addResponse(actor, aResponse);
                 }
@@ -335,7 +309,7 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
                 delete responses[aResponse.eventType][aResponse.actorType][aResponse.id];
 
                 var ourActorIds = thatArbiter.State.actorsByType[aResponse.actorType];
-                for (var i = 0; i < ourActorIds.length; i++) {
+                for (var i = 0, z = ourActorIds.length; i < z; i++) {
                     var actor = thatArbiter.State.actors[ourActorIds[i]];
                     actor.removeResponse(actor, aResponse);
                 }
@@ -350,7 +324,7 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
 
                 thatArbiter.State.responses[name] = {};
                 thatArbiter.State.recurrentActions[name] = {};
-                for (var i = 0; i < thatArbiter.State.actorTypes.length; i++) {
+                for (var i = 0, z = thatArbiter.State.actorTypes.length; i < z; i++) {
                     thatArbiter.State.responses[name][thatArbiter.State.actorTypes[i]] = {};
                     thatArbiter.State.recurrentActions[name][thatArbiter.State.actorTypes[i]] = {};
                 }
@@ -365,7 +339,7 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
                 thatArbiter.State.actorsByType[name] = [];
                 thatArbiter.State.initActions[name] = {};
 
-                for (var i = 0; i < thatArbiter.State.eventTypes.length; i++) {
+                for (var i = 0, z = thatArbiter.State.eventTypes.length; i < z; i++) {
                     thatArbiter.State.responses[thatArbiter.State.eventTypes[i]][name] = {};
                     thatArbiter.State.recurrentActions[thatArbiter.State.eventTypes[i]][name] = {};
                 }
@@ -477,7 +451,6 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
                     return false; // No need to use too much time.
                 }
 
-                // FIXME 0.n: when event is done through stack, put it into history?
                 if (thatHistorian.State.eventsToPublish[currentEventType].length > 0) {
                     var thatEvent = thatHistorian.State.eventsToPublish[currentEventType][0];
 
@@ -511,7 +484,7 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
                 var actorIds = thatArbiter.State.actorsByType[currentActorType];
                 for (var id in actions) {
                     if (actions.hasOwnProperty(id)) { // False map
-                        for (var n = 0; n < actorIds.length; n++) {
+                        for (var n = 0, z = actorIds.length; n < z; n++) {
                             thatHistorian.State.shortStack.push({
                                 "type": "action",
                                 "actor": thatArbiter.State.actors[actorIds[n]],
@@ -524,7 +497,7 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
 
             this.putEventOntoStack = function (thatHistorian, thatArbiter, thatEvent, currentActorType) {
                 var observers = thatArbiter.State.actors[thatEvent.actorId].State.observers[currentActorType];
-                for (var m = 0; m < observers.length; m++) {
+                for (var m = 0, z=observers.length; m < z; m++) {
                     var observer = thatArbiter.State.actors[observers[m]];
                     // First argument: observer
                     // 2nd arg: eventActor
@@ -569,7 +542,7 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
                     // Our marvelous stack consumer
                     function (delta) {
                         var h = worldScripts["DayDiplomacy_000_Engine"].__DayDiplomacy_Engine_getDiplomacyEngine().HISTORIAN;
-                        h.frame = ((h.frame || 0) + 1) % 10; // One action each 10 frames
+                        h.frame = ((h.frame || 0) + 1) % 20; // One action each 10 frames
                         if (h.frame !== 0) {
                             return; // Only one in n frames is used.
                         }
@@ -690,4 +663,3 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
         }
     };
 };
-// FIXME 0.3: make IDiplomacy allowing to access the public methods? Into another js script? Speed cost?

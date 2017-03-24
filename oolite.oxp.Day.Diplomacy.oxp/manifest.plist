@@ -2,9 +2,9 @@
 	"identifier" = "oolite.oxp.day.Diplomacy_OXP";
 	"required_oolite_version" = "1.80";
 	"title" = "Diplomacy";
-	"version" = "0.2";
+	"version" = "0.3";
 	"category" = "Ambience";
-	"description" = "This OXP currently indicates systems' treasury and tax level.";
+	"description" = "This OXP currently indicates systems' treasury and tax level. It provides an API for oxp developers to build galaxy-spanning events and reactions.";
 	"author" = "Day";
 	"information_url" = "http://wiki.alioth.net/index.php/Diplomacy_OXP";
 	"license" = "CC BY-NC-SA 4";
