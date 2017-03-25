@@ -22,6 +22,11 @@ and to have actions depending on this (news, massed flottillas, state racket, wh
 Technically, I see it as a war/diplomacy framework.
 It includes an easy API for oxp developers.
 
+It is STILL a Work In Progress.
+
+Particularly, the savefile format might change in the future; so it wouldn't do to expect a savefile from an old version to work with a newer version code.
+If experimenting problems, the easy way is to edit the savefile and remove the lines including "Diplomacy". Then next start, the oxp will begin anew.
+
 ==============================
 What's currently implemented functionality-wise?
 
@@ -64,5 +69,13 @@ If you are re-using any piece of this OXP, please let me know by sending an e-ma
 ==============================
 Changelog
 
+0.3     New, oxp dev func: delivered DiplomacyEngineAPI for oxp developers, provided a dedicated readme file.
+        New, doc: provided a dedicated file DiplomacyRoadmap.txt
+        Improvement, code consistency: the Systems and Tax js script now use the API rather than the native engine calls.
+        Improvement, speed: optimized the loops in the engine
+        Improvement, logic: when starting, the player is docked, so we should process the saved actions.
+        Bugfix: solved a bug in the Tax script recurrent tax task after a savefile load.
+        Bugfix: the init action using the api wasn't working after a restore from the savefile.
+        Cleaning: log cleaning, file cleaning.
 0.2     The actions are made progressively, one every 10 frames when docked, so as not to need more execution time than allowed at the same time, and to avoid slowdowns during the game.
 0.1     First version of the Diplomacy engine. Systems are introduced as a type of "Actor". "SELFTAX" is introduced as an event for systems. Tax level and treasury are displayed on the F7 screen.
