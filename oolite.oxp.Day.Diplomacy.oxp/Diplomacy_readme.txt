@@ -17,7 +17,7 @@ Description
 
 Hello everybody,
 
-this is the version 0.3 of the Diplomacy OXP. Its intended goal is to allow historical events to happen between systems (attacks, loots, alliances, taxes...),
+this is the Diplomacy OXP. Its intended goal is to allow historical events to happen between systems (attacks, loots, alliances, taxes...),
 and to have actions depending on this (news, massed flottillas, state racket, who knows?).
 Technically, I see it as a war/diplomacy framework.
 It includes an easy API for oxp developers.
@@ -69,6 +69,7 @@ If you are re-using any piece of this OXP, please let me know by sending an e-ma
 ==============================
 Changelog
 
+0.4     Put into the oxz manager.
 0.3     New, oxp dev func: delivered DiplomacyEngineAPI for oxp developers, provided a dedicated readme file.
         New, doc: provided a dedicated file DiplomacyRoadmap.txt
         Improvement, code consistency: the Systems and Tax js script now use the API rather than the native engine calls.
