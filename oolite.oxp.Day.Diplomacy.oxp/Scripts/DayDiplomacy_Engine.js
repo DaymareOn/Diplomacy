@@ -85,6 +85,7 @@ this.__DayDiplomacy_Engine_updater = function (key, value) {
 
 this.startUp = function () {
     __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_getDiplomacyEngine();
+    __DayDiplomacy_Engine_Script.shipDockedWithStation(null); // When starting, the player is docked.
 };
 
 this.playerWillSaveGame = function (message) {
@@ -542,7 +543,7 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
                     // Our marvelous stack consumer
                     function (delta) {
                         var h = worldScripts["DayDiplomacy_000_Engine"].__DayDiplomacy_Engine_getDiplomacyEngine().HISTORIAN;
-                        h.frame = ((h.frame || 0) + 1) % 20; // One action each 10 frames
+                        h.frame = ((h.frame || 0) + 1) % 10; // One action each 10 frames
                         if (h.frame !== 0) {
                             return; // Only one in n frames is used.
                         }
