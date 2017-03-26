@@ -1,14 +1,14 @@
 Diplomacy roadmap
 =================
 
-FIXME 0.5: this is the annual tax, the return should be proportional to the time elapsed since the previous jump.
-FIXME 0.6 storing the history
-FIXME 0.7 manage versioning of savefiles
-FIXME 0.8: give access of __DayDiplomacy_Systems_systemsByGalaxyAndSystem to oxp developers. A SystemsAPI :)
-FIXME 0.9 identifying player as citizen from some system (Citizenship)
-FIXME 0.10 player taxation
+FIXME +.1: this is the annual tax, the return should be proportional to the time elapsed since the previous jump.
+FIXME +.2 storing the history
+FIXME +.3 manage versioning of savefiles
+FIXME +.4: give access of __DayDiplomacy_Systems_systemsByGalaxyAndSystem to oxp developers. A SystemsAPI :)
+FIXME +.5 identifying player as citizen from some system (Citizenship)
+FIXME +.6 player taxation
 
-FIXME 0.10: implement initial scoring of relations between systems
+FIXME +.6: implement initial scoring of relations between systems
 notion of goodwill towards systems in range
 goodwill low depending on history:
 if they have attacked that turn,
