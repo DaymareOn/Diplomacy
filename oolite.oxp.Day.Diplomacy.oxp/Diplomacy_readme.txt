@@ -69,6 +69,7 @@ If you are re-using any piece of this OXP, please let me know by sending an e-ma
 ==============================
 Changelog
 
+0.5     Bugfix manifest.plist for the oxz manager.
 0.4     Put into the oxz manager.
 0.3     New, oxp dev func: delivered DiplomacyEngineAPI for oxp developers, provided a dedicated readme file.
         New, doc: provided a dedicated file DiplomacyRoadmap.txt
