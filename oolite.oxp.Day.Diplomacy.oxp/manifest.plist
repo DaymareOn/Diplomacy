@@ -2,7 +2,7 @@
 	"identifier" = "oolite.oxp.Day.Diplomacy";
 	"required_oolite_version" = "1.80";
 	"title" = "Diplomacy";
-	"version" = "0.5";
+	"version" = "0.6";
 	"category" = "Ambience";
 	"description" = "This OXP currently indicates systems' treasury and tax level. It provides an API for oxp developers to build galaxy-spanning events and reactions.";
 	"author" = "Day";

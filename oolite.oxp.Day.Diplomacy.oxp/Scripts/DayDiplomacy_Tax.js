@@ -33,6 +33,8 @@ this.startUp = function () {
         var api = worldScripts.DayDiplomacy_002_EngineAPI.__DayDiplomacy_EngineAPI_methods;
         api.setField(aSystem, "taxLevel", taxLevel[ourSystemInOolite.government]);
         api.setField(aSystem, "treasury", 0); // Everybody begins with treasury = 0.
+        api.setField(aSystem, "lastTaxDate", clock.seconds);
+        log("DiplomacyTax", ourSystemInOolite.name + " treasury: " + aSystem.State.treasury);
         ourSystemInOolite.description += " Tax level: " + aSystem.State.taxLevel + " Treasury: 0 €";
     }));
 
@@ -41,7 +43,11 @@ this.startUp = function () {
         var s = aSystem.State;
         var ourSystemInOolite = System.infoForSystem(s.galaxyNb, s.systemId);
         var api = worldScripts.DayDiplomacy_002_EngineAPI.__DayDiplomacy_EngineAPI_methods;
-        api.setField(aSystem, "treasury", s.treasury + ourSystemInOolite.productivity * s.taxLevel);
+        var now = clock.seconds;
+        // A year contains 31557600 seconds.
+        api.setField(aSystem, "treasury", s.treasury + (ourSystemInOolite.productivity * (now - parseInt(s.lastTaxDate)) / 31557600 * s.taxLevel));
+        api.setField(aSystem, "lastTaxDate", now);
+        log("DiplomacyTax", ourSystemInOolite.name + " treasury: " + aSystem.State.treasury);
         ourSystemInOolite.description = ourSystemInOolite.description.replace(/Tax.*€/, "Tax level: " + s.taxLevel + " Treasury: " + s.treasury + " €");
     }));
 };

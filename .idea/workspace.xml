@@ -4,11 +4,13 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="7dac204a-c329-4c67-bff4-88ff57ef4aa3" name="Default" comment="">
+    <list default="true" readonly="true" id="7dac204a-c329-4c67-bff4-88ff57ef4aa3" name="Default" comment="Bugfix for manager =&gt; version 0.5">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxz" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxz" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_readme.txt" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_readme.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_roadmap.txt" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_roadmap.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Engine.js" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Engine.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Tax.js" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Tax.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/manifest.plist" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/manifest.plist" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -65,11 +67,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="600">
-      <file leaf-file-name="DayDiplomacy_Engine.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="DayDiplomacy_Engine.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Engine.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="9810">
-              <caret line="545" column="58" lean-forward="false" selection-start-line="545" selection-start-column="58" selection-end-line="545" selection-end-column="58" />
+            <state relative-caret-position="216">
+              <caret line="12" column="63" lean-forward="false" selection-start-line="12" selection-start-column="63" selection-end-line="12" selection-end-column="63" />
               <folding />
             </state>
           </provider>
@@ -78,8 +80,8 @@
       <file leaf-file-name="Diplomacy_readme.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_readme.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="327">
-              <caret line="71" column="50" lean-forward="false" selection-start-line="71" selection-start-column="50" selection-end-line="71" selection-end-column="50" />
+            <state relative-caret-position="486">
+              <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -95,11 +97,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="manifest.plist" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/manifest.plist">
+      <file leaf-file-name="DayDiplomacy_Alliances.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Alliances.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="manifest.plist" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/manifest.plist">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="72">
+              <caret line="4" column="20" lean-forward="false" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -115,16 +127,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="package.sh" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/package.sh">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="6" column="1" lean-forward="false" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Diplomacy_EngineAPI_readme.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_EngineAPI_readme.txt">
           <provider selected="true" editor-type-id="text-editor">
@@ -135,21 +137,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Diplomacy_roadmap.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_roadmap.txt">
+      <file leaf-file-name="DayDiplomacy_Systems.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Systems.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="10" column="9" lean-forward="false" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
+            <state relative-caret-position="-415">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DayDiplomacy_Systems.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Systems.js">
+      <file leaf-file-name="Diplomacy_roadmap.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_roadmap.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="180">
+              <caret line="10" column="113" lean-forward="false" selection-start-line="10" selection-start-column="113" selection-end-line="10" selection-end-column="113" />
               <folding />
             </state>
           </provider>
@@ -158,8 +160,8 @@
       <file leaf-file-name="DayDiplomacy_Tax.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Tax.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="792">
-              <caret line="44" column="0" lean-forward="false" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
+            <state relative-caret-position="453">
+              <caret line="47" column="119" lean-forward="false" selection-start-line="47" selection-start-column="119" selection-end-line="47" selection-end-column="119" />
               <folding />
             </state>
           </provider>
@@ -176,7 +178,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>getArbiter</find>
       <find>getactortypes</find>
       <find>geteventtypes</find>
       <find>actors</find>
@@ -206,6 +207,7 @@
       <find>for</find>
       <find>shipDockedWithStation</find>
       <find>log</find>
+      <find>engine</find>
     </findStrings>
     <replaceStrings>
       <replace>logName</replace>
@@ -236,12 +238,12 @@
         <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_EngineAPI.js" />
         <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Systems.js" />
         <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_EngineAPI_concepts.txt" />
-        <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Tax.js" />
-        <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Engine.js" />
         <option value="$PROJECT_DIR$/package.sh" />
         <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_readme.txt" />
         <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_roadmap.txt" />
         <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/manifest.plist" />
+        <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Tax.js" />
+        <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Engine.js" />
       </list>
     </option>
   </component>
@@ -431,6 +433,24 @@
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
             <PATH_ELEMENT USER_OBJECT="oolite.oxp.Day.Diplomacy.oxp">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="Diplomacy">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="oolite.oxp.Day.Diplomacy.oxp">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="Scripts">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
@@ -738,9 +758,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="64" y="-11" width="1857" height="1092" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17520216" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17520216" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23092574" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32959503" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
@@ -816,7 +837,8 @@
     <MESSAGE value="Improvement, speed: one action per 10 frames&#10;When starting, the player is docked, so it should process the saved actions." />
     <MESSAGE value="Better readme for this version." />
     <MESSAGE value="Version 0.4 for manager" />
-    <option name="LAST_COMMIT_MESSAGE" value="Version 0.4 for manager" />
+    <MESSAGE value="Bugfix for manager =&gt; version 0.5" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bugfix for manager =&gt; version 0.5" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -879,6 +901,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1044">
           <caret line="36" column="84" lean-forward="false" selection-start-line="36" selection-start-column="81" selection-end-line="36" selection-end-column="84" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -886,6 +909,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="261">
           <caret line="9" column="16" lean-forward="false" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -941,6 +965,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1044">
           <caret line="36" column="84" lean-forward="false" selection-start-line="36" selection-start-column="81" selection-end-line="36" selection-end-column="84" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -948,6 +973,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="261">
           <caret line="9" column="16" lean-forward="false" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1003,6 +1029,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1044">
           <caret line="36" column="84" lean-forward="false" selection-start-line="36" selection-start-column="81" selection-end-line="36" selection-end-column="84" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1010,6 +1037,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="261">
           <caret line="9" column="16" lean-forward="false" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1109,36 +1137,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2394">
           <caret line="133" column="0" lean-forward="false" selection-start-line="133" selection-start-column="0" selection-end-line="133" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Alliances.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Systems.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Tax.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="792">
-          <caret line="44" column="0" lean-forward="false" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Engine.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9810">
-          <caret line="545" column="58" lean-forward="false" selection-start-line="545" selection-start-column="58" selection-end-line="545" selection-end-column="58" />
           <folding />
         </state>
       </provider>
@@ -1151,14 +1149,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Config/world-scripts.plist">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_EngineAPI_readme.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1167,18 +1157,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_readme.txt">
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_roadmap.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="327">
-          <caret line="71" column="50" lean-forward="false" selection-start-line="71" selection-start-column="50" selection-end-line="71" selection-end-column="50" />
+        <state relative-caret-position="180">
+          <caret line="10" column="113" lean-forward="false" selection-start-line="10" selection-start-column="113" selection-end-line="10" selection-end-column="113" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_roadmap.txt">
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_readme.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="10" column="9" lean-forward="false" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
+        <state relative-caret-position="486">
+          <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Config/world-scripts.plist">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Alliances.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1193,8 +1199,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/manifest.plist">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
+        <state relative-caret-position="72">
+          <caret line="4" column="20" lean-forward="false" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Systems.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-415">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Tax.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="453">
+          <caret line="47" column="119" lean-forward="false" selection-start-line="47" selection-start-column="119" selection-end-line="47" selection-end-column="119" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Engine.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="12" column="63" lean-forward="false" selection-start-line="12" selection-start-column="63" selection-end-line="12" selection-end-column="63" />
           <folding />
         </state>
       </provider>
