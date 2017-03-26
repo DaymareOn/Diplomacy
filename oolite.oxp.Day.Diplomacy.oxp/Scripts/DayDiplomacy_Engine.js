@@ -10,6 +10,7 @@ var __DayDiplomacy_Engine_Script = this;
 /*************************** Methods to save/restore *****************************************************/
 
 this.__DayDiplomacy_Engine_checkForReviver = function (keyString, content) {
+    // FIXME speeding up by using compiled rational expressions
     if ((content.indexOf(keyString) === 1) && (content.indexOf(")/") === content.length - 3)) {
         return unescape(content.substring(keyString.length + 1, content.length - 3)).replace(/\\"/g, "\""); // why oh why ?
     }
@@ -111,6 +112,8 @@ this.shipExitedWitchspace = function () {
 };
 
 this.shipDockedWithStation = function (station) {
+    // Debug
+    __DayDiplomacy_Engine_Script.shipExitedWitchspace();
     var h = __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_getDiplomacyEngine().getHistorian();
     h.addFrameCallback(h);
 };
@@ -147,7 +150,7 @@ this.__DayDiplomacy_Engine_getDiplomacyEngine = function () {
 };
 
 this.__DayDiplomacy_Engine_buildEngine = function () {
-    return {
+    var engine = {
 
         Action: function (anActionState) {
             this.stringifyType = "Action";
@@ -541,7 +544,7 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
 
                 thatHistorian.State.callback = addFrameCallback(
                     // Our marvelous stack consumer
-                    function (delta) {
+                    function (delta) { // FIXME we could reuse the function rather than create it each time
                         var h = worldScripts["DayDiplomacy_000_Engine"].__DayDiplomacy_Engine_getDiplomacyEngine().HISTORIAN;
                         h.frame = ((h.frame || 0) + 1) % 10; // One action each 10 frames
                         if (h.frame !== 0) {
@@ -610,57 +613,61 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
         Actor: function (anActorState) {
             this.stringifyType = "Actor";
             this.State = anActorState.hasOwnProperty("State") ? anActorState.State : anActorState;
-
-            this.stringify = function (thatActor) {
-                thatActor.stringifyString = JSON.stringify(thatActor, __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_updater);
-            };
-
-            this.init = function (thatActor) {
-                thatActor.stringify(thatActor);
-            };
-
-            this.toString = function (thatActor) {
-                return thatActor.stringifyString;
-            };
-
-            this.executeAction = function (thatActor, anAction) {
-                anAction.actionFunction(thatActor);
-            };
-
-            this.act = function (thatActor, anEventType, someArgs) {
-                var h = __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_DIPLOMACY_ENGINE.getHistorian();
-                h.record(h, new __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_DIPLOMACY_ENGINE.Event({
-                    eventType: anEventType,
-                    actorId: thatActor.State.id,
-                    args: someArgs
-                }));
-            };
-
-            this.actNextTurn = function (thatActor, anEventType, someArgs) {
-                var h = __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_DIPLOMACY_ENGINE.getHistorian();
-                h.recordForNextTurn(h, new __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_DIPLOMACY_ENGINE.Event({
-                    eventType: anEventType,
-                    actorId: thatActor.State.id,
-                    args: someArgs
-                }));
-            };
-
-            this.addResponse = function (thatActor, aResponse) {
-                thatActor.State.responses[aResponse.eventType] || (thatActor.State.responses[aResponse.eventType] = {});
-                thatActor.State.responses[aResponse.eventType][aResponse.id] = aResponse;
-                thatActor.stringify(thatActor);
-            };
-
-            this.removeResponse = function (thatActor, aResponse) {
-                delete thatActor.State.responses[aResponse.eventType][aResponse.id];
-                thatActor.stringify(thatActor);
-            };
-
-            this.addObserver = function (thatActor, thatObserverType, thatObserverId) {
-                var arr = thatActor.State.observers[thatObserverType] || (thatActor.State.observers[thatObserverType] = []);
-                arr.push(thatObserverId);
-                thatActor.stringify(thatActor);
-            };
         }
     };
+
+    // Using prototype rather than defining it into Actor allows to have only one method defined rather than one per Actor.
+    // This is useless for Arbiter and Historian, as they are singletons.
+    engine.Actor.prototype.stringify = function (thatActor) {
+        thatActor.stringifyString = JSON.stringify(thatActor, __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_updater);
+    };
+
+    engine.Actor.prototype.init = function (thatActor) {
+        thatActor.stringify(thatActor);
+    };
+
+    engine.Actor.prototype.toString = function (thatActor) {
+        return thatActor.stringifyString;
+    };
+
+    engine.Actor.prototype.executeAction = function (thatActor, anAction) {
+        anAction.actionFunction(thatActor);
+    };
+
+    engine.Actor.prototype.act = function (thatActor, anEventType, someArgs) {
+        var h = __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_DIPLOMACY_ENGINE.getHistorian();
+        h.record(h, new __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_DIPLOMACY_ENGINE.Event({
+            eventType: anEventType,
+            actorId: thatActor.State.id,
+            args: someArgs
+        }));
+    };
+
+    engine.Actor.prototype.actNextTurn = function (thatActor, anEventType, someArgs) {
+        var h = __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_DIPLOMACY_ENGINE.getHistorian();
+        h.recordForNextTurn(h, new __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_DIPLOMACY_ENGINE.Event({
+            eventType: anEventType,
+            actorId: thatActor.State.id,
+            args: someArgs
+        }));
+    };
+
+    engine.Actor.prototype.addResponse = function (thatActor, aResponse) {
+        thatActor.State.responses[aResponse.eventType] || (thatActor.State.responses[aResponse.eventType] = {});
+        thatActor.State.responses[aResponse.eventType][aResponse.id] = aResponse;
+        thatActor.stringify(thatActor);
+    };
+
+    engine.Actor.prototype.removeResponse = function (thatActor, aResponse) {
+        delete thatActor.State.responses[aResponse.eventType][aResponse.id];
+        thatActor.stringify(thatActor);
+    };
+
+    engine.Actor.prototype.addObserver = function (thatActor, thatObserverType, thatObserverId) {
+        var arr = thatActor.State.observers[thatObserverType] || (thatActor.State.observers[thatObserverType] = []);
+        arr.push(thatObserverId);
+        thatActor.stringify(thatActor);
+    };
+
+    return engine;
 };

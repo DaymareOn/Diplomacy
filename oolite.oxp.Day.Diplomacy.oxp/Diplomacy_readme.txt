@@ -24,7 +24,7 @@ It includes an easy API for oxp developers.
 
 It is STILL a Work In Progress.
 
-Particularly, the savefile format might change in the future; so it wouldn't do to expect a savefile from an old version to work with a newer version code.
+In particular, the savefile format might change in the future; so it wouldn't do to expect a savefile from an old version to work with a newer version code.
 If experimenting problems, the easy way is to edit the savefile and remove the lines including "Diplomacy". Then next start, the oxp will begin anew.
 
 ==============================

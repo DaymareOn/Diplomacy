@@ -7,6 +7,8 @@ FIXME +.3 manage versioning of savefiles
 FIXME +.4: give access of __DayDiplomacy_Systems_systemsByGalaxyAndSystem to oxp developers. A SystemsAPI :)
 FIXME +.5 identifying player as citizen from some system (Citizenship)
 FIXME +.6 player taxation
+FIXME 0.n passengers are taxed too; maybe player may pay less depending on passenger home system? why would passenger allow that?
+FIXME 0.n some systems could have their citizens not taxed? free passage? by some chosen systems? vassal systems?
 
 FIXME +.6: implement initial scoring of relations between systems
 notion of goodwill towards systems in range
