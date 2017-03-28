@@ -8,9 +8,9 @@ this.description = "This script is the Diplomacy engine API for external scripts
 // <oxpDevelopersIgnore> Common variable to this script. Oxp developers: please ignore. #####################################
 var __DayDiplomacy_EngineAPI_state = {};
 this.__DayDiplomacy_EngineAPI_initState = function () {
-    __DayDiplomacy_EngineAPI_state.engine = worldScripts.DayDiplomacy_000_Engine.__DayDiplomacy_Engine_getDiplomacyEngine();
-    __DayDiplomacy_EngineAPI_state.arbiter = __DayDiplomacy_EngineAPI_state.engine.getArbiter();
-    __DayDiplomacy_EngineAPI_state.historian = __DayDiplomacy_EngineAPI_state.engine.getHistorian();
+    __DayDiplomacy_EngineAPI_state.engine = worldScripts.DayDiplomacy_000_Engine.$getEngine();
+    __DayDiplomacy_EngineAPI_state.arbiter = __DayDiplomacy_EngineAPI_state.engine._getArbiter();
+    __DayDiplomacy_EngineAPI_state.historian = __DayDiplomacy_EngineAPI_state.engine._getHistorian();
 };
 this.startUp = function () {
     this.__DayDiplomacy_EngineAPI_initState();
@@ -38,7 +38,7 @@ this.__DayDiplomacy_EngineAPI_methods.buildNewActorId = function () {
  * @param function: someFunction This function must take one and only one argument: the actor which will "act".
  */
 this.__DayDiplomacy_EngineAPI_methods.buildAction = function (id, eventType, actorType, actionFunction) {
-    return new __DayDiplomacy_EngineAPI_state.engine.Action({
+    return new __DayDiplomacy_EngineAPI_state.engine.$Action({
         "id": id,
         "eventType": eventType,
         "actorType": actorType,
@@ -54,7 +54,7 @@ this.__DayDiplomacy_EngineAPI_methods.buildAction = function (id, eventType, act
  * Those are the information/arguments which will be given to the response function.
  */
 this.__DayDiplomacy_EngineAPI_methods.buildEvent = function (eventType, actorId, args) {
-    return new __DayDiplomacy_EngineAPI_state.engine.Event({
+    return new __DayDiplomacy_EngineAPI_state.engine.$Event({
         "eventType": eventType,
         "actorId": actorId,
         "args": args

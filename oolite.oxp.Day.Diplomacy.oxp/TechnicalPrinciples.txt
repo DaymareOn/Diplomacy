@@ -1,0 +1,6 @@
+Architecture / dev principles
+-----------------------------
+
+The least possible closures (impossible to remove eval())
+Use prototypes when possible to minimize cpu and memory usage.
+Use compiled regexps.

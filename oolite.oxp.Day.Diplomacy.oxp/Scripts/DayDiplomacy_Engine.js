@@ -5,170 +5,70 @@ this.copyright = "(C) 2017 David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
 this.description = "This script is the engine of the Diplomacy OXP.";
 
-var __DayDiplomacy_Engine_Script = this;
+/*************************** Closures ********************************************************************/
 
-/*************************** Methods to save/restore *****************************************************/
+this._missionVariables = missionVariables;
+this._jsonparse = JSON.parse;
+this.jsonstringify = JSON.stringify;
+this.functionRegexp = new RegExp(/^\/Function\(.*\)\/$/);
+this.functionReplaceRegexp = new RegExp(/^\/Function\((.*)\)\/$/);
+this.functionReplaceString = "($1)";
+this.escapingRegexp = new RegExp(/\\"/g);
+this.unescape = unescape;
+this.replaceString = "$1";
 
-this.__DayDiplomacy_Engine_checkForReviver = function (keyString, content) {
-    // FIXME speeding up by using compiled rational expressions
-    if ((content.indexOf(keyString) === 1) && (content.indexOf(")/") === content.length - 3)) {
-        return unescape(content.substring(keyString.length + 1, content.length - 3)).replace(/\\"/g, "\""); // why oh why ?
-    }
-    return -1;
-};
-
-this.__DayDiplomacy_Engine_reviver = function (key, value) {
-
-    // All our special cases are strings
-    if (typeof value !== "string") {
-        return value;
-    }
-
-    if ((value.indexOf("/Function(") == 0) && (value.indexOf(")/", value.length - ")/".length) !== -1)) {
-        return eval("(" + value.substring(10, value.length - 2) + ")");
-    }
-
-    var myclasses = ["Actor", "Action", "Event", "Response"]; // Could be factorized with the replacer
-    var check = __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_checkForReviver;
-    for (var i = 0, z = myclasses.length; i < z; i++) {
-        var c = myclasses[i];
-        var result = check("/" + c + "(", value);
-        if (result !== -1) {
-            var constructr = __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_getDiplomacyEngine()[c];
-            var obj = new constructr(JSON.parse(result, this));
-            if (obj.hasOwnProperty("init")) {
-                obj.init(obj);
-            }
-            return obj;
-        }
-    }
-
-    return value;
-};
-
-this.__DayDiplomacy_Engine_replacer = function (key, value) {
-    var t = typeof value;
-
-    if (t === "function") {
-        return "/Function(" + value.toString() + ")/";
-    }
-
-    if (t === "object" && value.hasOwnProperty("stringifyString")) {
-        return value.stringifyString;
-    }
-
-    return value;
-};
-
-this.__DayDiplomacy_Engine_updater = function (key, value) {
-    var t = typeof value;
-
-    if (t === "function") {
-        return "/Function(" + value.toString() + ")/";
-    }
-
-    if (t === "object" && value.hasOwnProperty("stringifyType")) {
-        var result = {};
-        for (var id in value) {
-            // False map + avoiding fatal recursion + we don't want objects methods
-            if (value.hasOwnProperty(id) && id !== "stringifyType" && id !== "stringifyString" && (typeof value[id] !== "function")) {
-                result[id] = value[id];
-            }
-        }
-        return "/" + value.stringifyType + "(" + JSON.stringify(result, this) + ")/";
-    }
-
-    return value;
-};
-
-/*************************** End of methods to save/restore **********************************************/
-/*************************** Oolite events ***************************************************************/
-
-this.startUp = function () {
-    __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_getDiplomacyEngine();
-    __DayDiplomacy_Engine_Script.shipDockedWithStation(null); // When starting, the player is docked.
-};
-
-this.playerWillSaveGame = function (message) {
-    var s = __DayDiplomacy_Engine_Script;
-    var e = s.__DayDiplomacy_Engine_getDiplomacyEngine();
-    var h = e.HISTORIAN;
-
-    h.removeFrameCallback(h);
-
-    var sa = JSON.stringify(e.ARBITER.State, s.__DayDiplomacy_Engine_replacer);
-    missionVariables.DayDiplomacyEngine_ArbiterState = sa;
-
-    var sh = JSON.stringify(h.State, s.__DayDiplomacy_Engine_replacer);
-    missionVariables.DayDiplomacyEngine_HistorianState = sh;
-
-    h.addFrameCallback(h);
-};
-
-this.shipExitedWitchspace = function () {
-    var h = __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_getDiplomacyEngine().getHistorian();
-    h.State.jumpTokenNb || (h.State.jumpTokenNb = 0);
-    h.State.jumpTokenNb++;
-};
-
-this.shipDockedWithStation = function (station) {
-    // Debug
-    __DayDiplomacy_Engine_Script.shipExitedWitchspace();
-    var h = __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_getDiplomacyEngine().getHistorian();
-    h.addFrameCallback(h);
-};
-
-this.shipWillLaunchFromStation = function (station) {
-    var h = __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_getDiplomacyEngine().getHistorian();
-    h.removeFrameCallback(h);
-};
-
-/*************************** End of oolite events ********************************************************/
+/*************************** End of closures *************************************************************/
 /*************************** Engine **********************************************************************/
 
-this.__DayDiplomacy_Engine_getDiplomacyEngine = function () {
-    // No need to init twice.
-    if (__DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_DIPLOMACY_ENGINE) {
-        return __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_DIPLOMACY_ENGINE;
+this._loadState = function (thatState, aState) {
+    for (var id in aState) {
+        if (aState.hasOwnProperty(id)) { // Avoiding prototypes' fields
+            thatState[id] = aState[id];
+        }
     }
-
-    // Init of the engine and the singletons.
-    __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_DIPLOMACY_ENGINE = __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_buildEngine();
-    var a = __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_DIPLOMACY_ENGINE.getArbiter(); // At the same time, we init the singleton.
-    var h = __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_DIPLOMACY_ENGINE.getHistorian(); // Idem
-
-    // Loading if necessary.
-    var sa = missionVariables.DayDiplomacyEngine_ArbiterState;
-    var sh = missionVariables.DayDiplomacyEngine_HistorianState;
-    if (sa && sa.length > 0) {
-        a.loadState(a, JSON.parse(sa, __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_reviver));
-        h.loadState(h, JSON.parse(sh, __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_reviver));
-    }
-
-    // Returning.
-    return __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_DIPLOMACY_ENGINE;
 };
 
-this.__DayDiplomacy_Engine_buildEngine = function () {
+this.prototype.$getEngine = function() {
+    // Init of the engine and the singletons.
+    var e = this._buildEngine();
+    this._e = e;
+    var as = e._getArbiter().State; // At the same time, we init the singleton.
+    var hs = e._getHistorian().State; // Idem
+
+    // Loading if necessary.
+    var sa = this._missionVariables.DayDiplomacyEngine_ArbiterState;
+    var sh = this._missionVariables.DayDiplomacyEngine_HistorianState;
+    if (sa && sa.length > 0) {
+        this._loadState(as, this._jsonparse(sa, this._reviver));
+        this._loadState(hs, this._jsonparse(sh, this._reviver));
+    }
+
+    // We set the shadowing method to avoid init'ing each time.
+    this.$getEngine = function () {
+        return this._e;
+    };
+
+    // Returning.
+    return e;
+};
+
+this._buildEngine = function () {
     var engine = {
 
-        Action: function (anActionState) {
-            this.stringifyType = "Action";
+        $Action: function (anActionState) {
             this.id = anActionState.id;
             this.eventType = anActionState.eventType;
             this.actorType = anActionState.actorType;
             this.actionFunction = anActionState.actionFunction;
         },
 
-        Event: function (anEventState) {
-            this.stringifyType = "Event";
+        $Event: function (anEventState) {
             this.eventType = anEventState.eventType;
             this.actorId = anEventState.actorId;
             this.args = anEventState.args;
         },
 
         Response: function (aResponseState) {
-            this.stringifyType = "Response";
             this.id = aResponseState.id;
             this.eventType = aResponseState.eventType;
             this.actorType = aResponseState.actorType; // The type of the responder actor
@@ -178,7 +78,8 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
 
         DefaultArbiterState: function () {
             return {
-                actorsByType: {}, // { actorType => [ actorId ]} // FIXME 0.n: this could be rebuilt rather than saved. Quicker? More consistent?
+                // FIXME 0.n: this could be rebuilt rather than saved. Quicker? More consistent?
+                actorsByType: {}, // { actorType => [ actorId ]}
                 actors: {}, // {actorId => actor}
                 responses: {}, // { eventType => { actorType => { responseId => response } } }
                 initActions: {}, // { actorType => { actionId => action } }
@@ -197,14 +98,6 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
          */
         Arbiter: function (anArbiterState) {
             this.State = anArbiterState;
-
-            this.loadState = function (thatArbiter, aState) {
-                for (var id in aState) {
-                    if (aState.hasOwnProperty(id)) { // False map
-                        thatArbiter.State[id] = aState[id];
-                    }
-                }
-            };
 
             this.getNewActorId = function (thatArbiter) {
                 return "DiplomacyActor_" + thatArbiter.State["actorMaxId"]++;
@@ -333,7 +226,7 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
                     thatArbiter.State.recurrentActions[name][thatArbiter.State.actorTypes[i]] = {};
                 }
 
-                var h = __DayDiplomacy_Engine_DIPLOMACY_ENGINE.getHistorian();
+                var h = _e._getHistorian();
                 h.__addEventType(h, name);
             };
 
@@ -365,8 +258,8 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
         /**
          * Our arbiter singleton.
          */
-        getArbiter: function () {
-            return __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_DIPLOMACY_ENGINE.ARBITER = __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_DIPLOMACY_ENGINE.ARBITER || new __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_DIPLOMACY_ENGINE.Arbiter(__DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_DIPLOMACY_ENGINE.DefaultArbiterState());
+        _getArbiter: function () {
+            return __DayDiplomacy_Engine_Script._e.ARBITER = __DayDiplomacy_Engine_Script._e.ARBITER || new __DayDiplomacy_Engine_Script._e.Arbiter(__DayDiplomacy_Engine_Script._e.DefaultArbiterState());
         },
 
         DefaultHistorianState: function () {
@@ -391,15 +284,6 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
                 thatHistorian.State.eventsToPublishNextTurn[eventTypeName] = [];
             };
 
-            // TODO 0.n: factorize with previous one?
-            this.loadState = function (thatHistorian, aState) {
-                for (var id in aState) {
-                    if (aState.hasOwnProperty(id)) { // False map
-                        thatHistorian.State[id] = aState[id];
-                    }
-                }
-            };
-
             this.record = function (thatHistorian, anEvent) {
                 var eventsToPublish = thatHistorian.State.eventsToPublish;
                 var eventType = anEvent.eventType;
@@ -408,7 +292,7 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
             };
 
             this.recordForNextTurn = function (thatHistorian, anEvent) {
-                var eventsToPublishNextTurn = thatHistorian.State["eventsToPublishNextTurn"];
+                var eventsToPublishNextTurn = thatHistorian.State.eventsToPublishNextTurn;
                 var eventType = anEvent.eventType;
                 eventsToPublishNextTurn[eventType] || (eventsToPublishNextTurn[eventType] = []);
                 eventsToPublishNextTurn[eventType].push(anEvent);
@@ -425,7 +309,7 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
                 }
 
                 // We go to next eventType
-                var thatArbiter = __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_DIPLOMACY_ENGINE.getArbiter();
+                var thatArbiter = __DayDiplomacy_Engine_Script._e._getArbiter();
                 var newEventType = thatArbiter.nextState(thatArbiter, "eventTypes", currentEventType);
                 var finished = newEventType === "";
                 thatHistorian.State.currentEventType = finished ? thatArbiter.State.eventTypes[0] : newEventType;
@@ -439,7 +323,7 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
             this.populateStack = function (thatHistorian) {
                 var currentEventType = thatHistorian.State.currentEventType;
                 var currentActorType = thatHistorian.State.currentActorType;
-                var thatArbiter = __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_DIPLOMACY_ENGINE.getArbiter();
+                var thatArbiter = __DayDiplomacy_Engine_Script._e._getArbiter();
 
                 if (!thatHistorian.State.recurrentActionsIsDoneForCurrentEventType) {
                     thatHistorian.putRecurrentActionsOntoStack(thatHistorian, thatArbiter, currentEventType, currentActorType);
@@ -501,7 +385,7 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
 
             this.putEventOntoStack = function (thatHistorian, thatArbiter, thatEvent, currentActorType) {
                 var observers = thatArbiter.State.actors[thatEvent.actorId].State.observers[currentActorType];
-                for (var m = 0, z=observers.length; m < z; m++) {
+                for (var m = 0, z = observers.length; m < z; m++) {
                     var observer = thatArbiter.State.actors[observers[m]];
                     // First argument: observer
                     // 2nd arg: eventActor
@@ -544,8 +428,8 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
 
                 thatHistorian.State.callback = addFrameCallback(
                     // Our marvelous stack consumer
-                    function (delta) { // FIXME we could reuse the function rather than create it each time
-                        var h = worldScripts["DayDiplomacy_000_Engine"].__DayDiplomacy_Engine_getDiplomacyEngine().HISTORIAN;
+                    function (delta) { // FIXME 0.n we could reuse the function rather than create it each time
+                        var h = worldScripts["DayDiplomacy_000_Engine"].$getEngine().HISTORIAN;
                         h.frame = ((h.frame || 0) + 1) % 10; // One action each 10 frames
                         if (h.frame !== 0) {
                             return; // Only one in n frames is used.
@@ -593,8 +477,8 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
         /**
          * Our historian singleton.
          */
-        getHistorian: function () {
-            return __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_DIPLOMACY_ENGINE.HISTORIAN = __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_DIPLOMACY_ENGINE.HISTORIAN || new __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_DIPLOMACY_ENGINE.Historian(__DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_DIPLOMACY_ENGINE.DefaultHistorianState());
+        _getHistorian: function () {
+            return __DayDiplomacy_Engine_Script._e.HISTORIAN = __DayDiplomacy_Engine_Script._e.HISTORIAN || new __DayDiplomacy_Engine_Script._e.Historian(__DayDiplomacy_Engine_Script._e.DefaultHistorianState());
         },
 
         DefaultActorState: function (anActorType, anId) {
@@ -611,13 +495,18 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
          * Must be init'd after instanciation.
          */
         Actor: function (anActorState) {
-            this.stringifyType = "Actor";
+            // FIXME 0.6: the test anActorState.State should be enough?
             this.State = anActorState.hasOwnProperty("State") ? anActorState.State : anActorState;
         }
     };
 
-    // Using prototype rather than defining it into Actor allows to have only one method defined rather than one per Actor.
+    // Using prototype rather than defining it into Actor allows to have only one method/field defined rather than one per Actor.
     // This is useless for Arbiter and Historian, as they are singletons.
+    engine.Actor.prototype.stringifyType = "Actor";
+    engine.$Action.prototype.stringifyType = "$Action";
+    engine.$Event.prototype.stringifyType = "Event";
+    engine.Response.prototype.stringifyType = "Response";
+
     engine.Actor.prototype.stringify = function (thatActor) {
         thatActor.stringifyString = JSON.stringify(thatActor, __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_updater);
     };
@@ -635,8 +524,8 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
     };
 
     engine.Actor.prototype.act = function (thatActor, anEventType, someArgs) {
-        var h = __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_DIPLOMACY_ENGINE.getHistorian();
-        h.record(h, new __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_DIPLOMACY_ENGINE.Event({
+        var h = __DayDiplomacy_Engine_Script._e._getHistorian();
+        h.record(h, new __DayDiplomacy_Engine_Script._e.$Event({
             eventType: anEventType,
             actorId: thatActor.State.id,
             args: someArgs
@@ -644,8 +533,8 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
     };
 
     engine.Actor.prototype.actNextTurn = function (thatActor, anEventType, someArgs) {
-        var h = __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_DIPLOMACY_ENGINE.getHistorian();
-        h.recordForNextTurn(h, new __DayDiplomacy_Engine_Script.__DayDiplomacy_Engine_DIPLOMACY_ENGINE.Event({
+        var h = __DayDiplomacy_Engine_Script._e._getHistorian();
+        h.recordForNextTurn(h, new __DayDiplomacy_Engine_Script._e.$Event({
             eventType: anEventType,
             actorId: thatActor.State.id,
             args: someArgs
@@ -669,5 +558,126 @@ this.__DayDiplomacy_Engine_buildEngine = function () {
         thatActor.stringify(thatActor);
     };
 
+    engine.$Action.prototype.stringifyRegexp = new RegExp(/^Action\(.*\)$/);
+    engine.Actor.prototype.stringifyRegexp = new RegExp(/^Actor\(.*\)$/);
+    engine.$Event.prototype.stringifyRegexp = new RegExp(/^Event\(.*\)$/);
+    engine.Response.prototype.stringifyRegexp = new RegExp(/^Response\(.*\)$/);
+    engine.Actor.prototype.replaceRegexp = new RegExp(/^\/Actor\((.*)\)\/$/);
+    engine.$Action.prototype.replaceRegexp = new RegExp(/^\/Action\((.*)\)\/$/);
+    engine.$Event.prototype.replaceRegexp = new RegExp(/^\/Event\((.*)\)\/$/);
+    engine.Response.prototype.replaceRegexp = new RegExp(/^\/Response\((.*)\)\/$/);
+
     return engine;
 };
+
+/*************************** End of engine ***************************************************************/
+/*************************** Oolite events ***************************************************************/
+
+this.startUp = function () {
+    this.$getEngine(); // Ensuring initialization
+    this.shipDockedWithStation(null); // When starting, the player is docked.
+    delete this.startUp;
+};
+
+this.playerWillSaveGame = function (message) {
+    this._h.removeFrameCallback(this._h);
+    this._missionVariables.DayDiplomacyEngine_ArbiterState = this.jsonstringify(this._a.State, this.__DayDiplomacy_Engine_replacer);
+    this._missionVariables.DayDiplomacyEngine_HistorianState = this.jsonstringify(this._h.State, this.__DayDiplomacy_Engine_replacer);
+    this._h.addFrameCallback(this._h);
+};
+
+// FIXME would it be possible to implement singletons through prototypes? The interest being we would not test each time for null :)
+// FIXME rename direct with $, privates with _
+
+this.shipExitedWitchspace = function () {
+    var hs = this._h.State;
+    hs.jumpTokenNb || (hs.jumpTokenNb = 0);
+    hs.jumpTokenNb++;
+};
+
+this.shipDockedWithStation = function (station) {
+    this.shipExitedWitchspace(); // FIXME Debug
+    this._h.addFrameCallback(this._h);
+};
+
+this.shipWillLaunchFromStation = function (station) {
+    this._h.removeFrameCallback(this._h);
+};
+
+/*************************** End of oolite events ********************************************************/
+/*************************** Methods to save/restore *****************************************************/
+
+// We cannot avoid a closure on eval as it cannot be referenced outside of calls.
+// FIXME Where is it called, really? what about closure?
+this._reviver = function (key, value) {
+
+    // All our special cases are strings
+    if (typeof value !== "string") {
+        return value;
+    }
+
+    // FIXME benchmark using only one regexp rather than 2
+    if (value.match(this.functionRegexp)) {
+        return eval(value.replace(this.functionReplaceRegexp, this.functionReplaceString));
+    }
+
+    for (var i = 0; i < 4; i++) {
+        var c = this.classesData[i];
+        var clas = c.class;
+        if (value.match(clas.stringifyRegexp)) {
+            // FIXME simplify ?
+            var obj = new clas(this._jsonparse(this.unescape(value.replace(clas.replaceRegexp, this.replaceString)).replace(this.escapingRegexp, "\""), this));
+            if (obj.init) {
+                obj.init(obj);
+            }
+            return obj;
+        }
+    }
+
+    return value;
+};
+
+this._reviver.prototype.classesData = [
+    this.$getEngine()["Actor"],
+    this.$getEngine()["$Action"],
+    this.$getEngine()["$Event"],
+    this.$getEngine()["Response"]];
+
+// FIXME Where is it called, really? what about closure?
+this.__DayDiplomacy_Engine_replacer = function (key, value) {
+    var t = typeof value;
+
+    if (t === "function") {
+        return "/Function(" + value.toString() + ")/";
+    }
+
+    if (t === "object" && value.hasOwnProperty("stringifyString")) {
+        return value.stringifyString;
+    }
+
+    return value;
+};
+
+this.__DayDiplomacy_Engine_updater = function (key, value) {
+    var t = typeof value;
+
+    if (t === "function") {
+        return "/Function(" + value.toString() + ")/";
+    }
+
+    if (t === "object" && value.stringifyType) {
+        var result = {};
+        for (var id in value) {
+            // False map + avoiding fatal recursion + we don't want methods or prototype fields
+            if (value.hasOwnProperty(id) && id !== "stringifyString") {
+                result[id] = value[id];
+            }
+        }
+        return "/" + value.stringifyType + "(" + this.jsonstringify(result, this) + ")/";
+    }
+
+    return value;
+};
+this.__DayDiplomacy_Engine_updater.prototype.jsonstringify = JSON.stringify;
+
+/*************************** End of methods to save/restore **********************************************/

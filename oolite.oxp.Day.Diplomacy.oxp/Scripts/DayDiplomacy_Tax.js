@@ -38,14 +38,13 @@ this.startUp = function () {
         ourSystemInOolite.description += " Tax level: " + aSystem.State.taxLevel + " Treasury: 0 €";
     }));
 
-    // Recurrent tax
+    // Recurrent tax. A year contains 31557600 seconds. Productivity is in M€ => factor = 31.5576.
     api.setRecurrentAction(api.buildAction(api.buildNewActionId(), "SELFTAX", "SYSTEM", function (aSystem) {
         var s = aSystem.State;
         var ourSystemInOolite = System.infoForSystem(s.galaxyNb, s.systemId);
         var api = worldScripts.DayDiplomacy_002_EngineAPI.__DayDiplomacy_EngineAPI_methods;
         var now = clock.seconds;
-        // A year contains 31557600 seconds.
-        api.setField(aSystem, "treasury", s.treasury + (ourSystemInOolite.productivity * (now - parseInt(s.lastTaxDate)) / 31557600 * s.taxLevel));
+        api.setField(aSystem, "treasury", s.treasury + Math.floor(ourSystemInOolite.productivity * (now - parseInt(s.lastTaxDate)) / 31.5576 * s.taxLevel));
         api.setField(aSystem, "lastTaxDate", now);
         log("DiplomacyTax", ourSystemInOolite.name + " treasury: " + aSystem.State.treasury);
         ourSystemInOolite.description = ourSystemInOolite.description.replace(/Tax.*€/, "Tax level: " + s.taxLevel + " Treasury: " + s.treasury + " €");
