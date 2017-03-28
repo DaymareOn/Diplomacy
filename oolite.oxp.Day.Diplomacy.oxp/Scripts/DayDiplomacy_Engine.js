@@ -10,12 +10,6 @@ this.description = "This script is the engine of the Diplomacy OXP.";
 this._missionVariables = missionVariables;
 this._jsonparse = JSON.parse;
 this.jsonstringify = JSON.stringify;
-this.functionRegexp = new RegExp(/^\/Function\(.*\)\/$/);
-this.functionReplaceRegexp = new RegExp(/^\/Function\((.*)\)\/$/);
-this.functionReplaceString = "($1)";
-this.escapingRegexp = new RegExp(/\\"/g);
-this.unescape = unescape;
-this.replaceString = "$1";
 
 /*************************** End of closures *************************************************************/
 /*************************** Engine **********************************************************************/
@@ -28,7 +22,7 @@ this._loadState = function (thatState, aState) {
     }
 };
 
-this.prototype.$getEngine = function() {
+this.prototype.$getEngine = function () {
     // Init of the engine and the singletons.
     var e = this._buildEngine();
     this._e = e;
@@ -562,10 +556,10 @@ this._buildEngine = function () {
     engine.Actor.prototype.stringifyRegexp = new RegExp(/^Actor\(.*\)$/);
     engine.$Event.prototype.stringifyRegexp = new RegExp(/^Event\(.*\)$/);
     engine.Response.prototype.stringifyRegexp = new RegExp(/^Response\(.*\)$/);
-    engine.Actor.prototype.replaceRegexp = new RegExp(/^\/Actor\((.*)\)\/$/);
-    engine.$Action.prototype.replaceRegexp = new RegExp(/^\/Action\((.*)\)\/$/);
-    engine.$Event.prototype.replaceRegexp = new RegExp(/^\/Event\((.*)\)\/$/);
-    engine.Response.prototype.replaceRegexp = new RegExp(/^\/Response\((.*)\)\/$/);
+    engine.Actor.prototype._replaceRegexp = new RegExp(/^\/Actor\((.*)\)\/$/);
+    engine.$Action.prototype._replaceRegexp = new RegExp(/^\/Action\((.*)\)\/$/);
+    engine.$Event.prototype._replaceRegexp = new RegExp(/^\/Event\((.*)\)\/$/);
+    engine.Response.prototype._replaceRegexp = new RegExp(/^\/Response\((.*)\)\/$/);
 
     return engine;
 };
@@ -608,40 +602,47 @@ this.shipWillLaunchFromStation = function (station) {
 /*************************** Methods to save/restore *****************************************************/
 
 // We cannot avoid a closure on eval as it cannot be referenced outside of calls.
-// FIXME Where is it called, really? what about closure?
-this._reviver = function (key, value) {
+this._reviver = (function () {
 
-    // All our special cases are strings
-    if (typeof value !== "string") {
-        return value;
-    }
-
-    // FIXME benchmark using only one regexp rather than 2
-    if (value.match(this.functionRegexp)) {
-        return eval(value.replace(this.functionReplaceRegexp, this.functionReplaceString));
-    }
-
-    for (var i = 0; i < 4; i++) {
-        var c = this.classesData[i];
-        var clas = c.class;
-        if (value.match(clas.stringifyRegexp)) {
-            // FIXME simplify ?
-            var obj = new clas(this._jsonparse(this.unescape(value.replace(clas.replaceRegexp, this.replaceString)).replace(this.escapingRegexp, "\""), this));
-            if (obj.init) {
-                obj.init(obj);
-            }
-            return obj;
+    var innerFn = function (key, value) {
+        // All our special cases are strings
+        if (typeof value !== "string") {
+            return value;
         }
-    }
 
-    return value;
-};
+        var that = innerFn; // Closure for recursion
 
-this._reviver.prototype.classesData = [
-    this.$getEngine()["Actor"],
-    this.$getEngine()["$Action"],
-    this.$getEngine()["$Event"],
-    this.$getEngine()["Response"]];
+        // FIXME benchmark using only one regexp rather than 2
+        if (value.match(that._functionRegexp)) {
+            return eval(value.replace(that._functionReplaceRegexp, that._functionReplaceString));
+        }
+
+        for (var i = 0; i < 4; i++) {
+            var clas = that._classesData[i];
+            if (value.match(clas.stringifyRegexp)) {
+                // FIXME simplify ?
+                // var obj = new clas(that._jsonparse(that._unescape(value.replace(clas._replaceRegexp, that._replaceString)).replace(that._escapingRegexp, "\""), that));
+                var obj = new clas(that._jsonparse(value.replace(clas._replaceRegexp, that._replaceString), that));
+                if (obj.init) {
+                    obj.init(obj);
+                }
+                return obj;
+            }
+        }
+
+        return value;
+    };
+    innerFn.functionRegexp = new RegExp(/^\/Function\(.*\)\/$/);
+    innerFn._functionReplaceRegexp = new RegExp(/^\/Function\((.*)\)\/$/);
+    innerFn._functionReplaceString = "($1)";
+    var engine = worldScripts.DayDiplomacy_000_Engine.$getEngine();
+    innerFn._classesData = [engine.$Actor, engine.$Action, engine.$Event, engine.$Response];
+    innerFn._jsonparse = JSON.parse;
+    innerFn._unescape = unescape;
+    innerFn._replaceString = "$1"; // Avoiding memory usage?
+    innerFn._escapingRegexp = new RegExp(/\\"/g);
+    return innerFn;
+})();
 
 // FIXME Where is it called, really? what about closure?
 this.__DayDiplomacy_Engine_replacer = function (key, value) {
