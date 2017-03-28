@@ -1,7 +1,18 @@
 Diplomacy roadmap
 =================
 
+Conditions for 1.0 to be declared:
+- filesave format stabilized,
+- performance considered to be ok.
+
 FIXME +.1: this is the annual tax, the return should be proportional to the time elapsed since the previous jump.
+How do we know the real productivity? Is there an OMC? Black work wouldn't be reported, nor taxed.
+All these information could be put into an Oolitopedia.
+Should we set the productivity? Make it evolve :) ?
+Productivity is directly linked to the money / inflation
+=> where space is scarce, activity is automatically more expensive, and productivity is higher.
+Should we rename Tax -> Economy?
+
 FIXME +.2 storing the history
 FIXME +.3 manage versioning of savefiles
 FIXME +.4: give access of __DayDiplomacy_Systems_systemsByGalaxyAndSystem to oxp developers. A SystemsAPI :)
@@ -55,7 +66,6 @@ FIXME 0.n: implement all of that :)
 "ATTACK_PREPARATION" //(System)
 
 FIXME 0.n: make the tax level evolve
-FIXME 0.n: make the productivity evolve
 FIXME 0.n have an indicator "Ongoing war" per system
 FIXME 0.n have a notion of "war zone"
 FIXME 0.n have a notion of galaxy, station, traveller
