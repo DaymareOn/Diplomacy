@@ -9,7 +9,7 @@ this.description = "This script is the Diplomacy engine API for external scripts
 var __DayDiplomacy_EngineAPI_state = {};
 this.__DayDiplomacy_EngineAPI_initState = function () {
     __DayDiplomacy_EngineAPI_state.engine = worldScripts.DayDiplomacy_000_Engine.$getEngine();
-    __DayDiplomacy_EngineAPI_state.arbiter = __DayDiplomacy_EngineAPI_state.engine._getArbiter();
+    __DayDiplomacy_EngineAPI_state.arbiter = __DayDiplomacy_EngineAPI_state.engine._getEngine();
     __DayDiplomacy_EngineAPI_state.historian = __DayDiplomacy_EngineAPI_state.engine._getHistorian();
 };
 this.startUp = function () {
