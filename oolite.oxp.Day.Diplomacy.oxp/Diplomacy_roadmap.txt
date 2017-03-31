@@ -12,14 +12,18 @@ Should we set the productivity? Make it evolve :) ?
 Productivity is directly linked to the money / inflation
 => where space is scarce, activity is automatically more expensive, and productivity is higher.
 Should we rename Tax -> Economy?
+FIXME +.1: use tco to avoid recursion: http://www.integralist.co.uk/posts/js-recursion.html
 
 FIXME +.2 storing the history
 FIXME +.3 manage versioning of savefiles
-FIXME +.4: give access of __DayDiplomacy_Systems_systemsByGalaxyAndSystem to oxp developers. A SystemsAPI :)
+FIXME +.4: give access of _systemsByGalaxyAndSystemId to oxp developers. A SystemsAPI :)
 FIXME +.5 identifying player as citizen from some system (Citizenship)
 FIXME +.6 player taxation
 FIXME 0.n passengers are taxed too; maybe player may pay less depending on passenger home system? why would passenger allow that?
 FIXME 0.n some systems could have their citizens not taxed? free passage? by some chosen systems? vassal systems?
+FIXME 0.n minify, https://jscompress.com/, https://github.com/mishoo/UglifyJS2
+FIXME 0.n Troll wars (noble Troll specie against human cultural trolls)
+FIXME 0.n benchmark with lazy regexps
 
 FIXME +.6: implement initial scoring of relations between systems
 notion of goodwill towards systems in range
