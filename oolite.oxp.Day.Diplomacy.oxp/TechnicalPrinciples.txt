@@ -1,6 +1,14 @@
 Architecture / dev principles
 -----------------------------
 
+Minimize cost of closures.
+Minimize cost of dereference.
+Most performance-sensible part is (de)serialization.
+
 The least possible closures (impossible to remove eval())
 Use prototypes when possible to minimize cpu and memory usage.
+No need to use prototypes for singletons.
+No need to use singletons as the script is one (cost of dereference).
 Use compiled regexps.
+Objects only to benefit from 'this' in functions.
+Id for every non unique data structure.

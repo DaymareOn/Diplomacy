@@ -5,7 +5,7 @@ Conditions for 1.0 to be declared:
 - filesave format stabilized,
 - performance considered to be ok.
 
-FIXME +.1: this is the annual tax, the return should be proportional to the time elapsed since the previous jump.
+FIXME +.1: this is the annual tax, the return should be proportional to the time elapsed since the previous tax.
 How do we know the real productivity? Is there an OMC? Black work wouldn't be reported, nor taxed.
 All these information could be put into an Oolitopedia.
 Should we set the productivity? Make it evolve :) ?
@@ -82,3 +82,5 @@ FIXME 0.n what about the story of a war writing itself?
 FIXME 0.n war cargoes
 FIXME 0.n the neatest definition of diplomacy I've seen is "The art of saying 'nice doggy' while you reach behind you for a rock to throw."
 FIXME 0.n player's greed is the key
+FIXME 0.n: Engine.actorsByType could be rebuilt rather than saved. Unicity vs complexity. Does this generates bugs?
+FIXME 0.n: "OXP that adds another eight galaxies" !!

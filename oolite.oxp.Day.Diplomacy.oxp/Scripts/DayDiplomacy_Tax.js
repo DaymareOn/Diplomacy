@@ -5,6 +5,7 @@ this.copyright = "(C) 2017 David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
 this.description = "This script makes systems tax themselves. The idea here is to use the system GDP, called 'productivity' in Oolite, and a 'tax level' on GDP which adds to the system's government's 'treasury'.";
 
+var initStart = new Date();
 this.$GOVERNMENT_DEFAULT_TAX_LEVEL = {
     "0": 0.0, // Anarchy => no tax
     "1": 0.3, // Feudal => not everybody is taxed
@@ -16,7 +17,8 @@ this.$GOVERNMENT_DEFAULT_TAX_LEVEL = {
     "7": 0.1 // Corporate => tax avoiding is rampant
 };
 
-this.startUp = function () {
+this._startUp = function () {
+    var initStart = new Date();
     var api = worldScripts.DayDiplomacy_002_EngineAPI;
 
     // Not initializing if already done.
@@ -27,40 +29,49 @@ this.startUp = function () {
     // This eventType means a system government taxes the system GDP (economic output) to fund its treasury.
     api.$addEventType("SELFTAX", 0);
 
-    var initAction = (function () {
-        var innerFn = function (aSystem) {
-            var s = aSystem.State;
-            var that = innerFn;
-            var ourSystemInOolite = that.infoForSystem(s.galaxyNb, s.systemId);
-            that.setField(aSystem, "taxLevel", that.taxLevel[ourSystemInOolite.government]);
-            that.setField(aSystem, "treasury", 0); // Everybody begins with treasury = 0.
-            that.setField(aSystem, "lastTaxDate", clock.seconds);
-            log("DiplomacyTax", ourSystemInOolite.name + " treasury: " + s.treasury);
-            ourSystemInOolite.description += " Tax level: " + s.taxLevel + " Treasury: 0 €";
-        };
-        innerFn.infoForSystem = System.infoForSystem;
-        innerFn.taxLevel = worldScripts.DayDiplomacy_020_Tax.$GOVERNMENT_DEFAULT_TAX_LEVEL;
-        innerFn.setField = worldScripts.DayDiplomacy_002_EngineAPI.$setField;
-        return innerFn;
-    })();
-    api.$setInitAction(api.$buildAction(api.$buildNewActionId(), "SELFTAX", "SYSTEM", initAction));
+    var initAction = function initAction(aSystem) {
+        var that = initAction;
+        var api = that.api || (that.api = worldScripts.DayDiplomacy_002_EngineAPI);
+        var taxLevel = that.taxLevel || (that.taxLevel = worldScripts.DayDiplomacy_020_Tax.$GOVERNMENT_DEFAULT_TAX_LEVEL);
+        var sys = that.sys || (that.sys = System);
+        var cloc = that.cloc || (that.cloc = clock);
+        var ourSystemInOolite = sys.infoForSystem(aSystem.galaxyNb, aSystem.systemId);
+        api.$setField(aSystem, "taxLevel", taxLevel[ourSystemInOolite.government]);
+        api.$setField(aSystem, "treasury", 0); // Everybody begins with treasury = 0.
+        api.$setField(aSystem, "lastTaxDate", cloc.seconds);
+        // log("DiplomacyTax", ourSystemInOolite.name + " treasury: " + s.treasury);
+        ourSystemInOolite.description += " Tax level: " + aSystem.taxLevel + " Treasury: 0 €";
+    };
+    var functionId = api.$buildNewFunctionId();
+    api.$setFunction(functionId, initAction);
+    api.$setInitAction(api.$buildAction(api.$buildNewActionId(), "SELFTAX", "SYSTEM", functionId));
 
     // Recurrent tax.
-    var recurrentAction = (function() {
-        var innerFn = function (aSystem) {
-            var s = aSystem.State;
-            var that = innerFn;
-            var ourSystemInOolite = that.infoForSystem(s.galaxyNb, s.systemId);
-            var now = clock.seconds;
-            that.setField(aSystem, "treasury", s.treasury + Math.floor(ourSystemInOolite.productivity * (now - parseInt(s.lastTaxDate)) / 31.5576 * s.taxLevel));
-            that.setField(aSystem, "lastTaxDate", now);
-            log("DiplomacyTax", ourSystemInOolite.name + " treasury: " + aSystem.State.treasury);
-            ourSystemInOolite.description = ourSystemInOolite.description.replace(that.regexp, "Tax level: " + s.taxLevel + " Treasury: " + s.treasury + " €");
-        };
-        innerFn.infoForSystem = System.infoForSystem;
-        innerFn.setField = worldScripts.DayDiplomacy_002_EngineAPI.$setField;
-        innerFn.regexp = new RegExp(/Tax.*€/);
-        return innerFn;
-    })();
-    api.$setRecurrentAction(api.$buildAction(api.$buildNewActionId(), "SELFTAX", "SYSTEM", recurrentAction));
+    var recurrentAction = function recurrentAction(aSystem) {
+        var that = recurrentAction;
+        var api = that.api || (that.api = worldScripts.DayDiplomacy_002_EngineAPI);
+        var sys = that.sys || (that.sys = System);
+        var cloc = that.cloc || (that.cloc = clock);
+        var ourSystemInOolite = sys.infoForSystem(aSystem.galaxyNb, aSystem.systemId);
+        var now = cloc.seconds;
+        api.$setField(aSystem, "treasury", aSystem.treasury + Math.floor(ourSystemInOolite.productivity * (now - parseInt(aSystem.lastTaxDate)) / 31.5576 * aSystem.taxLevel));
+        api.$setField(aSystem, "lastTaxDate", now);
+        ourSystemInOolite.description = ourSystemInOolite.description.replace(new RegExp(/Tax.*€/), "Tax level: " + aSystem.taxLevel + " Treasury: " + aSystem.treasury + " €");
+    };
+    var fid =  api.$buildNewFunctionId();
+    api.$setFunction(fid, recurrentAction);
+    api.$setRecurrentAction(api.$buildAction(api.$buildNewActionId(), "SELFTAX", "SYSTEM", fid));
+    var initEnd = new Date();
+    log("DiplomacyTax", "startUp in ms: " + (initEnd.getTime() - initStart.getTime()));
+
+    worldScripts.DayDiplomacy_000_Engine.shipDockedWithStation(); // FIXME 0.6: Debug
+    delete this._startUp; // No need to startup twice
 };
+
+this.startUp = function() {
+    worldScripts.DayDiplomacy_000_Engine.$subscribe(this.name);
+    delete this.startUp; // No need to startup twice
+};
+
+var initEnd = new Date();
+log("DiplomacyTax", "Initialized in ms: " + (initEnd.getTime() - initStart.getTime()));

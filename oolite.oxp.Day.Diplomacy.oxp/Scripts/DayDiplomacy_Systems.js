@@ -5,12 +5,13 @@ this.copyright = "(C) 2017 David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
 this.description = "This script creates systems.";
 
+var initStart = new Date();
 this._systemsByGalaxyAndSystemId = {};
 
 // We set the observers. No need to use an initAction as there won't be any more system.
-// FIXME doing it through initAction would allow to disperse the load?
+// Well... there are some oxps for this, aren't there?
 this._setObservers = function (aGalaxyNb) {
-    var api = this.api;
+    var api = this._api;
     var actorsByType = api.$getActorsIdByType("SYSTEM");
     var actors = api.$getActors();
 
@@ -22,7 +23,8 @@ this._setObservers = function (aGalaxyNb) {
 
     var infoForSystem = System.infoForSystem, sys = this._systemsByGalaxyAndSystemId, z = actorsByType.length;
     while (z--) {
-        var thisActorState = actors[actorsByType[z]].State;
+        var thisActor = actors[actorsByType[z]];
+        var thisActorState = thisActor.State;
         if (thisActorState.galaxyNb == aGalaxyNb) {
             var observers = infoForSystem(aGalaxyNb, thisActorState.systemId).systemsInRange();
             var y = observers.length;
@@ -34,8 +36,10 @@ this._setObservers = function (aGalaxyNb) {
     }
 };
 
-this.startUp = function () {
-    this.api = worldScripts.DayDiplomacy_002_EngineAPI;
+this._startUp = function () {
+    var initStart = new Date();
+    this._api = worldScripts.DayDiplomacy_002_EngineAPI;
+    var api = this._api;
 
     // Not initializing if already done.
     if (api.$getActorTypes().indexOf("SYSTEM") != -1) {
@@ -44,8 +48,9 @@ this.startUp = function () {
     api.$addActorType("SYSTEM", 0);
 
     // We initiate the systems
-    var sys = this._systemsByGalaxyAndSystemId, i = 8, j = 256;
+    var sys = this._systemsByGalaxyAndSystemId, i = 8;
     while (i--) {
+        var j = 256;
         while (j--) {
             var id = api.$buildNewActorId();
             var aSystem = api.$buildActor("SYSTEM", id);
@@ -57,9 +62,20 @@ this.startUp = function () {
     }
 
     // We init the observers for the current galaxy
-    this._setObservers(system.info.galaxyID);
+    // this._setObservers(system.info.galaxyID);
+    var initEnd = new Date();
+    log("DiplomacySystems", "startUp in ms: " + (initEnd.getTime() - initStart.getTime()));
+    delete this._startUp; // No need to startup twice
 };
 // This is necessary as we can't calculate distances in other galaxies.
 this.playerEnteredNewGalaxy = function (galaxyNumber) {
-    this._setObservers(galaxyNumber);
+    // this._setObservers(galaxyNumber);
 };
+
+this.startUp = function() {
+    worldScripts.DayDiplomacy_000_Engine.$subscribe(this.name);
+    delete this.startUp; // No need to startup twice
+};
+
+var initEnd = new Date();
+log("DiplomacySystems", "Initialized in ms: " + (initEnd.getTime() - initStart.getTime()));
