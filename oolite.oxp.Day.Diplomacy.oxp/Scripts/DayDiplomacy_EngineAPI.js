@@ -4,34 +4,29 @@ this.author = "David (Day) Pradier";
 this.copyright = "(C) 2017 David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
 this.description = "This script is the Diplomacy engine API for external scripts.";
-
-// <oxpDevelopersIgnore> Common variable to this script. Oxp developers: please ignore. #####################################
-this.startUp = function () {
-    this._s = worldScripts.DayDiplomacy_000_Engine;
-    this._e = this._s.$getEngine();
-    this._S = this._e.State;
-    delete this.startUp;
-};
-// </oxpDevelopersIgnore> ####################################################################################################
+var initStart = new Date();
 
 // $$$$$$$$$$$$$$$$$$$$$$$$$$$$ Builder functions (factory) $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 this.$buildNewActionId = function () {
-    return this._e.getNewActionId();
+    return this._s.$getNewActionId();
 };
-this.$buildNewResponseId = function () {
-    return this._e.getNewResponseId();
-};
+// this.$buildNewResponseId = function () {
+//     return this._S.getNewResponseId();
+// };
 this.$buildNewActorId = function () {
-    return this._e.getNewActorId();
+    return this._s.$getNewActorId();
+};
+this.$buildNewFunctionId = function () {
+    return this._s.$getNewFunctionId();
 };
 /**
  * An action, whether it is init or recurrent isn't put into the History. Only Events are.
  * @param string: anEventType is used to order the actions and events execution. For a same eventType, Actions are executed before Events.
  * @param string: anActorType Only actors of the type will execute the action.
- * @param function: someFunction This function must take one and only one argument: the actor which will "act".
+ * @param functionId the id of a function which must take one and only one argument: the actor which will "act".
  */
-this.$buildAction = function (id, eventType, actorType, actionFunction) {
-    return new this._s.$Action({id: id, eventType: eventType, actorType: actorType, actionFunction: actionFunction});
+this.$buildAction = function (id, eventType, actorType, actionFunctionId) {
+    return {id: id, eventType: eventType, actorType: actorType, actionFunctionId: actionFunctionId};
 };
 /**
  *
@@ -40,77 +35,73 @@ this.$buildAction = function (id, eventType, actorType, actionFunction) {
  * @param []: someArgs Have to be compatible with our implementation of JSON stringify/parse.
  * Those are the information/arguments which will be given to the response function.
  */
-this.$buildEvent = function (eventType, actorId, args) {
-    return new this._s.$Event({eventType: eventType, actorId: actorId, args: args});
-};
+// this.$buildEvent = function (eventType, actorId, args) {
+//     return {eventType: eventType, actorId: actorId, args: args};
+// };
 /**
  * A Response contains a behaviour to be executed when a certain event happens.
  * The responseFunction must take as first argument the responding actor,
  * 2nd argument the eventActor, and may take as many additional arguments as you wish.
  * The actorType is the type of the responding actors.
  */
-this.$buildResponse = function (id, eventType, actorType, responseFunction) {
-    return new _s.$Response({id: id, eventType: eventType, actorType: actorType, responseFunction: responseFunction});
-};
+// this.$buildResponse = function (id, eventType, actorType, responseFunctionId) {
+//     return {id: id, eventType: eventType, actorType: actorType, responseFunctionId: responseFunctionId};
+// };
 /**
  * A planetary system or an alliance, or whatever you wish :)
  */
 this.$buildActor = function (actorType, id) {
-    var a = new _s.$Actor(_s.$buildDefaultActorState(actorType, id));
-    a.init();
-    return a;
+    return {id: id, actorType: actorType, responses: {}, observers: {}};
 };
-
 // $$$$$$$$$$$$$$$$$$$$$$$$$$$$ End of builder functions (factory) $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-// $$$$$$$$$$$$$$$$$$$$$$$$$$$$ Universe modification functions $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
+// $$$$$$$$$$$$$$$$$$$$$$$$$$$$ Universe modification functions $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 this.$addEventType = function (name, position) {
-    _e.addEventType(name, position);
+    this._s.$addEventType(name, position);
 };
 this.$addActorType = function (name, position) {
-    _e.addActorType(name, position);
+    this._s.$addActorType(name, position);
 };
 this.$addActor = function (anActor) {
-    _e.addActor(anActor);
+    this._s.$addActor(anActor);
 };
-this.$disableActor = function (anActor) {
-    _e.disableActor(anActor);
+// this.$disableActor = function (anActor) {
+//     this._s.disableActor(anActor);
+// };
+this.$setFunction = function (anId, aFunction) {
+    this._s.$setFunction(anId, aFunction);
 };
 this.$setInitAction = function (anAction) {
-    _e.setInitAction(anAction);
+    this._s.$setInitAction(anAction);
 };
-this.$unsetInitAction = function (anAction) {
-    _e.unsetInitAction(anAction);
-};
+// this.$unsetInitAction = function (anAction) {
+//     this._s.unsetInitAction(anAction);
+// };
 this.$setRecurrentAction = function (anAction) {
-    _e.setRecurrentAction(anAction);
+    this._s.$setRecurrentAction(anAction);
 };
-this.$unsetRecurrentAction = function (anAction) {
-    _e.unsetRecurrentAction(anAction);
-};
-this.$setResponse = function (aResponse) {
-    _e.setResponse(aResponse);
-};
-this.$unsetResponse = function (aResponse) {
-    _e.unsetResponse(aResponse);
-};
-this.$addObserverToActor = function (anObserverId, anObserverActorType, anActor) {
-    anActor.addObserver(anObserverActorType, anObserverId);
-};
+// this.$unsetRecurrentAction = function (anAction) {
+//     this._s.unsetRecurrentAction(anAction);
+// };
+// this.$setResponse = function (aResponse) {
+//     this._s.setResponse(aResponse);
+// };
+// this.$unsetResponse = function (aResponse) {
+//     this._s.unsetResponse(aResponse);
+// };
+// this.$addObserverToActor = function (anObserverId, anObserverActorType, anActor) {
+//     anActor.addObserver(anObserverActorType, anObserverId);
+// };
 this.$setField = function (anObject, fieldName, fieldValue) {
     if (anObject.hasOwnProperty("State")) { // We put the field into State
         anObject.State[fieldName] = fieldValue;
     } else {
         anObject[fieldName] = fieldValue;
     }
-    if (anObject.hasOwnProperty("stringifyType")) { // We must stringify after having set the field
-        anObject.stringify();
-    }
 };
-
 // $$$$$$$$$$$$$$$$$$$$$$$$$$$$ End of universe modification functions $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-// $$$$$$$$$$$$$$$$$$$$$$$$$$$$ Universe getter functions $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
+// $$$$$$$$$$$$$$$$$$$$$$$$$$$$ Universe getter functions $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 /**
  * Make sure you don't modify that or its content. Copy it before if you need to modify it.
  * @returns [string: actorType]
@@ -131,7 +122,6 @@ this.$getEventTypes = function () {
  * @returns [actorIds]
  */
 this.$getActorsIdByType = function (actorType) {
-    // FIXME do this._S = _e.State?
     return this._S.actorsByType[actorType];
 };
 /**
@@ -145,8 +135,20 @@ this.$getActors = function () {
  * Make sure you don't modify that or its content. Copy it before if you need to modify it.
  * @returns [observerActorId]
  */
-this.$getObservers = function (anActor, observersActorType) {
-    return anActor.State.observers[observersActorType];
-};
-
+// this.$getObservers = function (anActor, observersActorType) {
+//     return anActor.State.observers[observersActorType];
+// };
 // $$$$$$$$$$$$$$$$$$$$$$$$$$$$ End of universe getter functions $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+// ############################ Oxp developers: please ignore from here. ##############################################
+this._startUp = function () {
+    this._S = this._s.State;
+    delete this._startUp;
+};
+this.startUp = function () {
+    this._s = worldScripts.DayDiplomacy_000_Engine;
+    this._s.$subscribe(this.name);
+    delete this.startUp; // No need to startup twice
+};
+var initEnd = new Date();
+log("DiplomacyEngineAPI", "Initialized in ms: " + (initEnd.getTime() - initStart.getTime()));
