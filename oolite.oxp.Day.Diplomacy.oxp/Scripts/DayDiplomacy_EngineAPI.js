@@ -4,7 +4,6 @@ this.author = "David (Day) Pradier";
 this.copyright = "(C) 2017 David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
 this.description = "This script is the Diplomacy engine API for external scripts.";
-var initStart = new Date();
 
 // $$$$$$$$$$$$$$$$$$$$$$$$$$$$ Builder functions (factory) $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 this.$buildNewActionId = function () {
@@ -35,9 +34,12 @@ this.$buildAction = function (id, eventType, actorType, actionFunctionId) {
  * @param []: someArgs Have to be compatible with our implementation of JSON stringify/parse.
  * Those are the information/arguments which will be given to the response function.
  */
+// An event is { id:id, eventType:eventType, actorId:actorId, args:args }
 // this.$buildEvent = function (eventType, actorId, args) {
 //     return {eventType: eventType, actorId: actorId, args: args};
 // };
+// A response is { id:id, eventType:eventType, actorType:responderActorType, functionId:functionId }
+// This function must take as first argument the responder actor, 2nd argument the eventActor, and may take as many additional arguments as you wish.
 /**
  * A Response contains a behaviour to be executed when a certain event happens.
  * The responseFunction must take as first argument the responding actor,
@@ -49,6 +51,7 @@ this.$buildAction = function (id, eventType, actorType, actionFunctionId) {
 // };
 /**
  * A planetary system or an alliance, or whatever you wish :)
+ * An actor is {id:id, actorType:actorType, responses:{eventType:[responseIds]}, observers:{actorType:[actorIds]}}
  */
 this.$buildActor = function (actorType, id) {
     return {id: id, actorType: actorType, responses: {}, observers: {}};
@@ -150,5 +153,3 @@ this.startUp = function () {
     this._s.$subscribe(this.name);
     delete this.startUp; // No need to startup twice
 };
-var initEnd = new Date();
-log("DiplomacyEngineAPI", "Initialized in ms: " + (initEnd.getTime() - initStart.getTime()));

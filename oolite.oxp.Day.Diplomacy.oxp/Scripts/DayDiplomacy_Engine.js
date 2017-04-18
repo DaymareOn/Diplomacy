@@ -4,7 +4,6 @@ this.author = "David (Day) Pradier";
 this.copyright = "(C) 2017 David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
 this.description = "This script is the engine of the Diplomacy OXP.";
-var initStart = new Date();
 
 /*************************** Closures ********************************************************************/
 this._missionVariables = missionVariables;
@@ -12,11 +11,6 @@ this._JSON = JSON;
 /*************************** End of closures *************************************************************/
 
 /*************************** Engine **********************************************************************/
-// An actor is {id:id, actorType:actorType, responses:{eventType:[responseIds]}, observers:{actorType:[actorIds]}}
-// An action is { id:id, eventType:eventType, actorType:actorType, functionId:functionId }
-// An event is { id:id, eventType:eventType, actorId:actorId, args:args } // FIXME add id to event
-// A response is { id:id, eventType:eventType, actorType:responderActorType, functionId:functionId }
-// This function must take as first argument the responder actor, 2nd argument the eventActor, and may take as many additional arguments as you wish.
 this._loadState = function (toBeModifiedState, sourceState) {
     for (var id in sourceState) {
         if (sourceState.hasOwnProperty(id)) { // Avoiding prototypes' fields
@@ -124,7 +118,6 @@ this.$setFunction = function(anId, aFunction) {
     this.Functions[anId] = aFunction;
 };
 this.$setInitAction = function (anInitAction) {
-    // FIXME we should add the function at this time
     var initActions = this.State.initActions, initActionActorType = anInitAction.actorType;
     // We add the initAction to initActions
     (initActions[initActionActorType] || (initActions[initActionActorType] = {}))[anInitAction.id] = anInitAction;
@@ -245,7 +238,7 @@ this._gatherEventsToPublish = function () {
     // We go to next eventType
     var newEventType = this._nextState("eventTypes", currentEventType);
     state.currentEventType = newEventType || state.eventTypes[0];
-    state.currentActorType = state.actorTypes[0]; // FIXME here
+    state.currentActorType = state.actorTypes[0];
     return !newEventType;
 };
 /**
@@ -310,7 +303,7 @@ this._putRecurrentActionsOntoStack = function (currentEventType, currentActorTyp
 //         while (y--) {
 //             shortStack.push({
 //                 type: "response",
-//                 responseFunction: responses[responseIds[y]].responseFunction, // FIXME put the id in the shortstack!!
+//                 responseFunction: responses[responseIds[y]].responseFunction, // FIXME put the id in the shortstack
 //                 args: someArgs
 //             });
 //         }
@@ -326,16 +319,8 @@ this._executeStack = function () {
         return true;
     }
     if (action.type == "action") {
-        // FIXME implement "droppable" actions which may not be saved into the shortstack?
-        // FIXME save methods fields?
-        // FIXME save method's initMethod?
-        // FIXME use named method?
-        // FIXME save method context?
-        // FIXME save an "defineMethod" with the method? I like this one.
-        // FIXME s.actors après restore contient des string et pas des actors
         this.Functions[s.recurrentActions[action.recurrentActionId].actionFunctionId](s.actors[action.actorId]);
         // } else { // == "response"
-        //     // FIXME the id should be into the stack
         //     action.responseFunction(action.args);
     }
     return false;
@@ -397,16 +382,13 @@ this._functionReviver = (function () {
 
 /*************************** Oolite events ***************************************************************/
 this._startUp = function () {
-    var start = new Date();
     var as = this.State;
     var sa = this._missionVariables.DayDiplomacyEngine_EngineState;
     if (sa && sa.length) { // Loading if necessary.
         this._loadState(as, this._JSON.parse(sa));
         this._loadState(this.Functions, this._JSON.parse(this._missionVariables.DayDiplomacyEngine_Functions, this._functionReviver));
     }
-    var end = new Date();
 
-    log("DiplomacyEngine", "startUp in ms: " + (end.getTime() - start.getTime()));
     delete this._startUp; // No need to startup twice
     this.shipDockedWithStation(null); // When starting, the player is docked.
 };
@@ -425,7 +407,6 @@ this.shipExitedWitchspace = function () {
     s.jumpTokenNb++;
 };
 this.shipDockedWithStation = function (station) {
-    this.shipExitedWitchspace(); // FIXME DEBUG
     this._addFrameCallback();
 };
 this.shipWillLaunchFromStation = function (station) {
@@ -442,7 +423,9 @@ this.startUpComplete = function () {
     var s = this._subscribers.sort();
     var z = s.length, y = z - 1;
     while (z--) {
+        var startDate = new Date();
         worldScripts[s[y - z]]._startUp();
+        log(s[y - z], "startUp in ms: " + (new Date().getTime() - startDate.getTime()));
     }
     delete this.startUpComplete; // No need to startup twice
 };
@@ -451,6 +434,3 @@ this.$subscribe = function (aScriptName) {
     this._subscribers.push(aScriptName);
 };
 /*************************** End of subscribing system for scripts order *********************************/
-
-var initEnd = new Date();
-log("DiplomacyEngine", "Initialized in ms: " + (initEnd.getTime() - initStart.getTime()));

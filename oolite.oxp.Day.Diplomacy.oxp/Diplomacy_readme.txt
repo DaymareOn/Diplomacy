@@ -31,9 +31,11 @@ If experimenting problems, the easy way is to edit the savefile and remove the l
 What's currently implemented functionality-wise?
 
 The oxp currently adds flavour by displaying a Tax level and a Treasury level in the F7 system information.
-Each system treasury is increased by taxation each player jump.
+Each system treasury is increased by taxation each player jump, depending on the time past since the last jump.
 Why taxation? Because wars require money, and countries are defeated either by battles or by bankruptcy, sometimes the latter producing the former.
 So systems treasury should be a main factor in a war/diplomacy framework.
+
+The event system is currently DISABLED.
 
 ==============================
 What's currently implemented technically?
@@ -42,7 +44,7 @@ The oxp contains an Engine which implements some useful concepts.
 An easy API for oxp developers is delivered in DayDiplomacy_EngineAPI.js
 Its main concepts are explained in Diplomacy_EngineAPI_readme.txt
 Check DayDiplomacy_Systems.js and DayDiplomacy_Tax.js to see
-how the Systems and the taxation were implemented in less than 66 lines each :)
+how the Systems and the taxation were implemented in less than 100 lines each :)
 
 ==============================
 Effects on game difficulty
@@ -69,6 +71,8 @@ If you are re-using any piece of this OXP, please let me know by sending an e-ma
 ==============================
 Changelog
 
+0.6     Improvement, flavor: tax amount depends on the time spent since the last taxation.
+        Improvement, speed: major refactor to remove closures, dereferences, JSON (de)serialization special functions.
 0.5     Bugfix manifest.plist for the oxz manager.
 0.4     Put into the oxz manager.
 0.3     New, oxp dev func: delivered DiplomacyEngineAPI for oxp developers, provided a dedicated readme file.

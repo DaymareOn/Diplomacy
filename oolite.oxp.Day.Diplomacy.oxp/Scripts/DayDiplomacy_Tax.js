@@ -5,7 +5,6 @@ this.copyright = "(C) 2017 David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
 this.description = "This script makes systems tax themselves. The idea here is to use the system GDP, called 'productivity' in Oolite, and a 'tax level' on GDP which adds to the system's government's 'treasury'.";
 
-var initStart = new Date();
 this.$GOVERNMENT_DEFAULT_TAX_LEVEL = {
     "0": 0.0, // Anarchy => no tax
     "1": 0.3, // Feudal => not everybody is taxed
@@ -18,7 +17,6 @@ this.$GOVERNMENT_DEFAULT_TAX_LEVEL = {
 };
 
 this._startUp = function () {
-    var initStart = new Date();
     var api = worldScripts.DayDiplomacy_002_EngineAPI;
 
     // Not initializing if already done.
@@ -39,7 +37,6 @@ this._startUp = function () {
         api.$setField(aSystem, "taxLevel", taxLevel[ourSystemInOolite.government]);
         api.$setField(aSystem, "treasury", 0); // Everybody begins with treasury = 0.
         api.$setField(aSystem, "lastTaxDate", cloc.seconds);
-        // log("DiplomacyTax", ourSystemInOolite.name + " treasury: " + s.treasury);
         ourSystemInOolite.description += " Tax level: " + aSystem.taxLevel + " Treasury: 0 €";
     };
     var functionId = api.$buildNewFunctionId();
@@ -61,10 +58,6 @@ this._startUp = function () {
     var fid =  api.$buildNewFunctionId();
     api.$setFunction(fid, recurrentAction);
     api.$setRecurrentAction(api.$buildAction(api.$buildNewActionId(), "SELFTAX", "SYSTEM", fid));
-    var initEnd = new Date();
-    log("DiplomacyTax", "startUp in ms: " + (initEnd.getTime() - initStart.getTime()));
-
-    worldScripts.DayDiplomacy_000_Engine.shipDockedWithStation(); // FIXME 0.6: Debug
     delete this._startUp; // No need to startup twice
 };
 
@@ -72,6 +65,3 @@ this.startUp = function() {
     worldScripts.DayDiplomacy_000_Engine.$subscribe(this.name);
     delete this.startUp; // No need to startup twice
 };
-
-var initEnd = new Date();
-log("DiplomacyTax", "Initialized in ms: " + (initEnd.getTime() - initStart.getTime()));
