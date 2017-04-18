@@ -4,7 +4,7 @@
 	"title" = "Diplomacy";
 	"version" = "0.6";
 	"category" = "Ambience";
-	"description" = "This OXP currently indicates systems' treasury and tax level. It provides an API for oxp developers to build galaxy-spanning events and reactions.";
+	"description" = "WORK IN PROGRESS: this OXP currently indicates systems' treasury and tax level. It provides an API for oxp developers to build galaxy-spanning events and reactions.";
 	"author" = "Day";
 	"information_url" = "http://wiki.alioth.net/index.php/Diplomacy";
 	"license" = "CC BY-NC-SA 4";
