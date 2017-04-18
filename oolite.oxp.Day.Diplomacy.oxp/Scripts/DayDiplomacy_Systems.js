@@ -5,7 +5,6 @@ this.copyright = "(C) 2017 David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
 this.description = "This script creates systems.";
 
-var initStart = new Date();
 this._systemsByGalaxyAndSystemId = {};
 
 // We set the observers. No need to use an initAction as there won't be any more system.
@@ -35,9 +34,7 @@ this._setObservers = function (aGalaxyNb) {
         }
     }
 };
-
 this._startUp = function () {
-    var initStart = new Date();
     this._api = worldScripts.DayDiplomacy_002_EngineAPI;
     var api = this._api;
 
@@ -63,19 +60,13 @@ this._startUp = function () {
 
     // We init the observers for the current galaxy
     // this._setObservers(system.info.galaxyID);
-    var initEnd = new Date();
-    log("DiplomacySystems", "startUp in ms: " + (initEnd.getTime() - initStart.getTime()));
     delete this._startUp; // No need to startup twice
 };
 // This is necessary as we can't calculate distances in other galaxies.
 this.playerEnteredNewGalaxy = function (galaxyNumber) {
     // this._setObservers(galaxyNumber);
 };
-
 this.startUp = function() {
     worldScripts.DayDiplomacy_000_Engine.$subscribe(this.name);
     delete this.startUp; // No need to startup twice
 };
-
-var initEnd = new Date();
-log("DiplomacySystems", "Initialized in ms: " + (initEnd.getTime() - initStart.getTime()));
