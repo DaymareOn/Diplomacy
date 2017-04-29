@@ -32,10 +32,6 @@ this._loadState = function (toBeModifiedState, sourceState) {
 //     var arr = this.State.responses[aResponse.eventType];
 //     arr.splice(arr.indexOf(aResponse.id), 1);
 // };
-// this.$Actor.prototype.addObserver = function (thatObserverType, thatObserverId) {
-//     var observers = this.State.observers;
-//     (observers[thatObserverType] || (observers[thatObserverType] = [])).push(thatObserverId);
-// };
 this.State = {
     actors: {}, // {actorId => actor}
     initActions: {}, // { actionId => action }
@@ -114,6 +110,10 @@ this.$addActor = function (anActor) {
 //     arr.splice(arr.indexOf(actorState.id), 1);
 //     delete engineState.actors[actorState.id];
 // };
+this.$addObserverToActor = function (anActor, thatObserverType, thatObserverId) {
+    var observers = anActor.observers;
+    (observers[thatObserverType] || (observers[thatObserverType] = [])).push(thatObserverId);
+};
 this.$setFunction = function(anId, aFunction) {
     this.Functions[anId] = aFunction;
 };

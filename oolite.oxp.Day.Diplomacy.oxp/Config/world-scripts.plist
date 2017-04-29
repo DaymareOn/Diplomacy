@@ -3,5 +3,6 @@
     "DayDiplomacy_EngineAPI.js",
     "DayDiplomacy_Systems.js",
     "DayDiplomacy_Tax.js",
+    "DayDiplomacy_AlliancesEngine.js",
     "DayDiplomacy_Alliances.js",
 )

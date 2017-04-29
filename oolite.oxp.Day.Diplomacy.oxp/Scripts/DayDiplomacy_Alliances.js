@@ -1,15 +1,157 @@
 "use strict";
-this.name = "DayDiplomacy_030_Alliances";
+this.name = "DayDiplomacy_040_Alliances";
 this.author = "David (Day) Pradier";
 this.copyright = "(C) 2017 David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
-this.description = "This script makes systems ally to each other.";
+this.description = "This script makes systems ally to each other, or NOT.";
 
+// Initializing static scores
+// For a given galaxy, for each system in the galaxy, for each system it observes,
+// it must assign a score to some properties, then recalculate the final score.
+// FIXME shouldn't this script be actorType-agnostic?
+this._initSystemsScores = function (aGalaxyNb) {
+    var api = this._api;
+    var actorsIdByType = api.$getActorsIdByType("SYSTEM");
+    var actors = api.$getActors();
+    var z = actorsIdByType.length;
+    var ae = this._ae;
+    while (z--) {
+        var thisActor = actors[actorsIdByType[z]];
+        if (thisActor.galaxyNb != aGalaxyNb) {
+            continue;
+        }
+        var observersId = thisActor.observers["SYSTEM"];
+        var y = observersId.length;
+        while (y--) {
+            ae.$recalculateScores(actors[observersId[y]], thisActor);
+        }
+    }
+};
+this._setLinks = function () {
+    var scores = this._s.State.alliancesScores;
+    var actors = this._s.State.actors;
+    var systemInfo = SystemInfo;
+    var links = [];
+
+    for (var observedId in scores) {
+        if (scores.hasOwnProperty(observedId)) {
+            var observed = actors[observedId];
+            var observedNb = observed.systemId;
+            var galaxyNb = observed.galaxyNb;
+            var observedScores = scores[observedId];
+            for (var observerId in observedScores) {
+                if (observedScores.hasOwnProperty(observerId)) {
+                    var observerNb = actors[observerId].systemId;
+                    // Doc: "When setting link_color, the lower system ID must be placed first,
+                    // because of how the chart is drawn."
+                    if (observerNb < observedNb) {
+                        var scoreFromTo = observedScores[observerId].SCORE;
+                        var scoreToFrom = scores[observerId][observedId].SCORE;
+                        if (scoreFromTo || scoreToFrom) {
+                            var color = null;
+                            if (scoreFromTo > 0 && scoreToFrom > 0) {
+                                color = "greenColor";
+                            } else if (scoreFromTo < 0 && scoreToFrom < 0) {
+                                color = "redColor";
+                            } else if (scoreFromTo * scoreToFrom < 0) {
+                                color = "yellowColor";
+                            } else if (scoreFromTo + scoreToFrom > 0) {
+                                color = "blueColor";
+                            } else {
+                                color = "orangeColor";
+                            }
+                            links.push({galaxyNb: galaxyNb, from: observerNb, to: observedNb, color: color});
+                        }
+                    }
+                }
+            }
+        }
+    }
+    var z = links.length;
+    while (z--) {
+        var link = links[z];
+        systemInfo.setInterstellarProperty(link.galaxyNb, link.from, link.to, 2, "link_color", link.color);
+    }
+    this._links = links;
+};
+this.missionScreenEnded = function () {
+    player.ship.hudHidden = false;
+    var links = this._links;
+    if (!links) return;
+    var systemInfo = SystemInfo;
+    var z = links.length;
+    while (z--) {
+        var link = links[z];
+        systemInfo.setInterstellarProperty(link.galaxyNb, link.from, link.to, 2, "link_color", null);
+    }
+    this._links = null;
+};
+this._displayF4Interface = function () {
+    player.ship.hudHidden || (player.ship.hudHidden = true);
+    var opts = {
+        screenID: "DiplomacyAlliancesScreenId",
+        title: "Strategic map",
+        backgroundSpecial: "LONG_RANGE_CHART_SHORTEST",
+        allowInterrupt: true,
+        exitScreen: "GUI_SCREEN_INTERFACES",
+        message:"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" // 17 lines: the map's height + 1
+    };
+    mission.runScreen(opts);
+    this._setLinks();
+    mission.addMessageText("Green:  systems like each other\nBlue:  one system likes the other while this one is neutral\nGray: both systems are neutral\nYellow:   one likes, one dislikes!\nOrange:   one is neutral, one dislikes\nRed:  systems dislike each other");
+};
+this._initF4Interface = function () {
+    player.ship.dockedStation.setInterface("DiplomacyAlliances",
+        {
+            title: "Strategic map",
+            category: "Diplomacy",
+            summary: "You may see which systems (dis)like each other...",
+            callback: this._displayF4Interface.bind(this)
+        });
+};
 this._startUp = function () {
+    this._api = worldScripts.DayDiplomacy_002_EngineAPI;
+    this._ae = worldScripts.DayDiplomacy_030_AlliancesEngine;
+    var asf = this._ae.$getScoringFunctions();
+
+    // Economy comparison
+    if (!asf["EconomyComparison"]) {
+        this._ae.$addScoringFunction("EconomyComparison", function (observer, observed) {
+            var map = {
+                0: {0: +0.5, 1: -1.0, 2: -0.5, 3: -1.0, 4: -1.0, 5: -0.5, 6: -0.5, 7: -0.5}, // Anarchy
+                1: {0: +0.0, 1: +0.5, 2: -0.5, 3: -0.5, 4: -1.0, 5: -0.5, 6: -1.0, 7: -0.5}, // Feudal
+                2: {0: +0.0, 1: +0.0, 2: +0.5, 3: -0.5, 4: -0.5, 5: +0.5, 6: +0.0, 7: +0.0}, // Multi-government
+                3: {0: +0.0, 1: +0.0, 2: +0.0, 3: +0.5, 4: +0.0, 5: +0.0, 6: -0.5, 7: +0.0}, // Dictator
+                4: {0: -0.5, 1: -0.5, 2: +0.0, 3: +0.0, 4: +0.5, 5: +0.0, 6: -0.5, 7: -0.5}, // Communist
+                5: {0: +0.0, 1: +0.0, 2: +0.5, 3: -0.5, 4: +0.0, 5: +0.5, 6: +0.0, 7: +0.0}, // Confederacy
+                6: {0: +0.0, 1: -0.5, 2: +0.0, 3: -0.5, 4: -0.5, 5: +0.0, 6: +0.5, 7: +0.0}, // Democracy
+                7: {0: +0.0, 1: +0.0, 2: +0.0, 3: +0.0, 4: -1.0, 5: +0.0, 6: +0.0, 7: +0.5}  // Corporate
+            };
+            return map[observer.government][observed.government];
+        });
+    }
+
+    // FIXME After the first initstatic, we should set an Init function to manage new systems/actors/whatever.
+
+    this._initSystemsScores(system.info.galaxyID);
+
+    // FIXME hmff, this might have to be into its own function
+    worldScripts.XenonUI && worldScripts.XenonUI.$addMissionScreenException("DiplomacyAlliancesScreenId");
+    worldScripts.XenonReduxUI && worldScripts.XenonReduxUI.$addMissionScreenException("DiplomacyAlliancesScreenId");
+
+    this._initF4Interface();
+
     delete this._startUp; // No need to startup twice
 };
-
-this.startUp = function() {
-    worldScripts.DayDiplomacy_000_Engine.$subscribe(this.name);
+this.playerEnteredNewGalaxy = function (galaxyNumber) {
+    // FIXME and if we do a whole galaxy round?
+    this._initSystemsScores(galaxyNumber);
+};
+this.startUp = function () {
+    this._s = worldScripts.DayDiplomacy_000_Engine;
+    this._s.$subscribe(this.name);
     delete this.startUp; // No need to startup twice
+};
+this.shipDockedWithStation = function (station) {
+    this._initF4Interface();
 };

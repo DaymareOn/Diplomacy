@@ -34,7 +34,9 @@ this._startUp = function () {
         var sys = that.sys || (that.sys = System);
         var cloc = that.cloc || (that.cloc = clock);
         var ourSystemInOolite = sys.infoForSystem(aSystem.galaxyNb, aSystem.systemId);
-        api.$setField(aSystem, "taxLevel", taxLevel[ourSystemInOolite.government]);
+        var government = ourSystemInOolite.government;
+        api.$setField(aSystem, "government", government);
+        api.$setField(aSystem, "taxLevel", taxLevel[government]);
         api.$setField(aSystem, "treasury", 0); // Everybody begins with treasury = 0.
         api.$setField(aSystem, "lastTaxDate", cloc.seconds);
         ourSystemInOolite.description += " Tax level: " + aSystem.taxLevel + " Treasury: 0 €";

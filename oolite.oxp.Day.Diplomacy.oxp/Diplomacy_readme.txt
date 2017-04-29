@@ -35,6 +35,9 @@ Each system treasury is increased by taxation each player jump, depending on the
 Why taxation? Because wars require money, and countries are defeated either by battles or by bankruptcy, sometimes the latter producing the former.
 So systems treasury should be a main factor in a war/diplomacy framework.
 
+The oxp adds a F4 Interface screen: the Diplomacy Strategic Map!
+There, you can see the systems which (dis)like each other...
+
 The event system is currently DISABLED.
 
 ==============================
@@ -45,6 +48,7 @@ An easy API for oxp developers is delivered in DayDiplomacy_EngineAPI.js
 Its main concepts are explained in Diplomacy_EngineAPI_readme.txt
 Check DayDiplomacy_Systems.js and DayDiplomacy_Tax.js to see
 how the Systems and the taxation were implemented in less than 100 lines each :)
+An AlliancesEngine is implemented, no easy api is yet delivered.
 
 ==============================
 Effects on game difficulty
@@ -71,6 +75,7 @@ If you are re-using any piece of this OXP, please let me know by sending an e-ma
 ==============================
 Changelog
 
+0.7     Improvement, flavor: added a F4 Strategic Map, showing links between systems nearer than 7. The relation between systems is currently based on their government.
 0.6     Improvement, flavor: tax amount depends on the time spent since the last taxation.
         Improvement, speed: major refactor to remove closures, dereferences, JSON (de)serialization special functions.
 0.5     Bugfix manifest.plist for the oxz manager.

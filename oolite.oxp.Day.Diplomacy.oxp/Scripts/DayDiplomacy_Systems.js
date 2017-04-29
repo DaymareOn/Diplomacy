@@ -11,21 +11,20 @@ this._systemsByGalaxyAndSystemId = {};
 // Well... there are some oxps for this, aren't there?
 this._setObservers = function (aGalaxyNb) {
     var api = this._api;
-    var actorsByType = api.$getActorsIdByType("SYSTEM");
+    var actorsIdByType = api.$getActorsIdByType("SYSTEM");
     var actors = api.$getActors();
 
     // FIXME order of initialization, maybe we could test by checking if the last actor is initialized?
-    var knownObservers = api.$getObservers(actors[actorsByType[0]], "SYSTEM");
+    var knownObservers = api.$getObservers(actors[actorsIdByType[0]], "SYSTEM");
     if (knownObservers && knownObservers.length) {
         return; // Already initialized
     }
 
-    var infoForSystem = System.infoForSystem, sys = this._systemsByGalaxyAndSystemId, z = actorsByType.length;
+    var infoForSystem = System.infoForSystem, sys = this._systemsByGalaxyAndSystemId, z = actorsIdByType.length;
     while (z--) {
-        var thisActor = actors[actorsByType[z]];
-        var thisActorState = thisActor.State;
-        if (thisActorState.galaxyNb == aGalaxyNb) {
-            var observers = infoForSystem(aGalaxyNb, thisActorState.systemId).systemsInRange();
+        var thisActor = actors[actorsIdByType[z]];
+        if (thisActor.galaxyNb == aGalaxyNb) {
+            var observers = infoForSystem(aGalaxyNb, thisActor.systemId).systemsInRange();
             var y = observers.length;
             while (y--) {
                 var observer = observers[y];
@@ -59,12 +58,13 @@ this._startUp = function () {
     }
 
     // We init the observers for the current galaxy
-    // this._setObservers(system.info.galaxyID);
+    this._setObservers(system.info.galaxyID);
     delete this._startUp; // No need to startup twice
 };
 // This is necessary as we can't calculate distances in other galaxies.
 this.playerEnteredNewGalaxy = function (galaxyNumber) {
-    // this._setObservers(galaxyNumber);
+    // FIXME and if we do a whole galaxy round?
+    this._setObservers(galaxyNumber);
 };
 this.startUp = function() {
     worldScripts.DayDiplomacy_000_Engine.$subscribe(this.name);
