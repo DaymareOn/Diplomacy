@@ -3,13 +3,16 @@ Diplomacy roadmap
 
 Conditions for 1.0 to be declared:
 - filesave format stabilized,
-- performance considered to be ok.
+- performance considered to be ok,
+- events considered to be working.
 
 ---------------------------------------------------------------
 
 Next version: a) event system, b) one kind of event implemented.
 
 ---------------------------------------------------------------
+
+FIXME 0.n deliver an Alliances API
 
 FIXME Productivity
 How do we know the real productivity? Is there an OMC? Black work wouldn't be reported, nor taxed.
@@ -30,7 +33,9 @@ FIXME +.6 player taxation
 FIXME 0.n passengers are taxed too; maybe player may pay less depending on passenger home system? why would passenger allow that?
 FIXME 0.n some systems could have their citizens not taxed? free passage? by some chosen systems? vassal systems?
 FIXME 0.n minify, https://jscompress.com/, https://github.com/mishoo/UglifyJS2
-FIXME 0.n Troll wars (noble Troll specie against human cultural trolls)
+FIXME 0.n "Troll wars" (noble Troll specie against human cultural trolls)
+FIXME 0.n "Trumble wars" (trumbles are used as weapons to disrupt blockades)
+FIXME 0.n "Day of the Tentacle"
 FIXME 0.n benchmark with lazy regexps
 
 FIXME 0.n: implement initial scoring of relations between systems
@@ -62,6 +67,17 @@ polarization: if they have enough money to defend and the other not enough to at
 What's an enemy?
 initial scoring + eventsScoring losing 10% each turn (year?) + current turn eventStoring
 initialScore = economy comparison + ideology comparison + commercial road
+who should we score? a system scores those systems it is observing?
+staticScore[observerId][observedId] = {
+    economyComparison:,
+    ideologyComparison:,
+    sameCommercialRoad:,
+}
+dynamicScore[observerId][observedId] = {
+    nextToCommonEnemy:,
+    preparingForDefense:,
+    harboursEnemyFaction:,
+}
 
 FIXME 0.n: implement all of that :)
 "ATTACK", //(System, System)

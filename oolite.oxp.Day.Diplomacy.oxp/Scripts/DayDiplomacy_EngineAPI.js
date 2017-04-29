@@ -74,6 +74,9 @@ this.$addActor = function (anActor) {
 this.$setFunction = function (anId, aFunction) {
     this._s.$setFunction(anId, aFunction);
 };
+this.$getFunctions = function() {
+    return this._F;
+};
 this.$setInitAction = function (anAction) {
     this._s.$setInitAction(anAction);
 };
@@ -92,9 +95,9 @@ this.$setRecurrentAction = function (anAction) {
 // this.$unsetResponse = function (aResponse) {
 //     this._s.unsetResponse(aResponse);
 // };
-// this.$addObserverToActor = function (anObserverId, anObserverActorType, anActor) {
-//     anActor.addObserver(anObserverActorType, anObserverId);
-// };
+this.$addObserverToActor = function (anObserverId, anObserverActorType, anActor) {
+    this._s.$addObserverToActor(anActor, anObserverActorType, anObserverId);
+};
 this.$setField = function (anObject, fieldName, fieldValue) {
     if (anObject.hasOwnProperty("State")) { // We put the field into State
         anObject.State[fieldName] = fieldValue;
@@ -138,14 +141,15 @@ this.$getActors = function () {
  * Make sure you don't modify that or its content. Copy it before if you need to modify it.
  * @returns [observerActorId]
  */
-// this.$getObservers = function (anActor, observersActorType) {
-//     return anActor.State.observers[observersActorType];
-// };
+this.$getObservers = function (anActor, observersActorType) {
+    return anActor.observers[observersActorType];
+};
 // $$$$$$$$$$$$$$$$$$$$$$$$$$$$ End of universe getter functions $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 // ############################ Oxp developers: please ignore from here. ##############################################
 this._startUp = function () {
     this._S = this._s.State;
+    this._F = this._s.Functions;
     delete this._startUp;
 };
 this.startUp = function () {
