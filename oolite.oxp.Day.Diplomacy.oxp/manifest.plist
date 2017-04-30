@@ -1,6 +1,6 @@
 {
 	"identifier" = "oolite.oxp.Day.Diplomacy";
-	"required_oolite_version" = "1.80";
+	"required_oolite_version" = "1.81";
 	"title" = "Diplomacy";
 	"version" = "0.7";
 	"category" = "Ambience";
