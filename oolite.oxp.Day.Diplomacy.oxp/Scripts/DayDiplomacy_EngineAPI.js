@@ -108,8 +108,8 @@ this.$setField = function (anObject, fieldName, fieldValue) {
         anObject[fieldName] = fieldValue;
     }
 };
-this.$letActorActAnEvent = function(actorId, anEventType, someArgs) {
-    this._s.$letActorActAnEvent(actorId, anEventType, someArgs);
+this.$makeActorEventKnownToUniverse = function(actorId, anEventType, someArgs) {
+    this._s.$makeActorEventKnownToUniverse(actorId, anEventType, someArgs);
 };
 // $$$$$$$$$$$$$$$$$$$$$$$$$$$$ End of universe modification functions $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 

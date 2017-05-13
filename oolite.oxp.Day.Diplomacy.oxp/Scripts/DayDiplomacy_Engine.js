@@ -61,7 +61,7 @@ this.$getNewEventId = function () {
 this.$letActorExecuteAction = function (anActor, anAction) {
     this.Functions[anAction.actionFunctionId](anActor);
 };
-this.$letActorActAnEvent = function (actorId, anEventType, someArgs) {
+this.$makeActorEventKnownToUniverse = function (actorId, anEventType, someArgs) {
     this._record({id: this.$getNewEventId(), eventType: anEventType, actorId: actorId, args: someArgs});
 };
 // this.$Actor.prototype.actNextTurn = function (anEventType, someArgs) {
