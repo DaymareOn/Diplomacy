@@ -24,6 +24,6 @@ It's useful to limit the cpu load too by at least a factor 100.
 A "Response" encapsulates a function.
 It contains: an Id, the 'EventType' to which it responds, the 'ActorType' of actors which will use this response, and a function which may use the args given in the event.
 
-When docked in station, once every 20 frames, an action (event, response, etc) is realized.
+When docked in station, once every 10 frames, an action (event, response, etc) is realized.
 A 'turn' of events is allowed each jump.
 Before beginning a new 'turn', all the actions of the precedent turn have been realized.

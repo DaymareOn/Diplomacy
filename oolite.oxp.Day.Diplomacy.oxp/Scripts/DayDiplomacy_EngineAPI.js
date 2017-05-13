@@ -9,9 +9,12 @@ this.description = "This script is the Diplomacy engine API for external scripts
 this.$buildNewActionId = function () {
     return this._s.$getNewActionId();
 };
-// this.$buildNewResponseId = function () {
-//     return this._S.getNewResponseId();
-// };
+this.$buildNewEventId = function () {
+    return this._s.$getNewEventId();
+};
+this.$buildNewResponseId = function () {
+    return this._s.getNewResponseId();
+};
 this.$buildNewActorId = function () {
     return this._s.$getNewActorId();
 };
@@ -35,10 +38,10 @@ this.$buildAction = function (id, eventType, actorType, actionFunctionId) {
  * Those are the information/arguments which will be given to the response function.
  */
 // An event is { id:id, eventType:eventType, actorId:actorId, args:args }
-// this.$buildEvent = function (eventType, actorId, args) {
-//     return {eventType: eventType, actorId: actorId, args: args};
-// };
-// A response is { id:id, eventType:eventType, actorType:responderActorType, functionId:functionId }
+this.$buildEvent = function (id, eventType, actorId, args) {
+    return {id: id, eventType: eventType, actorId: actorId, args: args};
+};
+// A response is { id:id, eventType:eventType, actorType:responderActorType, responseFunctionId:functionId }
 // This function must take as first argument the responder actor, 2nd argument the eventActor, and may take as many additional arguments as you wish.
 /**
  * A Response contains a behaviour to be executed when a certain event happens.
@@ -46,15 +49,15 @@ this.$buildAction = function (id, eventType, actorType, actionFunctionId) {
  * 2nd argument the eventActor, and may take as many additional arguments as you wish.
  * The actorType is the type of the responding actors.
  */
-// this.$buildResponse = function (id, eventType, actorType, responseFunctionId) {
-//     return {id: id, eventType: eventType, actorType: actorType, responseFunctionId: responseFunctionId};
-// };
+this.$buildResponse = function (id, eventType, actorType, responseFunctionId) {
+    return {id: id, eventType: eventType, actorType: actorType, responseFunctionId: responseFunctionId};
+};
 /**
  * A planetary system or an alliance, or whatever you wish :)
- * An actor is {id:id, actorType:actorType, responses:{eventType:[responseIds]}, observers:{actorType:[actorIds]}}
+ * An actor is {id:id, actorType:actorType, responsesIdByEventType:{eventType:[responseIds]}, observers:{actorType:[actorIds]}}
  */
 this.$buildActor = function (actorType, id) {
-    return {id: id, actorType: actorType, responses: {}, observers: {}};
+    return {id: id, actorType: actorType, responsesIdByEventType: {}, observers: {}};
 };
 // $$$$$$$$$$$$$$$$$$$$$$$$$$$$ End of builder functions (factory) $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
@@ -89,9 +92,9 @@ this.$setRecurrentAction = function (anAction) {
 // this.$unsetRecurrentAction = function (anAction) {
 //     this._s.unsetRecurrentAction(anAction);
 // };
-// this.$setResponse = function (aResponse) {
-//     this._s.setResponse(aResponse);
-// };
+this.$setResponse = function (aResponse) {
+    this._s.$setResponse(aResponse);
+};
 // this.$unsetResponse = function (aResponse) {
 //     this._s.unsetResponse(aResponse);
 // };
@@ -104,6 +107,9 @@ this.$setField = function (anObject, fieldName, fieldValue) {
     } else {
         anObject[fieldName] = fieldValue;
     }
+};
+this.$letActorActAnEvent = function(actorId, anEventType, someArgs) {
+    this._s.$letActorActAnEvent(actorId, anEventType, someArgs);
 };
 // $$$$$$$$$$$$$$$$$$$$$$$$$$$$ End of universe modification functions $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 

@@ -18,34 +18,20 @@ this._loadState = function (toBeModifiedState, sourceState) {
         }
     }
 };
-// this.$Actor.prototype.act = function (anEventType, someArgs) {
-//     this.record({eventType: anEventType, actorId: this.State.id, args: someArgs});
-// };
-// this.$Actor.prototype.actNextTurn = function (anEventType, someArgs) {
-//     this.recordForNextTurn({eventType: anEventType, actorId: this.State.id, args: someArgs});
-// };
-// this.$Actor.prototype.addResponse = function (aResponse) {
-//     var responses = this.State.responses;
-//     (responses[aResponse.eventType] || (responses[aResponse.eventType] = [])).push(aResponse.id);
-// };
-// this.$Actor.prototype.removeResponse = function (aResponse) {
-//     var arr = this.State.responses[aResponse.eventType];
-//     arr.splice(arr.indexOf(aResponse.id), 1);
-// };
 this.State = {
     actors: {}, // {actorId => actor}
     initActions: {}, // { actionId => action }
     recurrentActions: {}, // { actionId => action }
-//        events: {}, // { eventId => event }
-//        responses: {}, // { responseId => response }
+    events: {}, // { eventId => event }
+    responses: {}, // { responseId => response }
     actorsByType: {}, // { actorType => [ actorId ]}
     initActionsByType: {}, // { actorType => [ actionId ] }
     recurrentActionsByType: {}, // { eventType => { actorType => [ actionId ] } }
-    // responsesByType: {}, // { eventType => { actorType => [ responseId ] } }
+    responsesByType: {}, // { eventType => { actorType => [ responseId ] } }
     actorMaxId: 1,
     actionMaxId: 1, // Useful to remove recurrentActions and initActions.
-    // eventMaxId: 1,
-    // responseMaxId: 1,
+    eventMaxId: 1,
+    responseMaxId: 1,
     functionMaxId: 1,
     eventTypes: [],
     actorTypes: [],
@@ -60,42 +46,47 @@ this.Functions = {};// { functionId (string) => function }
 this.$getNewActorId = function () {
     return "DAr_" + this.State.actorMaxId++;
 };
-// this.getNewResponseId = function () {
-//     return "DR_" + this.State.responseMaxId++;
-// };
+this.getNewResponseId = function () {
+    return "DR_" + this.State.responseMaxId++;
+};
 this.$getNewActionId = function () {
     return "DAn_" + this.State.actionMaxId++;
 };
 this.$getNewFunctionId = function () {
     return "DFn_" + this.State.functionMaxId++;
 };
-// this.$getNewEventId = function () {
-//     return "DEt_" + this.State.eventMaxId++;
-// };
+this.$getNewEventId = function () {
+    return "DEt_" + this.State.eventMaxId++;
+};
 this.$letActorExecuteAction = function (anActor, anAction) {
     this.Functions[anAction.actionFunctionId](anActor);
 };
+this.$letActorActAnEvent = function (actorId, anEventType, someArgs) {
+    this._record({id: this.$getNewEventId(), eventType: anEventType, actorId: actorId, args: someArgs});
+};
+// this.$Actor.prototype.actNextTurn = function (anEventType, someArgs) {
+//     this.recordForNextTurn({id:eventId, eventType: anEventType, actorId: this.State.id, args: someArgs});
+// };
 this.$addActor = function (anActor) {
-    var state = this.State, responses = state.responses, initActions = state.initActions,
+    var state = this.State, responsesByType = state.responsesByType, initActions = state.initActions,
         initActionsByType = state.initActionsByType, eventTypes = state.eventTypes, actorType = anActor.actorType,
-        id = anActor.id;
+        id = anActor.id, responses = state.responses;
 
     // We add the actor to the actors maps.
     state.actorsByType[actorType].push(id);
     state.actors[id] = anActor;
 
     // We complete the existing actor responses with the engine responses.
-    // var z = eventTypes.length;
-    // while (z--) {
-    //     var eventType = eventTypes[z];
-    //     var eventTypeResponses = responses[eventType] || (responses[eventType] = {});
-    //     var responsesToAdd = eventTypeResponses[actorType] || (eventTypeResponses[actorType] = {});
-    //     for (var rid in responsesToAdd) {
-    //         if (responsesToAdd.hasOwnProperty(rid)) { // False map
-    //             anActor.addResponse(rid);
-    //         }
-    //     }
-    // }
+    var y = eventTypes.length;
+    while (y--) {
+        var eventType = eventTypes[y];
+        var eventTypeResponses = responsesByType[eventType] || (responsesByType[eventType] = {});
+        var responsesIdsToAdd = eventTypeResponses[actorType] || (eventTypeResponses[actorType] = []);
+        var x = responsesIdsToAdd.length;
+        while (x--) {
+             this.$addResponseToActor(responses[responsesIdsToAdd[x]], anActor);
+        }
+    }
 
     // We execute the initActions on the actor
     var initActionsToExecute = initActionsByType[actorType];
@@ -114,7 +105,16 @@ this.$addObserverToActor = function (anActor, thatObserverType, thatObserverId) 
     var observers = anActor.observers;
     (observers[thatObserverType] || (observers[thatObserverType] = [])).push(thatObserverId);
 };
-this.$setFunction = function(anId, aFunction) {
+
+this.$addResponseToActor = function (aResponse, anActor) {
+    var responsesIdByEventType = anActor.responsesIdByEventType;
+    (responsesIdByEventType[aResponse.eventType] || (responsesIdByEventType[aResponse.eventType] = [])).push(aResponse.id);
+};
+// this.$Actor.prototype.removeResponse = function (aResponse) {
+//     var arr = this.State.responses[aResponse.eventType];
+//     arr.splice(arr.indexOf(aResponse.id), 1);
+// };
+this.$setFunction = function (anId, aFunction) {
     this.Functions[anId] = aFunction;
 };
 this.$setInitAction = function (anInitAction) {
@@ -140,18 +140,19 @@ this.$executeAction = function (anAction) {
         this.$letActorExecuteAction(actors[ourActorIds[z]], anAction);
     }
 };
-// this.setResponse = function (aResponse) {
-//     var state = this.State, actors = state.actors;
-//     // We add the response to responses
-//     state.responses[aResponse.eventType][aResponse.actorType][aResponse.id] = aResponse;
-//
-//     // We add the response to the existing actors in an ordered fashion.
-//     var ourActorIds = state.actorsByType[aResponse.actorType];
-//     var z = ourActorIds.length;
-//     while (z--) {
-//         actors[ourActorIds[z]].addResponse(aResponse);
-//     }
-// };
+this.$setResponse = function (aResponse) {
+    var state = this.State, actors = state.actors;
+    // We add the response to responses
+    state.responsesByType[aResponse.eventType][aResponse.actorType].push(aResponse.id);
+    state.responses[aResponse.id] = aResponse;
+
+    // We add the response to the existing actors in an ordered fashion.
+    var ourActorIds = state.actorsByType[aResponse.actorType];
+    var z = ourActorIds.length;
+    while (z--) {
+        this.$addResponseToActor(aResponse, actors[ourActorIds[z]]);
+    }
+};
 // this.unsetInitAction = function (anInitAction) { // This doesn't impact History.
 //     delete this.State.initActions[anInitAction.actorType][anInitAction.id];
 // };
@@ -176,17 +177,17 @@ this.$executeAction = function (anAction) {
 this.$addEventType = function (name, position) {
     var state = this.State;
     state.eventTypes.splice(position, 0, name);
-    // var ourResponses = (state.responses[name] = {});
+    var ourResponses = (state.responsesByType[name] = {});
     var ourRecurrentActions = (state.recurrentActionsByType[name] = {});
     var actorTypes = state.actorTypes;
     var z = actorTypes.length;
     while (z--) {
         var ourActorType = actorTypes[z];
-        // ourResponses[ourActorType] = {};
+        ourResponses[ourActorType] = [];
         ourRecurrentActions[ourActorType] = [];
     }
-    // state.eventsToPublish[name] = [];
-    // state.eventsToPublishNextTurn[name] = [];
+    state.eventsToPublish[name] = [];
+    state.eventsToPublishNextTurn[name] = [];
 };
 this.$addActorType = function (name, position) {
     var state = this.State;
@@ -195,12 +196,12 @@ this.$addActorType = function (name, position) {
     state.actorsByType[name] = [];
     state.initActionsByType[name] = [];
 
-    // var responses = state.responses;
+    var responses = state.responsesByType;
     var recurrentActions = state.recurrentActionsByType;
     var z = state.eventTypes.length;
     while (z--) {
         var eventType = state.eventTypes[z];
-        // responses[eventType][name] = {};
+        responses[eventType][name] = [];
         recurrentActions[eventType][name] = [];
     }
 };
@@ -214,10 +215,10 @@ this._nextState = function (type, currentState) {
     var newIndex = arr.indexOf(currentState) + 1;
     return newIndex === arr.length ? "" : arr[newIndex];
 };
-// this.record = function (anEvent) {
-//     var eventsToPublish = this.State.eventsToPublish, eventType = anEvent.eventType;
-//     (eventsToPublish[eventType] || (eventsToPublish[eventType] = [])).push(anEvent);
-// };
+this._record = function (anEvent) {
+    var eventsToPublish = this.State.eventsToPublish, eventType = anEvent.eventType;
+    (eventsToPublish[eventType] || (eventsToPublish[eventType] = [])).push(anEvent);
+};
 // this.recordForNextTurn = function (anEvent) {
 //     var eventsToPublishNextTurn = this.State.eventsToPublishNextTurn, eventType = anEvent.eventType;
 //     (eventsToPublishNextTurn[eventType] || (eventsToPublishNextTurn[eventType] = [])).push(anEvent);
@@ -231,7 +232,7 @@ this._gatherEventsToPublish = function () {
     while (ourEvents.length) {
         var z = ourEvents.length;
         while (z--) {
-            this.record(ourEvents.shift());
+            this._record(ourEvents.shift());
         }
     }
 
@@ -257,17 +258,17 @@ this._populateStack = function () {
         return false; // No need to use too much time.
     }
 
-    // var ourEvents = state.eventsToPublish[currentEventType];
-    // if (ourEvents.length) {
-    //     this.putEventOntoStack(ourEvents[0], currentActorType);
-    //
-    //     // We go to next actorType
-    //     var newActorType2 = this._nextState("actorTypes", currentActorType);
-    //     state.currentActorType = newActorType2 || firstActorType;
-    //     // When the event is processed, we remove it from the array.
-    //     newActorType2 || ourEvents.shift();
-    //     return false; // No need to use too much time.
-    // }
+    var ourEvents = state.eventsToPublish[currentEventType];
+    if (ourEvents.length) {
+        this.putEventOntoStack(ourEvents[0], currentActorType);
+
+        // We go to next actorType
+        var newActorType2 = this._nextState("actorTypes", currentActorType);
+        state.currentActorType = newActorType2 || firstActorType;
+        // When the event is processed, we remove it from the array.
+        newActorType2 || ourEvents.shift();
+        return false; // No need to use too much time.
+    }
 
     // We go to next eventType
     state.currentActorType = firstActorType;
@@ -289,26 +290,29 @@ this._putRecurrentActionsOntoStack = function (currentEventType, currentActorTyp
         }
     }
 };
-// this.putEventOntoStack = function (thatEvent, currentActorType) {
-//     var eventActorId = thatEvent.actorId, eventEventType = thatEvent.eventType, eventArgs = thatEvent.args,
-//         state = this.State, actors = state.actors, eventActor = actors[eventActorId],
-//         observers = eventActor.State.observers[currentActorType], z = observers.length, shortStack = state.shortStack,
-//         responses = state.responses[eventEventType];
-//     while (z--) {
-//         var observer = actors[observers[z]];
-//         // First argument: observer, 2nd arg: eventActor, other args: other args
-//         var someArgs = [observer, eventActor].concat(eventArgs);
-//         var responseIds = observer.State.responses[eventEventType];
-//         var y = responseIds.length;
-//         while (y--) {
-//             shortStack.push({
-//                 type: "response",
-//                 responseFunction: responses[responseIds[y]].responseFunction, // FIXME put the id in the shortstack
-//                 args: someArgs
-//             });
-//         }
-//     }
-// };
+this.putEventOntoStack = function (thatEvent, currentActorType) {
+    var eventActorId = thatEvent.actorId, eventEventType = thatEvent.eventType, eventArgs = thatEvent.args,
+        state = this.State, actors = state.actors, eventActor = actors[eventActorId],
+        observers = eventActor.observers[currentActorType], z = observers.length, shortStack = state.shortStack,
+        responses = state.responses;
+    while (z--) {
+        var observer = actors[observers[z]];
+        // First argument: observer, 2nd arg: eventActor, other args: other args
+        var someArgs = [observer, eventActor].concat(eventArgs);
+        var responseIds = observer.responsesIdByEventType[eventEventType];
+        if (!responseIds) {
+            continue; // No responses to process for this observer
+        }
+        var y = responseIds.length;
+        while (y--) {
+            shortStack.push({
+                type: "response",
+                responseFunctionId: responses[responseIds[y]].responseFunctionId,
+                args: someArgs
+            });
+        }
+    }
+};
 /**
  * return true if finished (empty stack), false otherwise.
  */
@@ -318,10 +322,11 @@ this._executeStack = function () {
     if (action === undefined) {
         return true;
     }
+    // FIXME measure execution time?
     if (action.type == "action") {
         this.Functions[s.recurrentActions[action.recurrentActionId].actionFunctionId](s.actors[action.actorId]);
-        // } else { // == "response"
-        //     action.responseFunction(action.args);
+    } else { // == "response"
+        this.Functions[action.responseFunctionId](action.args);
     }
     return false;
 };
@@ -428,6 +433,8 @@ this.startUpComplete = function () {
         log(s[y - z], "startUp in ms: " + (new Date().getTime() - startDate.getTime()));
     }
     delete this.startUpComplete; // No need to startup twice
+    this.shipExitedWitchspace(); // FIXME 0.8 debug
+    this.shipDockedWithStation(null); // FIXME 0.8 debug
 };
 this._subscribers = []; // [ scriptName ]
 this.$subscribe = function (aScriptName) {
