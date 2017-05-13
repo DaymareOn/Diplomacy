@@ -14,7 +14,13 @@ Conditions for 2.0 to be declared:
 
 ---------------------------------------------------------------
 
-Next version: FIXME 0.8
+Next version might include:
+- the score given to a system by another depend on who they are allied to.
+- Systems may break an alliance if the scores becomes too low.
+- An Alliance API.
+- The score threshold to form an alliance is configurable through the Alliance API.
+- Bugfix : currently, only systems within 7 ly of the system with the highest id of the 2 systems in an alliance
+  are informed of the alliance. It should be systems within 7 ly of any of the 2 systems in the alliance.
 
 ---------------------------------------------------------------
 
