@@ -15,7 +15,6 @@ this.$GOVERNMENT_DEFAULT_TAX_LEVEL = {
     "6": 0.5, // Democracy => major taxes, but those systems are not crumbling
     "7": 0.1 // Corporate => tax avoiding is rampant
 };
-
 this._startUp = function () {
     var api = worldScripts.DayDiplomacy_002_EngineAPI;
 
@@ -27,8 +26,8 @@ this._startUp = function () {
     // This eventType means a system government taxes the system GDP (economic output) to fund its treasury.
     api.$addEventType("SELFTAX", 0);
 
-    var initAction = function initAction(aSystem) {
-        var that = initAction;
+    var diplomacyTaxInitAction = function diplomacyTaxInitAction(aSystem) {
+        var that = diplomacyTaxInitAction;
         var api = that.api || (that.api = worldScripts.DayDiplomacy_002_EngineAPI);
         var taxLevel = that.taxLevel || (that.taxLevel = worldScripts.DayDiplomacy_020_Tax.$GOVERNMENT_DEFAULT_TAX_LEVEL);
         var sys = that.sys || (that.sys = System);
@@ -36,18 +35,21 @@ this._startUp = function () {
         var ourSystemInOolite = sys.infoForSystem(aSystem.galaxyNb, aSystem.systemId);
         var government = ourSystemInOolite.government;
         api.$setField(aSystem, "government", government);
+        // Necessary for alliances. Bad location but avoids other system initialization :/
+        // FIXME 0.9 fields should be inited in the systems part.
+        api.$setField(aSystem, "name", ourSystemInOolite.name);
         api.$setField(aSystem, "taxLevel", taxLevel[government]);
         api.$setField(aSystem, "treasury", 0); // Everybody begins with treasury = 0.
         api.$setField(aSystem, "lastTaxDate", cloc.seconds);
         ourSystemInOolite.description += " Tax level: " + aSystem.taxLevel + " Treasury: 0 €";
     };
     var functionId = api.$buildNewFunctionId();
-    api.$setFunction(functionId, initAction);
+    api.$setFunction(functionId, diplomacyTaxInitAction);
     api.$setInitAction(api.$buildAction(api.$buildNewActionId(), "SELFTAX", "SYSTEM", functionId));
 
     // Recurrent tax.
-    var recurrentAction = function recurrentAction(aSystem) {
-        var that = recurrentAction;
+    var diplomacyTaxRecurrentAction = function diplomacyTaxRecurrentAction(aSystem) {
+        var that = diplomacyTaxRecurrentAction;
         var api = that.api || (that.api = worldScripts.DayDiplomacy_002_EngineAPI);
         var sys = that.sys || (that.sys = System);
         var cloc = that.cloc || (that.cloc = clock);
@@ -58,11 +60,10 @@ this._startUp = function () {
         ourSystemInOolite.description = ourSystemInOolite.description.replace(new RegExp(/Tax.*€/), "Tax level: " + aSystem.taxLevel + " Treasury: " + aSystem.treasury + " €");
     };
     var fid =  api.$buildNewFunctionId();
-    api.$setFunction(fid, recurrentAction);
+    api.$setFunction(fid, diplomacyTaxRecurrentAction);
     api.$setRecurrentAction(api.$buildAction(api.$buildNewActionId(), "SELFTAX", "SYSTEM", fid));
     delete this._startUp; // No need to startup twice
 };
-
 this.startUp = function() {
     worldScripts.DayDiplomacy_000_Engine.$subscribe(this.name);
     delete this.startUp; // No need to startup twice

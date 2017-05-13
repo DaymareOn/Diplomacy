@@ -10,7 +10,8 @@ Summary
 6. Dependencies
 7. Instructions
 8. License
-9. Changelog
+9. Known bugs
+10. Changelog
 
 ==============================
 Description
@@ -60,6 +61,7 @@ Compatibility
 
 ==============================
 Dependencies
+- Snoopers // FIXME  0.8 require
 
 ==============================
 Instructions
@@ -73,8 +75,19 @@ This work is licensed under the Creative Commons Attribution-NonCommercial-Share
 If you are re-using any piece of this OXP, please let me know by sending an e-mail to david at pradier dot info
 
 ==============================
+Known bugs
+
+None. // FIXME 0.8
+
+==============================
 Changelog
 
+FIXME 0.8
+0.8     Improvement, flavor: Two systems within 7ly of each other may now form an alliance, depending
+        on their relation quality. Currently, each must have a score for the other of at least +0.5.
+        Improvement, flavor: some Snooper news are now displayed when an alliance is formed between two systems,
+        and the player is within 7ly of one of the allied systems.
+        New, oxp dev func: introduced a functional Event system.
 0.7     Improvement, flavor: added a F4 Strategic Map, showing links between systems nearer than 7. The relation between systems is currently based on their government.
 0.6     Improvement, flavor: tax amount depends on the time spent since the last taxation.
         Improvement, speed: major refactor to remove closures, dereferences, JSON (de)serialization special functions.

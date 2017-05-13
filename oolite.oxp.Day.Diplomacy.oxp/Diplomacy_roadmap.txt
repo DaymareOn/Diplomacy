@@ -4,15 +4,23 @@ Diplomacy roadmap
 Conditions for 1.0 to be declared:
 - filesave format stabilized,
 - performance considered to be ok,
-- events considered to be working.
+- all core engine functionalities implemented, remaining ones:
+  - events history,
+  - actor/event/response/function/initAction/recurrentAction disabling/removal,
+  - 'act next turn' functionality.
+
+Conditions for 2.0 to be declared:
+- APIs stabilized
 
 ---------------------------------------------------------------
 
-Next version: a) event system, b) one kind of event implemented.
+Next version: FIXME 0.8
 
 ---------------------------------------------------------------
 
-FIXME 0.n deliver an Alliances API
+FIXME 0.n make a story/scenario generator?
+FIXME 0.9 deliver a LEFT event
+FIXME 0.n make the wiki page, including the APIs
 
 FIXME Productivity
 How do we know the real productivity? Is there an OMC? Black work wouldn't be reported, nor taxed.
@@ -50,6 +58,7 @@ if they're from an opposite economy,
 if they're from a different alliance (enemy alliance?)
 if they currently got a bad economy?
 if the other currently has a bad economy?
+if they're from a disliked race
 polarization? if the system has several neighbours, it dislikes better one of them
 if they harbor an enemy faction
 polarization: if they have enough money to attack and the other not enough to defend
@@ -61,6 +70,7 @@ if they're from a comparable economy
 if they're from a comparable ideology
 if they're next to a common enemy
 if they're on a commercial road?
+if they're from a liked race
 polarization? if the system has several neighbours, it likes better one of them
 if they harbor an ally faction
 polarization: if they have enough money to defend and the other not enough to attack
@@ -78,6 +88,9 @@ dynamicScore[observerId][observedId] = {
     preparingForDefense:,
     harboursEnemyFaction:,
 }
+ally to system if score > threshold
+ally to alliance if avg(systemsScores) > threshold
+attack if systemMoney > targetProductivity * targetPopulation, divided by constant
 
 FIXME 0.n: implement all of that :)
 "ATTACK", //(System, System)
@@ -104,7 +117,6 @@ FIXME 0.n blockades
 FIXME 0.n each turn, a system has an event card: a sun explodes, or a native singer becomes famous, which changes taxes, or alliances, or fights, or... Use some mega bomb for a supernova style event
 FIXME 0.n what about the story of a war writing itself?
 FIXME 0.n war cargoes
-FIXME 0.n the neatest definition of diplomacy I've seen is "The art of saying 'nice doggy' while you reach behind you for a rock to throw."
+FIXME 0.n As XXX said, 'the neatest definition of diplomacy I've seen is "The art of saying 'nice doggy' while you reach behind you for a rock to throw."'. So with that in mind, systemX just formed an alliance with systemY. Who will gain? Who will lose? Truth is, we don't know!
 FIXME 0.n player's greed is the key
-FIXME 0.n: Engine.actorsByType could be rebuilt rather than saved. Unicity vs complexity. Does this generates bugs?
 FIXME 0.n: "OXP that adds another eight galaxies" !!

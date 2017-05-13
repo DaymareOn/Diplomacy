@@ -27,7 +27,7 @@ this._initSystemsScores = function (aGalaxyNb) {
         }
     }
 };
-this._setLinks = function () {
+this._drawStrategicMap = function () {
     var scores = this._s.State.alliancesScores;
     var actors = this._s.State.actors;
     var systemInfo = SystemInfo;
@@ -94,10 +94,10 @@ this._displayF4Interface = function () {
         backgroundSpecial: "LONG_RANGE_CHART_SHORTEST",
         allowInterrupt: true,
         exitScreen: "GUI_SCREEN_INTERFACES",
-        message:"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" // 17 lines: the map's height + 1
+        message: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" // 17 lines: the map's height + 1
     };
     mission.runScreen(opts);
-    this._setLinks();
+    this._drawStrategicMap();
     mission.addMessageText("Green:  systems like each other\nBlue:  one system likes the other while this one is neutral\nGray: both systems are neutral\nYellow:   one likes, one dislikes!\nOrange:   one is neutral, one dislikes\nRed:  systems dislike each other");
 };
 this._initF4Interface = function () {
@@ -131,9 +131,33 @@ this._startUp = function () {
         });
     }
 
-    // FIXME After the first initstatic, we should set an Init function to manage new systems/actors/whatever.
+    // FIXME After the first _initSystemsScores, we should set an Init function to manage new systems/actors/whatever.
 
     this._initSystemsScores(system.info.galaxyID);
+
+    // FIXME 0.8 only once
+    var api = this._api;
+    var responseFunctionId = api.$buildNewFunctionId();
+    var diplomacyAlliancesOnSystemJoinFunction = function diplomacyAlliancesOnSystemJoinFunction(argsArray) {
+        var respondingActor = argsArray[0], eventActor = argsArray[1], alliedActorId = argsArray[2];
+        // On JOIN event, if the player is in a responder system, a news is generated.
+        if (System.name === respondingActor.name) {
+            // Script name copied to avoid a closure.
+            var returnCode = worldScripts.snoopers.insertNews({
+                ID: "DayDiplomacy_040_Alliances",
+                Direct: true,
+                // FIXME Manage localization
+                Message: "Hello, travellers in the system of "+respondingActor.name
+                +"! You might be interested in knowing that" + eventActor.name + " just allied with " + alliedActorId
+            });
+            // FIXME 0.8 we must manage the return code
+        }
+        // We do not recalculate the scores on every event, as it could generate LOTS of score calculus.
+        // We use a recurrent action for this;
+        // FIXME 0.9 We should have a scoringfunction dedicated to existing alliances
+    };
+    api.$setFunction(responseFunctionId, diplomacyAlliancesOnSystemJoinFunction);
+    api.$setResponse(api.$buildResponse(api.$buildNewResponseId(), "JOIN", "SYSTEM", responseFunctionId));
 
     // FIXME hmff, this might have to be into its own function
     worldScripts.XenonUI && worldScripts.XenonUI.$addMissionScreenException("DiplomacyAlliancesScreenId");
@@ -144,7 +168,7 @@ this._startUp = function () {
     delete this._startUp; // No need to startup twice
 };
 this.playerEnteredNewGalaxy = function (galaxyNumber) {
-    // FIXME and if we do a whole galaxy round?
+    // FIXME 0.8 and if we do a whole galaxy round?
     this._initSystemsScores(galaxyNumber);
 };
 this.startUp = function () {

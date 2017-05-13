@@ -14,7 +14,7 @@ this._setObservers = function (aGalaxyNb) {
     var actorsIdByType = api.$getActorsIdByType("SYSTEM");
     var actors = api.$getActors();
 
-    // FIXME order of initialization, maybe we could test by checking if the last actor is initialized?
+    // FIXME Potential bug: order of initialization, maybe we could test by checking if the last actor is initialized?
     var knownObservers = api.$getObservers(actors[actorsIdByType[0]], "SYSTEM");
     if (knownObservers && knownObservers.length) {
         return; // Already initialized
@@ -63,7 +63,7 @@ this._startUp = function () {
 };
 // This is necessary as we can't calculate distances in other galaxies.
 this.playerEnteredNewGalaxy = function (galaxyNumber) {
-    // FIXME and if we do a whole galaxy round?
+    // FIXME 0.8 and if we do a whole galaxy round?
     this._setObservers(galaxyNumber);
 };
 this.startUp = function() {
