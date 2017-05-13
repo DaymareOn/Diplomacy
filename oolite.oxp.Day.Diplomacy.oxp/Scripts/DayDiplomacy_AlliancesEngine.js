@@ -39,8 +39,7 @@ this._ally = function (aSystem, anotherSystemId) {
     alliances[aSystemId][anotherSystemId] = 1;
     alliances[anotherSystemId] = alliances[anotherSystemId] || {};
     alliances[anotherSystemId][aSystemId] = 1;
-    // FIXME 0.8 this is really $makeActorActionKnownToUniverse
-    this._api.$letActorActAnEvent(aSystemId, "JOIN", [anotherSystemId]);
+    this._api.$makeActorEventKnownToUniverse(aSystemId, "JOIN", [anotherSystemId]);
     // FIXME 0.9 there should be 2 events generated
     // so that every system within 7ly of both allied systems are informed of the event.
 };
