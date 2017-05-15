@@ -31,15 +31,23 @@ If experimenting problems, the easy way is to edit the savefile and remove the l
 ==============================
 What's currently implemented functionality-wise?
 
-The oxp currently adds flavour by displaying a Tax level and a Treasury level in the F7 system information.
-Each system treasury is increased by taxation each player jump, depending on the time past since the last jump.
-Why taxation? Because wars require money, and countries are defeated either by battles or by bankruptcy, sometimes the latter producing the former.
-So systems treasury should be a main factor in a war/diplomacy framework.
+Systems treasury!
+    Wars require money, and countries are defeated either by battles or by bankruptcy,
+     sometimes the latter producing the former.
+    The Treasury and Tax levels are displayed in the F7 system information.
+    Each system treasury is increased through taxation each player jump,
+     depending on the time past since the last jump.
 
-The oxp adds a F4 Interface screen: the Diplomacy Strategic Map!
-There, you can see the systems which (dis)like each other...
+Strategic map!
+    New F4 Interface screen: the Diplomacy Strategic Map!
+    There, you can see the systems which (dis)like each other...
 
-The event system is currently DISABLED.
+Systems alliances!
+    Two systems within 7ly of each other may now form an alliance, if they like each other enough.
+
+News!
+    Some Snooper news are now displayed when an alliance is formed between two systems,
+    and the player is within 7ly of one of the allied systems.
 
 ==============================
 What's currently implemented technically?
@@ -61,7 +69,7 @@ Compatibility
 
 ==============================
 Dependencies
-- Snoopers // FIXME  0.8 require
+- Snoopers OXP
 
 ==============================
 Instructions
@@ -77,7 +85,8 @@ If you are re-using any piece of this OXP, please let me know by sending an e-ma
 ==============================
 Known bugs
 
-None. // FIXME 0.8
+- currently, only systems within 7 ly of the system with the highest id of the 2 systems in an alliance
+  are informed of the alliance. It should be systems within 7 ly of any of the 2 systems in the alliance.
 
 ==============================
 Changelog
