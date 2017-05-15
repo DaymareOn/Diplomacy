@@ -32,7 +32,7 @@ Conditions for 2.0 to be declared:
 
 Next version might include:
 - the score given to a system by another depend on who they are allied to.
-- Systems may break an alliance if the scores becomes too low.
+- Systems may break an alliance if they don't like anymore the other system.
 - An Alliance API.
 - The score threshold to form an alliance is configurable through the Alliance API.
 - Bugfix : currently, only systems within 7 ly of the system with the highest id of the 2 systems in an alliance
@@ -41,7 +41,6 @@ Next version might include:
 ---------------------------------------------------------------
 
 FIXME 0.n make a story/scenario generator?
-FIXME 0.9 deliver a LEFT event
 FIXME 0.n make the wiki page, including the APIs
 
 FIXME Productivity
