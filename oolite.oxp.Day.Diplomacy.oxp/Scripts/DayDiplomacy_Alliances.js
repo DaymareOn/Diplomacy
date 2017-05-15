@@ -146,9 +146,9 @@ this._startUp = function () {
             var returnCode = worldScripts.snoopers.insertNews({
                 ID: "DayDiplomacy_040_Alliances",
                 Direct: true,
-                // FIXME Manage localization
-                Message: "Hello, travellers in the system of "+respondingActor.name
-                +"! You might be interested in knowing that" + eventActor.name + " just allied with " + alliedActorId
+                Agency: 1,
+                Message: "Hello, travellers in the system of " + respondingActor.name
+                + "! You might be interested in knowing that" + eventActor.name + " just allied with " + alliedActorId
             });
             // FIXME 0.8 we must manage the return code
         }

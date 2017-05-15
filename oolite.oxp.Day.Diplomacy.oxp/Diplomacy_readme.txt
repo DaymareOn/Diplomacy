@@ -82,7 +82,6 @@ None. // FIXME 0.8
 ==============================
 Changelog
 
-FIXME 0.8
 0.8     Improvement, flavor: Two systems within 7ly of each other may now form an alliance, depending
         on their relation quality. Currently, each must have a score for the other of at least +0.5.
         Improvement, flavor: some Snooper news are now displayed when an alliance is formed between two systems,
