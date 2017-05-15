@@ -168,7 +168,6 @@ this._startUp = function () {
     delete this._startUp; // No need to startup twice
 };
 this.playerEnteredNewGalaxy = function (galaxyNumber) {
-    // FIXME 0.8 and if we do a whole galaxy round?
     this._initSystemsScores(galaxyNumber);
 };
 this.startUp = function () {
