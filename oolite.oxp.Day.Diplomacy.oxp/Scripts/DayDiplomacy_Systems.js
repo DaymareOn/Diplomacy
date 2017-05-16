@@ -14,16 +14,18 @@ this._setObservers = function (aGalaxyNb) {
     var actorsIdByType = api.$getActorsIdByType("SYSTEM");
     var actors = api.$getActors();
 
-    // FIXME Potential bug: order of initialization, maybe we could test by checking if the last actor is initialized?
-    var knownObservers = api.$getObservers(actors[actorsIdByType[0]], "SYSTEM");
-    if (knownObservers && knownObservers.length) {
+    var galaxyFirstSystem = actors[actorsIdByType[255 + 256 * (7 - aGalaxyNb)]];
+    var galaxyLastSystem = actors[actorsIdByType[256 * (7 - aGalaxyNb)]];
+    var firstSystemknownObservers = api.$getObservers(galaxyFirstSystem, "SYSTEM");
+    var lastSystemknownObservers = api.$getObservers(galaxyLastSystem, "SYSTEM");
+    if (firstSystemknownObservers.length && lastSystemknownObservers.length) {
         return; // Already initialized
     }
 
     var infoForSystem = System.infoForSystem, sys = this._systemsByGalaxyAndSystemId, z = actorsIdByType.length;
     while (z--) {
         var thisActor = actors[actorsIdByType[z]];
-        if (thisActor.galaxyNb == aGalaxyNb) {
+        if (thisActor.galaxyNb === aGalaxyNb && !thisActor.observers.length) {
             var observers = infoForSystem(aGalaxyNb, thisActor.systemId).systemsInRange();
             var y = observers.length;
             while (y--) {
