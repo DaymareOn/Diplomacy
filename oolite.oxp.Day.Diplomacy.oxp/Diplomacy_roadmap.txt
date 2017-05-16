@@ -124,6 +124,5 @@ FIXME 0.n blockades
 FIXME 0.n each turn, a system has an event card: a sun explodes, or a native singer becomes famous, which changes taxes, or alliances, or fights, or... Use some mega bomb for a supernova style event
 FIXME 0.n what about the story of a war writing itself?
 FIXME 0.n war cargoes
-FIXME 0.n As XXX said, 'the neatest definition of diplomacy I've seen is "The art of saying 'nice doggy' while you reach behind you for a rock to throw."'. So with that in mind, systemX just formed an alliance with systemY. Who will gain? Who will lose? Truth is, we don't know!
 FIXME 0.n player's greed is the key
 FIXME 0.n: "OXP that adds another eight galaxies" !!

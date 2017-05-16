@@ -148,8 +148,9 @@ this._startUp = function () {
                     ID: "DayDiplomacy_040_Alliances",
                     Direct: true,
                     Agency: 1,
-                    Message: "Hello, travellers in the system of " + respondingActor.name
-                    + "! You might be interested in knowing that" + eventActor.name + " just allied with " + alliedActorId
+                    Message: "Travellers in the system of " + respondingActor.name
+                    + " might be interested in knowing that " + eventActor.name + " just allied with " + alliedActorId
+                    +".\n\nAs XXX said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
                 });
                 // FIXME 0.8 we must manage the return code
             }
