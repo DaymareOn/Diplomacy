@@ -135,29 +135,31 @@ this._startUp = function () {
 
     this._initSystemsScores(system.info.galaxyID);
 
-    // FIXME 0.8 only once
     var api = this._api;
-    var responseFunctionId = api.$buildNewFunctionId();
-    var diplomacyAlliancesOnSystemJoinFunction = function diplomacyAlliancesOnSystemJoinFunction(argsArray) {
-        var respondingActor = argsArray[0], eventActor = argsArray[1], alliedActorId = argsArray[2];
-        // On JOIN event, if the player is in a responder system, a news is generated.
-        if (System.name === respondingActor.name) {
-            // Script name copied to avoid a closure.
-            var returnCode = worldScripts.snoopers.insertNews({
-                ID: "DayDiplomacy_040_Alliances",
-                Direct: true,
-                Agency: 1,
-                Message: "Hello, travellers in the system of " + respondingActor.name
-                + "! You might be interested in knowing that" + eventActor.name + " just allied with " + alliedActorId
-            });
-            // FIXME 0.8 we must manage the return code
-        }
-        // We do not recalculate the scores on every event, as it could generate LOTS of score calculus.
-        // We use a recurrent action for this;
-        // FIXME 0.9 We should have a scoringfunction dedicated to existing alliances
-    };
-    api.$setFunction(responseFunctionId, diplomacyAlliancesOnSystemJoinFunction);
-    api.$setResponse(api.$buildResponse(api.$buildNewResponseId(), "JOIN", "SYSTEM", responseFunctionId));
+    // We set the response to the JOIN event.
+    var responseFunctionId = "diplomacyAlliancesOnSystemJoinFunction";
+    if (!api.$getFunctions()[responseFunctionId]) {
+        var diplomacyAlliancesOnSystemJoinFunction = function diplomacyAlliancesOnSystemJoinFunction(argsArray) {
+            var respondingActor = argsArray[0], eventActor = argsArray[1], alliedActorId = argsArray[2];
+            // On JOIN event, if the player is in a responder system, a news is generated.
+            if (System.name === respondingActor.name) {
+                // Script name copied to avoid a closure.
+                var returnCode = worldScripts.snoopers.insertNews({
+                    ID: "DayDiplomacy_040_Alliances",
+                    Direct: true,
+                    Agency: 1,
+                    Message: "Hello, travellers in the system of " + respondingActor.name
+                    + "! You might be interested in knowing that" + eventActor.name + " just allied with " + alliedActorId
+                });
+                // FIXME 0.8 we must manage the return code
+            }
+            // We do not recalculate the scores on every event, as it could generate LOTS of score calculus.
+            // We use a recurrent action for this;
+            // FIXME 0.9 We should have a scoringfunction dedicated to existing alliances
+        };
+        api.$setFunction(responseFunctionId, diplomacyAlliancesOnSystemJoinFunction);
+        api.$setResponse(api.$buildResponse(api.$buildNewResponseId(), "JOIN", "SYSTEM", responseFunctionId));
+    }
 
     // FIXME hmff, this might have to be into its own function
     worldScripts.XenonUI && worldScripts.XenonUI.$addMissionScreenException("DiplomacyAlliancesScreenId");

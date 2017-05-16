@@ -65,7 +65,6 @@ this._startUp = function () {
 };
 // This is necessary as we can't calculate distances in other galaxies.
 this.playerEnteredNewGalaxy = function (galaxyNumber) {
-    // FIXME 0.8 and if we do a whole galaxy round?
     this._setObservers(galaxyNumber);
 };
 this.startUp = function() {
