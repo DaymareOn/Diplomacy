@@ -141,24 +141,26 @@ this._startUp = function () {
     // We set the response to the JOIN event.
     var responseFunctionId = "diplomacyAlliancesOnSystemJoinFunction";
     if (!api.$getFunctions()[responseFunctionId]) {
+        // We use a recurrent action to recalculate the scores,
+        // as doing it on every event would generate LOTS of calculus.
+        // Currently, we only generate the news.
         var diplomacyAlliancesOnSystemJoinFunction = function diplomacyAlliancesOnSystemJoinFunction(argsArray) {
+
             var respondingActor = argsArray[0], eventActor = argsArray[1], alliedActorId = argsArray[2];
             // On JOIN event, if the player is in a responder system, a news is generated.
             if (System.name === respondingActor.name) {
-                // Script name copied to avoid a closure.
-                // FIXME 0.8 replace the id by the name in the news message
                 var news = {
-                    ID: "DayDiplomacy_040_Alliances",
+                    ID: "DayDiplomacy_040_Alliances", // Script name copied to avoid a closure.
                     Direct: true,
                     Agency: 1,
                     Message: "Travellers in the system of " + respondingActor.name
-                    + " might be interested in knowing that " + eventActor.name + " just allied with " + alliedActorId
+                    + " might be interested in knowing that " + eventActor.name + " just allied with "
+                    + worldScripts.DayDiplomacy_002_EngineAPI.$getActors()[alliedActorId].name
                     + ".\n\nAs XXX said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
                 };
                 worldScripts.DayDiplomacy_040_Alliances._publishNews(news);
             }
-            // We do not recalculate the scores on every event, as it could generate LOTS of score calculus.
-            // We use a recurrent action for this;
+
         };
         api.$setFunction(responseFunctionId, diplomacyAlliancesOnSystemJoinFunction);
         api.$setResponse(api.$buildResponse(api.$buildNewResponseId(), "JOIN", "SYSTEM", responseFunctionId));
@@ -172,7 +174,7 @@ this._startUp = function () {
 
     delete this._startUp; // No need to startup twice
 };
-this._publishNews = function(news) {
+this._publishNews = function (news) {
     var returnCode = worldScripts.snoopers.insertNews(news);
     if (returnCode > 0) { // A prerequisite is wrong
         log("DiplomacyAlliances.diplomacyAlliancesOnSystemJoinFunction", "Snoopers ERROR: " + returnCode);
@@ -180,10 +182,10 @@ this._publishNews = function(news) {
         worldScripts.DayDiplomacy_040_Alliances._storedNews.push(news);
     } // else: everything is okay.
 };
-this.guiScreenWillChange = function(to, from) {
+this.guiScreenWillChange = function (to, from) {
     this._storedNews.length && this._publishNews(this._storedNews.shift());
 };
-this.newsDisplayed = function(msg) {
+this.newsDisplayed = function (msg) {
     this._storedNews.length && this._publishNews(this._storedNews.shift());
 };
 this.playerEnteredNewGalaxy = function (galaxyNumber) {
