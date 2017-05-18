@@ -113,6 +113,7 @@ this._startUp = function () {
     this._api = worldScripts.DayDiplomacy_002_EngineAPI;
     this._ae = worldScripts.DayDiplomacy_030_AlliancesEngine;
     var asf = this._ae.$getScoringFunctions();
+    this._storedNews = []; // No real need to save it
 
     // Economy comparison
     if (!asf["EconomyComparison"]) {
@@ -135,6 +136,7 @@ this._startUp = function () {
 
     this._initSystemsScores(system.info.galaxyID);
 
+    // FIXME 0.9 We should have a scoringfunction dedicated to existing alliances
     var api = this._api;
     // We set the response to the JOIN event.
     var responseFunctionId = "diplomacyAlliancesOnSystemJoinFunction";
@@ -144,19 +146,19 @@ this._startUp = function () {
             // On JOIN event, if the player is in a responder system, a news is generated.
             if (System.name === respondingActor.name) {
                 // Script name copied to avoid a closure.
-                var returnCode = worldScripts.snoopers.insertNews({
+                // FIXME 0.8 replace the id by the name in the news message
+                var news = {
                     ID: "DayDiplomacy_040_Alliances",
                     Direct: true,
                     Agency: 1,
                     Message: "Travellers in the system of " + respondingActor.name
                     + " might be interested in knowing that " + eventActor.name + " just allied with " + alliedActorId
-                    +".\n\nAs XXX said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
-                });
-                // FIXME 0.8 we must manage the return code
+                    + ".\n\nAs XXX said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
+                };
+                worldScripts.DayDiplomacy_040_Alliances._publishNews(news);
             }
             // We do not recalculate the scores on every event, as it could generate LOTS of score calculus.
             // We use a recurrent action for this;
-            // FIXME 0.9 We should have a scoringfunction dedicated to existing alliances
         };
         api.$setFunction(responseFunctionId, diplomacyAlliancesOnSystemJoinFunction);
         api.$setResponse(api.$buildResponse(api.$buildNewResponseId(), "JOIN", "SYSTEM", responseFunctionId));
@@ -169,6 +171,20 @@ this._startUp = function () {
     this._initF4Interface();
 
     delete this._startUp; // No need to startup twice
+};
+this._publishNews = function(news) {
+    var returnCode = worldScripts.snoopers.insertNews(news);
+    if (returnCode > 0) { // A prerequisite is wrong
+        log("DiplomacyAlliances.diplomacyAlliancesOnSystemJoinFunction", "Snoopers ERROR: " + returnCode);
+    } else if (returnCode < 0) { // A buffer is full, we will resend the news later.
+        worldScripts.DayDiplomacy_040_Alliances._storedNews.push(news);
+    } // else: everything is okay.
+};
+this.guiScreenWillChange = function(to, from) {
+    this._storedNews.length && this._publishNews(this._storedNews.shift());
+};
+this.newsDisplayed = function(msg) {
+    this._storedNews.length && this._publishNews(this._storedNews.shift());
 };
 this.playerEnteredNewGalaxy = function (galaxyNumber) {
     this._initSystemsScores(galaxyNumber);
