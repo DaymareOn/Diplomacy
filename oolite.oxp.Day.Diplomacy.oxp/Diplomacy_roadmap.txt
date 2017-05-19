@@ -66,6 +66,7 @@ FIXME 0.n "Troll wars" (noble Troll specie against human cultural trolls)
 FIXME 0.n "Trumble wars" (trumbles are used as weapons to disrupt blockades)
 FIXME 0.n "Day of the Tentacle"
 FIXME 0.n benchmark with lazy regexps
+FIXME 0.n the strategic map should be available through an equipment, or a role (commander ;) )
 
 FIXME 0.n: implement initial scoring of relations between systems
 notion of goodwill towards systems in range

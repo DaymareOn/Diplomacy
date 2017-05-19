@@ -148,7 +148,7 @@ this._startUp = function () {
 
             var respondingActor = argsArray[0], eventActor = argsArray[1], alliedActorId = argsArray[2];
             // On JOIN event, if the player is in a responder system, a news is generated.
-            if (System.name === respondingActor.name) {
+            if (system.info.name === respondingActor.name) {
                 var news = {
                     ID: "DayDiplomacy_040_Alliances", // Script name copied to avoid a closure.
                     Direct: true,
@@ -176,13 +176,13 @@ this._startUp = function () {
 };
 this._publishNews = function (news) {
     var returnCode = worldScripts.snoopers.insertNews(news);
-    if (returnCode > 0) { // A prerequisite is wrong
+    if (returnCode > 0 && returnCode !== 30) { // A prerequisite is wrong
         log("DiplomacyAlliances.diplomacyAlliancesOnSystemJoinFunction", "Snoopers ERROR: " + returnCode);
-    } else if (returnCode < 0) { // A buffer is full, we will resend the news later.
+    } else if (returnCode < 0 || returnCode === 30) { // A buffer is full, we will resend the news later.
         worldScripts.DayDiplomacy_040_Alliances._storedNews.push(news);
     } // else: everything is okay.
 };
-this.guiScreenWillChange = function (to, from) {
+this.missionScreenOpportunity = function () {
     this._storedNews.length && this._publishNews(this._storedNews.shift());
 };
 this.newsDisplayed = function (msg) {

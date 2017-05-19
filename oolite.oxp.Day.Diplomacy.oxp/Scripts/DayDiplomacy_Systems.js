@@ -18,7 +18,7 @@ this._setObservers = function (aGalaxyNb) {
     var galaxyLastSystem = actors[actorsIdByType[256 * (7 - aGalaxyNb)]];
     var firstSystemknownObservers = api.$getObservers(galaxyFirstSystem, "SYSTEM");
     var lastSystemknownObservers = api.$getObservers(galaxyLastSystem, "SYSTEM");
-    if (firstSystemknownObservers.length && lastSystemknownObservers.length) {
+    if (firstSystemknownObservers && firstSystemknownObservers.length && lastSystemknownObservers.length) {
         return; // Already initialized
     }
 
