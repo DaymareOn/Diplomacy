@@ -433,8 +433,6 @@ this.startUpComplete = function () {
         log(s[y - z], "startUp in ms: " + (new Date().getTime() - startDate.getTime()));
     }
     delete this.startUpComplete; // No need to startup twice
-    this.shipExitedWitchspace(); // FIXME 0.8 debug
-    this.shipDockedWithStation(null); // FIXME 0.8 debug
 };
 this._subscribers = []; // [ scriptName ]
 this.$subscribe = function (aScriptName) {

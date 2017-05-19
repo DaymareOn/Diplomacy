@@ -75,7 +75,7 @@ this._startUp = function () {
 
                 // FIXME 0.9 threshold should be set through api
                 // FIXME 0.9 alliance API should be given
-                if (aSystemScores[proposerId].SCORE >= .5 && alliancesScores[proposerId][aSystemId].SCORE >= .5) { // Both are willing
+                if (aSystemScores[proposerId].SCORE > 0 && alliancesScores[proposerId][aSystemId].SCORE > 0) { // Both are willing
                     var alliancesEngine = alliancesEngine || (worldScripts.DayDiplomacy_030_AlliancesEngine);
                     alliancesEngine._ally(aSystem, proposerId);
                 }
