@@ -69,6 +69,7 @@ Compatibility
 
 ==============================
 Dependencies
+
 - Snoopers OXP
 
 ==============================
@@ -85,12 +86,12 @@ If you are re-using any piece of this OXP, please let me know by sending an e-ma
 ==============================
 Known bugs
 
-- currently, only systems within 7 ly of the system with the highest id of the 2 systems in an alliance
-  are informed of the alliance. It should be systems within 7 ly of any of the 2 systems in the alliance.
+None.
 
 ==============================
 Changelog
 
+0.9     Bugfix: systems within 7 ly of any of both systems in the alliance are now informed of the alliance.
 0.8     Improvement, flavor: Two systems within 7ly of each other may now form an alliance, depending
         on their relation quality. Currently, each must have a score for the other of at least +0.5.
         Improvement, flavor: some Snooper news are now displayed when an alliance is formed between two systems,

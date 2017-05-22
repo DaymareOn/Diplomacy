@@ -40,8 +40,7 @@ this._ally = function (aSystem, anotherSystemId) {
     alliances[anotherSystemId] = alliances[anotherSystemId] || {};
     alliances[anotherSystemId][aSystemId] = 1;
     this._api.$makeActorEventKnownToUniverse(aSystemId, "JOIN", [anotherSystemId]);
-    // FIXME 0.9 there should be 2 events generated
-    // so that every system within 7ly of both allied systems are informed of the event.
+    this._api.$makeActorEventKnownToUniverse(anotherSystemId, "JOIN", [aSystemId]);
 };
 this._startUp = function () {
     this._api = worldScripts.DayDiplomacy_002_EngineAPI;
