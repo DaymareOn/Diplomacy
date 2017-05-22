@@ -2,7 +2,7 @@
 	"identifier" = "oolite.oxp.Day.Diplomacy";
 	"required_oolite_version" = "1.81";
 	"title" = "Diplomacy";
-	"version" = "0.8";
+	"version" = "0.9";
 	"category" = "Ambience";
 	"description" = "WORK IN PROGRESS: this OXP currently provides a F4 map showing which systems (dis)like each other. Snooper news appear when 2 systems form an alliance. On F7, it indicates systems' treasury and tax level. Finally, it provides an API for oxp developers to build galaxy-spanning events and reactions.";
 	"author" = "Day";

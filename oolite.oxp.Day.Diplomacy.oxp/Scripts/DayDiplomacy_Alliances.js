@@ -149,6 +149,8 @@ this._startUp = function () {
             var respondingActor = argsArray[0], eventActor = argsArray[1], alliedActorId = argsArray[2];
             // On JOIN event, if the player is in a responder system, a news is generated.
             if (system.info.name === respondingActor.name) {
+                // FIXME 0.n make a special news so that when the player receives news from both allied systems,
+                // they have interesting different content.
                 var news = {
                     ID: "DayDiplomacy_040_Alliances", // Script name copied to avoid a closure.
                     Direct: true,
