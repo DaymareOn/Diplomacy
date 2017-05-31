@@ -1,6 +1,12 @@
 Diplomacy roadmap
 =================
 
+Next version might include:
+- the History
+- a more complete alliance API
+
+---------------------------------------------------------------
+
 Conditions for 1.0 to be declared:
 - filesave format stabilized,
 - performance considered to be ok,
@@ -15,8 +21,8 @@ Conditions for 1.0 to be declared:
 
 Conditions for 2.0 to be declared:
 - all major events implemented, remaining ones:
-  - LEAVE
-  - JOIN (Alliance)
+  - BREAK (Alliance)
+  - ALLY (Alliance)
   - SPLIT
   - COMBINE
   - TAX (Alliance)
@@ -28,15 +34,19 @@ Conditions for 2.0 to be declared:
   - VICTORY
   - BANKRUPTCY
 
+Conditions for 3.0 to be declared:
+- Wiki pages
+
+Conditions for 4.0 to be declared:
+- perfectperf FIXMEs,
+- perfectfunc FIXMEs,
+- perfectstyle FIXMEs
+
 ---------------------------------------------------------------
 
-Next version might include:
-- An Alliance API.
-- The score threshold to form an alliance is configurable through the Alliance API.
-- the score given to a system by another depend on who they are allied to.
-- Systems may break an alliance if they don't like anymore the other system.
-
----------------------------------------------------------------
+FIXME 0.perfectperf use tco to avoid recursion: http://www.integralist.co.uk/posts/js-recursion.html
+FIXME 0.perfectperf minify, https://jscompress.com/, https://github.com/mishoo/UglifyJS2
+FIXME 0.perfectperf benchmark with lazy regexps
 
 FIXME 0.n make a story/scenario generator?
 FIXME 0.n make the wiki page, including the APIs
@@ -49,9 +59,6 @@ Productivity is directly linked to the money / inflation
 => where space is scarce, activity is automatically more expensive, and productivity is higher.
 Should we rename Tax -> Economy?
 
-FIXME 0.n: use tco to avoid recursion: http://www.integralist.co.uk/posts/js-recursion.html
-
-FIXME +.2 storing the history (needs events)
 FIXME +.3 manage versioning of savefiles (once all functionalities are used)
 FIXME +.4 give access of _systemsByGalaxyAndSystemId to oxp developers. A SystemsAPI :)
 FIXME +.5 identifying player as citizen from some system (Citizenship)
@@ -59,12 +66,12 @@ FIXME +.6 player taxation
 
 FIXME 0.n passengers are taxed too; maybe player may pay less depending on passenger home system? why would passenger allow that?
 FIXME 0.n some systems could have their citizens not taxed? free passage? by some chosen systems? vassal systems?
-FIXME 0.n minify, https://jscompress.com/, https://github.com/mishoo/UglifyJS2
 FIXME 0.n "Troll wars" (noble Troll specie against human cultural trolls)
 FIXME 0.n "Trumble wars" (trumbles are used as weapons to disrupt blockades)
 FIXME 0.n "Day of the Tentacle"
-FIXME 0.n benchmark with lazy regexps
 FIXME 0.n the strategic map should be available through an equipment, or a role (commander ;) )
+FIXME 0.n the events history could be visualized through Snoopers
+FIXME 0.n the events history could be visualized through a map
 
 FIXME 0.n: implement initial scoring of relations between systems
 notion of goodwill towards systems in range
@@ -108,7 +115,6 @@ dynamicScore[observerId][observedId] = {
     preparingForDefense:,
     harboursEnemyFaction:,
 }
-ally to system if score > threshold
 ally to alliance if avg(systemsScores) > threshold
 attack if systemMoney > targetProductivity * targetPopulation, divided by constant
 

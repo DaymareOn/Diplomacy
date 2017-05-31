@@ -6,12 +6,13 @@ Summary
 2. What's currently implemented functionality-wise?
 3. What's currently implemented technically?
 4. Effects on game difficulty
-5. Compatibility
-6. Dependencies
-7. Instructions
-8. License
-9. Known bugs
-10. Changelog
+5. Effects on game performance
+6. Compatibility
+7. Dependencies
+8. Instructions
+9. License
+10. Known bugs
+11. Changelog
 
 ==============================
 Description
@@ -44,25 +45,35 @@ Strategic map!
 
 Systems alliances!
     Two systems within 7ly of each other may now form an alliance, if they like each other enough.
+    They may break their alliance, too =-o !
 
 News!
-    Some Snooper news are now displayed when an alliance is formed between two systems,
-    and the player is within 7ly of one of the allied systems.
+    Some Snooper news are now displayed when an alliance is formed or broken between two systems,
+    and the player is within 7ly of one of those systems.
 
 ==============================
 What's currently implemented technically?
 
-The oxp contains an Engine which implements some useful concepts.
-An easy API for oxp developers is delivered in DayDiplomacy_EngineAPI.js
-Its main concepts are explained in Diplomacy_EngineAPI_readme.txt
-Check DayDiplomacy_Systems.js and DayDiplomacy_Tax.js to see
-how the Systems and the taxation were implemented in less than 100 lines each :)
-An AlliancesEngine is implemented, no easy api is yet delivered.
+The oxp contains Engines (currently Engine and AlliancesEngine)
+ which may be accessed through APIs (currently EngineAPI and AlliancesEngineAPI).
+
+The APIs are designed to be easy to use by developers to implement interesting galaxy-spanning events.
+
+High-level behaviors are currently implemented using these APIs in the aptly named following scripts:
+ Systems, Tax, Alliances.
 
 ==============================
 Effects on game difficulty
 
 None yet.
+
+==============================
+Effects on game performance
+
+This oxp works only when the player is docked, so there is no impact during the flight time.
+During the docking, it works once every ten frames, the effect on player experience should be negligible.
+If it isn't negligible, tell me and I'll put in the ability to choose the number of frames.
+Even if the effect is negligible on the player, it uses lots of cpu, so it might not be negligible on the battery.
 
 ==============================
 Compatibility
@@ -91,7 +102,10 @@ None.
 ==============================
 Changelog
 
-0.9     Bugfix: systems within 7 ly of any of both systems in the alliance are now informed of the alliance.
+0.9     Improvement, flavor: the score given to a system by another depend on who they are allied to.
+        Improvement, flavor: systems may now break their alliances.
+        Bugfix: systems within 7 ly of any of both systems in the alliance are now informed of the alliance.
+        Improvement, dev func: introduced an Alliance API.
 0.8     Improvement, flavor: Two systems within 7ly of each other may now form an alliance, depending
         on their relation quality. Currently, each must have a score for the other of at least +0.5.
         Improvement, flavor: some Snooper news are now displayed when an alliance is formed between two systems,

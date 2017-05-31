@@ -46,7 +46,7 @@ this.Functions = {};// { functionId (string) => function }
 this.$getNewActorId = function () {
     return "DAr_" + this.State.actorMaxId++;
 };
-this.getNewResponseId = function () {
+this.$getNewResponseId = function () {
     return "DR_" + this.State.responseMaxId++;
 };
 this.$getNewActionId = function () {
@@ -84,7 +84,7 @@ this.$addActor = function (anActor) {
         var responsesIdsToAdd = eventTypeResponses[actorType] || (eventTypeResponses[actorType] = []);
         var x = responsesIdsToAdd.length;
         while (x--) {
-             this.$addResponseToActor(responses[responsesIdsToAdd[x]], anActor);
+            this.$addResponseToActor(responses[responsesIdsToAdd[x]], anActor);
         }
     }
 
@@ -105,7 +105,6 @@ this.$addObserverToActor = function (anActor, thatObserverType, thatObserverId) 
     var observers = anActor.observers;
     (observers[thatObserverType] || (observers[thatObserverType] = [])).push(thatObserverId);
 };
-
 this.$addResponseToActor = function (aResponse, anActor) {
     var responsesIdByEventType = anActor.responsesIdByEventType;
     (responsesIdByEventType[aResponse.eventType] || (responsesIdByEventType[aResponse.eventType] = [])).push(aResponse.id);
@@ -125,8 +124,8 @@ this.$setInitAction = function (anInitAction) {
     // We execute the action on the existing actors in an ordered fashion.
     this.$executeAction(anInitAction);
 };
-// We add the action to recurrentActions
 this.$setRecurrentAction = function (anAction) {
+    // We add the action to recurrentActions
     var recurrentActionsByType = this.State.recurrentActionsByType, recurrentActions = this.State.recurrentActions,
         actionEventType = anAction.eventType, actionActorType = anAction.actorType;
     var eventTypeActions = recurrentActionsByType[actionEventType] || (recurrentActionsByType[actionEventType] = {});
@@ -170,11 +169,11 @@ this.$setResponse = function (aResponse) {
 //         actors[ourActorIds[z]].removeResponse(aResponse);
 //     }
 // };
-/**
- * name must be different from already existing names.
- * We don't allow to remove eventTypes as it would make the history inconsistent.
- */
 this.$addEventType = function (name, position) {
+    /**
+     * name must be different from already existing names.
+     * We don't allow to remove eventTypes as it would make the history inconsistent.
+     */
     var state = this.State;
     state.eventTypes.splice(position, 0, name);
     var ourResponses = (state.responsesByType[name] = {});
@@ -205,12 +204,12 @@ this.$addActorType = function (name, position) {
         recurrentActions[eventType][name] = [];
     }
 };
-/**
- * Gives the next state. Returns empty string if array is finished.
- * @param type: "eventTypes" or "actorTypes"
- * @param currentState
- */
 this._nextState = function (type, currentState) {
+    /**
+     * Gives the next state. Returns empty string if array is finished.
+     * @param type: "eventTypes" or "actorTypes"
+     * @param currentState
+     */
     var arr = this.State[type];
     var newIndex = arr.indexOf(currentState) + 1;
     return newIndex === arr.length ? "" : arr[newIndex];
@@ -227,8 +226,8 @@ this._gatherEventsToPublish = function () {
     var state = this.State;
     var currentEventType = state.currentEventType, eventsToPublishNextTurn = state.eventsToPublishNextTurn;
     var ourEvents = (eventsToPublishNextTurn[currentEventType] || (eventsToPublishNextTurn[currentEventType] = []));
-    // FIXME 0.n, when we use Events: does the length change? check through logs
-    // FIXME 0.n, when we use Events: 'while' could be cut into frames, but it would slow the history. Check the time spent through logs
+    // FIXME 0.perfectperf, when we use Events: does the length change? check through logs
+    // FIXME 0.perfectperf, when we use Events: 'while' could be cut into frames, but it would slow the history. Check the time spent through logs
     while (ourEvents.length) {
         var z = ourEvents.length;
         while (z--) {
@@ -242,10 +241,8 @@ this._gatherEventsToPublish = function () {
     state.currentActorType = state.actorTypes[0];
     return !newEventType;
 };
-/**
- * Returns true when everything is finished, else false.
- */
 this._populateStack = function () {
+    /** @return Returns true when everything is finished, else false. */
     var state = this.State, currentEventType = state.currentEventType, currentActorType = state.currentActorType,
         firstActorType = state.actorTypes[0];
     if (!state.recurrentActionsIsDoneForCurrentEventType) {
@@ -260,7 +257,7 @@ this._populateStack = function () {
 
     var ourEvents = state.eventsToPublish[currentEventType];
     if (ourEvents.length) {
-        this.putEventOntoStack(ourEvents[0], currentActorType);
+        this._putEventOntoStack(ourEvents[0], currentActorType);
 
         // We go to next actorType
         var newActorType2 = this._nextState("actorTypes", currentActorType);
@@ -290,7 +287,7 @@ this._putRecurrentActionsOntoStack = function (currentEventType, currentActorTyp
         }
     }
 };
-this.putEventOntoStack = function (thatEvent, currentActorType) {
+this._putEventOntoStack = function (thatEvent, currentActorType) {
     var eventActorId = thatEvent.actorId, eventEventType = thatEvent.eventType, eventArgs = thatEvent.args,
         state = this.State, actors = state.actors, eventActor = actors[eventActorId],
         observers = eventActor.observers[currentActorType], z = observers.length, shortStack = state.shortStack,
@@ -313,16 +310,14 @@ this.putEventOntoStack = function (thatEvent, currentActorType) {
         }
     }
 };
-/**
- * return true if finished (empty stack), false otherwise.
- */
 this._executeStack = function () {
+    /** @return return true if finished (empty stack), false otherwise. */
     var s = this.State;
     var action = s.shortStack.shift();
     if (action === undefined) {
         return true;
     }
-    // FIXME measure execution time?
+    // FIXME 0.perfectperf measure execution time?
     if (action.type == "action") {
         this.Functions[s.recurrentActions[action.recurrentActionId].actionFunctionId](s.actors[action.actorId]);
     } else { // == "response"
@@ -368,13 +363,13 @@ this._functionReplacer = function (key, value) {
 };
 this._functionReviver = (function () {
     var innerFn = function innerFn(key, value) {
-        // All our special cases are strings // FIXME check if we get something else than string
+        // All our special cases are strings // FIXME 0.perfectperf check if we get something else than string
         if (typeof value != 'string') {
             return value;
         }
 
         var that = innerFn; // Closure for recursion
-        if (value.match(that._functionRegexp)) { // FIXME 0.n: benchmark using only one regexp rather than 2
+        if (value.match(that._functionRegexp)) { // FIXME 0.perfectperf: benchmark using only one regexp rather than 2
             return eval(value.replace(that._functionReplaceRegexp, '($1)'));
         }
         return value;

@@ -3,18 +3,19 @@ this.name = "DayDiplomacy_040_Alliances";
 this.author = "David (Day) Pradier";
 this.copyright = "(C) 2017 David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
-this.description = "This script makes systems ally to each other, or NOT.";
+this.description = "This script makes systems ally to each other, break their alliances, publish alliance news, draw the strategic map.";
 
-// Initializing static scores
-// For a given galaxy, for each system in the galaxy, for each system it observes,
-// it must assign a score to some properties, then recalculate the final score.
-// FIXME shouldn't this script be actorType-agnostic?
+/*************************** OXP private functions *******************************************************/
 this._initSystemsScores = function (aGalaxyNb) {
+    // Initializing static scores
+    // For a given galaxy, for each system in the galaxy, for each system it observes,
+    // it must assign a score to some properties, then recalculate the final score.
+    // FIXME shouldn't this script be actorType-agnostic?
     var api = this._api;
     var actorsIdByType = api.$getActorsIdByType("SYSTEM");
     var actors = api.$getActors();
     var z = actorsIdByType.length;
-    var ae = this._ae;
+    var aapi = this._aapi;
     while (z--) {
         var thisActor = actors[actorsIdByType[z]];
         if (thisActor.galaxyNb != aGalaxyNb) {
@@ -23,13 +24,13 @@ this._initSystemsScores = function (aGalaxyNb) {
         var observersId = thisActor.observers["SYSTEM"];
         var y = observersId.length;
         while (y--) {
-            ae.$recalculateScores(actors[observersId[y]], thisActor);
+            aapi.$recalculateScores(actors[observersId[y]], thisActor);
         }
     }
 };
 this._drawStrategicMap = function () {
-    var scores = this._s.State.alliancesScores;
-    var actors = this._s.State.actors;
+    var scores = this._aapi.$getScores();
+    var actors = this._api.$getActors();
     var systemInfo = SystemInfo;
     var links = [];
 
@@ -74,18 +75,6 @@ this._drawStrategicMap = function () {
     }
     this._links = links;
 };
-this.missionScreenEnded = function () {
-    player.ship.hudHidden = false;
-    var links = this._links;
-    if (!links) return;
-    var systemInfo = SystemInfo;
-    var z = links.length;
-    while (z--) {
-        var link = links[z];
-        systemInfo.setInterstellarProperty(link.galaxyNb, link.from, link.to, 2, "link_color", null);
-    }
-    this._links = null;
-};
 this._displayF4Interface = function () {
     player.ship.hudHidden || (player.ship.hudHidden = true);
     var opts = {
@@ -110,14 +99,14 @@ this._initF4Interface = function () {
         });
 };
 this._startUp = function () {
-    this._api = worldScripts.DayDiplomacy_002_EngineAPI;
-    this._ae = worldScripts.DayDiplomacy_030_AlliancesEngine;
-    var asf = this._ae.$getScoringFunctions();
     this._storedNews = []; // No real need to save it
+    var api = this._api = worldScripts.DayDiplomacy_002_EngineAPI;
+    var aapi = this._aapi = worldScripts.DayDiplomacy_032_AlliancesEngineAPI;
+    var asf = aapi.$getScoringFunctions();
 
     // Economy comparison
-    if (!asf["EconomyComparison"]) {
-        this._ae.$addScoringFunction("EconomyComparison", function (observer, observed) {
+    if (asf.indexOf("EconomyComparison") === -1) {
+        aapi.$addScoringFunction("EconomyComparison", function (observer, observed) {
             var map = {
                 0: {0: +0.5, 1: -1.0, 2: -0.5, 3: -1.0, 4: -1.0, 5: -0.5, 6: -0.5, 7: -0.5}, // Anarchy
                 1: {0: +0.0, 1: +0.5, 2: -0.5, 3: -0.5, 4: -1.0, 5: -0.5, 6: -1.0, 7: -0.5}, // Feudal
@@ -129,27 +118,45 @@ this._startUp = function () {
                 7: {0: +0.0, 1: +0.0, 2: +0.0, 3: +0.0, 4: -1.0, 5: +0.0, 6: +0.0, 7: +0.5}  // Corporate
             };
             return map[observer.government][observed.government];
-        });
+        }, 0);
     }
 
-    // FIXME After the first _initSystemsScores, we should set an Init function to manage new systems/actors/whatever.
+    // Alliances influence on score, this function is and should be last executed.
+    if (asf.indexOf("alliancesInfluence") === -1) {
+        aapi.$addScoringFunction("alliancesInfluence", function alliancesInfluence(observer, observed) {
+
+            var that = alliancesInfluence;
+            var aaapi = that.aapi || (that.aapi = worldScripts.DayDiplomacy_032_AlliancesEngineAPI);
+            var observedAllies = aaapi.$getAlliances()[observed.id];
+            var allScores = aaapi.$getScores();
+            var observerId = observer.id;
+
+            var result = 0;
+            for (var alliedId in observedAllies) {
+                if (observedAllies.hasOwnProperty(alliedId)) {
+                    var scores = allScores[alliedId][observerId];
+                    scores && (result += scores.SCORE);
+                }
+            }
+            return result > 0 ? .25 : result < 0 ? -.25 : 0;
+
+        }, 1);
+    }
 
     this._initSystemsScores(system.info.galaxyID);
 
-    // FIXME 0.9 We should have a scoringfunction dedicated to existing alliances
-    var api = this._api;
-    // We set the response to the JOIN event.
-    var responseFunctionId = "diplomacyAlliancesOnSystemJoinFunction";
+    // We set the response to the ALLY event.
+    var responseFunctionId = "diplomacyAlliancesOnSystemAllyFunction";
     if (!api.$getFunctions()[responseFunctionId]) {
         // We use a recurrent action to recalculate the scores,
         // as doing it on every event would generate LOTS of calculus.
         // Currently, we only generate the news.
-        var diplomacyAlliancesOnSystemJoinFunction = function diplomacyAlliancesOnSystemJoinFunction(argsArray) {
+        var diplomacyAlliancesOnSystemAllyFunction = function diplomacyAlliancesOnSystemAllyFunction(argsArray) {
 
             var respondingActor = argsArray[0], eventActor = argsArray[1], alliedActorId = argsArray[2];
-            // On JOIN event, if the player is in a responder system, a news is generated.
+            // On ALLY event, if the player is in a responder system, a news is generated.
             if (system.info.name === respondingActor.name) {
-                // FIXME 0.n make a special news so that when the player receives news from both allied systems,
+                // FIXME 0.perfectfunc make a special news so that when the player receives news from both allied systems,
                 // they have interesting different content.
                 var news = {
                     ID: "DayDiplomacy_040_Alliances", // Script name copied to avoid a closure.
@@ -164,11 +171,41 @@ this._startUp = function () {
             }
 
         };
-        api.$setFunction(responseFunctionId, diplomacyAlliancesOnSystemJoinFunction);
-        api.$setResponse(api.$buildResponse(api.$buildNewResponseId(), "JOIN", "SYSTEM", responseFunctionId));
+        api.$setFunction(responseFunctionId, diplomacyAlliancesOnSystemAllyFunction);
+        api.$setResponse(api.$buildResponse(api.$buildNewResponseId(), "ALLY", "SYSTEM", responseFunctionId));
     }
 
-    // FIXME hmff, this might have to be into its own function
+    // We set the response to the BREAK event.
+    var breakResponseFunctionId = "diplomacyAlliancesOnSystemBreakFunction";
+    if (!api.$getFunctions()[breakResponseFunctionId]) {
+        // We use a recurrent action to recalculate the scores,
+        // as doing it on every event would generate LOTS of calculus.
+        // Currently, we only generate the news.
+        var diplomacyAlliancesOnSystemBreakFunction = function diplomacyAlliancesOnSystemBreakFunction(argsArray) {
+
+            var respondingActor = argsArray[0], eventActor = argsArray[1], alliedActorId = argsArray[2];
+            // On BREAK event, if the player is in a responder system, a news is generated.
+            if (system.info.name === respondingActor.name) {
+                // FIXME 0.perfectfunc make a special news so that when the player receives news from both allied systems,
+                // they have interesting different content.
+                var news = {
+                    ID: "DayDiplomacy_040_Alliances", // Script name copied to avoid a closure.
+                    Direct: true,
+                    Agency: 1,
+                    Message: "Travellers in the system of " + respondingActor.name
+                    + " might be interested in knowing that " + eventActor.name + " just break their alliance with "
+                    + worldScripts.DayDiplomacy_002_EngineAPI.$getActors()[alliedActorId].name
+                    + ".\n\nAs XXX said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
+                };
+                worldScripts.DayDiplomacy_040_Alliances._publishNews(news);
+            }
+
+        };
+        api.$setFunction(breakResponseFunctionId, diplomacyAlliancesOnSystemBreakFunction);
+        api.$setResponse(api.$buildResponse(api.$buildNewResponseId(), "BREAK", "SYSTEM", breakResponseFunctionId));
+    }
+
+    // FIXME 0.perfectstyle hmff, this might have to be into its own function
     worldScripts.XenonUI && worldScripts.XenonUI.$addMissionScreenException("DiplomacyAlliancesScreenId");
     worldScripts.XenonReduxUI && worldScripts.XenonReduxUI.$addMissionScreenException("DiplomacyAlliancesScreenId");
 
@@ -179,20 +216,20 @@ this._startUp = function () {
 this._publishNews = function (news) {
     var returnCode = worldScripts.snoopers.insertNews(news);
     if (returnCode > 0 && returnCode !== 30) { // A prerequisite is wrong
-        log("DiplomacyAlliances.diplomacyAlliancesOnSystemJoinFunction", "Snoopers ERROR: " + returnCode);
+        log("DiplomacyAlliances.diplomacyAlliancesOnSystemAllyFunction", "Snoopers ERROR: " + returnCode);
     } else if (returnCode < 0 || returnCode === 30) { // A buffer is full, we will resend the news later.
         worldScripts.DayDiplomacy_040_Alliances._storedNews.push(news);
     } // else: everything is okay.
 };
-this.missionScreenOpportunity = function () {
-    this._storedNews.length && this._publishNews(this._storedNews.shift());
-};
+/*************************** End OXP private functions ***************************************************/
+
+/*************************** Snoopers events *************************************************************/
 this.newsDisplayed = function (msg) {
     this._storedNews.length && this._publishNews(this._storedNews.shift());
 };
-this.playerEnteredNewGalaxy = function (galaxyNumber) {
-    this._initSystemsScores(galaxyNumber);
-};
+/*************************** End Snoopers events *********************************************************/
+
+/*************************** Oolite events ***************************************************************/
 this.startUp = function () {
     this._s = worldScripts.DayDiplomacy_000_Engine;
     this._s.$subscribe(this.name);
@@ -201,3 +238,22 @@ this.startUp = function () {
 this.shipDockedWithStation = function (station) {
     this._initF4Interface();
 };
+this.playerEnteredNewGalaxy = function (galaxyNumber) {
+    this._initSystemsScores(galaxyNumber);
+};
+this.missionScreenOpportunity = function () {
+    this._storedNews.length && this._publishNews(this._storedNews.shift());
+};
+this.missionScreenEnded = function () {
+    player.ship.hudHidden = false;
+    var links = this._links;
+    if (!links) return;
+    var systemInfo = SystemInfo;
+    var z = links.length;
+    while (z--) {
+        var link = links[z];
+        systemInfo.setInterstellarProperty(link.galaxyNb, link.from, link.to, 2, "link_color", null);
+    }
+    this._links = null;
+};
+/*************************** End Oolite events ***********************************************************/
