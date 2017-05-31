@@ -15,6 +15,8 @@ this.$GOVERNMENT_DEFAULT_TAX_LEVEL = {
     "6": 0.5, // Democracy => major taxes, but those systems are not crumbling
     "7": 0.1 // Corporate => tax avoiding is rampant
 };
+
+/*************************** Oolite events ***************************************************************/
 this._startUp = function () {
     var api = worldScripts.DayDiplomacy_002_EngineAPI;
 
@@ -36,7 +38,7 @@ this._startUp = function () {
         var government = ourSystemInOolite.government;
         api.$setField(aSystem, "government", government);
         // Necessary for alliances. Bad location but avoids other system initialization :/
-        // FIXME 0.9 fields should be inited in the systems part.
+        // FIXME 0.perfectstyle fields should be inited in the systems part. Make it all fields?
         api.$setField(aSystem, "name", ourSystemInOolite.name);
         api.$setField(aSystem, "taxLevel", taxLevel[government]);
         api.$setField(aSystem, "treasury", 0); // Everybody begins with treasury = 0.
@@ -68,3 +70,4 @@ this.startUp = function() {
     worldScripts.DayDiplomacy_000_Engine.$subscribe(this.name);
     delete this.startUp; // No need to startup twice
 };
+/*************************** End Oolite events ***********************************************************/

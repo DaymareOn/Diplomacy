@@ -7,9 +7,9 @@ this.description = "This script creates systems.";
 
 this._systemsByGalaxyAndSystemId = {};
 
-// We set the observers. No need to use an initAction as there won't be any more system.
-// Well... there are some oxps for this, aren't there?
+/*************************** OXP private functions *******************************************************/
 this._setObservers = function (aGalaxyNb) {
+    // We set the observers. No need to use an initAction as there won't be any more system.
     var api = this._api;
     var actorsIdByType = api.$getActorsIdByType("SYSTEM");
     var actors = api.$getActors();
@@ -63,11 +63,15 @@ this._startUp = function () {
     this._setObservers(system.info.galaxyID);
     delete this._startUp; // No need to startup twice
 };
-// This is necessary as we can't calculate distances in other galaxies.
+/*************************** End OXP private functions ***************************************************/
+
+/*************************** Oolite events ***************************************************************/
 this.playerEnteredNewGalaxy = function (galaxyNumber) {
+    // This function is necessary as we can't calculate distances in other galaxies.
     this._setObservers(galaxyNumber);
 };
 this.startUp = function() {
     worldScripts.DayDiplomacy_000_Engine.$subscribe(this.name);
     delete this.startUp; // No need to startup twice
 };
+/*************************** End Oolite events ***********************************************************/

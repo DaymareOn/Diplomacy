@@ -5,7 +5,7 @@ this.copyright = "(C) 2017 David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
 this.description = "This script is the Diplomacy engine API for external scripts.";
 
-// $$$$$$$$$$$$$$$$$$$$$$$$$$$$ Builder functions (factory) $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+/*************************** Factory functions ***********************************************************/
 this.$buildNewActionId = function () {
     return this._s.$getNewActionId();
 };
@@ -13,7 +13,7 @@ this.$buildNewEventId = function () {
     return this._s.$getNewEventId();
 };
 this.$buildNewResponseId = function () {
-    return this._s.getNewResponseId();
+    return this._s.$getNewResponseId();
 };
 this.$buildNewActorId = function () {
     return this._s.$getNewActorId();
@@ -21,47 +21,43 @@ this.$buildNewActorId = function () {
 this.$buildNewFunctionId = function () {
     return this._s.$getNewFunctionId();
 };
-/**
- * An action, whether it is init or recurrent isn't put into the History. Only Events are.
- * @param string: anEventType is used to order the actions and events execution. For a same eventType, Actions are executed before Events.
- * @param string: anActorType Only actors of the type will execute the action.
- * @param functionId the id of a function which must take one and only one argument: the actor which will "act".
- */
 this.$buildAction = function (id, eventType, actorType, actionFunctionId) {
+    /**
+     * An action, whether it is init or recurrent isn't put into the History. Only Events are.
+     * @param string: anEventType is used to order the actions and events execution. For a same eventType, Actions are executed before Events.
+     * @param string: anActorType Only actors of the type will execute the action.
+     * @param functionId the id of a function which must take one and only one argument: the actor which will "act".
+     */
     return {id: id, eventType: eventType, actorType: actorType, actionFunctionId: actionFunctionId};
 };
-/**
- *
- * @param string: anEventType
- * @param string: anActorId
- * @param []: someArgs Have to be compatible with our implementation of JSON stringify/parse.
- * Those are the information/arguments which will be given to the response function.
- */
-// An event is { id:id, eventType:eventType, actorId:actorId, args:args }
 this.$buildEvent = function (id, eventType, actorId, args) {
+    /**
+     * @param string: anEventType
+     * @param string: anActorId
+     * @param []: someArgs Have to be compatible with our implementation of JSON stringify/parse.
+     * Those are the information/arguments which will be given to the response function.
+     */
     return {id: id, eventType: eventType, actorId: actorId, args: args};
 };
-// A response is { id:id, eventType:eventType, actorType:responderActorType, responseFunctionId:functionId }
-// This function must take as first argument the responder actor, 2nd argument the eventActor, and may take as many additional arguments as you wish.
-/**
- * A Response contains a behaviour to be executed when a certain event happens.
- * The responseFunction must take as first argument the responding actor,
- * 2nd argument the eventActor, and may take as many additional arguments as you wish.
- * The actorType is the type of the responding actors.
- */
 this.$buildResponse = function (id, eventType, actorType, responseFunctionId) {
+    /**
+     * A Response contains a behaviour to be executed when a certain event happens.
+     * The responseFunction must take as first argument the responding actor,
+     * 2nd argument the eventActor, and may take as many additional arguments as you wish.
+     * The actorType is the type of the responding actors.
+     */
     return {id: id, eventType: eventType, actorType: actorType, responseFunctionId: responseFunctionId};
 };
-/**
- * A planetary system or an alliance, or whatever you wish :)
- * An actor is {id:id, actorType:actorType, responsesIdByEventType:{eventType:[responseIds]}, observers:{actorType:[actorIds]}}
- */
 this.$buildActor = function (actorType, id) {
+    /**
+     * A planetary system or an alliance, or whatever you wish :)
+     * An actor is {id:id, actorType:actorType, responsesIdByEventType:{eventType:[responseIds]}, observers:{actorType:[actorIds]}}
+     */
     return {id: id, actorType: actorType, responsesIdByEventType: {}, observers: {}};
 };
-// $$$$$$$$$$$$$$$$$$$$$$$$$$$$ End of builder functions (factory) $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+/*************************** End of Factory functions ****************************************************/
 
-// $$$$$$$$$$$$$$$$$$$$$$$$$$$$ Universe modification functions $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+/*************************** Action functions ************************************************************/
 this.$addEventType = function (name, position) {
     this._s.$addEventType(name, position);
 };
@@ -77,7 +73,7 @@ this.$addActor = function (anActor) {
 this.$setFunction = function (anId, aFunction) {
     this._s.$setFunction(anId, aFunction);
 };
-this.$getFunctions = function() {
+this.$getFunctions = function () {
     return this._F;
 };
 this.$setInitAction = function (anAction) {
@@ -108,51 +104,39 @@ this.$setField = function (anObject, fieldName, fieldValue) {
         anObject[fieldName] = fieldValue;
     }
 };
-this.$makeActorEventKnownToUniverse = function(actorId, anEventType, someArgs) {
+this.$makeActorEventKnownToUniverse = function (actorId, anEventType, someArgs) {
     this._s.$makeActorEventKnownToUniverse(actorId, anEventType, someArgs);
 };
-// $$$$$$$$$$$$$$$$$$$$$$$$$$$$ End of universe modification functions $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+/*************************** End of Action functions *****************************************************/
 
-// $$$$$$$$$$$$$$$$$$$$$$$$$$$$ Universe getter functions $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-/**
- * Make sure you don't modify that or its content. Copy it before if you need to modify it.
- * @returns [string: actorType]
- */
+/*************************** Getter functions ************************************************************/
+/******** Make sure you don't modify that or its content. Copy it before if you need to modify it. *******/
 this.$getActorTypes = function () {
+    /** @returns [string: actorType] */
     return this._S.actorTypes;
 };
-/**
- * Make sure you don't modify that or its content. Copy it before if you need to modify it.
- * @returns [string: eventType]
- */
 this.$getEventTypes = function () {
+    /** @returns [string: eventType] */
     return this._S.eventTypes;
 };
-/**
- * Make sure you don't modify that list or its content. Copy it before if you need to modify it.
- * @param actorType
- * @returns [actorIds]
- */
 this.$getActorsIdByType = function (actorType) {
+    /**
+     * @param actorType
+     * @returns [actorIds]
+     */
     return this._S.actorsByType[actorType];
 };
-/**
- * Make sure you don't modify that {} or its content. Copy it before if you need to modify it.
- * @returns {actorId => Actor}
- */
 this.$getActors = function () {
+    /** @returns {actorId => Actor} */
     return this._S.actors;
 };
-/**
- * Make sure you don't modify that or its content. Copy it before if you need to modify it.
- * @returns [observerActorId]
- */
 this.$getObservers = function (anActor, observersActorType) {
+    /** @returns [observerActorId] */
     return anActor.observers[observersActorType];
 };
-// $$$$$$$$$$$$$$$$$$$$$$$$$$$$ End of universe getter functions $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+/*************************** End of Getter functions *****************************************************/
 
-// ############################ Oxp developers: please ignore from here. ##############################################
+/*************************** Oolite events ***************************************************************/
 this._startUp = function () {
     this._S = this._s.State;
     this._F = this._s.Functions;
@@ -163,3 +147,4 @@ this.startUp = function () {
     this._s.$subscribe(this.name);
     delete this.startUp; // No need to startup twice
 };
+/*************************** End Oolite events ***********************************************************/
