@@ -35,7 +35,7 @@ Conditions for 2.0 to be declared:
   - BANKRUPTCY
 
 Conditions for 3.0 to be declared:
-- Wiki pages
+- Wiki pages, including APIs
 
 Conditions for 4.0 to be declared:
 - perfectperf FIXMEs,
@@ -44,14 +44,21 @@ Conditions for 4.0 to be declared:
 
 ---------------------------------------------------------------
 
+FIXME 0.f identifying player as citizen from some system (Citizenship)
+FIXME 0.f player taxation
+FIXME 0.f the strategic map should be available through an equipment, or a role (commander ;) )
+
+FIXME 0.n manage versioning of savefiles (once all functionalities are used)
+
+FIXME 0.t give access of _systemsByGalaxyAndSystemId to oxp developers. A SystemsAPI :)
+
 FIXME 0.perfectperf use tco to avoid recursion: http://www.integralist.co.uk/posts/js-recursion.html
 FIXME 0.perfectperf minify, https://jscompress.com/, https://github.com/mishoo/UglifyJS2
 FIXME 0.perfectperf benchmark with lazy regexps
 
-FIXME 0.n make a story/scenario generator?
-FIXME 0.n make the wiki page, including the APIs
+FIXME 0.z make a story/scenario generator?
 
-FIXME Productivity
+FIXME 0.z Productivity
 How do we know the real productivity? Is there an OMC? Black work wouldn't be reported, nor taxed.
 All these information could be put into an Oolitopedia.
 Should we set the productivity? Make it evolve :) ?
@@ -59,28 +66,20 @@ Productivity is directly linked to the money / inflation
 => where space is scarce, activity is automatically more expensive, and productivity is higher.
 Should we rename Tax -> Economy?
 
-FIXME +.3 manage versioning of savefiles (once all functionalities are used)
-FIXME +.4 give access of _systemsByGalaxyAndSystemId to oxp developers. A SystemsAPI :)
-FIXME +.5 identifying player as citizen from some system (Citizenship)
-FIXME +.6 player taxation
+FIXME 0.z passengers are taxed too; maybe player may pay less depending on passenger home system? why would passenger allow that?
+FIXME 0.z some systems could have their citizens not taxed? free passage? by some chosen systems? vassal systems?
+FIXME 0.z "Troll wars" (noble Troll specie against human cultural trolls)
+FIXME 0.z "Trumble wars" (trumbles are used as weapons to disrupt blockades)
+FIXME 0.z "Day of the Tentacle"
+FIXME 0.z the events history could be visualized through Snoopers
+FIXME 0.z the events history could be visualized through a map
 
-FIXME 0.n passengers are taxed too; maybe player may pay less depending on passenger home system? why would passenger allow that?
-FIXME 0.n some systems could have their citizens not taxed? free passage? by some chosen systems? vassal systems?
-FIXME 0.n "Troll wars" (noble Troll specie against human cultural trolls)
-FIXME 0.n "Trumble wars" (trumbles are used as weapons to disrupt blockades)
-FIXME 0.n "Day of the Tentacle"
-FIXME 0.n the strategic map should be available through an equipment, or a role (commander ;) )
-FIXME 0.n the events history could be visualized through Snoopers
-FIXME 0.n the events history could be visualized through a map
-
-FIXME 0.n: implement initial scoring of relations between systems
-notion of goodwill towards systems in range
+FIXME 0.z: implement scoring of relations between systems
 goodwill low depending on history:
 if they have attacked that turn,
 polarization? if the system has several neighbours, it dislikes better one of them
 if they have attacked that turn a member of the alliance,
 if they prepare for attack (even an enemy?),
-if they're from an opposite ideology,
 if they're from an opposite economy,
 if they're from a different alliance (enemy alliance?)
 if they currently got a bad economy?
@@ -94,7 +93,6 @@ if they have helped in the past,
 if they are member of the alliance,
 if they prepare for defense,
 if they're from a comparable economy
-if they're from a comparable ideology
 if they're next to a common enemy
 if they're on a commercial road?
 if they're from a liked race
@@ -118,16 +116,18 @@ dynamicScore[observerId][observedId] = {
 ally to alliance if avg(systemsScores) > threshold
 attack if systemMoney > targetProductivity * targetPopulation, divided by constant
 
-FIXME 0.n: make the tax level evolve
-FIXME 0.n have an indicator "Ongoing war" per system
-FIXME 0.n have a notion of "war zone"
-FIXME 0.n have a notion of galaxy, station, traveller
-FIXME 0.n tax evasion
-FIXME 0.n factions?
-FIXME 0.n news, depending on player current system, player citizenship system, propaganda? maybe the right way is to generate LOTS of news and let the player register to those they want? Snoopers, citizenship news company
-FIXME 0.n blockades
-FIXME 0.n each turn, a system has an event card: a sun explodes, or a native singer becomes famous, which changes taxes, or alliances, or fights, or... Use some mega bomb for a supernova style event
-FIXME 0.n what about the story of a war writing itself?
-FIXME 0.n war cargoes
-FIXME 0.n player's greed is the key
-FIXME 0.n: "OXP that adds another eight galaxies" !!
+FIXME 0.z: make the tax level evolve
+FIXME 0.z have an indicator "Ongoing war" per system
+FIXME 0.z have a notion of "war zone"
+FIXME 0.z have a notion of galaxy, station, traveller
+FIXME 0.z tax evasion
+FIXME 0.z factions?
+FIXME 0.z news, depending on player current system, player citizenship system, propaganda?
+ maybe the right way is to generate LOTS of news and let the player register to those they want?
+ Snoopers, citizenship news company
+FIXME 0.z blockades
+FIXME 0.z each turn, a system has an event card: a sun explodes, or a native singer becomes famous, which changes taxes, or alliances, or fights, or... Use some mega bomb for a supernova style event
+FIXME 0.z what about the story of a war writing itself?
+FIXME 0.z war cargoes
+FIXME 0.z player's greed is the key
+FIXME 0.z: "OXP that adds another eight galaxies" !!

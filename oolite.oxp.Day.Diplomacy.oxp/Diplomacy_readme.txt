@@ -19,15 +19,17 @@ Description
 
 Hello everybody,
 
-this is the Diplomacy OXP. Its intended goal is to allow historical events to happen between systems (attacks, loots, alliances, taxes...),
-and to have actions depending on this (news, massed flottillas, state racket, who knows?).
+this is the Diplomacy OXP. Its intended goal is to allow historical events to happen between systems (attacks, loots,
+ alliances, taxes...), and to have actions depending on this (news, massed flottillas, state racket, who knows?).
 Technically, I see it as a war/diplomacy framework.
 It includes an easy API for oxp developers.
 
 It is STILL a Work In Progress.
 
-In particular, the savefile format might change in the future; so it wouldn't do to expect a savefile from an old version to work with a newer version code.
-If experimenting problems, the easy way is to edit the savefile and remove the lines including "Diplomacy". Then next start, the oxp will begin anew.
+In particular, the savefile format might change in the future; so it wouldn't do to expect a savefile from an old
+ version to work with a newer version code.
+If experimenting problems, the easy way is to edit the savefile and remove the lines including "Diplomacy".
+ Then next start, the oxp will begin anew.
 
 ==============================
 What's currently implemented functionality-wise?
