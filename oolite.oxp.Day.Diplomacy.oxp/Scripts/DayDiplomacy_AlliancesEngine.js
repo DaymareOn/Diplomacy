@@ -79,14 +79,18 @@ this._startUp = function () {
 
         // Function to calculate scores, here is the system for which scores are calculated
         var diplomacyAlliancesScoringRecurrentAction = function diplomacyAlliancesScoringRecurrentAction(aSystem) {
+            // FIXME should be actor-agnostic
+            var observersId = aSystem.observers["SYSTEM"];
+            if (!observersId) {
+                return; // There may be no observer yet.
+            }
             var that = diplomacyAlliancesScoringRecurrentAction;
             var ae = that.alliancesEngine || (that.alliancesEngine = worldScripts.DayDiplomacy_030_AlliancesEngine);
             var api = that.api || (that.api = worldScripts.DayDiplomacy_002_EngineAPI);
             var actors = api.$getActors();
-            var observersId = observerActor.observers["SYSTEM"]; // FIXME should be actor-agnostic
             var y = observersId.length;
             while (y--) {
-                ae.$recalculateScores(actors[observersId[y]], observerActor);
+                ae.$recalculateScores(actors[observersId[y]], aSystem);
             }
         };
         var fid2 = "diplomacyAlliancesScoringRecurrentAction";
