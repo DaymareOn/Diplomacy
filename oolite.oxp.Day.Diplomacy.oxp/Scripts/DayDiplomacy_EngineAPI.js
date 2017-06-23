@@ -107,6 +107,9 @@ this.$setField = function (anObject, fieldName, fieldValue) {
 this.$makeActorEventKnownToUniverse = function (actorId, anEventType, someArgs) {
     this._s.$makeActorEventKnownToUniverse(actorId, anEventType, someArgs);
 };
+this.$initAndReturnSavedData = function (name, defaultValue) {
+    return this._s.State[name] || (this._s.State[name] = defaultValue);
+};
 /*************************** End of Action functions *****************************************************/
 
 /*************************** Getter functions ************************************************************/
@@ -133,6 +136,14 @@ this.$getActors = function () {
 this.$getObservers = function (anActor, observersActorType) {
     /** @returns [observerActorId] */
     return anActor.observers[observersActorType];
+};
+this.$getEvents = function () {
+    /** @returns {eventId => Event} */
+    return this._S.events;
+};
+this.$getActorEvents = function (actorId) {
+    /** @returns [eventId] */
+    return this._S.actorsEvents[actorId] || [];
 };
 /*************************** End of Getter functions *****************************************************/
 

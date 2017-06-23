@@ -2,8 +2,7 @@ Diplomacy roadmap
 =================
 
 Next version might include:
-- the History
-- a more complete alliance API
+Wars!!!
 
 ---------------------------------------------------------------
 
@@ -11,46 +10,39 @@ Conditions for 1.0 to be declared:
 - filesave format stabilized,
 - performance considered to be ok,
 - all core engine functionalities implemented, remaining ones:
-  - events history,
   - actor/event/response/function/initAction/recurrentAction disabling/removal,
   - 'act next turn' functionality.
 - APIs stabilized
 - I18n ok
 - L10n ok for english
 - Documentation in .md format
-
-Conditions for 2.0 to be declared:
 - all major events implemented, remaining ones:
-  - BREAK (Alliance)
-  - ALLY (Alliance)
-  - SPLIT
-  - COMBINE
-  - TAX (Alliance)
-  - SUBSIDIZE
   - DEFENSE_PREPARATION
   - ATTACK_PREPARATION
   - ATTACK
   - LOSS
   - VICTORY
   - BANKRUPTCY
+  - BREAK (Alliance)
+  - ALLY (Alliance)
+  - SPLIT
+  - COMBINE
+  - TAX (Alliance)
+  - SUBSIDIZE
 
-Conditions for 3.0 to be declared:
+Conditions for 2.0 to be declared:
 - Wiki pages, including APIs
-
-Conditions for 4.0 to be declared:
 - perfectperf FIXMEs,
 - perfectfunc FIXMEs,
 - perfectstyle FIXMEs
 
 ---------------------------------------------------------------
 
-FIXME 0.f identifying player as citizen from some system (Citizenship)
+FIXME 0.f identifying player as citizen from some system (Citizenship), consequences
 FIXME 0.f player taxation
 FIXME 0.f the strategic map should be available through an equipment, or a role (commander ;) )
 
 FIXME 0.n manage versioning of savefiles (once all functionalities are used)
-
-FIXME 0.t give access of _systemsByGalaxyAndSystemId to oxp developers. A SystemsAPI :)
 
 FIXME 0.perfectperf use tco to avoid recursion: http://www.integralist.co.uk/posts/js-recursion.html
 FIXME 0.perfectperf minify, https://jscompress.com/, https://github.com/mishoo/UglifyJS2
@@ -119,7 +111,7 @@ attack if systemMoney > targetProductivity * targetPopulation, divided by consta
 FIXME 0.z: make the tax level evolve
 FIXME 0.z have an indicator "Ongoing war" per system
 FIXME 0.z have a notion of "war zone"
-FIXME 0.z have a notion of galaxy, station, traveller
+FIXME 0.z have a notion of galaxy, station, traveller as actors
 FIXME 0.z tax evasion
 FIXME 0.z factions?
 FIXME 0.z news, depending on player current system, player citizenship system, propaganda?

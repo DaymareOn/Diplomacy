@@ -1,5 +1,5 @@
 "use strict";
-this.name = "DayDiplomacy_020_Tax";
+this.name = "DayDiplomacy_030_Tax";
 this.author = "David (Day) Pradier";
 this.copyright = "(C) 2017 David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
@@ -31,7 +31,7 @@ this._startUp = function () {
     var diplomacyTaxInitAction = function diplomacyTaxInitAction(aSystem) {
         var that = diplomacyTaxInitAction;
         var api = that.api || (that.api = worldScripts.DayDiplomacy_002_EngineAPI);
-        var taxLevel = that.taxLevel || (that.taxLevel = worldScripts.DayDiplomacy_020_Tax.$GOVERNMENT_DEFAULT_TAX_LEVEL);
+        var taxLevel = that.taxLevel || (that.taxLevel = worldScripts.DayDiplomacy_030_Tax.$GOVERNMENT_DEFAULT_TAX_LEVEL);
         var sys = that.sys || (that.sys = System);
         var cloc = that.cloc || (that.cloc = clock);
         var ourSystemInOolite = sys.infoForSystem(aSystem.galaxyNb, aSystem.systemId);

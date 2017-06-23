@@ -1,5 +1,5 @@
 "use strict";
-this.name = "DayDiplomacy_030_AlliancesEngine";
+this.name = "DayDiplomacy_040_AlliancesEngine";
 this.author = "David (Day) Pradier";
 this.copyright = "(C) 2017 David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
@@ -54,23 +54,35 @@ this._breakAlliance = function(aSystem, anotherSystemId) {
 };
 this._startUp = function () {
     var api = this._api = worldScripts.DayDiplomacy_002_EngineAPI;
+    var hapi = this._hapi = worldScripts.DayDiplomacy_022_HistoryAPI;
     this._F = api.$getFunctions();
 
-    // FIXME 0.10 we should have an "api.initAndReturnSavedData(name, defaultValue)" function, so as not to access directly .State
     // Alliances Scoring Functions: { keyword => fid }
-    this._asf = this._s.State.alliancesScoringFunctions || (this._s.State.alliancesScoringFunctions = []);
+    this._asf = api.$initAndReturnSavedData("alliancesScoringFunctions", []);
     // Alliances Scores: { observedId => { observerId => { keyword => score } } }
-    this._as = this._s.State.alliancesScores || (this._s.State.alliancesScores = {});
-    this._a = this._s.State.alliances || (this._s.State.alliances = {});
+    this._as = api.$initAndReturnSavedData("alliancesScores", {});
+    this._a = api.$initAndReturnSavedData("alliances", {});
 
     if (api.$getEventTypes().indexOf("ALLYSCORE") === -1) {
         api.$addEventType("ALLYSCORE", 1);
     }
     if (api.$getEventTypes().indexOf("BREAK") === -1) {
         api.$addEventType("BREAK", 2);
+        // Managing history
+        hapi.$setEventFormattingFunction("BREAK", function breakEventFormattingFunction(breakEvent) {
+            var f = breakEventFormattingFunction, api = f._api || (f._api = worldScripts.DayDiplomacy_002_EngineAPI);
+            var actors = api.$getActors();
+            return actors[breakEvent.actorId].name + " broke their alliance with " + actors[breakEvent.args[0]].name + ".";
+        });
     }
     if (api.$getEventTypes().indexOf("ALLY") === -1) {
         api.$addEventType("ALLY", 3);
+        // Managing history
+        hapi.$setEventFormattingFunction("ALLY", function allyEventFormattingFunction(allyEvent) {
+            var f = allyEventFormattingFunction, api = f._api || (f._api = worldScripts.DayDiplomacy_002_EngineAPI);
+            var actors = api.$getActors();
+            return actors[allyEvent.actorId].name + " allied with " + actors[allyEvent.args[0]].name + ".";
+        });
     }
 
     var fid = "diplomacyAlliancesRecurrentAction";
@@ -79,13 +91,13 @@ this._startUp = function () {
 
         // Function to calculate scores, here is the system for which scores are calculated
         var diplomacyAlliancesScoringRecurrentAction = function diplomacyAlliancesScoringRecurrentAction(aSystem) {
-            // FIXME should be actor-agnostic
+            // FIXME perfectfunc should be actor-agnostic
             var observersId = aSystem.observers["SYSTEM"];
             if (!observersId) {
                 return; // There may be no observer yet.
             }
             var that = diplomacyAlliancesScoringRecurrentAction;
-            var ae = that.alliancesEngine || (that.alliancesEngine = worldScripts.DayDiplomacy_030_AlliancesEngine);
+            var ae = that.alliancesEngine || (that.alliancesEngine = worldScripts.DayDiplomacy_040_AlliancesEngine);
             var api = that.api || (that.api = worldScripts.DayDiplomacy_002_EngineAPI);
             var actors = api.$getActors();
             var y = observersId.length;
@@ -137,7 +149,7 @@ this._startUp = function () {
                     }
 
                     if (aSystemScores[proposerId].SCORE >= allianceThreshold && alliancesScores[proposerId][aSystemId].SCORE >= allianceThreshold) { // Both are willing
-                        var alliancesEngine = alliancesEngine || (worldScripts.DayDiplomacy_030_AlliancesEngine);
+                        var alliancesEngine = alliancesEngine || (worldScripts.DayDiplomacy_040_AlliancesEngine);
                         alliancesEngine._ally(aSystem, proposerId);
                     }
                 }
@@ -147,7 +159,6 @@ this._startUp = function () {
         api.$setRecurrentAction(api.$buildAction(api.$buildNewActionId(), "ALLY", "SYSTEM", fid));
         this.$setAllianceThreshold(.5); // Default value for the very first initialization
     }
-    // FIXME 0.10 use aapi.$getAllianceThreshold()
     this.$setAllianceThreshold(this._s.State.allianceThreshold); // Startup init using saved value
 
     delete this._startUp; // No need to startup twice

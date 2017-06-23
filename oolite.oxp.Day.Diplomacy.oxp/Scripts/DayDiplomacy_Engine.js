@@ -7,6 +7,7 @@ this.description = "This script is the engine of the Diplomacy OXP.";
 
 /*************************** Closures ********************************************************************/
 this._missionVariables = missionVariables;
+this._clock = clock;
 this._JSON = JSON;
 /*************************** End of closures *************************************************************/
 
@@ -18,6 +19,7 @@ this._loadState = function (toBeModifiedState, sourceState) {
         }
     }
 };
+// FIXME perfectstyle this.State and this.Functions should be prefixed with _
 this.State = {
     actors: {}, // {actorId => actor}
     initActions: {}, // { actionId => action }
@@ -35,7 +37,7 @@ this.State = {
     functionMaxId: 1,
     eventTypes: [],
     actorTypes: [],
-    // eventsHistory: {}, // { date => [ eventIds ] }
+    actorsEvents: {}, // { actorId => [ eventIds ]}
     eventsToPublish: {}, // { eventType => [ eventIds ] }
     eventsToPublishNextTurn: {}, // { eventType => [ eventIds ] }
     currentEventType: "",
@@ -215,7 +217,18 @@ this._nextState = function (type, currentState) {
     return newIndex === arr.length ? "" : arr[newIndex];
 };
 this._record = function (anEvent) {
-    var eventsToPublish = this.State.eventsToPublish, eventType = anEvent.eventType;
+    var eventsToPublish = this.State.eventsToPublish, eventType = anEvent.eventType, date = this._clock.seconds,
+        eventId = anEvent.id, eventActorId = anEvent.actorId, actorsEvents = this.State.actorsEvents;
+
+    // Stamping the event
+    anEvent.date = date;
+
+    // Recording the history. This is ordered by insertion, so ordered by date.
+    (actorsEvents[eventActorId] || (actorsEvents[eventActorId] = [])).push(eventId);
+
+    this.State.events[eventId] = anEvent;
+
+    // Publishing the reality
     (eventsToPublish[eventType] || (eventsToPublish[eventType] = [])).push(anEvent);
 };
 // this.recordForNextTurn = function (anEvent) {
@@ -288,6 +301,7 @@ this._putRecurrentActionsOntoStack = function (currentEventType, currentActorTyp
     }
 };
 this._putEventOntoStack = function (thatEvent, currentActorType) {
+    // FIXME perfectstyle we should use the eventId as arg rather than the whole event
     var eventActorId = thatEvent.actorId, eventEventType = thatEvent.eventType, eventArgs = thatEvent.args,
         state = this.State, actors = state.actors, eventActor = actors[eventActorId],
         observers = eventActor.observers[currentActorType], z = observers.length, shortStack = state.shortStack,
@@ -388,6 +402,8 @@ this._startUp = function () {
         this._loadState(as, this._JSON.parse(sa));
         this._loadState(this.Functions, this._JSON.parse(this._missionVariables.DayDiplomacyEngine_Functions, this._functionReviver));
     }
+
+    // this.shipExitedWitchspace(); // For debug
 
     delete this._startUp; // No need to startup twice
     this.shipDockedWithStation(null); // When starting, the player is docked.
