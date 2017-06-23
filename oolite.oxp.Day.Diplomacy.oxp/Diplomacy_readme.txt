@@ -48,6 +48,7 @@ Strategic map!
 Systems alliances!
     Two systems within 7ly of each other may now form an alliance, if they like each other enough.
     They may break their alliance, too =-o !
+    New F4 Interface screen: the Systems History!
 
 News!
     Some Snooper news are now displayed when an alliance is formed or broken between two systems,
@@ -56,13 +57,12 @@ News!
 ==============================
 What's currently implemented technically?
 
-The oxp contains Engines (currently Engine and AlliancesEngine)
- which may be accessed through APIs (currently EngineAPI and AlliancesEngineAPI).
+The oxp contains Engines which may be accessed through APIs: EngineAPI, AlliancesEngineAPI, HistoryAPI, SystemsAPI.
 
 The APIs are designed to be easy to use by developers to implement interesting galaxy-spanning events.
 
 High-level behaviors are currently implemented using these APIs in the aptly named following scripts:
- Systems, Tax, Alliances.
+ Systems, Tax, Alliances, History.
 
 ==============================
 Effects on game difficulty
@@ -104,6 +104,11 @@ None.
 ==============================
 Changelog
 
+0.10    Improvement, flavor: added a F4 System history, showing the F7-selected system events history. The displayed text depends on a formatting function definable through API per event.
+        Improvement, flavor: the alliance and alliance break events are now displayed in the history.
+        Improvement, dev func: the EngineAPI provides the events, and the events by actor.
+        Improvement, dev func: the EngineAPI allows now to store a variable in the saved state with the other saved variables of the oxp.
+        Improvement, dev func: introduced a Systems API and a History API. The systems API provides the system actors indexed by galaxyID and systemID.
 0.9     Improvement, flavor: the score given to a system by another depend on who they are allied to.
         Improvement, flavor: systems may now break their alliances.
         Bugfix: systems within 7 ly of any of both systems in the alliance are now informed of the alliance.

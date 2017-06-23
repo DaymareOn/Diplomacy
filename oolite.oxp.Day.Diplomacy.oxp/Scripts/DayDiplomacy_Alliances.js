@@ -1,5 +1,5 @@
 "use strict";
-this.name = "DayDiplomacy_040_Alliances";
+this.name = "DayDiplomacy_045_Alliances";
 this.author = "David (Day) Pradier";
 this.copyright = "(C) 2017 David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
@@ -10,7 +10,7 @@ this._initSystemsScores = function (aGalaxyNb) {
     // Initializing static scores
     // For a given galaxy, for each system in the galaxy, for each system it observes,
     // it must assign a score to some properties, then recalculate the final score.
-    // FIXME shouldn't this script be actorType-agnostic?
+    // FIXME perfectstyle shouldn't this script be actorType-agnostic?
     var api = this._api;
     var actorsIdByType = api.$getActorsIdByType("SYSTEM");
     var actors = api.$getActors();
@@ -101,7 +101,7 @@ this._initF4Interface = function () {
 this._startUp = function () {
     this._storedNews = []; // No real need to save it
     var api = this._api = worldScripts.DayDiplomacy_002_EngineAPI;
-    var aapi = this._aapi = worldScripts.DayDiplomacy_032_AlliancesEngineAPI;
+    var aapi = this._aapi = worldScripts.DayDiplomacy_042_AlliancesEngineAPI;
     var asf = aapi.$getScoringFunctions();
 
     // Economy comparison
@@ -126,7 +126,7 @@ this._startUp = function () {
         aapi.$addScoringFunction("alliancesInfluence", function alliancesInfluence(observer, observed) {
 
             var that = alliancesInfluence;
-            var aaapi = that.aapi || (that.aapi = worldScripts.DayDiplomacy_032_AlliancesEngineAPI);
+            var aaapi = that.aapi || (that.aapi = worldScripts.DayDiplomacy_042_AlliancesEngineAPI);
             var observedAllies = aaapi.$getAlliances()[observed.id];
             var allScores = aaapi.$getScores();
             var observerId = observer.id;
@@ -159,7 +159,7 @@ this._startUp = function () {
                 // FIXME 0.perfectfunc make a special news so that when the player receives news from both allied systems,
                 // they have interesting different content.
                 var news = {
-                    ID: "DayDiplomacy_040_Alliances", // Script name copied to avoid a closure.
+                    ID: "DayDiplomacy_045_Alliances", // Script name copied to avoid a closure.
                     Direct: true,
                     Agency: 1,
                     Message: "Travellers in the system of " + respondingActor.name
@@ -167,7 +167,7 @@ this._startUp = function () {
                     + worldScripts.DayDiplomacy_002_EngineAPI.$getActors()[alliedActorId].name
                     + ".\n\nAs XXX said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
                 };
-                worldScripts.DayDiplomacy_040_Alliances._publishNews(news);
+                worldScripts.DayDiplomacy_045_Alliances._publishNews(news);
             }
 
         };
@@ -189,7 +189,7 @@ this._startUp = function () {
                 // FIXME 0.perfectfunc make a special news so that when the player receives news from both allied systems,
                 // they have interesting different content.
                 var news = {
-                    ID: "DayDiplomacy_040_Alliances", // Script name copied to avoid a closure.
+                    ID: "DayDiplomacy_045_Alliances", // Script name copied to avoid a closure.
                     Direct: true,
                     Agency: 1,
                     Message: "Travellers in the system of " + respondingActor.name
@@ -197,7 +197,7 @@ this._startUp = function () {
                     + worldScripts.DayDiplomacy_002_EngineAPI.$getActors()[alliedActorId].name
                     + ".\n\nAs XXX said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
                 };
-                worldScripts.DayDiplomacy_040_Alliances._publishNews(news);
+                worldScripts.DayDiplomacy_045_Alliances._publishNews(news);
             }
 
         };
@@ -205,7 +205,9 @@ this._startUp = function () {
         api.$setResponse(api.$buildResponse(api.$buildNewResponseId(), "BREAK", "SYSTEM", breakResponseFunctionId));
     }
 
-    // FIXME 0.perfectstyle hmff, this might have to be into its own function
+    // FIXME 0.perfectstyle hmff, this might have to be into its own function.
+    // Nope, it would be contrary to perfectperf. Explain that in TechnicalPrinciples.txt,
+    // and comment fully this code block.
     worldScripts.XenonUI && worldScripts.XenonUI.$addMissionScreenException("DiplomacyAlliancesScreenId");
     worldScripts.XenonReduxUI && worldScripts.XenonReduxUI.$addMissionScreenException("DiplomacyAlliancesScreenId");
 
@@ -218,7 +220,7 @@ this._publishNews = function (news) {
     if (returnCode > 0 && returnCode !== 30) { // A prerequisite is wrong
         log("DiplomacyAlliances.diplomacyAlliancesOnSystemAllyFunction", "Snoopers ERROR: " + returnCode);
     } else if (returnCode < 0 || returnCode === 30) { // A buffer is full, we will resend the news later.
-        worldScripts.DayDiplomacy_040_Alliances._storedNews.push(news);
+        worldScripts.DayDiplomacy_045_Alliances._storedNews.push(news);
     } // else: everything is okay.
 };
 /*************************** End OXP private functions ***************************************************/

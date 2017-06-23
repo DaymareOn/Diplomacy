@@ -1,9 +1,9 @@
 "use strict";
-this.name = "DayDiplomacy_032_AlliancesEngineAPI";
+this.name = "DayDiplomacy_042_AlliancesEngineAPI";
 this.author = "David (Day) Pradier";
 this.copyright = "(C) 2017 David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
-this.description = "This script is the Diplomacy Aliiances engine API for external scripts.";
+this.description = "This script is the Diplomacy Alliances engine API for external scripts.";
 
 /*************************** OXP public functions ********************************************************/
 this.$getScoringFunctions = function () {
@@ -31,7 +31,7 @@ this.$getAllianceThreshold = function() {
 
 /*************************** Oolite events ***************************************************************/
 this._startUp = function () {
-    this._ae = worldScripts.DayDiplomacy_030_AlliancesEngine;
+    this._ae = worldScripts.DayDiplomacy_040_AlliancesEngine;
     delete this._startUp; // No need to startup twice
 };
 this.startUp = function () {

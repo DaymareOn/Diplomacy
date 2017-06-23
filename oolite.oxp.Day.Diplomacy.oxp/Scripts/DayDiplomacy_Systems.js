@@ -5,8 +5,6 @@ this.copyright = "(C) 2017 David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
 this.description = "This script creates systems.";
 
-this._systemsByGalaxyAndSystemId = {};
-
 /*************************** OXP private functions *******************************************************/
 this._setObservers = function (aGalaxyNb) {
     // We set the observers. No need to use an initAction as there won't be any more system.
@@ -36,8 +34,8 @@ this._setObservers = function (aGalaxyNb) {
     }
 };
 this._startUp = function () {
-    this._api = worldScripts.DayDiplomacy_002_EngineAPI;
-    var api = this._api;
+    var api = this._api = worldScripts.DayDiplomacy_002_EngineAPI,
+        sys = this._systemsByGalaxyAndSystemId = api.$initAndReturnSavedData("systemsByGalaxyAndSystemId", {});
 
     // Not initializing if already done.
     if (api.$getActorTypes().indexOf("SYSTEM") != -1) {
@@ -46,7 +44,7 @@ this._startUp = function () {
     api.$addActorType("SYSTEM", 0);
 
     // We initiate the systems
-    var sys = this._systemsByGalaxyAndSystemId, i = 8;
+    var i = 8;
     while (i--) {
         var j = 256;
         while (j--) {
@@ -70,7 +68,7 @@ this.playerEnteredNewGalaxy = function (galaxyNumber) {
     // This function is necessary as we can't calculate distances in other galaxies.
     this._setObservers(galaxyNumber);
 };
-this.startUp = function() {
+this.startUp = function () {
     worldScripts.DayDiplomacy_000_Engine.$subscribe(this.name);
     delete this.startUp; // No need to startup twice
 };
