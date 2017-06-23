@@ -39,6 +39,7 @@ this._startUp = function () {
         api.$setField(aSystem, "government", government);
         // Necessary for alliances. Bad location but avoids other system initialization :/
         // FIXME 0.perfectstyle fields should be inited in the systems part. Make it all fields?
+        // FIXME 0.11 move treasury and tax level to a F4 Diplomacy system information including the history. Or use the new description system?
         api.$setField(aSystem, "name", ourSystemInOolite.name);
         api.$setField(aSystem, "taxLevel", taxLevel[government]);
         api.$setField(aSystem, "treasury", 0); // Everybody begins with treasury = 0.
