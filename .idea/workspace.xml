@@ -4,18 +4,16 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="7dac204a-c329-4c67-bff4-88ff57ef4aa3" name="Default" comment="- Alliance engine API is now available, and used instead of direct access to the alliance engine.&#10;- Reorganized functions in the scripts to make them more readable.&#10;- Scoring functions are now orderable and ordered.&#10;- The JOIN event representing an alliance is renamed ALLY for consistency.&#10;- Alliances may now be broken; the related event is BREAK. Snoopers news are issued.">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_AlliancesEngineAPI.js" />
+    <list default="true" readonly="true" id="7dac204a-c329-4c67-bff4-88ff57ef4aa3" name="Default" comment="- Bugfix">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_EconomyEngineAPI.js" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/TechnicalPrinciples.txt" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Tax.js" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_EconomyEngine.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Config/world-scripts.plist" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Config/world-scripts.plist" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_readme.txt" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_readme.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_roadmap.txt" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_roadmap.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Alliances.js" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Alliances.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_AlliancesEngine.js" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_AlliancesEngine.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Engine.js" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Engine.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_EngineAPI.js" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_EngineAPI.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Systems.js" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Systems.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Tax.js" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Tax.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/manifest.plist" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/manifest.plist" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -76,87 +74,42 @@
       <file leaf-file-name="DayDiplomacy_Engine.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Engine.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="354">
-              <caret line="371" column="71" lean-forward="false" selection-start-line="371" selection-start-column="71" selection-end-line="371" selection-end-column="71" />
-              <folding>
-                <element signature="e#685#868#0" expanded="false" />
-                <element signature="e#883#1829#0" expanded="false" />
-                <element signature="e#1924#1972#0" expanded="false" />
-                <element signature="e#2011#2061#0" expanded="false" />
-                <element signature="e#2098#2147#0" expanded="false" />
-                <element signature="e#2186#2237#0" expanded="false" />
-                <element signature="e#2273#2321#0" expanded="false" />
-                <element signature="e#2382#2441#0" expanded="false" />
-                <element signature="e#2523#2631#0" expanded="false" />
-                <element signature="e#2633#2706#0" expanded="false" />
-                <element signature="e#2858#4036#0" expanded="false" />
-                <element signature="e#4038#4071#0" expanded="false" />
-                <element signature="e#4420#4556#0" expanded="false" />
-                <element signature="e#4615#4807#0" expanded="false" />
-                <element signature="e#4809#4873#0" expanded="false" />
-                <element signature="e#5036#5077#0" expanded="false" />
-                <element signature="e#5125#5494#0" expanded="false" />
-                <element signature="e#6102#6327#0" expanded="false" />
-                <element signature="e#6370#6861#0" expanded="false" />
-                <element signature="e#6863#6946#0" expanded="false" />
-                <element signature="e#8542#8993#0" expanded="false" />
-                <element signature="e#9043#9349#0" expanded="false" />
-                <element signature="e#9385#9558#0" expanded="false" />
-                <element signature="e#9560#9608#0" expanded="false" />
-                <element signature="e#12992#13995#0" expanded="false" />
-                <element signature="e#14586#14682#0" expanded="false" />
-                <element signature="e#14724#14850#0" expanded="false" />
-                <element signature="e#14894#15619#0" expanded="false" />
-                <element signature="e#15896#15987#0" expanded="false" />
-                <element signature="e#16998#17471#0" expanded="false" />
-                <element signature="e#17518#17933#0" expanded="false" />
-                <element signature="e#17975#18065#0" expanded="false" />
-                <element signature="e#18115#18148#0" expanded="false" />
-                <element signature="e#18202#18238#0" expanded="false" />
-                <element signature="e#18484#18604#0" expanded="false" />
-                <element signature="e#18641#18968#0" expanded="false" />
-                <element signature="e#19053#19097#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="351">
+              <caret line="447" column="22" lean-forward="true" selection-start-line="447" selection-start-column="22" selection-end-line="447" selection-end-column="22" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DayDiplomacy_Tax.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Tax.js">
+      <file leaf-file-name="DayDiplomacy_EconomyEngineAPI.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_EconomyEngineAPI.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="334">
-              <caret line="40" column="31" lean-forward="false" selection-start-line="40" selection-start-column="31" selection-end-line="40" selection-end-column="31" />
-              <folding>
-                <element signature="e#416#874#0" expanded="false" />
-                <element signature="e#3897#4017#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="669">
+              <caret line="27" column="17" lean-forward="false" selection-start-line="27" selection-start-column="17" selection-end-line="27" selection-end-column="17" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DayDiplomacy_AlliancesEngine.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_AlliancesEngine.js">
+      <file leaf-file-name="DayDiplomacy_SystemsAPI.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_SystemsAPI.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="629">
-              <caret line="22" column="32" lean-forward="false" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="32" />
-              <folding>
-                <element signature="e#405#430#0" expanded="false" />
-                <element signature="e#491#578#0" expanded="false" />
-                <element signature="e#1243#1375#0" expanded="false" />
-                <element signature="e#1643#2115#0" expanded="false" />
-                <element signature="e#2174#2608#0" expanded="false" />
-                <element signature="e#8681#8824#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Diplomacy_roadmap.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_roadmap.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
+            <state relative-caret-position="-65">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DayDiplomacy_EconomyEngine.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_EconomyEngine.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="336">
+              <caret line="62" column="20" lean-forward="false" selection-start-line="62" selection-start-column="20" selection-end-line="62" selection-end-column="20" />
+              <folding>
+                <element signature="e#491#949#0" expanded="false" />
+                <element signature="e#4826#4946#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -165,57 +118,71 @@
         <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/manifest.plist">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="222">
-              <caret line="6" column="4" lean-forward="false" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
+              <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="requires.plist" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/requires.plist">
+      <file leaf-file-name="Diplomacy_roadmap.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_roadmap.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="-3034">
+              <caret line="5" column="43" lean-forward="true" selection-start-line="5" selection-start-column="43" selection-end-line="5" selection-end-column="43" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TechnicalPrinciples.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/TechnicalPrinciples.txt">
+      <file leaf-file-name="DayDiplomacy_AlliancesEngine.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_AlliancesEngine.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="314">
+              <caret line="158" column="89" lean-forward="false" selection-start-line="158" selection-start-column="89" selection-end-line="158" selection-end-column="89" />
+              <folding>
+                <element signature="e#405#430#0" expanded="false" />
+                <element signature="e#491#578#0" expanded="false" />
+                <element signature="e#646#1191#0" expanded="false" />
+                <element signature="e#1243#1375#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Diplomacy_EngineAPI_readme.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_EngineAPI_readme.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="world-scripts.plist" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Config/world-scripts.plist">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="296">
-              <caret line="8" column="1" lean-forward="true" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Diplomacy_readme.txt" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Diplomacy_readme.txt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_readme.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="555">
-              <caret line="47" column="1" lean-forward="true" selection-start-line="47" selection-start-column="1" selection-end-line="47" selection-end-column="1" />
+            <state relative-caret-position="666">
+              <caret line="132" column="34" lean-forward="true" selection-start-line="132" selection-start-column="34" selection-end-line="132" selection-end-column="34" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DayDiplomacy_Alliances.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Alliances.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="336">
+              <caret line="230" column="60" lean-forward="false" selection-start-line="230" selection-start-column="60" selection-end-line="230" selection-end-column="60" />
+              <folding>
+                <element signature="e#4254#4670#0" expanded="false" />
+                <element signature="e#6681#6975#0" expanded="false" />
+                <element signature="e#14510#14589#0" expanded="false" />
+                <element signature="e#14835#14978#0" expanded="false" />
+                <element signature="e#15028#15060#0" expanded="false" />
+                <element signature="e#15116#15162#0" expanded="false" />
+                <element signature="e#15208#15287#0" expanded="false" />
+                <element signature="e#15327#15389#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DayDiplomacy_Systems.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Systems.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="314">
+              <caret line="53" column="25" lean-forward="false" selection-start-line="53" selection-start-column="16" selection-end-line="53" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -232,36 +199,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>putEventOntoStack</find>
-      <find>recordForNextTurn</find>
-      <find>eventsToPublishNextTurn</find>
-      <find>eventActor.State</find>
-      <find>state.responses</find>
-      <find>setResponse</find>
-      <find>responseIds</find>
-      <find>$addEventType</find>
-      <find>_record</find>
-      <find>responseFunction</find>
-      <find>let</find>
-      <find>addRes</find>
-      <find>responses</find>
-      <find>getN</find>
-      <find>setRes</find>
+      <find>$applyCodesToStation</find>
+      <find>_addBayCodes</find>
+      <find>$addBayCodes</find>
+      <find>_disableQueues</find>
+      <find>$getStationIndex</find>
+      <find>mainStation</find>
+      <find>$stationIndexes</find>
+      <find>history</find>
+      <find>date</find>
+      <find>observersId</find>
+      <find>sto</find>
+      <find>debug</find>
+      <find>fra</find>
+      <find>_selectedSystemActorId</find>
+      <find>DayDiplomacy_050_History</find>
+      <find>ourEventsIds</find>
+      <find>DayDiplomacy_030_AlliancesEngine</find>
+      <find>DayDiplomacy_030_AlliancesEngin</find>
+      <find>DayDiplomacy_032_AlliancesEngineAPI</find>
+      <find>DayDiplomacy_032_AlliancesEngin</find>
+      <find>DayDiplomacy_040_Alliances</find>
+      <find>DayDiplomacy_020_Tax</find>
+      <find>DayDiplomacy_020_History</find>
+      <find>Tax</find>
+      <find>DayDiplomacy_030_Tax</find>
+      <find>hudHidden</find>
+      <find>fire</find>
+      <find>$setField</find>
       <find>log</find>
-      <find>known</find>
-      <find>letA</find>
-      <find>letActorAc</find>
-      <find>getF</find>
-      <find>_publishNews</find>
-      <find>AlliancesInfluence</find>
-      <find>asf</find>
-      <find>firstSy</find>
-      <find>J</find>
-      <find>JO</find>
-      <find>JOI</find>
-      <find>JOIN</find>
-      <find>delete</find>
-      <find>join</find>
+      <find>system.info</find>
     </findStrings>
     <replaceStrings>
       <replace>logName</replace>
@@ -294,31 +261,47 @@
         <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/TechnicalPrinciples.txt" />
         <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/requires.plist" />
         <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_EngineAPI_readme.txt" />
+        <option value="$USER_HOME$/Téléchargements/oolite.oxp.phkb.StationDockControl.oxz_FILES/Scripts/stationdockcontrol_interface.js" />
+        <option value="$USER_HOME$/Téléchargements/oolite.oxp.phkb.StationDockControl.oxz_FILES/Scripts/stationdockcontrol.js" />
+        <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_SystemsAPI.js" />
         <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_EngineAPI.js" />
         <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Systems.js" />
+        <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacyHistoryAPI.js" />
         <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_AlliancesEngineAPI.js" />
-        <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Alliances.js" />
-        <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Engine.js" />
-        <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Tax.js" />
-        <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_readme.txt" />
-        <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_roadmap.txt" />
-        <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/manifest.plist" />
-        <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Config/world-scripts.plist" />
+        <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_HistoryAPI.js" />
+        <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_History.js" />
         <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_AlliancesEngine.js" />
+        <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Tax.js" />
+        <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Economy.js" />
+        <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Config/world-scripts.plist" />
+        <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Engine.js" />
+        <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_readme.txt" />
+        <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/manifest.plist" />
+        <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Alliances.js" />
+        <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_EconomyEngine.js" />
+        <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_EconomyEngineAPI.js" />
+        <option value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_roadmap.txt" />
       </list>
     </option>
   </component>
   <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
   <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsFlowSettings">
+    <service-enabled>false</service-enabled>
+    <exe-path />
+    <annotation-enable>false</annotation-enable>
+    <other-services-enabled>false</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
   <component name="JsGulpfileManager">
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="103" />
-    <option name="y" value="16" />
-    <option name="width" value="3098" />
-    <option name="height" value="1785" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="104" />
+    <option name="y" value="-9" />
+    <option name="width" value="3096" />
+    <option name="height" value="1809" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -443,99 +426,36 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Diplomacy" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Diplomacy" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Diplomacy" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Diplomacy" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="oolite.oxp.Day.Diplomacy.oxp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="Scope">
         <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="Diplomacy">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="Diplomacy">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="oolite.oxp.Day.Diplomacy.oxp">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="Diplomacy">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="oolite.oxp.Day.Diplomacy.oxp">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="Scripts">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="Diplomacy">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="oolite.oxp.Day.Diplomacy.oxp">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="Config">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
+          <expand>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="Diplomacy" type="cbb8eebc:String" user="Diplomacy" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="Diplomacy" type="cbb8eebc:String" user="Diplomacy" />
+              <item name="oolite.oxp.Day.Diplomacy.oxp" type="cbb8eebc:String" user="oolite.oxp.Day.Diplomacy.oxp" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="Diplomacy" type="cbb8eebc:String" user="Diplomacy" />
+              <item name="oolite.oxp.Day.Diplomacy.oxp" type="cbb8eebc:String" user="oolite.oxp.Day.Diplomacy.oxp" />
+              <item name="Config" type="cbb8eebc:String" user="Config" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="Diplomacy" type="cbb8eebc:String" user="Diplomacy" />
+              <item name="oolite.oxp.Day.Diplomacy.oxp" type="cbb8eebc:String" user="oolite.oxp.Day.Diplomacy.oxp" />
+              <item name="Scripts" type="cbb8eebc:String" user="Scripts" />
+            </path>
+          </expand>
+          <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -546,10 +466,10 @@
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
+    <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
+    <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts" />
     </key>
   </component>
@@ -566,20 +486,12 @@
     </option>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
-      <module name="" />
-      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
-      <option name="PROGRAM_PARAMETERS" />
-      <predefined_log_file id="idea.log" enabled="true" />
-      <method />
-    </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="HTML_USED" value="false" />
       <option name="WIDTH" value="400" />
       <option name="HEIGHT" value="300" />
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <module />
-      <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
@@ -594,7 +506,74 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="" />
       <envs />
-      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file id="idea.log" enabled="true" />
+    </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
     </configuration>
     <configuration default="true" type="Cold Fusion runner description" factoryName="Cold Fusion" custom_browser="" web_path="">
       <method />
@@ -683,27 +662,6 @@
       </ExternalSystemSettings>
       <method />
     </configuration>
-    <configuration default="true" type="JUnit" factoryName="JUnit">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
-      <method />
-    </configuration>
     <configuration default="true" type="JarApplication" factoryName="JAR Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <envs />
@@ -763,51 +721,6 @@
       <option name="passParentEnvs" value="true" />
       <option name="workingDirectory" />
       <option name="isAlternativeJrePathEnabled" value="false" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
-      <method />
-    </configuration>
-    <configuration default="true" type="TestNG" factoryName="TestNG">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="SUITE_NAME" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="GROUP_NAME" />
-      <option name="TEST_OBJECT" value="CLASS" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <option name="OUTPUT_DIRECTORY" />
-      <option name="ANNOTATION_TYPE" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <option name="USE_DEFAULT_REPORTERS" value="false" />
-      <option name="PROPERTIES_FILE" />
-      <envs />
-      <properties />
-      <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
-      <node-interpreter>project</node-interpreter>
-      <node-options />
-      <gulpfile />
-      <tasks />
-      <arguments />
       <envs />
       <method />
     </configuration>
@@ -881,7 +794,19 @@
       <workItem from="1493017213380" duration="1126000" />
       <workItem from="1493027656266" duration="39448000" />
       <workItem from="1493743661723" duration="17359000" />
-      <workItem from="1494351741199" duration="88080000" />
+      <workItem from="1494351741199" duration="90943000" />
+      <workItem from="1496248223037" duration="14800000" />
+      <workItem from="1496677151009" duration="50969000" />
+      <workItem from="1499069777175" duration="66000" />
+      <workItem from="1499069892357" duration="103000" />
+      <workItem from="1499070026735" duration="7719000" />
+      <workItem from="1499177817655" duration="4000" />
+      <workItem from="1499177838467" duration="4766000" />
+      <workItem from="1500310570283" duration="1262000" />
+      <workItem from="1500389964524" duration="138000" />
+      <workItem from="1500390130391" duration="268000" />
+      <workItem from="1500390440288" duration="16000" />
+      <workItem from="1500390475084" duration="19706000" />
     </task>
     <task id="LOCAL-00001" summary="Cleaning before commit.">
       <created>1490222603097</created>
@@ -1093,13 +1018,55 @@
       <option name="project" value="LOCAL" />
       <updated>1495435009762</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="- Alliance engine API is now available, and used instead of direct access to the alliance engine.&#10;- Reorganized functions in the scripts to make them more readable. Function's comments are now inside the functions.&#10;- Scoring functions are now orderable and ordered.&#10;- The JOIN event representing an alliance is renamed ALLY for consistency.&#10;- Alliances may now be broken; the related event is BREAK. Snoopers news are issued.&#10;- The alliance threshold used to ally and break alliances is now settable through the Alliance API.&#10;- Added a part on game performance in the readme.">
+      <created>1496214231290</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1496214231290</updated>
+    </task>
+    <task id="LOCAL-00032" summary="- Bugfix">
+      <created>1496422591893</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1496422591893</updated>
+    </task>
+    <task id="LOCAL-00033" summary="0.9 Package">
+      <created>1496422719145</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1496422719145</updated>
+    </task>
+    <task id="LOCAL-00034" summary="0.10    Improvement, flavor: added a F4 System history, showing the F7-selected system events history. The displayed text depends on a formatting function definable through API per event.&#10;        Improvement, flavor: the alliance and alliance break events are now displayed in the history.&#10;        Improvement, dev func: the EngineAPI provides the events, and the events by actor.&#10;        Improvement, dev func: the EngineAPI allows now to store a variable in the saved state with the other saved variables of the oxp.&#10;        Improvement, dev func: introduced a Systems API and a History API. The systems API provides the system actors indexed by galaxyID and systemID.">
+      <created>1498208083796</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1498208083796</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Bugfix">
+      <created>1498208956873</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1498208956873</updated>
+    </task>
+    <task id="LOCAL-00036" summary="0.10 package">
+      <created>1498209036567</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1498209036567</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="611473000" />
+    <option name="totallyTimeSpent" value="714153000" />
   </component>
-  <component name="TodoView">
+  <component name="TodoView" selected-index="2">
     <todo-panel id="selected-file">
       <is-autoscroll-to-source value="true" />
     </todo-panel>
@@ -1109,12 +1076,11 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="103" y="16" width="3098" height="1785" extended-state="6" />
+    <frame x="104" y="-9" width="3096" height="1809" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32951117" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32951117" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32959503" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1122,7 +1088,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32951117" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19638243" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23352714" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35304767" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1138,6 +1104,7 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32951117" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32951117" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1145,18 +1112,12 @@
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="processedProjectFiles" value="true" />
+    <option name="version" value="1" />
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Script de génération d'oxz" />
-    <MESSAGE value="0.2 Package" />
-    <MESSAGE value="Added the Diplomacy Engine API.&#10;Reimplemented the Systems and Tax script using that API.&#10;Probably solved a bug in the Tax script recurrent tax task after a savefile load.&#10;" />
-    <MESSAGE value="New, oxp dev func: delivered DiplomacyEngineAPI for oxp developers, provided a dedicated readme file.&#10;New, doc: provided a dedicated file DiplomacyRoadmap.txt&#10;&#10;Improvement, code consistency: the Systems and Tax js script now use the API rather than the native engine calls.&#10;Improvement, speed: optimized the loops in the engine&#10;Improvement, speed: one action per 20 frames&#10;&#10;Bugfix: the init action using the api wasn't working after a restore from the savefile.&#10;Cleaning: log cleaning, file cleaning." />
-    <MESSAGE value="Major refactor to erase closures." />
-    <MESSAGE value="Major refactor to remove dereferences, and increase the performance of the bottleneck: the save serialization." />
     <MESSAGE value="Doc" />
     <MESSAGE value="Package 0.6" />
     <MESSAGE value="Introduced the AlliancesEngine, allows to set scores on relations between actors.&#10;Relations between systems are scored, currently based on their government.&#10;A F4 interface displays the Strategic Map showing the relations between governments.&#10;The government is now stored into our system actor." />
@@ -1176,11 +1137,17 @@
     <MESSAGE value="- We manage the Snoopers return code 30&#10;- We act on the missionScreenOpportunity event&#10;- Removed the debug code&#10;- Bugfixes" />
     <MESSAGE value="Package 0.8" />
     <MESSAGE value="Bugfix : 2 events on an alliance" />
-    <option name="LAST_COMMIT_MESSAGE" value="Bugfix : 2 events on an alliance" />
+    <MESSAGE value="- Alliance engine API is now available, and used instead of direct access to the alliance engine.&#10;- Reorganized functions in the scripts to make them more readable. Function's comments are now inside the functions.&#10;- Scoring functions are now orderable and ordered.&#10;- The JOIN event representing an alliance is renamed ALLY for consistency.&#10;- Alliances may now be broken; the related event is BREAK. Snoopers news are issued.&#10;- The alliance threshold used to ally and break alliances is now settable through the Alliance API.&#10;- Added a part on game performance in the readme." />
+    <MESSAGE value="- Bugfix" />
+    <MESSAGE value="0.9 Package" />
+    <MESSAGE value="0.10    Improvement, flavor: added a F4 System history, showing the F7-selected system events history. The displayed text depends on a formatting function definable through API per event.&#10;        Improvement, flavor: the alliance and alliance break events are now displayed in the history.&#10;        Improvement, dev func: the EngineAPI provides the events, and the events by actor.&#10;        Improvement, dev func: the EngineAPI allows now to store a variable in the saved state with the other saved variables of the oxp.&#10;        Improvement, dev func: introduced a Systems API and a History API. The systems API provides the system actors indexed by galaxyID and systemID." />
+    <MESSAGE value="Bugfix" />
+    <MESSAGE value="0.10 package" />
+    <option name="LAST_COMMIT_MESSAGE" value="0.10 package" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="9" />
+      <option name="time" value="10" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1189,119 +1156,20 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Engine.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#685#868#0" expanded="false" />
-            <element signature="e#883#1829#0" expanded="false" />
-            <element signature="e#1924#1972#0" expanded="false" />
-            <element signature="e#2011#2061#0" expanded="false" />
-            <element signature="e#2098#2147#0" expanded="false" />
-            <element signature="e#2186#2237#0" expanded="false" />
-            <element signature="e#2273#2321#0" expanded="false" />
-            <element signature="e#2382#2441#0" expanded="false" />
-            <element signature="e#2523#2631#0" expanded="false" />
-            <element signature="e#2633#2706#0" expanded="false" />
-            <element signature="e#2858#4036#0" expanded="false" />
-            <element signature="e#4038#4071#0" expanded="false" />
-            <element signature="e#4420#4556#0" expanded="false" />
-            <element signature="e#4615#4807#0" expanded="false" />
-            <element signature="e#4809#4873#0" expanded="false" />
-            <element signature="e#5036#5077#0" expanded="false" />
-            <element signature="e#5125#5494#0" expanded="false" />
-            <element signature="e#6102#6327#0" expanded="false" />
-            <element signature="e#6370#6861#0" expanded="false" />
-            <element signature="e#6863#6946#0" expanded="false" />
-            <element signature="e#8542#8993#0" expanded="false" />
-            <element signature="e#9043#9349#0" expanded="false" />
-            <element signature="e#9385#9558#0" expanded="false" />
-            <element signature="e#9560#9608#0" expanded="false" />
-            <element signature="e#12992#13995#0" expanded="false" />
-            <element signature="e#14586#14682#0" expanded="false" />
-            <element signature="e#14724#14850#0" expanded="false" />
-            <element signature="e#14894#15619#0" expanded="false" />
-            <element signature="e#15896#15987#0" expanded="false" />
-            <element signature="e#16998#17471#0" expanded="false" />
-            <element signature="e#17518#17933#0" expanded="false" />
-            <element signature="e#17975#18065#0" expanded="false" />
-            <element signature="e#18115#18148#0" expanded="false" />
-            <element signature="e#18202#18238#0" expanded="false" />
-            <element signature="e#18484#18604#0" expanded="false" />
-            <element signature="e#18641#18968#0" expanded="false" />
-            <element signature="e#19053#19097#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_readme.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="13" lean-forward="false" selection-start-line="0" selection-start-column="13" selection-end-line="0" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/manifest.plist">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/requires.plist">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_EngineAPI.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1044">
-          <caret line="36" column="84" lean-forward="false" selection-start-line="36" selection-start-column="81" selection-end-line="36" selection-end-column="84" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Alliances.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="261">
-          <caret line="9" column="16" lean-forward="false" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
-          <folding>
-            <element signature="e#1301#3416#0" expanded="false" />
-            <element signature="e#3457#4169#0" expanded="false" />
-            <element signature="e#4207#4500#0" expanded="false" />
-            <element signature="e#11288#11746#0" expanded="false" />
-            <element signature="e#12001#12080#0" expanded="false" />
-            <element signature="e#12326#12469#0" expanded="false" />
-            <element signature="e#12519#12551#0" expanded="false" />
-            <element signature="e#12607#12653#0" expanded="false" />
-            <element signature="e#12699#12778#0" expanded="false" />
-            <element signature="e#12818#13147#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Systems.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="696">
           <caret line="24" column="7" lean-forward="false" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="7" />
-          <folding>
-            <element signature="e#410#1697#0" expanded="false" />
-            <element signature="e#2890#3016#0" expanded="false" />
-            <element signature="e#3044#3164#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Tax.js">
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_EconomyEngine.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1450">
           <caret line="50" column="66" lean-forward="false" selection-start-line="50" selection-start-column="66" selection-end-line="50" selection-end-column="66" />
           <folding>
-            <element signature="e#416#874#0" expanded="false" />
-            <element signature="e#3897#4017#0" expanded="false" />
+            <element signature="e#491#949#0" expanded="false" />
+            <element signature="e#4826#4946#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1310,45 +1178,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="522">
           <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding>
-            <element signature="e#685#868#0" expanded="false" />
-            <element signature="e#883#1829#0" expanded="false" />
-            <element signature="e#1924#1972#0" expanded="false" />
-            <element signature="e#2011#2061#0" expanded="false" />
-            <element signature="e#2098#2147#0" expanded="false" />
-            <element signature="e#2186#2237#0" expanded="false" />
-            <element signature="e#2273#2321#0" expanded="false" />
-            <element signature="e#2382#2441#0" expanded="false" />
-            <element signature="e#2523#2631#0" expanded="false" />
-            <element signature="e#2633#2706#0" expanded="false" />
-            <element signature="e#2858#4036#0" expanded="false" />
-            <element signature="e#4038#4071#0" expanded="false" />
-            <element signature="e#4420#4556#0" expanded="false" />
-            <element signature="e#4615#4807#0" expanded="false" />
-            <element signature="e#4809#4873#0" expanded="false" />
-            <element signature="e#5036#5077#0" expanded="false" />
-            <element signature="e#5125#5494#0" expanded="false" />
-            <element signature="e#6102#6327#0" expanded="false" />
-            <element signature="e#6370#6861#0" expanded="false" />
-            <element signature="e#6863#6946#0" expanded="false" />
-            <element signature="e#8542#8993#0" expanded="false" />
-            <element signature="e#9043#9349#0" expanded="false" />
-            <element signature="e#9385#9558#0" expanded="false" />
-            <element signature="e#9560#9608#0" expanded="false" />
-            <element signature="e#12992#13995#0" expanded="false" />
-            <element signature="e#14586#14682#0" expanded="false" />
-            <element signature="e#14724#14850#0" expanded="false" />
-            <element signature="e#14894#15619#0" expanded="false" />
-            <element signature="e#15896#15987#0" expanded="false" />
-            <element signature="e#16998#17471#0" expanded="false" />
-            <element signature="e#17518#17933#0" expanded="false" />
-            <element signature="e#17975#18065#0" expanded="false" />
-            <element signature="e#18115#18148#0" expanded="false" />
-            <element signature="e#18202#18238#0" expanded="false" />
-            <element signature="e#18484#18604#0" expanded="false" />
-            <element signature="e#18641#18968#0" expanded="false" />
-            <element signature="e#19053#19097#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1377,7 +1207,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1044">
           <caret line="36" column="84" lean-forward="false" selection-start-line="36" selection-start-column="81" selection-end-line="36" selection-end-column="84" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1385,18 +1214,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="261">
           <caret line="9" column="16" lean-forward="false" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
-          <folding>
-            <element signature="e#1301#3416#0" expanded="false" />
-            <element signature="e#3457#4169#0" expanded="false" />
-            <element signature="e#4207#4500#0" expanded="false" />
-            <element signature="e#11288#11746#0" expanded="false" />
-            <element signature="e#12001#12080#0" expanded="false" />
-            <element signature="e#12326#12469#0" expanded="false" />
-            <element signature="e#12519#12551#0" expanded="false" />
-            <element signature="e#12607#12653#0" expanded="false" />
-            <element signature="e#12699#12778#0" expanded="false" />
-            <element signature="e#12818#13147#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1404,21 +1221,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="696">
           <caret line="24" column="7" lean-forward="false" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="7" />
-          <folding>
-            <element signature="e#410#1697#0" expanded="false" />
-            <element signature="e#2890#3016#0" expanded="false" />
-            <element signature="e#3044#3164#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Tax.js">
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_EconomyEngine.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1450">
           <caret line="50" column="66" lean-forward="false" selection-start-line="50" selection-start-column="66" selection-end-line="50" selection-end-column="66" />
           <folding>
-            <element signature="e#416#874#0" expanded="false" />
-            <element signature="e#3897#4017#0" expanded="false" />
+            <element signature="e#491#949#0" expanded="false" />
+            <element signature="e#4826#4946#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1427,45 +1239,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#685#868#0" expanded="false" />
-            <element signature="e#883#1829#0" expanded="false" />
-            <element signature="e#1924#1972#0" expanded="false" />
-            <element signature="e#2011#2061#0" expanded="false" />
-            <element signature="e#2098#2147#0" expanded="false" />
-            <element signature="e#2186#2237#0" expanded="false" />
-            <element signature="e#2273#2321#0" expanded="false" />
-            <element signature="e#2382#2441#0" expanded="false" />
-            <element signature="e#2523#2631#0" expanded="false" />
-            <element signature="e#2633#2706#0" expanded="false" />
-            <element signature="e#2858#4036#0" expanded="false" />
-            <element signature="e#4038#4071#0" expanded="false" />
-            <element signature="e#4420#4556#0" expanded="false" />
-            <element signature="e#4615#4807#0" expanded="false" />
-            <element signature="e#4809#4873#0" expanded="false" />
-            <element signature="e#5036#5077#0" expanded="false" />
-            <element signature="e#5125#5494#0" expanded="false" />
-            <element signature="e#6102#6327#0" expanded="false" />
-            <element signature="e#6370#6861#0" expanded="false" />
-            <element signature="e#6863#6946#0" expanded="false" />
-            <element signature="e#8542#8993#0" expanded="false" />
-            <element signature="e#9043#9349#0" expanded="false" />
-            <element signature="e#9385#9558#0" expanded="false" />
-            <element signature="e#9560#9608#0" expanded="false" />
-            <element signature="e#12992#13995#0" expanded="false" />
-            <element signature="e#14586#14682#0" expanded="false" />
-            <element signature="e#14724#14850#0" expanded="false" />
-            <element signature="e#14894#15619#0" expanded="false" />
-            <element signature="e#15896#15987#0" expanded="false" />
-            <element signature="e#16998#17471#0" expanded="false" />
-            <element signature="e#17518#17933#0" expanded="false" />
-            <element signature="e#17975#18065#0" expanded="false" />
-            <element signature="e#18115#18148#0" expanded="false" />
-            <element signature="e#18202#18238#0" expanded="false" />
-            <element signature="e#18484#18604#0" expanded="false" />
-            <element signature="e#18641#18968#0" expanded="false" />
-            <element signature="e#19053#19097#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1494,7 +1268,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1044">
           <caret line="36" column="84" lean-forward="false" selection-start-line="36" selection-start-column="81" selection-end-line="36" selection-end-column="84" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1502,18 +1275,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="261">
           <caret line="9" column="16" lean-forward="false" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
-          <folding>
-            <element signature="e#1301#3416#0" expanded="false" />
-            <element signature="e#3457#4169#0" expanded="false" />
-            <element signature="e#4207#4500#0" expanded="false" />
-            <element signature="e#11288#11746#0" expanded="false" />
-            <element signature="e#12001#12080#0" expanded="false" />
-            <element signature="e#12326#12469#0" expanded="false" />
-            <element signature="e#12519#12551#0" expanded="false" />
-            <element signature="e#12607#12653#0" expanded="false" />
-            <element signature="e#12699#12778#0" expanded="false" />
-            <element signature="e#12818#13147#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1521,21 +1282,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="696">
           <caret line="24" column="7" lean-forward="false" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="7" />
-          <folding>
-            <element signature="e#410#1697#0" expanded="false" />
-            <element signature="e#2890#3016#0" expanded="false" />
-            <element signature="e#3044#3164#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Tax.js">
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_EconomyEngine.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1450">
           <caret line="50" column="66" lean-forward="true" selection-start-line="50" selection-start-column="66" selection-end-line="50" selection-end-column="66" />
           <folding>
-            <element signature="e#416#874#0" expanded="false" />
-            <element signature="e#3897#4017#0" expanded="false" />
+            <element signature="e#491#949#0" expanded="false" />
+            <element signature="e#4826#4946#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1551,45 +1307,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#685#868#0" expanded="false" />
-            <element signature="e#883#1829#0" expanded="false" />
-            <element signature="e#1924#1972#0" expanded="false" />
-            <element signature="e#2011#2061#0" expanded="false" />
-            <element signature="e#2098#2147#0" expanded="false" />
-            <element signature="e#2186#2237#0" expanded="false" />
-            <element signature="e#2273#2321#0" expanded="false" />
-            <element signature="e#2382#2441#0" expanded="false" />
-            <element signature="e#2523#2631#0" expanded="false" />
-            <element signature="e#2633#2706#0" expanded="false" />
-            <element signature="e#2858#4036#0" expanded="false" />
-            <element signature="e#4038#4071#0" expanded="false" />
-            <element signature="e#4420#4556#0" expanded="false" />
-            <element signature="e#4615#4807#0" expanded="false" />
-            <element signature="e#4809#4873#0" expanded="false" />
-            <element signature="e#5036#5077#0" expanded="false" />
-            <element signature="e#5125#5494#0" expanded="false" />
-            <element signature="e#6102#6327#0" expanded="false" />
-            <element signature="e#6370#6861#0" expanded="false" />
-            <element signature="e#6863#6946#0" expanded="false" />
-            <element signature="e#8542#8993#0" expanded="false" />
-            <element signature="e#9043#9349#0" expanded="false" />
-            <element signature="e#9385#9558#0" expanded="false" />
-            <element signature="e#9560#9608#0" expanded="false" />
-            <element signature="e#12992#13995#0" expanded="false" />
-            <element signature="e#14586#14682#0" expanded="false" />
-            <element signature="e#14724#14850#0" expanded="false" />
-            <element signature="e#14894#15619#0" expanded="false" />
-            <element signature="e#15896#15987#0" expanded="false" />
-            <element signature="e#16998#17471#0" expanded="false" />
-            <element signature="e#17518#17933#0" expanded="false" />
-            <element signature="e#17975#18065#0" expanded="false" />
-            <element signature="e#18115#18148#0" expanded="false" />
-            <element signature="e#18202#18238#0" expanded="false" />
-            <element signature="e#18484#18604#0" expanded="false" />
-            <element signature="e#18641#18968#0" expanded="false" />
-            <element signature="e#19053#19097#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1604,45 +1322,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#685#868#0" expanded="false" />
-            <element signature="e#883#1829#0" expanded="false" />
-            <element signature="e#1924#1972#0" expanded="false" />
-            <element signature="e#2011#2061#0" expanded="false" />
-            <element signature="e#2098#2147#0" expanded="false" />
-            <element signature="e#2186#2237#0" expanded="false" />
-            <element signature="e#2273#2321#0" expanded="false" />
-            <element signature="e#2382#2441#0" expanded="false" />
-            <element signature="e#2523#2631#0" expanded="false" />
-            <element signature="e#2633#2706#0" expanded="false" />
-            <element signature="e#2858#4036#0" expanded="false" />
-            <element signature="e#4038#4071#0" expanded="false" />
-            <element signature="e#4420#4556#0" expanded="false" />
-            <element signature="e#4615#4807#0" expanded="false" />
-            <element signature="e#4809#4873#0" expanded="false" />
-            <element signature="e#5036#5077#0" expanded="false" />
-            <element signature="e#5125#5494#0" expanded="false" />
-            <element signature="e#6102#6327#0" expanded="false" />
-            <element signature="e#6370#6861#0" expanded="false" />
-            <element signature="e#6863#6946#0" expanded="false" />
-            <element signature="e#8542#8993#0" expanded="false" />
-            <element signature="e#9043#9349#0" expanded="false" />
-            <element signature="e#9385#9558#0" expanded="false" />
-            <element signature="e#9560#9608#0" expanded="false" />
-            <element signature="e#12992#13995#0" expanded="false" />
-            <element signature="e#14586#14682#0" expanded="false" />
-            <element signature="e#14724#14850#0" expanded="false" />
-            <element signature="e#14894#15619#0" expanded="false" />
-            <element signature="e#15896#15987#0" expanded="false" />
-            <element signature="e#16998#17471#0" expanded="false" />
-            <element signature="e#17518#17933#0" expanded="false" />
-            <element signature="e#17975#18065#0" expanded="false" />
-            <element signature="e#18115#18148#0" expanded="false" />
-            <element signature="e#18202#18238#0" expanded="false" />
-            <element signature="e#18484#18604#0" expanded="false" />
-            <element signature="e#18641#18968#0" expanded="false" />
-            <element signature="e#19053#19097#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1657,45 +1337,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#685#868#0" expanded="false" />
-            <element signature="e#883#1829#0" expanded="false" />
-            <element signature="e#1924#1972#0" expanded="false" />
-            <element signature="e#2011#2061#0" expanded="false" />
-            <element signature="e#2098#2147#0" expanded="false" />
-            <element signature="e#2186#2237#0" expanded="false" />
-            <element signature="e#2273#2321#0" expanded="false" />
-            <element signature="e#2382#2441#0" expanded="false" />
-            <element signature="e#2523#2631#0" expanded="false" />
-            <element signature="e#2633#2706#0" expanded="false" />
-            <element signature="e#2858#4036#0" expanded="false" />
-            <element signature="e#4038#4071#0" expanded="false" />
-            <element signature="e#4420#4556#0" expanded="false" />
-            <element signature="e#4615#4807#0" expanded="false" />
-            <element signature="e#4809#4873#0" expanded="false" />
-            <element signature="e#5036#5077#0" expanded="false" />
-            <element signature="e#5125#5494#0" expanded="false" />
-            <element signature="e#6102#6327#0" expanded="false" />
-            <element signature="e#6370#6861#0" expanded="false" />
-            <element signature="e#6863#6946#0" expanded="false" />
-            <element signature="e#8542#8993#0" expanded="false" />
-            <element signature="e#9043#9349#0" expanded="false" />
-            <element signature="e#9385#9558#0" expanded="false" />
-            <element signature="e#9560#9608#0" expanded="false" />
-            <element signature="e#12992#13995#0" expanded="false" />
-            <element signature="e#14586#14682#0" expanded="false" />
-            <element signature="e#14724#14850#0" expanded="false" />
-            <element signature="e#14894#15619#0" expanded="false" />
-            <element signature="e#15896#15987#0" expanded="false" />
-            <element signature="e#16998#17471#0" expanded="false" />
-            <element signature="e#17518#17933#0" expanded="false" />
-            <element signature="e#17975#18065#0" expanded="false" />
-            <element signature="e#18115#18148#0" expanded="false" />
-            <element signature="e#18202#18238#0" expanded="false" />
-            <element signature="e#18484#18604#0" expanded="false" />
-            <element signature="e#18641#18968#0" expanded="false" />
-            <element signature="e#19053#19097#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1727,19 +1369,20 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="354">
           <caret line="140" column="0" lean-forward="false" selection-start-line="140" selection-start-column="0" selection-end-line="140" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Systems.js">
+    <entry file="file://$USER_HOME$/Téléchargements/oolite.oxp.phkb.StationDockControl.oxz_FILES/Scripts/stationdockcontrol.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="321">
-          <caret line="50" column="13" lean-forward="false" selection-start-line="50" selection-start-column="13" selection-end-line="50" selection-end-column="13" />
-          <folding>
-            <element signature="e#410#1697#0" expanded="false" />
-            <element signature="e#2890#3016#0" expanded="false" />
-            <element signature="e#3044#3164#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="989">
+          <caret line="2421" column="4" lean-forward="true" selection-start-line="2421" selection-start-column="4" selection-end-line="2421" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Téléchargements/oolite.oxp.phkb.StationDockControl.oxz_FILES/Scripts/stationdockcontrol_interface.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="337">
+          <caret line="1221" column="44" lean-forward="false" selection-start-line="1221" selection-start-column="44" selection-end-line="1221" selection-end-column="44" />
         </state>
       </provider>
     </entry>
@@ -1747,155 +1390,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#400#441#0" expanded="false" />
-            <element signature="e#479#519#0" expanded="false" />
-            <element signature="e#560#603#0" expanded="false" />
-            <element signature="e#641#681#0" expanded="false" />
-            <element signature="e#722#765#0" expanded="false" />
-            <element signature="e#841#1399#0" expanded="false" />
-            <element signature="e#1460#1805#0" expanded="false" />
-            <element signature="e#1885#2321#0" expanded="false" />
-            <element signature="e#2367#2670#0" expanded="false" />
-            <element signature="e#2936#2982#0" expanded="false" />
-            <element signature="e#3031#3077#0" expanded="false" />
-            <element signature="e#3115#3150#0" expanded="false" />
-            <element signature="e#3152#3196#0" expanded="false" />
-            <element signature="e#3288#3334#0" expanded="false" />
-            <element signature="e#3369#3392#0" expanded="false" />
-            <element signature="e#3436#3477#0" expanded="false" />
-            <element signature="e#3479#3527#0" expanded="false" />
-            <element signature="e#3623#3669#0" expanded="false" />
-            <element signature="e#3671#3724#0" expanded="false" />
-            <element signature="e#3819#3859#0" expanded="false" />
-            <element signature="e#3861#3908#0" expanded="false" />
-            <element signature="e#4037#4117#0" expanded="false" />
-            <element signature="e#4179#4366#0" expanded="false" />
-            <element signature="e#4448#4527#0" expanded="false" />
-            <element signature="e#4888#4962#0" expanded="false" />
-            <element signature="e#4998#5072#0" expanded="false" />
-            <element signature="e#5121#5235#0" expanded="false" />
-            <element signature="e#5398#5489#0" expanded="false" />
-            <element signature="e#5856#5999#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_AlliancesEngineAPI.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#422#469#0" expanded="false" />
-            <element signature="e#530#589#0" expanded="false" />
-            <element signature="e#657#723#0" expanded="false" />
-            <element signature="e#757#784#0" expanded="false" />
-            <element signature="e#815#843#0" expanded="false" />
-            <element signature="e#894#944#0" expanded="false" />
-            <element signature="e#986#1033#0" expanded="false" />
-            <element signature="e#1280#1399#0" expanded="false" />
-            <element signature="e#1428#1571#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Alliances.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="354">
-          <caret line="207" column="28" lean-forward="false" selection-start-line="207" selection-start-column="28" selection-end-line="207" selection-end-column="28" />
-          <folding>
-            <element signature="e#1301#3416#0" expanded="false" />
-            <element signature="e#3457#4169#0" expanded="false" />
-            <element signature="e#4207#4500#0" expanded="false" />
-            <element signature="e#11288#11746#0" expanded="false" />
-            <element signature="e#12001#12080#0" expanded="false" />
-            <element signature="e#12326#12469#0" expanded="false" />
-            <element signature="e#12519#12551#0" expanded="false" />
-            <element signature="e#12607#12653#0" expanded="false" />
-            <element signature="e#12699#12778#0" expanded="false" />
-            <element signature="e#12818#13147#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Engine.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="354">
-          <caret line="371" column="71" lean-forward="false" selection-start-line="371" selection-start-column="71" selection-end-line="371" selection-end-column="71" />
-          <folding>
-            <element signature="e#685#868#0" expanded="false" />
-            <element signature="e#883#1829#0" expanded="false" />
-            <element signature="e#1924#1972#0" expanded="false" />
-            <element signature="e#2011#2061#0" expanded="false" />
-            <element signature="e#2098#2147#0" expanded="false" />
-            <element signature="e#2186#2237#0" expanded="false" />
-            <element signature="e#2273#2321#0" expanded="false" />
-            <element signature="e#2382#2441#0" expanded="false" />
-            <element signature="e#2523#2631#0" expanded="false" />
-            <element signature="e#2633#2706#0" expanded="false" />
-            <element signature="e#2858#4036#0" expanded="false" />
-            <element signature="e#4038#4071#0" expanded="false" />
-            <element signature="e#4420#4556#0" expanded="false" />
-            <element signature="e#4615#4807#0" expanded="false" />
-            <element signature="e#4809#4873#0" expanded="false" />
-            <element signature="e#5036#5077#0" expanded="false" />
-            <element signature="e#5125#5494#0" expanded="false" />
-            <element signature="e#6102#6327#0" expanded="false" />
-            <element signature="e#6370#6861#0" expanded="false" />
-            <element signature="e#6863#6946#0" expanded="false" />
-            <element signature="e#8542#8993#0" expanded="false" />
-            <element signature="e#9043#9349#0" expanded="false" />
-            <element signature="e#9385#9558#0" expanded="false" />
-            <element signature="e#9560#9608#0" expanded="false" />
-            <element signature="e#12992#13995#0" expanded="false" />
-            <element signature="e#14586#14682#0" expanded="false" />
-            <element signature="e#14724#14850#0" expanded="false" />
-            <element signature="e#14894#15619#0" expanded="false" />
-            <element signature="e#15896#15987#0" expanded="false" />
-            <element signature="e#16998#17471#0" expanded="false" />
-            <element signature="e#17518#17933#0" expanded="false" />
-            <element signature="e#17975#18065#0" expanded="false" />
-            <element signature="e#18115#18148#0" expanded="false" />
-            <element signature="e#18202#18238#0" expanded="false" />
-            <element signature="e#18484#18604#0" expanded="false" />
-            <element signature="e#18641#18968#0" expanded="false" />
-            <element signature="e#19053#19097#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Tax.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="334">
-          <caret line="40" column="31" lean-forward="false" selection-start-line="40" selection-start-column="31" selection-end-line="40" selection-end-column="31" />
-          <folding>
-            <element signature="e#416#874#0" expanded="false" />
-            <element signature="e#3897#4017#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_readme.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="47" column="1" lean-forward="true" selection-start-line="47" selection-start-column="1" selection-end-line="47" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_roadmap.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/manifest.plist">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="6" column="4" lean-forward="false" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1903,14 +1397,21 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/TechnicalPrinciples.txt">
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/TechnicalPrinciples.txt" />
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_HistoryAPI.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="185">
+          <caret line="5" column="63" lean-forward="false" selection-start-line="5" selection-start-column="63" selection-end-line="5" selection-end-column="88" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Config/world-scripts.plist">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="259">
+          <caret line="7" column="34" lean-forward="false" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="34" />
           <folding />
         </state>
       </provider>
@@ -1923,26 +1424,116 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Config/world-scripts.plist">
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_AlliancesEngineAPI.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
-          <caret line="8" column="1" lean-forward="true" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_History.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="351">
+          <caret line="59" column="117" lean-forward="false" selection-start-line="59" selection-start-column="117" selection-end-line="59" selection-end-column="117" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Systems.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="314">
+          <caret line="53" column="25" lean-forward="false" selection-start-line="53" selection-start-column="16" selection-end-line="53" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_SystemsAPI.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-65">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Engine.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="351">
+          <caret line="447" column="22" lean-forward="true" selection-start-line="447" selection-start-column="22" selection-end-line="447" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_AlliancesEngine.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="22" column="32" lean-forward="false" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="32" />
+        <state relative-caret-position="314">
+          <caret line="158" column="89" lean-forward="false" selection-start-line="158" selection-start-column="89" selection-end-line="158" selection-end-column="89" />
           <folding>
             <element signature="e#405#430#0" expanded="false" />
             <element signature="e#491#578#0" expanded="false" />
+            <element signature="e#646#1191#0" expanded="false" />
             <element signature="e#1243#1375#0" expanded="false" />
-            <element signature="e#1643#2115#0" expanded="false" />
-            <element signature="e#2174#2608#0" expanded="false" />
-            <element signature="e#8681#8824#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Alliances.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="230" column="60" lean-forward="false" selection-start-line="230" selection-start-column="60" selection-end-line="230" selection-end-column="60" />
+          <folding>
+            <element signature="e#4254#4670#0" expanded="false" />
+            <element signature="e#6681#6975#0" expanded="false" />
+            <element signature="e#14510#14589#0" expanded="false" />
+            <element signature="e#14835#14978#0" expanded="false" />
+            <element signature="e#15028#15060#0" expanded="false" />
+            <element signature="e#15116#15162#0" expanded="false" />
+            <element signature="e#15208#15287#0" expanded="false" />
+            <element signature="e#15327#15389#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_EconomyEngine.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="62" column="20" lean-forward="false" selection-start-line="62" selection-start-column="20" selection-end-line="62" selection-end-column="20" />
+          <folding>
+            <element signature="e#491#949#0" expanded="false" />
+            <element signature="e#4826#4946#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_EconomyEngineAPI.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="669">
+          <caret line="27" column="17" lean-forward="false" selection-start-line="27" selection-start-column="17" selection-end-line="27" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/manifest.plist">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_roadmap.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3034">
+          <caret line="5" column="43" lean-forward="true" selection-start-line="5" selection-start-column="43" selection-end-line="5" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_readme.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="666">
+          <caret line="132" column="34" lean-forward="true" selection-start-line="132" selection-start-column="34" selection-end-line="132" selection-end-column="34" />
+          <folding />
         </state>
       </provider>
     </entry>

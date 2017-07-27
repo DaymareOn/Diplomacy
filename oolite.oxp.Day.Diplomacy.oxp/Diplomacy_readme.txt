@@ -104,6 +104,13 @@ None.
 ==============================
 Changelog
 
+0.11    Improvement, flavor: added a F4 Alliances Map, showing alliances between systems.
+        Improvement, flavor: having only news for the player current system.
+        Improvement, flavor: fixed Diziet Sma citation
+        Improvement, code consistency: the tax script becomes the economy script.
+        Improvement, code consistency: removed the TechnicalPrinciples.txt file, as its content is now mainly in the new OXP Performance thread.
+        Improvement, dev func: added a beginning of Economy Engine API.
+        Improvement, dev func: added a _debug flag in the Engine to start as if you just spent a turn and entered the station; ie, events are processing.
 0.10    Improvement, flavor: added a F4 System history, showing the F7-selected system events history. The displayed text depends on a formatting function definable through API per event.
         Improvement, flavor: the alliance and alliance break events are now displayed in the history.
         Improvement, dev func: the EngineAPI provides the events, and the events by actor.

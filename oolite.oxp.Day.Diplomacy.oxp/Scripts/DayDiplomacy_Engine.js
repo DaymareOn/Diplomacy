@@ -12,6 +12,7 @@ this._JSON = JSON;
 /*************************** End of closures *************************************************************/
 
 /*************************** Engine **********************************************************************/
+this._debug = false; // Set this to true to have events working as if you just spent a turn and entered the station.
 this._loadState = function (toBeModifiedState, sourceState) {
     for (var id in sourceState) {
         if (sourceState.hasOwnProperty(id)) { // Avoiding prototypes' fields
@@ -443,6 +444,12 @@ this.startUpComplete = function () {
         worldScripts[s[y - z]]._startUp();
         log(s[y - z], "startUp in ms: " + (new Date().getTime() - startDate.getTime()));
     }
+
+    if (this._debug) {
+        this.shipExitedWitchspace();
+        this.shipDockedWithStation();
+    }
+
     delete this.startUpComplete; // No need to startup twice
 };
 this._subscribers = []; // [ scriptName ]
