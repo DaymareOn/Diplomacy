@@ -31,7 +31,6 @@ this._initSystemsScores = function (aGalaxyNb) {
 this._drawStrategicMap = function () {
     var scores = this._aapi.$getScores();
     var actors = this._api.$getActors();
-    var systemInfo = SystemInfo;
     var links = [];
 
     for (var observedId in scores) {
@@ -68,31 +67,105 @@ this._drawStrategicMap = function () {
             }
         }
     }
+
+    this._drawMap(links);
+};
+this._drawAlliancesMap = function () {
+    var alliances = this._aapi.$getAlliances();
+    var actors = this._api.$getActors();
+    var links = [];
+
+    for (var actorId in alliances) {
+        if (alliances.hasOwnProperty(actorId)) {
+            var actorAlliances = alliances[actorId];
+            var actor = actors[actorId];
+            var systemNb = actor.systemId;
+            var galaxyNb = actor.galaxyNb;
+            for (var allyId in actorAlliances) {
+                if (actorAlliances.hasOwnProperty(allyId)) {
+                    var allySystemNb = actors[allyId].systemId;
+                    // Doc: "When setting link_color, the lower system ID must be placed first,
+                    // because of how the chart is drawn."
+                    if (systemNb < allySystemNb) {
+                        links.push({galaxyNb: galaxyNb, from: systemNb, to: allySystemNb, color: "greenColor"});
+                    }
+                }
+            }
+        }
+    }
+
+    this._drawMap(links);
+};
+this._drawMap = function (links) {
+    var systemInfo = SystemInfo;
     var z = links.length;
     while (z--) {
         var link = links[z];
+        // Hmm... We calculate and then set the links for all the galaxies...
+        // This is useless, but at the same time simpler and maybe useful for the future.
         systemInfo.setInterstellarProperty(link.galaxyNb, link.from, link.to, 2, "link_color", link.color);
     }
     this._links = links;
 };
-this._displayF4Interface = function () {
-    player.ship.hudHidden || (player.ship.hudHidden = true);
+this._resetLinks = function () {
+    var links = this._links;
+    if (!links) return;
+    var systemInfo = SystemInfo;
+    var z = links.length;
+    while (z--) {
+        var link = links[z];
+        systemInfo.setInterstellarProperty(link.galaxyNb, link.from, link.to, 2, "link_color", null);
+    }
+    this._links = null;
+};
+this._F4InterfaceCallback = function (choice) {
+    this._resetLinks();
+    switch (choice) {
+        case "TO_RELATIONS":
+            this._runStrategicMapScreen();
+            break;
+        case "TO_ALLIANCES":
+            this._runAlliancesMapScreen();
+            break;
+        default: // "EXIT":
+    }
+};
+this._runAlliancesMapScreen = function () {
+    var opts = {
+        screenID: "DiplomacyAlliancesScreenId",
+        title: "Alliances map",
+        backgroundSpecial: "LONG_RANGE_CHART_SHORTEST",
+        allowInterrupt: true,
+        exitScreen: "GUI_SCREEN_INTERFACES",
+        choices: {"TO_RELATIONS": "Strategic map", "EXIT": "Exit"},
+        message: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" // 17 lines: the map's height + 1
+    };
+    mission.runScreen(opts, this._F4InterfaceCallback.bind(this));
+    this._drawAlliancesMap();
+};
+this._runStrategicMapScreen = function () {
     var opts = {
         screenID: "DiplomacyAlliancesScreenId",
         title: "Strategic map",
         backgroundSpecial: "LONG_RANGE_CHART_SHORTEST",
         allowInterrupt: true,
         exitScreen: "GUI_SCREEN_INTERFACES",
-        message: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" // 17 lines: the map's height + 1
+        choices: {"TO_ALLIANCES": "Alliances map", "EXIT": "Exit"},
+        message: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" + // 17 lines: the map's height + 1
+        "Green:Love Blue:Love+Neutrality Gray:Neutrality\n" +
+        "Yellow:Love+Hate Orange:Neutrality+Hate Red:Hate"
     };
-    mission.runScreen(opts);
+    mission.runScreen(opts, this._F4InterfaceCallback.bind(this));
     this._drawStrategicMap();
-    mission.addMessageText("Green:  systems like each other\nBlue:  one system likes the other while this one is neutral\nGray: both systems are neutral\nYellow:   one likes, one dislikes!\nOrange:   one is neutral, one dislikes\nRed:  systems dislike each other");
+};
+this._displayF4Interface = function () {
+    player.ship.hudHidden || (player.ship.hudHidden = true);
+    this._runAlliancesMapScreen();
 };
 this._initF4Interface = function () {
     player.ship.dockedStation.setInterface("DiplomacyAlliances",
         {
-            title: "Strategic map",
+            title: "Strategic maps",
             category: "Diplomacy",
             summary: "You may see which systems (dis)like each other...",
             callback: this._displayF4Interface.bind(this)
@@ -156,18 +229,17 @@ this._startUp = function () {
             var respondingActor = argsArray[0], eventActor = argsArray[1], alliedActorId = argsArray[2];
             // On ALLY event, if the player is in a responder system, a news is generated.
             if (system.info.name === respondingActor.name) {
-                // FIXME 0.perfectfunc make a special news so that when the player receives news from both allied systems,
-                // they have interesting different content.
-                var news = {
-                    ID: "DayDiplomacy_045_Alliances", // Script name copied to avoid a closure.
-                    Direct: true,
-                    Agency: 1,
-                    Message: "Travellers in the system of " + respondingActor.name
-                    + " might be interested in knowing that " + eventActor.name + " just allied with "
-                    + worldScripts.DayDiplomacy_002_EngineAPI.$getActors()[alliedActorId].name
-                    + ".\n\nAs XXX said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
-                };
-                worldScripts.DayDiplomacy_045_Alliances._publishNews(news);
+                var allyName = worldScripts.DayDiplomacy_002_EngineAPI.$getActors()[alliedActorId].name;
+                if (respondingActor.name === allyName) {
+                    var news = {
+                        ID: "DayDiplomacy_045_Alliances", // Script name copied to avoid a closure.
+                        Direct: true,
+                        Agency: 1,
+                        Message: "YOU might be interested in knowing that " + eventActor.name + " just allied with " + allyName
+                        + ".\n\nAs Commander Diziet Sma, currently aboard the \"Blackwidow\" Pitviper S.E., famously said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
+                    };
+                    worldScripts.DayDiplomacy_045_Alliances._publishNews(news);
+                }
             }
 
         };
@@ -186,18 +258,17 @@ this._startUp = function () {
             var respondingActor = argsArray[0], eventActor = argsArray[1], alliedActorId = argsArray[2];
             // On BREAK event, if the player is in a responder system, a news is generated.
             if (system.info.name === respondingActor.name) {
-                // FIXME 0.perfectfunc make a special news so that when the player receives news from both allied systems,
-                // they have interesting different content.
-                var news = {
-                    ID: "DayDiplomacy_045_Alliances", // Script name copied to avoid a closure.
-                    Direct: true,
-                    Agency: 1,
-                    Message: "Travellers in the system of " + respondingActor.name
-                    + " might be interested in knowing that " + eventActor.name + " just break their alliance with "
-                    + worldScripts.DayDiplomacy_002_EngineAPI.$getActors()[alliedActorId].name
-                    + ".\n\nAs XXX said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
-                };
-                worldScripts.DayDiplomacy_045_Alliances._publishNews(news);
+                var allyName = worldScripts.DayDiplomacy_002_EngineAPI.$getActors()[alliedActorId].name;
+                if (respondingActor.name === allyName) {
+                    var news = {
+                        ID: "DayDiplomacy_045_Alliances", // Script name copied to avoid a closure.
+                        Direct: true,
+                        Agency: 1,
+                        Message: "YOU might be interested in knowing that " + eventActor.name + " just broke their alliance with " + allyName
+                        + ".\n\nAs Commander Diziet Sma, currently aboard the \"Blackwidow\" Pitviper S.E., famously said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
+                    };
+                    worldScripts.DayDiplomacy_045_Alliances._publishNews(news);
+                }
             }
 
         };
@@ -248,14 +319,6 @@ this.missionScreenOpportunity = function () {
 };
 this.missionScreenEnded = function () {
     player.ship.hudHidden = false;
-    var links = this._links;
-    if (!links) return;
-    var systemInfo = SystemInfo;
-    var z = links.length;
-    while (z--) {
-        var link = links[z];
-        systemInfo.setInterstellarProperty(link.galaxyNb, link.from, link.to, 2, "link_color", null);
-    }
-    this._links = null;
+    this._resetLinks();
 };
 /*************************** End Oolite events ***********************************************************/

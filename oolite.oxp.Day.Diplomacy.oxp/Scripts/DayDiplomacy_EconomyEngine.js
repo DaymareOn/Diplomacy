@@ -1,9 +1,11 @@
 "use strict";
-this.name = "DayDiplomacy_030_Tax";
+this.name = "DayDiplomacy_030_EconomyEngine";
 this.author = "David (Day) Pradier";
 this.copyright = "(C) 2017 David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
-this.description = "This script makes systems tax themselves. The idea here is to use the system GDP, called 'productivity' in Oolite, and a 'tax level' on GDP which adds to the system's government's 'treasury'.";
+this.description = "This script is the economy engine of the Diplomacy OXP. It makes systems tax themselves." +
+    " The idea here is to use the system GDP, called 'productivity' in Oolite," +
+    " and a 'tax level' on GDP which adds to the system's government's 'treasury'.";
 
 this.$GOVERNMENT_DEFAULT_TAX_LEVEL = {
     "0": 0.0, // Anarchy => no tax
@@ -14,6 +16,25 @@ this.$GOVERNMENT_DEFAULT_TAX_LEVEL = {
     "5": 0.1, // Confederacy => tax avoiding is rampant
     "6": 0.5, // Democracy => major taxes, but those systems are not crumbling
     "7": 0.1 // Corporate => tax avoiding is rampant
+};
+
+this.$moveProductivityInPercentage = function(fromSystemActor, percentage) {
+    // FIXME 0.13 TODO
+};
+this.$moveProductivityInCredits = function(fromSystemActor, creditsNb) {
+    // FIXME 0.13 TODO
+};
+this.$moveProductivityToNeighborsInPercentage = function(fromSystemActor, percentage) {
+    // FIXME 0.13 TODO
+};
+this.$moveProductivityToNeighborsInCredits = function(fromSystemActor, creditsNb) {
+    // FIXME 0.13 TODO
+};
+this.$moveProductivityToNeighborsDependingOnDistanceInPercentage = function(fromSystemActor, percentage) {
+    // FIXME 0.13 TODO
+};
+this.$moveProductivityToNeighborsDependingOnDistanceInCredits = function(fromSystemActor, creditsNb) {
+    // FIXME 0.13 TODO
 };
 
 /*************************** Oolite events ***************************************************************/
@@ -31,7 +52,7 @@ this._startUp = function () {
     var diplomacyTaxInitAction = function diplomacyTaxInitAction(aSystem) {
         var that = diplomacyTaxInitAction;
         var api = that.api || (that.api = worldScripts.DayDiplomacy_002_EngineAPI);
-        var taxLevel = that.taxLevel || (that.taxLevel = worldScripts.DayDiplomacy_030_Tax.$GOVERNMENT_DEFAULT_TAX_LEVEL);
+        var taxLevel = that.taxLevel || (that.taxLevel = worldScripts.DayDiplomacy_030_EconomyEngine.$GOVERNMENT_DEFAULT_TAX_LEVEL);
         var sys = that.sys || (that.sys = System);
         var cloc = that.cloc || (that.cloc = clock);
         var ourSystemInOolite = sys.infoForSystem(aSystem.galaxyNb, aSystem.systemId);
@@ -39,7 +60,8 @@ this._startUp = function () {
         api.$setField(aSystem, "government", government);
         // Necessary for alliances. Bad location but avoids other system initialization :/
         // FIXME 0.perfectstyle fields should be inited in the systems part. Make it all fields?
-        // FIXME 0.11 move treasury and tax level to a F4 Diplomacy system information including the history. Or use the new description system?
+        // FIXME 0.f move treasury and tax level to a F4 Diplomacy system information including the history.
+        // Or use the new description system?
         api.$setField(aSystem, "name", ourSystemInOolite.name);
         api.$setField(aSystem, "taxLevel", taxLevel[government]);
         api.$setField(aSystem, "treasury", 0); // Everybody begins with treasury = 0.

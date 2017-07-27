@@ -2,7 +2,9 @@ Diplomacy roadmap
 =================
 
 Next version might include:
-Wars!!!
+0.12 War declaration! (at_war with a system if score < warThreshold)
+0.12 Wars map! (merged with the allies map)
+0.13 War declaration generates an immediate gdp growth increase!
 
 ---------------------------------------------------------------
 
@@ -38,25 +40,25 @@ Conditions for 2.0 to be declared:
 
 ---------------------------------------------------------------
 
+FIXME 0.f explain that the total number of credits in the Ooniverse is always the same through a Raxxla adventure
+FIXME 0.f make the tax level evolve ?
+FIXME 0.f How do we know the real productivity? Is there an OMC? Black work wouldn't be reported, nor taxed. Yet another time Raxxla?
+FIXME 0.f productivity could slowly converge towards a value depending on space scarcity
+FIXME 0.f use Fuel tweaks oxp depending on state of war, recently attacked system, and player home system :p
+FIXME 0.f tweakability / configurability / by player / by other oxps
+FIXME 0.f prices vary depending on war
 FIXME 0.f identifying player as citizen from some system (Citizenship), consequences
 FIXME 0.f player taxation
 FIXME 0.f the strategic map should be available through an equipment, or a role (commander ;) )
+FIXME 0.f provide Diplomacy lore (the deep comments in the code) to the player through other oxps. Snoopers army? Spacebars? The oxp from which you're the hero?
 
-FIXME 0.n manage versioning of savefiles (once all functionalities are used)
+FIXME 0.n manage versioning of savefiles (last step before 1.0)
 
 FIXME 0.perfectperf use tco to avoid recursion: http://www.integralist.co.uk/posts/js-recursion.html
 FIXME 0.perfectperf minify, https://jscompress.com/, https://github.com/mishoo/UglifyJS2
 FIXME 0.perfectperf benchmark with lazy regexps
 
 FIXME 0.z make a story/scenario generator?
-
-FIXME 0.z Productivity
-How do we know the real productivity? Is there an OMC? Black work wouldn't be reported, nor taxed.
-All these information could be put into an Oolitopedia.
-Should we set the productivity? Make it evolve :) ?
-Productivity is directly linked to the money / inflation
-=> where space is scarce, activity is automatically more expensive, and productivity is higher.
-Should we rename Tax -> Economy?
 
 FIXME 0.z passengers are taxed too; maybe player may pay less depending on passenger home system? why would passenger allow that?
 FIXME 0.z some systems could have their citizens not taxed? free passage? by some chosen systems? vassal systems?
@@ -108,7 +110,87 @@ dynamicScore[observerId][observedId] = {
 ally to alliance if avg(systemsScores) > threshold
 attack if systemMoney > targetProductivity * targetPopulation, divided by constant
 
-FIXME 0.z: make the tax level evolve
+===
+
+WAR
+
+prepare_fight if:
+- treasury > fightPreparationThreshold => war_treasury
+Is this really needed?
+Fight may be prepared at all times
+
+- attacked => lowers drastically score
+- ally attacked => lowers (less) drastically score
+
+attack or finance_ally if:
+- score < attackThreshold ?
+
+- war_declared
+- roi > roi_threshold && war_treasury > attack_budget (depending on attacker culture? [0,30% of war_treasury?])
+
+An attack may remove from the attacked:
+ pib -= [5%,,5%]*pib
+ treasury -= attack_budget * 100 * [100%,1%]
+ war_treasury -= attack_budget * 10 * [100%,1%]
+An attack may from the attacker:
+ war_treasury += attack_budget * [-100%,100%]
+
+ depending on the success [100%,0%]
+
+ success repartition must be a gauss curve
+
+ what of ROI? hmm, economy size might change depending on battles?
+ So an increase in economy size is a one-year increase to be compared to the cost of the attack
+ what about using a zero-sum game principle? like economy size decrease goes to neigbors?
+ or declaring war weakens some economic relations between systems and strengthens others?
+
+ or wars are decided by hidden interests, not by global economy? per good type? per 2 types only agro and industrial?
+ I like the idea that the exchange depends on prices differences * size of economy
+ but should the exchange be imbalanced? how is that impacting the economy growth?
+ what are the coefficient on each good? what of forbidden goods?
+
+ the number of tons entering a system is equal to the number of tons exiting. Nope. the max number only, but it's theoretical.
+ the max number 128 is administrative? why is it everywhere, then?
+ not to be considered, as it would imply a very small spatial exchange between systems, very inferior to systems economy size
+
+ We need spatial ascensors, so as to have a low cost from planet to station,
+  which is needed not to have prohibitively expensive food and other things.
+ Or cheap anti-gravity =o
+ => big exchanges between systems
+
+ Let's say that we think in terms of %age of total GDP, and not in GDP
+ Let's say that the evolution of total GDP due to productivity increase is small in Ooniverse, compared to the variation due to the wars.
+ In that case, we can think we are in a zero-sum game, in terms of %age of total GDP.
+ Each loss of GDP %age is gained by the others.
+ We can (it is a game shortcut) reattribute the lost gdp to some others
+   => normal way is to add depending on their own current gdp, in the galaxy.
+   => another way is to consider it goes to near systems (neighors?).
+   => another way is to consider it goes to systems depending on their distance (squared)
+    => this way is nice but expensive to calculate
+       (needs the distance between each systems, and the sum of these distances)
+   => another way is to consider that neighbors in fact taxes the money,
+      and that systems other than neighbors earn a negligible increase
+   => money goes to neighbors, coefficiented on inverse distance squared
+
+   => attack ROI depends on the attacked distance
+   => financed attack ROI depends on the attacked distance
+   => finance ROI should always be better than attack ROI?
+       then finance is preferable to attack when it is possible
+       => how to ensure that 2 allies in war with a third system won't only finance each other instead of attacking?
+
+   there must be an incentive to finish the other
+   => spoils of war: combat_budget+, war_treasury+, treasury+, total gdp appropriation this turn (no neighbours),
+    greater portion of gdp (40% of attacked gdp * coeff depending on attacker gdp
+     (representing the ability to process the attacked gdp)), attacked forced peace
+
+   What if 2 allies finish a system at the same time? It isn't possible to have a "at the same time" event.
+    Well maybe, events concurrency.
+
+    FIXME 0.f use station in fire when a system has been beaten http://aegidian.org/bb/viewtopic.php?t=3460&start=154
+===
+
+FIXME 0.f PEACE
+
 FIXME 0.z have an indicator "Ongoing war" per system
 FIXME 0.z have a notion of "war zone"
 FIXME 0.z have a notion of galaxy, station, traveller as actors
@@ -122,4 +204,22 @@ FIXME 0.z each turn, a system has an event card: a sun explodes, or a native sin
 FIXME 0.z what about the story of a war writing itself?
 FIXME 0.z war cargoes
 FIXME 0.z player's greed is the key
-FIXME 0.z: "OXP that adds another eight galaxies" !!
+FIXME 0.z "OXP that adds another eight galaxies" !!
+FIXME 0.z what happens if the player lands on an enemy planet?
+
+FIXME 0.f make Snoopers optional?
+
+=========================
+Space is big. But the space we are interested in is the space around planetary systems :)
+What about ships localization detection and declaration?
+
+On our old earth, we have transponders onto every (naval) ship and plane. We even have control towers.
+We have radars too, and the chinese have recently made a quantum radar (so no evasion through deflecting the wave like the B-2 stealth bomber do).
+
+We could have mandatory transponders in corporate systems, optional transponders in, say, feudal systems, useless transponders in anarchy systems.
+That way, ships are declared, and space content is better known.
+
+We could have (gravitic?) radars which results are shared ad-hoc (like wifi) by law-abiding pilots ^^
+That way, ships are detected, and space content is better known.
+
+Using these, from the point of view of the ship commander, space isn't empty or big anymore; it's crowded and interaction are possibly frequent.
