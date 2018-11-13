@@ -2,7 +2,7 @@
 	"identifier" = "oolite.oxp.Day.Diplomacy";
 	"required_oolite_version" = "1.81";
 	"title" = "Diplomacy";
-	"version" = "0.12";
+	"version" = "0.13";
 	"category" = "Ambience";
 	"description" = "WIP: this OXP currently provides maps showing systems diplomatic links. Snooper news appear when the player system forms or breaks an alliance. Strategically interesting historic events from the F7-system are available through a F4-interface. System's treasury and tax level is displayed on the F7 page. Finally, it provides an API for oxp developers to build galaxy-spanning events and reactions.";
 	"author" = "Day";
