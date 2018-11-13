@@ -104,6 +104,7 @@ None.
 ==============================
 Changelog
 
+0.13    Bugfix: manifest.plist for the oxz manager.
 0.12    Bugfix: manifest.plist for the oxz manager.
 0.11    Improvement, flavor: added a F4 Alliances Map, showing alliances between systems.
         Improvement, flavor: having only news for the player current system.
