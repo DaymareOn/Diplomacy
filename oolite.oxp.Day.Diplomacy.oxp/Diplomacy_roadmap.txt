@@ -2,9 +2,9 @@ Diplomacy roadmap
 =================
 
 Next version might include:
-0.12 War declaration! (at_war with a system if score < warThreshold)
-0.12 Wars map! (merged with the allies map)
-0.13 War declaration generates an immediate gdp growth increase!
+0.13 War declaration! (at_war with a system if score < warThreshold)
+0.13 Wars map! (merged with the allies map)
+0.14 War declaration generates an immediate gdp growth increase!
 
 ---------------------------------------------------------------
 
