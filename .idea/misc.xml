@@ -46,13 +46,10 @@
       <map>
         <entry key="$PROJECT_DIR$">
           <value>
-            <SvnBranchConfiguration>
-              <option name="trunkUrl" value="" />
-            </SvnBranchConfiguration>
+            <SvnBranchConfiguration />
           </value>
         </entry>
       </map>
     </option>
-    <option name="mySupportsUserInfoFilter" value="true" />
   </component>
 </project>
