@@ -1,0 +1,19 @@
+{
+	"identifier" = "oolite.oxp.Day.HistoryHappener";
+	"required_oolite_version" = "1.81";
+	"title" = "HistoryHappener";
+	"version" = "0.1";
+	"category" = "Equipment";
+	"description" = "WIP: equipment making history happen";
+	"author" = "Day";
+	"information_url" = "http://wiki.alioth.net/index.php/HistoryHappener";
+	"license" = "CC BY-NC-SA 4";
+
+   	"file_size" = "3826930";
+	"requires_oxps" = (
+    	{
+    		"identifier" = "oolite.oxp.Day.Diplomacy";
+    		"description" = "Wars! History happening!";
+    	}
+    );
+}

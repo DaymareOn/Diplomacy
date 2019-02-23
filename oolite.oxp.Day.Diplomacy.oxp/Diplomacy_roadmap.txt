@@ -46,10 +46,10 @@ FIXME 0.f How do we know the real productivity? Is there an OMC? Black work woul
 FIXME 0.f productivity could slowly converge towards a value depending on space scarcity
 FIXME 0.f use Fuel tweaks oxp depending on state of war, recently attacked system, and player home system :p
 FIXME 0.f tweakability / configurability / by player / by other oxps
-FIXME 0.f prices vary depending on war
+FIXME 0.f equipment/commodities prices vary depending on war/system richness
 FIXME 0.f identifying player as citizen from some system (Citizenship), consequences
 FIXME 0.f player taxation
-FIXME 0.f the strategic map should be available through an equipment, or a role (commander ;) )
+FIXME 0.f the strategic map should be available through an equipment, or a role (commander ;) ); through the oxp GalacticRegistry (Galcop maps)?
 FIXME 0.f provide Diplomacy lore (the deep comments in the code) to the player through other oxps. Snoopers army? Spacebars? The oxp from which you're the hero?
 
 FIXME 0.n manage versioning of savefiles (last step before 1.0)
@@ -206,8 +206,11 @@ FIXME 0.z war cargoes
 FIXME 0.z player's greed is the key
 FIXME 0.z "OXP that adds another eight galaxies" !!
 FIXME 0.z what happens if the player lands on an enemy planet?
+FIXME 0.z ideology and richness change in a system after a victory/defeat
 
-FIXME 0.f make Snoopers optional?
+FIXME 0.f make Snoopers optional? replace snoopers by library?
+
+FIXME extract the main engine into its own OXP
 
 =========================
 Space is big. But the space we are interested in is the space around planetary systems :)

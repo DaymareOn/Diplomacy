@@ -1,11 +1,19 @@
 "use strict";
-this.name = "DayDiplomacy_045_Alliances";
+this.name = "DayDiplomacy_045_War";
 this.author = "David (Day) Pradier";
 this.copyright = "(C) 2017 David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
-this.description = "This script makes systems ally to each other, break their alliances, publish alliance news, draw the strategic map.";
+this.description = "This script makes systems ally to each other," +
+    " break their alliances," +
+    " make peace and war," +
+    " publish the related news," +
+    " draw the war and the diplomatic maps.";
 
 /*************************** OXP private functions *******************************************************/
+// FIXME 0.14 check that wars happen, in maps and in history
+// FIXME 0.14 have a test equipment making a diplomacy turn pass?
+// FIXME 0.14 make that as long as we are not in 1.0, the diplomacy save data is erased when there is a new version?
+this._debug = true; // FIXME 0.14 debug
 this._initSystemsScores = function (aGalaxyNb) {
     // Initializing static scores
     // For a given galaxy, for each system in the galaxy, for each system it observes,
@@ -15,7 +23,7 @@ this._initSystemsScores = function (aGalaxyNb) {
     var actorsIdByType = api.$getActorsIdByType("SYSTEM");
     var actors = api.$getActors();
     var z = actorsIdByType.length;
-    var aapi = this._aapi;
+    var wapi = this._wapi;
     while (z--) {
         var thisActor = actors[actorsIdByType[z]];
         if (thisActor.galaxyNb != aGalaxyNb) {
@@ -24,12 +32,12 @@ this._initSystemsScores = function (aGalaxyNb) {
         var observersId = thisActor.observers["SYSTEM"];
         var y = observersId.length;
         while (y--) {
-            aapi.$recalculateScores(actors[observersId[y]], thisActor);
+            wapi.$recalculateScores(actors[observersId[y]], thisActor);
         }
     }
 };
-this._drawStrategicMap = function () {
-    var scores = this._aapi.$getScores();
+this._drawDiplomaticMap = function () {
+    var scores = this._wapi.$getScores();
     var actors = this._api.$getActors();
     var links = [];
 
@@ -70,24 +78,29 @@ this._drawStrategicMap = function () {
 
     this._drawMap(links);
 };
-this._drawAlliancesMap = function () {
-    var alliances = this._aapi.$getAlliances();
+this._drawWarMap = function () {
+    var alliancesAndWars = this._wapi.$getAlliancesAndWars();
     var actors = this._api.$getActors();
     var links = [];
 
-    for (var actorId in alliances) {
-        if (alliances.hasOwnProperty(actorId)) {
-            var actorAlliances = alliances[actorId];
+    for (var actorId in alliancesAndWars) {
+        if (alliancesAndWars.hasOwnProperty(actorId)) {
+            var actorAlliancesAndWars = alliancesAndWars[actorId];
             var actor = actors[actorId];
             var systemNb = actor.systemId;
             var galaxyNb = actor.galaxyNb;
-            for (var allyId in actorAlliances) {
-                if (actorAlliances.hasOwnProperty(allyId)) {
-                    var allySystemNb = actors[allyId].systemId;
+            for (var targetId in actorAlliancesAndWars) {
+                if (actorAlliancesAndWars.hasOwnProperty(targetId)) {
+                    var targetSystemNb = actors[targetId].systemId;
                     // Doc: "When setting link_color, the lower system ID must be placed first,
                     // because of how the chart is drawn."
-                    if (systemNb < allySystemNb) {
-                        links.push({galaxyNb: galaxyNb, from: systemNb, to: allySystemNb, color: "greenColor"});
+                    if (systemNb < targetSystemNb) {
+                        links.push({
+                            galaxyNb: galaxyNb,
+                            from: systemNb,
+                            to: targetSystemNb,
+                            color: actorAlliancesAndWars[targetId] === 1 ? "greenColor" : "redColor"
+                        });
                     }
                 }
             }
@@ -121,65 +134,66 @@ this._resetLinks = function () {
 this._F4InterfaceCallback = function (choice) {
     this._resetLinks();
     switch (choice) {
-        case "TO_RELATIONS":
-            this._runStrategicMapScreen();
+        case "TO_DIPLOMACY":
+            this._runDiplomaticMapScreen();
             break;
-        case "TO_ALLIANCES":
-            this._runAlliancesMapScreen();
+        case "TO_WARS":
+            this._runWarMapScreen();
             break;
         default: // "EXIT":
     }
 };
-this._runAlliancesMapScreen = function () {
+this._runWarMapScreen = function () {
+    player.ship.hudHidden || (player.ship.hudHidden = true);
     var opts = {
-        screenID: "DiplomacyAlliancesScreenId",
-        title: "Alliances map",
-        backgroundSpecial: "LONG_RANGE_CHART_SHORTEST",
+        screenID: "DiplomacyWarScreenId",
+        title: "Wars map",
+        backgroundSpecial: "LONG_RANGE_CHART"/*_SHORTEST"*/,
         allowInterrupt: true,
         exitScreen: "GUI_SCREEN_INTERFACES",
-        choices: {"TO_RELATIONS": "Strategic map", "EXIT": "Exit"},
-        message: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" // 17 lines: the map's height + 1
+        choices: {"TO_DIPLOMACY": "Go to diplomatic map", "EXIT": "Exit"},
+        message: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" + // 17 lines: the map's height + 1
+        "Red: war\n" +
+        "Green: alliance"
     };
     mission.runScreen(opts, this._F4InterfaceCallback.bind(this));
-    this._drawAlliancesMap();
+    this._drawWarMap();
 };
-this._runStrategicMapScreen = function () {
+this._runDiplomaticMapScreen = function () {
+    player.ship.hudHidden || (player.ship.hudHidden = true);
     var opts = {
-        screenID: "DiplomacyAlliancesScreenId",
-        title: "Strategic map",
-        backgroundSpecial: "LONG_RANGE_CHART_SHORTEST",
+        screenID: "DiplomacyDiplomaticScreenId",
+        title: "Diplomatic map",
+        backgroundSpecial: "LONG_RANGE_CHART"/*_SHORTEST"*/,
         allowInterrupt: true,
         exitScreen: "GUI_SCREEN_INTERFACES",
-        choices: {"TO_ALLIANCES": "Alliances map", "EXIT": "Exit"},
+        choices: {"TO_WARS": "Go to wars map", "EXIT": "Exit"},
         message: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" + // 17 lines: the map's height + 1
         "Green:Love Blue:Love+Neutrality Gray:Neutrality\n" +
         "Yellow:Love+Hate Orange:Neutrality+Hate Red:Hate"
     };
     mission.runScreen(opts, this._F4InterfaceCallback.bind(this));
-    this._drawStrategicMap();
-};
-this._displayF4Interface = function () {
-    player.ship.hudHidden || (player.ship.hudHidden = true);
-    this._runAlliancesMapScreen();
+    this._drawDiplomaticMap();
 };
 this._initF4Interface = function () {
-    player.ship.dockedStation.setInterface("DiplomacyAlliances",
+    player.ship.dockedStation.setInterface("DiplomacyWars",
         {
-            title: "Strategic maps",
+            // FIXME Star wars??
+            title: "Wars maps",
             category: "Diplomacy",
-            summary: "You may see which systems (dis)like each other...",
-            callback: this._displayF4Interface.bind(this)
+            summary: "Wars and diplomacy",
+            callback: this._runWarMapScreen.bind(this)
         });
 };
 this._startUp = function () {
     this._storedNews = []; // No real need to save it
     var api = this._api = worldScripts.DayDiplomacy_002_EngineAPI;
-    var aapi = this._aapi = worldScripts.DayDiplomacy_042_AlliancesEngineAPI;
-    var asf = aapi.$getScoringFunctions();
+    var wapi = this._wapi = worldScripts.DayDiplomacy_042_WarEngineAPI;
+    var sf = wapi.$getScoringFunctions();
 
     // Economy comparison
-    if (asf.indexOf("EconomyComparison") === -1) {
-        aapi.$addScoringFunction("EconomyComparison", function (observer, observed) {
+    if (sf.indexOf("EconomyComparison") === -1) {
+        wapi.$addScoringFunction("EconomyComparison", function (observer, observed) {
             var map = {
                 0: {0: +0.5, 1: -1.0, 2: -0.5, 3: -1.0, 4: -1.0, 5: -0.5, 6: -0.5, 7: -0.5}, // Anarchy
                 1: {0: +0.0, 1: +0.5, 2: -0.5, 3: -0.5, 4: -1.0, 5: -0.5, 6: -1.0, 7: -0.5}, // Feudal
@@ -195,20 +209,24 @@ this._startUp = function () {
     }
 
     // Alliances influence on score, this function is and should be last executed.
-    if (asf.indexOf("alliancesInfluence") === -1) {
-        aapi.$addScoringFunction("alliancesInfluence", function alliancesInfluence(observer, observed) {
+    if (sf.indexOf("alliancesAndWarsInfluence") === -1) {
+        wapi.$addScoringFunction("alliancesAndWarsInfluence", function alliancesAndWarsInfluence(observer, observed) {
 
-            var that = alliancesInfluence;
-            var aaapi = that.aapi || (that.aapi = worldScripts.DayDiplomacy_042_AlliancesEngineAPI);
-            var observedAllies = aaapi.$getAlliances()[observed.id];
-            var allScores = aaapi.$getScores();
+            /* This function calculates the relation bonus given by observer to observed, depending on observed allies and foes.
+             * If their allies are considered nice by observer, they get a bonus.
+             * If their foes are considered baddies by observer, they get a bonus.
+             * And vice-versa. */
+            var that = alliancesAndWarsInfluence;
+            var wapi = that.wapi || (that.wapi = worldScripts.DayDiplomacy_042_WarEngineAPI);
+            var observedAlliesAndFoes = wapi.$getAlliancesAndWars()[observed.id];
+            var allScores = wapi.$getScores();
             var observerId = observer.id;
 
             var result = 0;
-            for (var alliedId in observedAllies) {
-                if (observedAllies.hasOwnProperty(alliedId)) {
+            for (var alliedId in observedAlliesAndFoes) {
+                if (observedAlliesAndFoes.hasOwnProperty(alliedId)) {
                     var scores = allScores[alliedId][observerId];
-                    scores && (result += scores.SCORE);
+                    scores && (result += observedAlliesAndFoes[alliedId] * scores.SCORE);
                 }
             }
             return result > 0 ? .25 : result < 0 ? -.25 : 0;
@@ -219,8 +237,8 @@ this._startUp = function () {
     this._initSystemsScores(system.info.galaxyID);
 
     // We set the response to the ALLY event.
-    var responseFunctionId = "diplomacyAlliancesOnSystemAllyFunction";
-    if (!api.$getFunctions()[responseFunctionId]) {
+    var allyResponseFunctionId = "diplomacyAlliancesOnSystemAllyFunction";
+    if (!api.$getFunctions()[allyResponseFunctionId]) {
         // We use a recurrent action to recalculate the scores,
         // as doing it on every event would generate LOTS of calculus.
         // Currently, we only generate the news.
@@ -228,23 +246,24 @@ this._startUp = function () {
 
             var respondingActor = argsArray[0], eventActor = argsArray[1], alliedActorId = argsArray[2];
             // On ALLY event, if the player is in a responder system, a news is generated.
+            // This could be optimized, but the role of this function should be to manage all responses.
             if (system.info.name === respondingActor.name) {
                 var allyName = worldScripts.DayDiplomacy_002_EngineAPI.$getActors()[alliedActorId].name;
                 if (respondingActor.name === allyName) {
                     var news = {
-                        ID: "DayDiplomacy_045_Alliances", // Script name copied to avoid a closure.
+                        ID: "DayDiplomacy_045_War", // Script name copied to avoid a closure.
                         Direct: true,
                         Agency: 1,
                         Message: "YOU might be interested in knowing that " + eventActor.name + " just allied with " + allyName
                         + ".\n\nAs Commander Diziet Sma, currently aboard the \"Blackwidow\" Pitviper S.E., famously said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
                     };
-                    worldScripts.DayDiplomacy_045_Alliances._publishNews(news);
+                    worldScripts.DayDiplomacy_045_War._publishNews(news);
                 }
             }
 
         };
-        api.$setFunction(responseFunctionId, diplomacyAlliancesOnSystemAllyFunction);
-        api.$setResponse(api.$buildResponse(api.$buildNewResponseId(), "ALLY", "SYSTEM", responseFunctionId));
+        api.$setFunction(allyResponseFunctionId, diplomacyAlliancesOnSystemAllyFunction);
+        api.$setResponse(api.$buildResponse(api.$buildNewResponseId(), "ALLY", "SYSTEM", allyResponseFunctionId));
     }
 
     // We set the response to the BREAK event.
@@ -261,13 +280,13 @@ this._startUp = function () {
                 var allyName = worldScripts.DayDiplomacy_002_EngineAPI.$getActors()[alliedActorId].name;
                 if (respondingActor.name === allyName) {
                     var news = {
-                        ID: "DayDiplomacy_045_Alliances", // Script name copied to avoid a closure.
+                        ID: "DayDiplomacy_045_War", // Script name copied to avoid a closure.
                         Direct: true,
                         Agency: 1,
                         Message: "YOU might be interested in knowing that " + eventActor.name + " just broke their alliance with " + allyName
                         + ".\n\nAs Commander Diziet Sma, currently aboard the \"Blackwidow\" Pitviper S.E., famously said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
                     };
-                    worldScripts.DayDiplomacy_045_Alliances._publishNews(news);
+                    worldScripts.DayDiplomacy_045_War._publishNews(news);
                 }
             }
 
@@ -276,11 +295,75 @@ this._startUp = function () {
         api.$setResponse(api.$buildResponse(api.$buildNewResponseId(), "BREAK", "SYSTEM", breakResponseFunctionId));
     }
 
+    // We set the response to the WAR event.
+    var warResponseFunctionId = "diplomacyAlliancesOnSystemWarFunction";
+    if (!api.$getFunctions()[warResponseFunctionId]) {
+        // We use a recurrent action to recalculate the scores,
+        // as doing it on every event would generate LOTS of calculus.
+        // Currently, we only generate the news.
+        var diplomacyAlliancesOnSystemWarFunction = function diplomacyAlliancesOnSystemWarFunction(argsArray) {
+
+            var respondingActor = argsArray[0], eventActor = argsArray[1], foeActorId = argsArray[2];
+            // On WAR event, if the player is in a responder system, a news is generated.
+            if (system.info.name === respondingActor.name) {
+                var foeName = worldScripts.DayDiplomacy_002_EngineAPI.$getActors()[foeActorId].name;
+                if (respondingActor.name === foeName) {
+                    var news = {
+                        ID: "DayDiplomacy_045_War", // Script name copied to avoid a closure.
+                        Direct: true,
+                        Agency: 1,
+                        // FIXME 0.14 change citation for war and peace
+                        Message: "YOU might be interested in knowing that " + eventActor.name + " just declared war with " + foeName
+                        + ".\n\nAs Commander Diziet Sma, currently aboard the \"Blackwidow\" Pitviper S.E., famously said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
+                    };
+                    worldScripts.DayDiplomacy_045_War._publishNews(news);
+                }
+            }
+
+        };
+        api.$setFunction(warResponseFunctionId, diplomacyAlliancesOnSystemWarFunction);
+        api.$setResponse(api.$buildResponse(api.$buildNewResponseId(), "WAR", "SYSTEM", warResponseFunctionId));
+    }
+
+    // We set the response to the PEACE event.
+    var peaceResponseFunctionId = "diplomacyAlliancesOnSystemPeaceFunction";
+    if (!api.$getFunctions()[peaceResponseFunctionId]) {
+        // We use a recurrent action to recalculate the scores,
+        // as doing it on every event would generate LOTS of calculus.
+        // Currently, we only generate the news.
+        var diplomacyAlliancesOnSystemPeaceFunction = function diplomacyAlliancesOnSystemPeaceFunction(argsArray) {
+
+            var respondingActor = argsArray[0], eventActor = argsArray[1], foeActorId = argsArray[2];
+            // On PEACE event, if the player is in a responder system, a news is generated.
+            if (system.info.name === respondingActor.name) {
+                var foeName = worldScripts.DayDiplomacy_002_EngineAPI.$getActors()[foeActorId].name;
+                if (respondingActor.name === foeName) {
+                    var news = {
+                        ID: "DayDiplomacy_045_War", // Script name copied to avoid a closure.
+                        Direct: true,
+                        Agency: 1,
+                        // FIXME 0.14 change citation for war and peace
+                        Message: "YOU might be interested in knowing that " + eventActor.name + " just made peace with " + foeName
+                        + ".\n\nAs Commander Diziet Sma, currently aboard the \"Blackwidow\" Pitviper S.E., famously said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
+                    };
+                    worldScripts.DayDiplomacy_045_War._publishNews(news);
+                }
+            }
+
+        };
+        api.$setFunction(peaceResponseFunctionId, diplomacyAlliancesOnSystemPeaceFunction);
+        api.$setResponse(api.$buildResponse(api.$buildNewResponseId(), "PEACE", "SYSTEM", peaceResponseFunctionId));
+    }
+
     // FIXME 0.perfectstyle hmff, this might have to be into its own function.
-    // Nope, it would be contrary to perfectperf. Explain that in TechnicalPrinciples.txt,
-    // and comment fully this code block.
-    worldScripts.XenonUI && worldScripts.XenonUI.$addMissionScreenException("DiplomacyAlliancesScreenId");
-    worldScripts.XenonReduxUI && worldScripts.XenonReduxUI.$addMissionScreenException("DiplomacyAlliancesScreenId");
+    // Nope, it would be contrary to perfectperf. Explain that in TechnicalPrinciples.txt.
+    // XenonUI would overlay over our mission screens without these exception.
+    // FIXME 0.perfectstyle i should have a list of screens, rather than copying here their names, to avoid forgetting
+    // to update here when I add or change a screen.
+    worldScripts.XenonUI && worldScripts.XenonUI.$addMissionScreenException("DiplomacyDiplomaticScreenId");
+    worldScripts.XenonUI && worldScripts.XenonUI.$addMissionScreenException("DiplomacyWarScreenId");
+    worldScripts.XenonReduxUI && worldScripts.XenonReduxUI.$addMissionScreenException("DiplomacyDiplomaticScreenId");
+    worldScripts.XenonReduxUI && worldScripts.XenonReduxUI.$addMissionScreenException("DiplomacyWarScreenId");
 
     this._initF4Interface();
 
@@ -289,9 +372,9 @@ this._startUp = function () {
 this._publishNews = function (news) {
     var returnCode = worldScripts.snoopers.insertNews(news);
     if (returnCode > 0 && returnCode !== 30) { // A prerequisite is wrong
-        log("DiplomacyAlliances.diplomacyAlliancesOnSystemAllyFunction", "Snoopers ERROR: " + returnCode);
+        log("DiplomacyWar.diplomacyWarOnSystem*Function", "Snoopers ERROR: " + returnCode);
     } else if (returnCode < 0 || returnCode === 30) { // A buffer is full, we will resend the news later.
-        worldScripts.DayDiplomacy_045_Alliances._storedNews.push(news);
+        worldScripts.DayDiplomacy_045_War._storedNews.push(news);
     } // else: everything is okay.
 };
 /*************************** End OXP private functions ***************************************************/

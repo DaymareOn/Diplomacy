@@ -41,28 +41,30 @@ Systems treasury!
     Each system treasury is increased through taxation each player jump,
      depending on the time past since the last jump.
 
-Strategic map!
-    New F4 Interface screen: the Diplomacy Strategic Map!
-    There, you can see the systems which (dis)like each other...
+Strategic maps!
+    New F4 Interface screens: the Wars Map! The Diplomatic Map!
 
-Systems alliances!
+Systems alliances, wars!
     Two systems within 7ly of each other may now form an alliance, if they like each other enough.
     They may break their alliance, too =-o !
+    They may wage war to each other, and make peace too :) !
     New F4 Interface screen: the Systems History!
 
 News!
     Some Snooper news are now displayed when an alliance is formed or broken between two systems,
-    and the player is within 7ly of one of those systems.
+    or when a war starts or ends between two systems, and the player is in one of those systems.
 
 ==============================
 What's currently implemented technically?
 
-The oxp contains Engines which may be accessed through APIs: EngineAPI, AlliancesEngineAPI, HistoryAPI, SystemsAPI.
+The oxp contains Engines which may be accessed through APIs:
+- EngineAPI,
+- WarEngineAPI,
+- HistoryAPI,
+- SystemsAPI,
+- EconomyEngineAPI.
 
 The APIs are designed to be easy to use by developers to implement interesting galaxy-spanning events.
-
-High-level behaviors are currently implemented using these APIs in the aptly named following scripts:
- Systems, Tax, Alliances, History.
 
 ==============================
 Effects on game difficulty
@@ -104,10 +106,15 @@ None.
 ==============================
 Changelog
 
+0.14    Improvement, flavor: War declaration! Peace! Snooper news about them!
+        Improvement, flavor: Wars map!
+        Improvement, dev func: the war threshold and the alliance threshold are scriptable through the WarEngineAPI.
+        Improvement, dev func: new equipment making History happen for debug purposes.
+        Improvement, code consistency: Alliances scripts become War scripts.
 0.13    Bugfix: manifest.plist for the oxz manager.
 0.12    Bugfix: manifest.plist for the oxz manager.
 0.11    Improvement, flavor: added a F4 Alliances Map, showing alliances between systems.
-        Improvement, flavor: having only news for the player current system.
+        Improvement, flavor: having only Snooper news for the player current system.
         Improvement, flavor: fixed Diziet Sma citation
         Improvement, code consistency: the tax script becomes the economy script.
         Improvement, code consistency: removed the TechnicalPrinciples.txt file, as its content is now mainly in the new OXP Performance thread.

@@ -5,9 +5,9 @@
     "DayDiplomacy_SystemsAPI.js",
     "DayDiplomacy_EconomyEngine.js",
     "DayDiplomacy_EconomyEngineAPI.js",
-    "DayDiplomacy_AlliancesEngine.js",
-    "DayDiplomacy_AlliancesEngineAPI.js",
-    "DayDiplomacy_Alliances.js",
+    "DayDiplomacy_WarEngine.js",
+    "DayDiplomacy_WarEngineAPI.js",
+    "DayDiplomacy_War.js",
     "DayDiplomacy_History.js",
     "DayDiplomacy_HistoryAPI.js",
 )

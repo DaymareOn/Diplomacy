@@ -12,7 +12,7 @@ this._JSON = JSON;
 /*************************** End of closures *************************************************************/
 
 /*************************** Engine **********************************************************************/
-this._debug = false; // Set this to true to have events working as if you just spent a turn and entered the station.
+this._debug = false; // FIXME 0.14 Set this to true to have events working as if you just spent a turn and entered the station.
 this._loadState = function (toBeModifiedState, sourceState) {
     for (var id in sourceState) {
         if (sourceState.hasOwnProperty(id)) { // Avoiding prototypes' fields
@@ -20,8 +20,7 @@ this._loadState = function (toBeModifiedState, sourceState) {
         }
     }
 };
-// FIXME perfectstyle this.State and this.Functions should be prefixed with _
-this.State = {
+this._State = {
     actors: {}, // {actorId => actor}
     initActions: {}, // { actionId => action }
     recurrentActions: {}, // { actionId => action }
@@ -45,33 +44,33 @@ this.State = {
     currentActorType: "",
     shortStack: []
 };
-this.Functions = {};// { functionId (string) => function }
+this._Functions = {};// { functionId (string) => function }
 this.$getNewActorId = function () {
-    return "DAr_" + this.State.actorMaxId++;
+    return "DAr_" + this._State.actorMaxId++;
 };
 this.$getNewResponseId = function () {
-    return "DR_" + this.State.responseMaxId++;
+    return "DR_" + this._State.responseMaxId++;
 };
 this.$getNewActionId = function () {
-    return "DAn_" + this.State.actionMaxId++;
+    return "DAn_" + this._State.actionMaxId++;
 };
 this.$getNewFunctionId = function () {
-    return "DFn_" + this.State.functionMaxId++;
+    return "DFn_" + this._State.functionMaxId++;
 };
 this.$getNewEventId = function () {
-    return "DEt_" + this.State.eventMaxId++;
+    return "DEt_" + this._State.eventMaxId++;
 };
 this.$letActorExecuteAction = function (anActor, anAction) {
-    this.Functions[anAction.actionFunctionId](anActor);
+    this._Functions[anAction.actionFunctionId](anActor);
 };
 this.$makeActorEventKnownToUniverse = function (actorId, anEventType, someArgs) {
     this._record({id: this.$getNewEventId(), eventType: anEventType, actorId: actorId, args: someArgs});
 };
 // this.$Actor.prototype.actNextTurn = function (anEventType, someArgs) {
-//     this.recordForNextTurn({id:eventId, eventType: anEventType, actorId: this.State.id, args: someArgs});
+//     this.recordForNextTurn({id:eventId, eventType: anEventType, actorId: this._State.id, args: someArgs});
 // };
 this.$addActor = function (anActor) {
-    var state = this.State, responsesByType = state.responsesByType, initActions = state.initActions,
+    var state = this._State, responsesByType = state.responsesByType, initActions = state.initActions,
         initActionsByType = state.initActionsByType, eventTypes = state.eventTypes, actorType = anActor.actorType,
         id = anActor.id, responses = state.responses;
 
@@ -100,7 +99,7 @@ this.$addActor = function (anActor) {
 };
 // Consistent with history usage.
 // this.disableActor = function (anActor) {
-//     var engineState = this.State, actorState = anActor.State, arr = engineState.actorsByType[actorState.actorType];
+//     var engineState = this._State, actorState = anActor._State, arr = engineState.actorsByType[actorState.actorType];
 //     arr.splice(arr.indexOf(actorState.id), 1);
 //     delete engineState.actors[actorState.id];
 // };
@@ -113,14 +112,14 @@ this.$addResponseToActor = function (aResponse, anActor) {
     (responsesIdByEventType[aResponse.eventType] || (responsesIdByEventType[aResponse.eventType] = [])).push(aResponse.id);
 };
 // this.$Actor.prototype.removeResponse = function (aResponse) {
-//     var arr = this.State.responses[aResponse.eventType];
+//     var arr = this._State.responses[aResponse.eventType];
 //     arr.splice(arr.indexOf(aResponse.id), 1);
 // };
 this.$setFunction = function (anId, aFunction) {
-    this.Functions[anId] = aFunction;
+    this._Functions[anId] = aFunction;
 };
 this.$setInitAction = function (anInitAction) {
-    var initActions = this.State.initActions, initActionActorType = anInitAction.actorType;
+    var initActions = this._State.initActions, initActionActorType = anInitAction.actorType;
     // We add the initAction to initActions
     (initActions[initActionActorType] || (initActions[initActionActorType] = {}))[anInitAction.id] = anInitAction;
 
@@ -129,21 +128,21 @@ this.$setInitAction = function (anInitAction) {
 };
 this.$setRecurrentAction = function (anAction) {
     // We add the action to recurrentActions
-    var recurrentActionsByType = this.State.recurrentActionsByType, recurrentActions = this.State.recurrentActions,
+    var recurrentActionsByType = this._State.recurrentActionsByType, recurrentActions = this._State.recurrentActions,
         actionEventType = anAction.eventType, actionActorType = anAction.actorType;
     var eventTypeActions = recurrentActionsByType[actionEventType] || (recurrentActionsByType[actionEventType] = {});
     (eventTypeActions[actionActorType] || (eventTypeActions[actionActorType] = [])).push(anAction.id);
     recurrentActions[anAction.id] = anAction;
 };
 this.$executeAction = function (anAction) {
-    var ourActorIds = this.State.actorsByType[anAction.actorType], actors = this.State.actors;
+    var ourActorIds = this._State.actorsByType[anAction.actorType], actors = this._State.actors;
     var z = ourActorIds.length;
     while (z--) {
         this.$letActorExecuteAction(actors[ourActorIds[z]], anAction);
     }
 };
 this.$setResponse = function (aResponse) {
-    var state = this.State, actors = state.actors;
+    var state = this._State, actors = state.actors;
     // We add the response to responses
     state.responsesByType[aResponse.eventType][aResponse.actorType].push(aResponse.id);
     state.responses[aResponse.id] = aResponse;
@@ -156,15 +155,15 @@ this.$setResponse = function (aResponse) {
     }
 };
 // this.unsetInitAction = function (anInitAction) { // This doesn't impact History.
-//     delete this.State.initActions[anInitAction.actorType][anInitAction.id];
+//     delete this._State.initActions[anInitAction.actorType][anInitAction.id];
 // };
 // this.unsetRecurrentAction = function (anAction) { // This doesn't impact History.
-//     var engineState = this.State, arr = engineState.recurrentActionsByType[anAction.eventType][anAction.actorType];
+//     var engineState = this._State, arr = engineState.recurrentActionsByType[anAction.eventType][anAction.actorType];
 //     arr.splice(arr.indexOf(anAction.id), 1);
 //     delete engineState.recurrentActions[anAction.id];
 // };
 // this.unsetResponse = function (aResponse) { // This doesn't impact History.
-//     var state = this.State, actors = state.actors;
+//     var state = this._State, actors = state.actors;
 //     delete state.responses[aResponse.eventType][aResponse.actorType][aResponse.id];
 //     var ourActorIds = state.actorsByType[aResponse.actorType];
 //     var z = ourActorIds.length;
@@ -177,8 +176,9 @@ this.$addEventType = function (name, position) {
      * name must be different from already existing names.
      * We don't allow to remove eventTypes as it would make the history inconsistent.
      */
-    var state = this.State;
+    var state = this._State;
     state.eventTypes.splice(position, 0, name);
+    log("DiplomacyEngine", "Added " + name + " event type in position " + position + ". Current event types: " + state.eventTypes);
     var ourResponses = (state.responsesByType[name] = {});
     var ourRecurrentActions = (state.recurrentActionsByType[name] = {});
     var actorTypes = state.actorTypes;
@@ -192,7 +192,7 @@ this.$addEventType = function (name, position) {
     state.eventsToPublishNextTurn[name] = [];
 };
 this.$addActorType = function (name, position) {
-    var state = this.State;
+    var state = this._State;
     state.actorTypes.splice(position, 0, name);
 
     state.actorsByType[name] = [];
@@ -213,13 +213,13 @@ this._nextState = function (type, currentState) {
      * @param type: "eventTypes" or "actorTypes"
      * @param currentState
      */
-    var arr = this.State[type];
+    var arr = this._State[type];
     var newIndex = arr.indexOf(currentState) + 1;
     return newIndex === arr.length ? "" : arr[newIndex];
 };
 this._record = function (anEvent) {
-    var eventsToPublish = this.State.eventsToPublish, eventType = anEvent.eventType, date = this._clock.seconds,
-        eventId = anEvent.id, eventActorId = anEvent.actorId, actorsEvents = this.State.actorsEvents;
+    var eventsToPublish = this._State.eventsToPublish, eventType = anEvent.eventType, date = this._clock.seconds,
+        eventId = anEvent.id, eventActorId = anEvent.actorId, actorsEvents = this._State.actorsEvents;
 
     // Stamping the event
     anEvent.date = date;
@@ -227,17 +227,17 @@ this._record = function (anEvent) {
     // Recording the history. This is ordered by insertion, so ordered by date.
     (actorsEvents[eventActorId] || (actorsEvents[eventActorId] = [])).push(eventId);
 
-    this.State.events[eventId] = anEvent;
+    this._State.events[eventId] = anEvent;
 
     // Publishing the reality
     (eventsToPublish[eventType] || (eventsToPublish[eventType] = [])).push(anEvent);
 };
 // this.recordForNextTurn = function (anEvent) {
-//     var eventsToPublishNextTurn = this.State.eventsToPublishNextTurn, eventType = anEvent.eventType;
+//     var eventsToPublishNextTurn = this._State.eventsToPublishNextTurn, eventType = anEvent.eventType;
 //     (eventsToPublishNextTurn[eventType] || (eventsToPublishNextTurn[eventType] = [])).push(anEvent);
 // };
 this._gatherEventsToPublish = function () {
-    var state = this.State;
+    var state = this._State;
     var currentEventType = state.currentEventType, eventsToPublishNextTurn = state.eventsToPublishNextTurn;
     var ourEvents = (eventsToPublishNextTurn[currentEventType] || (eventsToPublishNextTurn[currentEventType] = []));
     // FIXME 0.perfectperf, when we use Events: does the length change? check through logs
@@ -251,15 +251,21 @@ this._gatherEventsToPublish = function () {
 
     // We go to next eventType
     var newEventType = this._nextState("eventTypes", currentEventType);
+    if (this._debug && newEventType !== "") {
+        log(this.name, "Gathering events to publish for state: " + newEventType);
+    }
     state.currentEventType = newEventType || state.eventTypes[0];
     state.currentActorType = state.actorTypes[0];
     return !newEventType;
 };
 this._populateStack = function () {
     /** @return Returns true when everything is finished, else false. */
-    var state = this.State, currentEventType = state.currentEventType, currentActorType = state.currentActorType,
+    var state = this._State, currentEventType = state.currentEventType, currentActorType = state.currentActorType,
         firstActorType = state.actorTypes[0];
     if (!state.recurrentActionsIsDoneForCurrentEventType) {
+        if (this._debug) {
+            log(this.name, "Putting recurrent actions onto stack for event type: " + currentEventType + " and actor type: " + state.currentActorType);
+        }
         this._putRecurrentActionsOntoStack(currentEventType, currentActorType);
 
         // We go to next actorType
@@ -285,12 +291,15 @@ this._populateStack = function () {
     state.currentActorType = firstActorType;
     state.recurrentActionsIsDoneForCurrentEventType = false;
     var newEventType = this._nextState("eventTypes", currentEventType);
+    if (this._debug && newEventType !== "") {
+        log(this.name, "Gathering events to publish for state: " + newEventType);
+    }
     // We may have finished: no more eventType, no more actorType, no more recurrentAction, no more event to respond to.
     state.currentEventType = newEventType || state.eventTypes[0];
     return !newEventType;
 };
 this._putRecurrentActionsOntoStack = function (currentEventType, currentActorType) {
-    var state = this.State, actions = state.recurrentActionsByType[currentEventType][currentActorType],
+    var state = this._State, actions = state.recurrentActionsByType[currentEventType][currentActorType],
         actorIds = state.actorsByType[currentActorType], shortStack = state.shortStack;
     var y = actions.length;
     while (y--) {
@@ -304,7 +313,7 @@ this._putRecurrentActionsOntoStack = function (currentEventType, currentActorTyp
 this._putEventOntoStack = function (thatEvent, currentActorType) {
     // FIXME perfectstyle we should use the eventId as arg rather than the whole event
     var eventActorId = thatEvent.actorId, eventEventType = thatEvent.eventType, eventArgs = thatEvent.args,
-        state = this.State, actors = state.actors, eventActor = actors[eventActorId],
+        state = this._State, actors = state.actors, eventActor = actors[eventActorId],
         observers = eventActor.observers[currentActorType], z = observers.length, shortStack = state.shortStack,
         responses = state.responses;
     while (z--) {
@@ -327,26 +336,33 @@ this._putEventOntoStack = function (thatEvent, currentActorType) {
 };
 this._executeStack = function () {
     /** @return return true if finished (empty stack), false otherwise. */
-    var s = this.State;
+    var s = this._State;
     var action = s.shortStack.shift();
     if (action === undefined) {
         return true;
     }
     // FIXME 0.perfectperf measure execution time?
     if (action.type == "action") {
-        this.Functions[s.recurrentActions[action.recurrentActionId].actionFunctionId](s.actors[action.actorId]);
+        this._Functions[s.recurrentActions[action.recurrentActionId].actionFunctionId](s.actors[action.actorId]);
     } else { // == "response"
-        this.Functions[action.responseFunctionId](action.args);
+        this._Functions[action.responseFunctionId](action.args);
     }
     return false;
 };
 this._addFrameCallback = function () {
-    this.State.callback || (this.State.callback = addFrameCallback(this._ourFrameCallback));
+    this._removeFrameCallback();
+    if (this._debug) {
+        log(this.name, "Adding frame callback");
+    }
+    this._State.callback = addFrameCallback(this._ourFrameCallback);
 };
 this._removeFrameCallback = function () {
-    if (this.State.callback) {
-        removeFrameCallback(this.State.callback);
-        delete this.State.callback;
+    if (this._State.callback) {
+        removeFrameCallback(this._State.callback);
+        delete this._State.callback;
+        if (this._debug) {
+            log(this.name, "Removed frame callback");
+        }
     }
 };
 this._ourFrameCallback = function (delta) {
@@ -354,7 +370,7 @@ this._ourFrameCallback = function (delta) {
         return; // Only one in n frames is used.
     }
 
-    var state = this.State;
+    var state = this._State;
     if (state.isJumpTokenBeingUsed) {
         state.isJumpTokenBeingUsed = !(this._executeStack() && this._populateStack()); // Still some work to do ?
         return; // we did enough this time
@@ -362,12 +378,16 @@ this._ourFrameCallback = function (delta) {
 
     if (state.jumpTokenNb) { // Do we have an available jump token?
         if (this._gatherEventsToPublish()) { // Finished gathering
+            if (this._debug) log(this.name, "Using a jump token");
             state.jumpTokenNb--;
             state.isJumpTokenBeingUsed = true;
         }
         return; // we did enough this time
     }
 
+    if (this._debug) {
+        log(this.name, "No more jump token");
+    }
     this._removeFrameCallback(); // We have finished, we remove the callback
 }.bind(this);
 /*************************** End of engine ***************************************************************/
@@ -397,31 +417,31 @@ this._functionReviver = (function () {
 
 /*************************** Oolite events ***************************************************************/
 this._startUp = function () {
-    var as = this.State;
+    var as = this._State;
     var sa = this._missionVariables.DayDiplomacyEngine_EngineState;
     if (sa && sa.length) { // Loading if necessary.
         this._loadState(as, this._JSON.parse(sa));
-        this._loadState(this.Functions, this._JSON.parse(this._missionVariables.DayDiplomacyEngine_Functions, this._functionReviver));
+        this._loadState(this._Functions, this._JSON.parse(this._missionVariables.DayDiplomacyEngine_Functions, this._functionReviver));
     }
 
-    // this.shipExitedWitchspace(); // For debug
-
     delete this._startUp; // No need to startup twice
-    this.shipDockedWithStation(null); // When starting, the player is docked.
 };
 this.playerWillSaveGame = function (message) {
     this._removeFrameCallback();
     var start = new Date();
-    this._missionVariables.DayDiplomacyEngine_EngineState = this._JSON.stringify(this.State);
-    this._missionVariables.DayDiplomacyEngine_Functions = this._JSON.stringify(this.Functions, this._functionReplacer);
+    this._missionVariables.DayDiplomacyEngine_EngineState = this._JSON.stringify(this._State);
+    this._missionVariables.DayDiplomacyEngine_Functions = this._JSON.stringify(this._Functions, this._functionReplacer);
     var end = new Date();
     log("DiplomacyEngine", "Saved in ms: " + (end.getTime() - start.getTime()));
     this._addFrameCallback();
 };
 this.shipExitedWitchspace = function () {
-    var s = this.State;
+    var s = this._State;
     s.jumpTokenNb || (s.jumpTokenNb = 0);
     s.jumpTokenNb++;
+    if (this._debug) {
+        log(this.name, "Added jump token");
+    }
 };
 this.shipDockedWithStation = function (station) {
     this._addFrameCallback();
@@ -445,10 +465,11 @@ this.startUpComplete = function () {
         log(s[y - z], "startUp in ms: " + (new Date().getTime() - startDate.getTime()));
     }
 
+    // If in debug mode when starting, it's set to true to have events working as if you just spent a turn and entered the station.
     if (this._debug) {
         this.shipExitedWitchspace();
-        this.shipDockedWithStation();
     }
+    this.shipDockedWithStation(null); // When starting, the player is docked.
 
     delete this.startUpComplete; // No need to startup twice
 };

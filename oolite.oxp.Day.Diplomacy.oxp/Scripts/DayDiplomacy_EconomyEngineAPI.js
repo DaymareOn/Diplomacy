@@ -10,22 +10,22 @@ this.description = "This script is the economy engine API for external scripts."
    This implies that the money cannot be produced, destroyed or counterfeited, which is a mystery in itself. */
 
 this.$moveProductivityInPercentage = function(fromSystemActor, percentage) {
-    // FIXME 0.13 TODO
+    // FIXME 0.15 TODO
 };
 this.$moveProductivityInCredits = function(fromSystemActor, creditsNb) {
-    // FIXME 0.13 TODO
+    // FIXME 0.15 TODO
 };
 this.$moveProductivityToNeighborsInPercentage = function(fromSystemActor, percentage) {
-    // FIXME 0.13 TODO
+    // FIXME 0.15 TODO
 };
 this.$moveProductivityToNeighborsInCredits = function(fromSystemActor, creditsNb) {
-    // FIXME 0.13 TODO
+    // FIXME 0.15 TODO
 };
 this.$moveProductivityToNeighborsDependingOnDistanceInPercentage = function(fromSystemActor, percentage) {
-    // FIXME 0.13 TODO
+    // FIXME 0.15 TODO
 };
 this.$moveProductivityToNeighborsDependingOnDistanceInCredits = function(fromSystemActor, creditsNb) {
-    // FIXME 0.13 TODO
+    // FIXME 0.15 TODO
 };
 
 /*************************** Oolite events ***************************************************************/

@@ -10,11 +10,11 @@ this._displayF4Interface = function () {
     // for each event in history for this system, we add a line
     var ourMessage = "", f = this._F, eff = this._eff,
         ourEventsIds = this._api.$getActorEvents(this._selectedSystemActorId), events = this._api.$getEvents(),
-        y = ourEventsIds.length;
+        y = ourEventsIds.length, _clock = clock;
     while (y--) {
         // Anti-chronologic order
         var thatEvent = events[ourEventsIds[y]];
-        ourMessage += thatEvent.date + ": " + f[eff[thatEvent.eventType]](thatEvent);
+        ourMessage += _clock.clockStringForTime(thatEvent.date) + ": " + f[eff[thatEvent.eventType]](thatEvent)+"\n";
     }
     var opts = {
         screenID: "DiplomacyHistoryScreenId",
@@ -59,6 +59,10 @@ this._startUp = function () {
     this._F = api.$getFunctions();
     this._selectedSystemActorId = this._sapi.$getCurrentGalaxySystemsActorIdsBySystemsId()[system.info.systemID]; // FIXME perfectperf?
     this._eff = api.$initAndReturnSavedData("eventFormatingFunctionsIds", {}); // { eventType => functionId }
+
+    // FIXME rassembler
+    worldScripts.XenonUI && worldScripts.XenonUI.$addMissionScreenException("DiplomacyHistoryScreenId");
+    worldScripts.XenonReduxUI && worldScripts.XenonReduxUI.$addMissionScreenException("DiplomacyHistoryScreenId");
 
     this._initF4Interface();
 

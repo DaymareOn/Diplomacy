@@ -15,26 +15,26 @@ this.$GOVERNMENT_DEFAULT_TAX_LEVEL = {
     "4": 0.5, // Communist => major taxes, but those systems are not crumbling
     "5": 0.1, // Confederacy => tax avoiding is rampant
     "6": 0.5, // Democracy => major taxes, but those systems are not crumbling
-    "7": 0.1 // Corporate => tax avoiding is rampant
+    "7": 0.1  // Corporate => tax avoiding is rampant
 };
 
 this.$moveProductivityInPercentage = function(fromSystemActor, percentage) {
-    // FIXME 0.13 TODO
+    // FIXME 0.15 TODO
 };
 this.$moveProductivityInCredits = function(fromSystemActor, creditsNb) {
-    // FIXME 0.13 TODO
+    // FIXME 0.15 TODO
 };
 this.$moveProductivityToNeighborsInPercentage = function(fromSystemActor, percentage) {
-    // FIXME 0.13 TODO
+    // FIXME 0.15 TODO
 };
 this.$moveProductivityToNeighborsInCredits = function(fromSystemActor, creditsNb) {
-    // FIXME 0.13 TODO
+    // FIXME 0.15 TODO
 };
 this.$moveProductivityToNeighborsDependingOnDistanceInPercentage = function(fromSystemActor, percentage) {
-    // FIXME 0.13 TODO
+    // FIXME 0.15 TODO
 };
 this.$moveProductivityToNeighborsDependingOnDistanceInCredits = function(fromSystemActor, creditsNb) {
-    // FIXME 0.13 TODO
+    // FIXME 0.15 TODO
 };
 
 /*************************** Oolite events ***************************************************************/
@@ -58,7 +58,7 @@ this._startUp = function () {
         var ourSystemInOolite = sys.infoForSystem(aSystem.galaxyNb, aSystem.systemId);
         var government = ourSystemInOolite.government;
         api.$setField(aSystem, "government", government);
-        // Necessary for alliances. Bad location but avoids other system initialization :/
+        // Necessary for alliancesAndWars. Bad location but avoids other system initialization :/
         // FIXME 0.perfectstyle fields should be inited in the systems part. Make it all fields?
         // FIXME 0.f move treasury and tax level to a F4 Diplomacy system information including the history.
         // Or use the new description system?

@@ -1,9 +1,9 @@
 "use strict";
-this.name = "DayDiplomacy_042_AlliancesEngineAPI";
+this.name = "DayDiplomacy_042_WarEngineAPI";
 this.author = "David (Day) Pradier";
 this.copyright = "(C) 2017 David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
-this.description = "This script is the Diplomacy Alliances engine API for external scripts.";
+this.description = "This script is the Diplomacy War engine API for external scripts.";
 
 /*************************** OXP public functions ********************************************************/
 this.$getScoringFunctions = function () {
@@ -15,7 +15,7 @@ this.$addScoringFunction = function (keyword, f, position) {
 this.$recalculateScores = function (observedActor, observerActor) {
     this._ae.$recalculateScores(observedActor, observerActor);
 };
-this.$getAlliances = function() {
+this.$getAlliancesAndWars = function() {
     return this._ae._a;
 };
 this.$getScores = function() {
@@ -25,13 +25,19 @@ this.$setAllianceThreshold = function(threshold) {
     this._ae.$setAllianceThreshold(threshold);
 };
 this.$getAllianceThreshold = function() {
-    return this._s.State.allianceThreshold;
+    return this._s._State.allianceThreshold;
+};
+this.$setWarThreshold = function(threshold) {
+    this._ae.$setWarThreshold(threshold);
+};
+this.$getWarThreshold = function() {
+    return this._s._State.warThreshold;
 };
 /*************************** End OXP public functions ****************************************************/
 
 /*************************** Oolite events ***************************************************************/
 this._startUp = function () {
-    this._ae = worldScripts.DayDiplomacy_040_AlliancesEngine;
+    this._ae = worldScripts.DayDiplomacy_040_WarEngine;
     delete this._startUp; // No need to startup twice
 };
 this.startUp = function () {

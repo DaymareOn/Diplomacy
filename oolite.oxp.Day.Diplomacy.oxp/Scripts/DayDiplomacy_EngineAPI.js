@@ -98,8 +98,8 @@ this.$addObserverToActor = function (anObserverId, anObserverActorType, anActor)
     this._s.$addObserverToActor(anActor, anObserverActorType, anObserverId);
 };
 this.$setField = function (anObject, fieldName, fieldValue) {
-    if (anObject.hasOwnProperty("State")) { // We put the field into State
-        anObject.State[fieldName] = fieldValue;
+    if (anObject.hasOwnProperty("_State")) { // We put the field into _State
+        anObject._State[fieldName] = fieldValue;
     } else {
         anObject[fieldName] = fieldValue;
     }
@@ -108,7 +108,7 @@ this.$makeActorEventKnownToUniverse = function (actorId, anEventType, someArgs) 
     this._s.$makeActorEventKnownToUniverse(actorId, anEventType, someArgs);
 };
 this.$initAndReturnSavedData = function (name, defaultValue) {
-    return this._s.State[name] || (this._s.State[name] = defaultValue);
+    return this._s._State[name] || (this._s._State[name] = defaultValue);
 };
 /*************************** End of Action functions *****************************************************/
 
@@ -149,8 +149,8 @@ this.$getActorEvents = function (actorId) {
 
 /*************************** Oolite events ***************************************************************/
 this._startUp = function () {
-    this._S = this._s.State;
-    this._F = this._s.Functions;
+    this._S = this._s._State;
+    this._F = this._s._Functions;
     delete this._startUp;
 };
 this.startUp = function () {
