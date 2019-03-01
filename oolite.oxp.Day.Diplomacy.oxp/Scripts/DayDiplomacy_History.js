@@ -12,7 +12,7 @@ this._displayF4Interface = function () {
         ourEventsIds = this._api.$getActorEvents(this._selectedSystemActorId), events = this._api.$getEvents(),
         y = ourEventsIds.length, _clock = clock;
     while (y--) {
-        // Anti-chronologic order
+        // Anti-chronological order
         var thatEvent = events[ourEventsIds[y]];
         ourMessage += _clock.clockStringForTime(thatEvent.date) + ": " + f[eff[thatEvent.eventType]](thatEvent)+"\n";
     }
@@ -52,7 +52,8 @@ this.shipDockedWithStation = function (station) {
 };
 this.missionScreenEnded = function () {
     player.ship.hudHidden = false;
-}
+};
+
 this._startUp = function () {
     var api = this._api = worldScripts.DayDiplomacy_002_EngineAPI;
     this._sapi = worldScripts.DayDiplomacy_012_SystemsAPI;
