@@ -1,10 +1,10 @@
 {
 	"identifier" = "oolite.oxp.Day.HistoryHappener";
 	"required_oolite_version" = "1.81";
-	"title" = "HistoryHappener";
+	"title" = "History Happener";
 	"version" = "0.1";
-	"category" = "Equipment";
-	"description" = "WIP: equipment making history happen";
+	"category" = "Ambience";
+	"description" = "WIP: interface making history happen";
 	"author" = "Day";
 	"information_url" = "http://wiki.alioth.net/index.php/HistoryHappener";
 	"license" = "CC BY-NC-SA 4";
