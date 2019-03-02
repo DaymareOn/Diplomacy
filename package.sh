@@ -1,6 +1,8 @@
 #!/bin/sh
-rm oolite.oxp.Day.Diplomacy.oxz
-cd oolite.oxp.Day.Diplomacy.oxp
-zip -r ../oolite.oxp.Day.Diplomacy.zip *
-cd ..
-mv oolite.oxp.Day.Diplomacy.zip oolite.oxp.Day.Diplomacy.oxz
+for NAME in 'Diplomacy' 'DiplomacyDebugger'; do
+	rm oolite.oxp.Day.${NAME}.oxz
+	cd oolite.oxp.Day.${NAME}.oxp
+	zip -r ../oolite.oxp.Day.${NAME}.zip *
+	cd ..
+	mv oolite.oxp.Day.${NAME}.zip oolite.oxp.Day.${NAME}.oxz
+done
