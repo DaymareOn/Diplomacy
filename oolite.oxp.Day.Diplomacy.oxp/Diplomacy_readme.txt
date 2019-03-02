@@ -109,7 +109,7 @@ Changelog
 0.14    Improvement, flavor: War declaration! Peace! Snooper news about them!
         Improvement, flavor: Wars map!
         Improvement, dev func: the war threshold and the alliance threshold are scriptable through the WarEngineAPI.
-        Improvement, dev func: new equipment making History happen for debug purposes.
+        Improvement, dev func: new F4 interface making History happen for debug purposes.
         Improvement, code consistency: Alliances scripts become War scripts.
 0.13    Bugfix: manifest.plist for the oxz manager.
 0.12    Bugfix: manifest.plist for the oxz manager.

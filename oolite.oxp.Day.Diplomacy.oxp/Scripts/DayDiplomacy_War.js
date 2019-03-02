@@ -11,9 +11,7 @@ this.description = "This script makes systems ally to each other," +
 
 /*************************** OXP private functions *******************************************************/
 // FIXME 0.14 check that wars happen, in maps and in history
-// FIXME 0.14 have a test equipment making a diplomacy turn pass?
 // FIXME 0.14 make that as long as we are not in 1.0, the diplomacy save data is erased when there is a new version?
-this._debug = true; // FIXME 0.14 debug
 this._initSystemsScores = function (aGalaxyNb) {
     // Initializing static scores
     // For a given galaxy, for each system in the galaxy, for each system it observes,
