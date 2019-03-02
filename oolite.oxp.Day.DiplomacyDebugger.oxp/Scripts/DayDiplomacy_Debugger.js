@@ -6,10 +6,12 @@ this.licence = "CC-NC-by-SA 4.0";
 this.description = "This script scripts the Happener F4 interface, which lets the player advance History as if it had jumped. It is designed for debug.";
 
 this._F4InterfaceCallback = function (choice) {
-    this._resetLinks();
     switch (choice) {
         case "ADVANCE":
             worldScripts.DayDiplomacy_000_Engine.shipExitedWitchspace();
+            break;
+        case "ANA":
+            player.ship.awardEquipment("EQ_ADVANCED_NAVIGATIONAL_ARRAY");
             break;
         default: // "EXIT":
     }
@@ -23,9 +25,10 @@ this._displayF4Interface = function () {
         title: "System history happener",
         allowInterrupt: true,
         exitScreen: "GUI_SCREEN_INTERFACES",
-        message: "You may advance one History turn",
+        message: "You may advance one History turn and add Advanced Navigational Array to your ship",
         choices:{
             ADVANCE:"Avance History one turn",
+            ANA:"Add ANA equipment to ship",
             EXIT:"Exit"
         }
     };
@@ -61,9 +64,7 @@ this._startUp = function () {
     delete this._startUp; // No need to startup twice
 };
 this.startUp = function () {
-    log("DayDiplomacyHappener.startup", "1");
     worldScripts.DayDiplomacy_000_Engine.$subscribe(this.name);
-    log("DayDiplomacyHappener.startup", "2");
     delete this.startUp; // No need to startup twice
 };
 /*************************** End Oolite events ***********************************************************/

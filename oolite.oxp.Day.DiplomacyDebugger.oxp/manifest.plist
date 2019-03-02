@@ -1,12 +1,12 @@
 {
-	"identifier" = "oolite.oxp.Day.HistoryHappener";
+	"identifier" = "oolite.oxp.Day.DiplomacyDebugger";
 	"required_oolite_version" = "1.81";
-	"title" = "History Happener";
+	"title" = "Diplomacy Debugger";
 	"version" = "0.1";
 	"category" = "Ambience";
-	"description" = "WIP: interface making history happen";
+	"description" = "Allows to add the Advanced Navigational Array and to advance History turn by turn";
 	"author" = "Day";
-	"information_url" = "http://wiki.alioth.net/index.php/HistoryHappener";
+	"information_url" = "http://wiki.alioth.net/index.php/DiplomacyDebugger";
 	"license" = "CC BY-NC-SA 4";
 
    	"file_size" = "3826930";

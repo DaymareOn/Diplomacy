@@ -146,7 +146,7 @@ this._runWarMapScreen = function () {
     var opts = {
         screenID: "DiplomacyWarScreenId",
         title: "Wars map",
-        backgroundSpecial: "LONG_RANGE_CHART"/*_SHORTEST"*/,
+        backgroundSpecial: "LONG_RANGE_CHART_SHORTEST",
         allowInterrupt: true,
         exitScreen: "GUI_SCREEN_INTERFACES",
         choices: {"TO_DIPLOMACY": "Go to diplomatic map", "EXIT": "Exit"},
@@ -162,7 +162,7 @@ this._runDiplomaticMapScreen = function () {
     var opts = {
         screenID: "DiplomacyDiplomaticScreenId",
         title: "Diplomatic map",
-        backgroundSpecial: "LONG_RANGE_CHART"/*_SHORTEST"*/,
+        backgroundSpecial: "LONG_RANGE_CHART_SHORTEST",
         allowInterrupt: true,
         exitScreen: "GUI_SCREEN_INTERFACES",
         choices: {"TO_WARS": "Go to wars map", "EXIT": "Exit"},
@@ -174,14 +174,15 @@ this._runDiplomaticMapScreen = function () {
     this._drawDiplomaticMap();
 };
 this._initF4Interface = function () {
-    player.ship.dockedStation.setInterface("DiplomacyWars",
-        {
-            // FIXME Star wars??
-            title: "Wars maps",
-            category: "Diplomacy",
-            summary: "Wars and diplomacy",
-            callback: this._runWarMapScreen.bind(this)
-        });
+    if (player.ship.hasEquipmentProviding("EQ_ADVANCED_NAVIGATIONAL_ARRAY")) {
+        player.ship.dockedStation.setInterface("DiplomacyWars",
+            {
+                title: "Star wars",
+                category: "Diplomacy",
+                summary: "Wars and diplomacy",
+                callback: this._runWarMapScreen.bind(this)
+            });
+    }
 };
 this._startUp = function () {
     this._storedNews = []; // No real need to save it
@@ -391,6 +392,11 @@ this.startUp = function () {
 };
 this.shipDockedWithStation = function (station) {
     this._initF4Interface();
+};
+this.equipmentAdded = function(equipmentKey) {
+    if (equipmentKey === "EQ_ADVANCED_NAVIGATIONAL_ARRAY") {
+        this._initF4Interface();
+    }
 };
 this.playerEnteredNewGalaxy = function (galaxyNumber) {
     this._initSystemsScores(galaxyNumber);
