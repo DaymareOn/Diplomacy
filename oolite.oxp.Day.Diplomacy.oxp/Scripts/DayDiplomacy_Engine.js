@@ -12,7 +12,7 @@ this._JSON = JSON;
 /*************************** End of closures *************************************************************/
 
 /*************************** Engine **********************************************************************/
-this._debug = false; // FIXME 0.14 Set this to true to have events working as if you just spent a turn and entered the station.
+this._debug = false; // Set this to true to have events working as if you just spent a turn and entered the station.
 this._loadState = function (toBeModifiedState, sourceState) {
     for (var id in sourceState) {
         if (sourceState.hasOwnProperty(id)) { // Avoiding prototypes' fields

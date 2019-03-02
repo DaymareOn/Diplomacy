@@ -1,9 +1,9 @@
 "use strict";
-this.name = "DayDiplomacy_080_Happener";
+this.name = "DayDiplomacy_080_Debugger";
 this.author = "David (Day) Pradier";
 this.copyright = "(C) 2017 David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
-this.description = "This script scripts the Happener F4 interface, which lets the player advance History as if it had jumped. It is designed for debug.";
+this.description = "This script scripts the Diplomacy Debugger F4 interface, which lets the player advance History as if it had jumped and add an ANA to their ship";
 
 this._F4InterfaceCallback = function (choice) {
     switch (choice) {
@@ -21,8 +21,8 @@ this._displayF4Interface = function () {
     player.ship.hudHidden || (player.ship.hudHidden = true);
 
     var opts = {
-        screenID: "DiplomacyHistoryHappenerScreenId",
-        title: "System history happener",
+        screenID: "DiplomacyDebuggerScreenId",
+        title: "Diplomacy Debugger",
         allowInterrupt: true,
         exitScreen: "GUI_SCREEN_INTERFACES",
         message: "You may advance one History turn and add Advanced Navigational Array to your ship",
@@ -35,9 +35,9 @@ this._displayF4Interface = function () {
     mission.runScreen(opts, this._F4InterfaceCallback.bind(this));
 };
 this._initF4Interface = function () {
-    player.ship.dockedStation.setInterface("DiplomacyHistoryHappener",
+    player.ship.dockedStation.setInterface("DiplomacyDebugger",
         {
-            title: "System history happener",
+            title: "Diplomacy Debugger",
             category: "Diplomacy",
             summary: "Make History advance one turn",
             callback: this._displayF4Interface.bind(this)
@@ -56,9 +56,8 @@ this.missionScreenEnded = function () {
 };
 
 this._startUp = function () {
-    // FIXME rassembler
-    worldScripts.XenonUI && worldScripts.XenonUI.$addMissionScreenException("DiplomacyHistoryHappenerScreenId");
-    worldScripts.XenonReduxUI && worldScripts.XenonReduxUI.$addMissionScreenException("DiplomacyHistoryHappenerScreenId");
+    worldScripts.XenonUI && worldScripts.XenonUI.$addMissionScreenException("DiplomacyDebuggerScreenId");
+    worldScripts.XenonReduxUI && worldScripts.XenonReduxUI.$addMissionScreenException("DiplomacyDebuggerScreenId");
 
     this._initF4Interface();
     delete this._startUp; // No need to startup twice

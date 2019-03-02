@@ -10,7 +10,6 @@ this.description = "This script makes systems ally to each other," +
     " draw the war and the diplomatic maps.";
 
 /*************************** OXP private functions *******************************************************/
-// FIXME 0.14 check that wars happen, in maps and in history
 // FIXME 0.14 make that as long as we are not in 1.0, the diplomacy save data is erased when there is a new version?
 this._initSystemsScores = function (aGalaxyNb) {
     // Initializing static scores
@@ -311,7 +310,7 @@ this._startUp = function () {
                         ID: "DayDiplomacy_045_War", // Script name copied to avoid a closure.
                         Direct: true,
                         Agency: 1,
-                        // FIXME 0.14 change citation for war and peace
+                        // FIXME 0.14 make different citation for war and peace
                         Message: "YOU might be interested in knowing that " + eventActor.name + " just declared war with " + foeName
                         + ".\n\nAs Commander Diziet Sma, currently aboard the \"Blackwidow\" Pitviper S.E., famously said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
                     };
@@ -341,7 +340,7 @@ this._startUp = function () {
                         ID: "DayDiplomacy_045_War", // Script name copied to avoid a closure.
                         Direct: true,
                         Agency: 1,
-                        // FIXME 0.14 change citation for war and peace
+                        // FIXME 0.14 make different citation for war and peace
                         Message: "YOU might be interested in knowing that " + eventActor.name + " just made peace with " + foeName
                         + ".\n\nAs Commander Diziet Sma, currently aboard the \"Blackwidow\" Pitviper S.E., famously said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
                     };

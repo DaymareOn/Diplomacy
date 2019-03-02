@@ -61,7 +61,6 @@ this._startUp = function () {
     this._selectedSystemActorId = this._sapi.$getCurrentGalaxySystemsActorIdsBySystemsId()[system.info.systemID]; // FIXME perfectperf?
     this._eff = api.$initAndReturnSavedData("eventFormatingFunctionsIds", {}); // { eventType => functionId }
 
-    // FIXME rassembler
     worldScripts.XenonUI && worldScripts.XenonUI.$addMissionScreenException("DiplomacyHistoryScreenId");
     worldScripts.XenonReduxUI && worldScripts.XenonReduxUI.$addMissionScreenException("DiplomacyHistoryScreenId");
 
