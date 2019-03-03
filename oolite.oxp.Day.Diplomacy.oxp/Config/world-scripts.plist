@@ -10,4 +10,7 @@
     "DayDiplomacy_War.js",
     "DayDiplomacy_History.js",
     "DayDiplomacy_HistoryAPI.js",
+    "DayDiplomacy_CitizenshipsEngine.js",
+    "DayDiplomacy_CitizenshipsEngineAPI.js",
+    "DayDiplomacy_Citizenships.js"
 )
