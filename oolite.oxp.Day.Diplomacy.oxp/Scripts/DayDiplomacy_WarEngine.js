@@ -186,7 +186,6 @@ this._init = function (api, hapi) {
 };
 this._startUp = function () {
     var api = this._api = worldScripts.DayDiplomacy_002_EngineAPI;
-    var hapi = this._hapi = worldScripts.DayDiplomacy_022_HistoryAPI;
     this._F = api.$getFunctions();
 
     // Alliances Scoring _Functions: { keyword => fid }
@@ -196,7 +195,7 @@ this._startUp = function () {
     this._a = api.$initAndReturnSavedData("alliancesAndWars", {});
 
     this._initAllyScore(api);
-    this._init(api, hapi); // ALLY/BREAK/WAR/PEACE
+    this._init(api, worldScripts.DayDiplomacy_020_History); // ALLY/BREAK/WAR/PEACE
 
     this.$setAllianceThreshold(this._s._State.allianceThreshold); // Startup init using saved value
     this.$setWarThreshold(this._s._State.warThreshold); // Startup init using saved value
