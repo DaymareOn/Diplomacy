@@ -117,9 +117,9 @@ this._runCitizenship = function (notEnoughMoney) {
     };
     var currentChoices = opts.choices;
     if (this.$hasPlayerCitizenship(currentGalaxyID, currentSystemID)) {
-        currentChoices["2_LOSE"] = "Renounce " + currentSystemName + " citizenship for " + price + "₢";
+        currentChoices["2_LOSE"] = "Renounce " + currentSystemName + " citizenship for " + price + " ₢";
     } else {
-        currentChoices["1_BUY"] = "Acquire " + currentSystemName + " citizenship for " + price + "₢";
+        currentChoices["1_BUY"] = "Acquire " + currentSystemName + " citizenship for " + price + " ₢";
     }
 
     while (i--) {
@@ -258,6 +258,9 @@ this.missionScreenEnded = function () {
  * @private
  */
 this._startUp = function () {
+    worldScripts.XenonUI && worldScripts.XenonUI.$addMissionScreenException("DiplomacyCitizenshipsScreenId");
+    worldScripts.XenonReduxUI && worldScripts.XenonReduxUI.$addMissionScreenException("DiplomacyCitizenshipsScreenId");
+
     this._Systems = worldScripts.DayDiplomacy_010_Systems;
     var engineAPI = worldScripts.DayDiplomacy_002_EngineAPI;
 

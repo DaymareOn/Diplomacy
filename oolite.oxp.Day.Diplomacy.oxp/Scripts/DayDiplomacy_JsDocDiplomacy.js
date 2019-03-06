@@ -31,3 +31,25 @@ worldScripts.DayDiplomacy_010_Systems;
  * @type Script
  */
 worldScripts.DayDiplomacy_060_Citizenships;
+
+/**
+ * The XenonUI script, for compatibility
+ * @type Script
+ */
+worldScripts.XenonUI;
+
+/**
+ * @function
+ */
+worldScripts.XenonUI.$addMissionScreenException;
+
+/**
+ * The XenonReduxUI script, for compatibility
+ * @type Script
+ */
+worldScripts.XenonReduxUI;
+
+/**
+ * @function
+ */
+worldScripts.XenonReduxUI.$addMissionScreenException;

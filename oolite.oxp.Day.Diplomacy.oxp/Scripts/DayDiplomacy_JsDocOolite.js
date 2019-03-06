@@ -48,6 +48,7 @@
  * The Ship class is an Entity representing a ship, station, missile, cargo pod or other flying item – anything that can be specified in shipdata.plist.
  * @typedef Ship
  * @property {int} homeSystem {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_Ship#homeSystem}
+ * @property {function} awardEquipment {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_Ship#awardEquipment}
  * @see {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_Ship}
  */
 
