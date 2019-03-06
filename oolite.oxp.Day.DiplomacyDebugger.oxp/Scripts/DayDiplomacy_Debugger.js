@@ -14,7 +14,7 @@ this._F4InterfaceCallback = function (choice) {
             player.ship.awardEquipment("EQ_ADVANCED_NAVIGATIONAL_ARRAY");
             break;
         case "3_MONEY":
-            player.credits += 100000;
+            player.credits += 1000000;
             break;
         default: // "4_EXIT":
     }
@@ -32,7 +32,7 @@ this._displayF4Interface = function () {
         choices: {
             "1_ADVANCE": "Advance History one turn",
             "2_ANA": "Add Advanced Navigational Array equipment to ship to see the star wars maps",
-            "3_MONEY": "Earn 100.000 ₢",
+            "3_MONEY": "Earn 1.000.000 ₢",
             "4_EXIT": "Exit"
         }
     };
