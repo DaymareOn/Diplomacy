@@ -155,8 +155,12 @@ this.$initAndReturnSavedData = function (name, defaultValue) {
 
 /*************************** Getter functions ************************************************************/
 /******** Make sure you don't modify that or its content. Copy it before if you need to modify it. *******/
+/**
+ * Make sure you don't modify that or its content. Copy it before if you need to modify it.
+ * @return {string[]} The ActorType list
+ * @lends worldScripts.DayDiplomacy_002_EngineAPI.$getActorTypes
+ */
 this.$getActorTypes = function () {
-    /** @returns [string: actorType] */
     return this._S.actorTypes;
 };
 this.$getEventTypes = function () {

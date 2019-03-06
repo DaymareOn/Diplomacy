@@ -13,7 +13,7 @@ this.description = "This script creates systems.";
  * @property {string} name - the name of the system
  */
 
-/*************************** OXP public functions *******************************************************/
+/* ************************** OXP public functions *******************************************************/
 
 /**
  * @name $retrieveNameFromSystem
@@ -42,9 +42,9 @@ this.$getSystemsActorIdsByGalaxyAndSystemId = function() {
 this.$getCurrentGalaxySystemsActorIdsBySystemsId = function() {
     return this._systemsByGalaxyAndSystemId[system.info.galaxyID];
 };
-/*************************** End OXP public functions ****************************************************/
+/* ************************** End OXP public functions ****************************************************/
 
-/*************************** OXP private functions *******************************************************/
+/* ************************** OXP private functions *******************************************************/
 /**
  * @param {int} aGalaxyNb
  * @private
@@ -106,9 +106,11 @@ this._startUp = function () {
     this._setObservers(system.info.galaxyID);
     delete this._startUp; // No need to startup twice
 };
-/*************************** End OXP private functions ***************************************************/
+/* ************************** End OXP private functions ***************************************************/
 
-/*************************** Oolite events ***************************************************************/
+/* ************************** Oolite events ***************************************************************/
+
+// noinspection JSUnusedGlobalSymbols - Called by Oolite itself
 this.playerEnteredNewGalaxy = function (galaxyNumber) {
     // This function is necessary as we can't calculate distances in other galaxies.
     this._setObservers(galaxyNumber);
@@ -117,4 +119,4 @@ this.startUp = function () {
     worldScripts.DayDiplomacy_000_Engine.$subscribe(this.name);
     delete this.startUp; // No need to startup twice
 };
-/*************************** End Oolite events ***********************************************************/
+/* ************************** End Oolite events ***********************************************************/
