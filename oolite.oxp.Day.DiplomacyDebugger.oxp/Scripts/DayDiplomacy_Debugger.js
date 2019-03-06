@@ -13,7 +13,20 @@ this._F4InterfaceCallback = function (choice) {
         case "ANA":
             player.ship.awardEquipment("EQ_ADVANCED_NAVIGATIONAL_ARRAY");
             break;
+        case "SQL":
+            this._logSqlDisplay();
+            break;
         default: // "EXIT":
+    }
+};
+
+this._logSqlDisplay=function(){
+    var ships=system.allShips;
+    var i = ships.length;
+    while (i--){
+        log("shipsname",ships[i].name);
+        var req="insert into Ship (name) values ("+"ships[i].name"+");";
+        log ("sql querry",req);
     }
 };
 
@@ -29,6 +42,7 @@ this._displayF4Interface = function () {
         choices:{
             ADVANCE:"Avance History one turn",
             ANA:"Add ANA equipment to ship",
+            SQL:"return the name of the ships in the log file",
             EXIT:"Exit"
         }
     };
