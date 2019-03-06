@@ -24,8 +24,7 @@ this._logSqlDisplay=function(){
     var ships=system.allShips;
     var i = ships.length;
     var database="create table Ship (" +
-        "id bigint," +
-        "ooliteID bigint UNIQUE," +
+        "id bigint AUTO_INCREMENT," +
         "name text," +
         "homeSystem bigint," +
         "AI text," +
@@ -53,7 +52,7 @@ this._logSqlDisplay=function(){
         "shipUniqueName text,"+
         "primary key(id));\n";
     while (i--){
-        database+="insert into Ship (name,homeSystem) values ('"+ships[i].name+"','"+ships[i].homeSystem+"','"+ships[i].AI+"','"+ships[i].dataKey+"','"+ships[i].displayName+"','"+ships[i].isBeacon+"','"+ships[i].isBoulder+"','"+ships[i].isCargo+"','"+ships[i].isFrangible+"','"+ships[i].isJamming +"','"+ships[i].isMinable+"','"+ships[i].isMine+"','"+ships[i].isMissile+"','"+ships[i].isPiloted+"','"+ships[i].isPirate+"','"+ships[i].isPirateVictim+"','"+ships[i].isPolice+"','"+ships[i].isRock+"','"+ships[i].isThargoid+"','"+ships[i].isTrader+"','"+ships[i].isTurret+"','"+ships[i].isWeapon+"','"+ships[i].primaryRole+"','"+ships[i].shipClassName+"','"+ships[i].shipUniqueName+"');\n";
+        database+="insert into Ship (name,homeSystem,AI,datakey,displayName,isBeacon,isBoulder,isCargo,isFrangible,isJamming,isMinable,isMine,isMissile,isPiloted,isPirate,isPirateVictim,isPolice,isRock,isThargoid,isTrader,isTurret,isWeapon,primaryRole,shipClassName,shipUniqueName) values ('"+ships[i].name+"','"+ships[i].homeSystem+"','"+ships[i].AI+"','"+ships[i].dataKey+"','"+ships[i].displayName+"','"+ships[i].isBeacon+"','"+ships[i].isBoulder+"','"+ships[i].isCargo+"','"+ships[i].isFrangible+"','"+ships[i].isJamming +"','"+ships[i].isMinable+"','"+ships[i].isMine+"','"+ships[i].isMissile+"','"+ships[i].isPiloted+"','"+ships[i].isPirate+"','"+ships[i].isPirateVictim+"','"+ships[i].isPolice+"','"+ships[i].isRock+"','"+ships[i].isThargoid+"','"+ships[i].isTrader+"','"+ships[i].isTurret+"','"+ships[i].isWeapon+"','"+ships[i].primaryRole+"','"+ships[i].shipClassName+"','"+ships[i].shipUniqueName+"');\n";
     }
     log ("sql query",database);
 };

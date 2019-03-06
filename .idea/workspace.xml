@@ -4,7 +4,7 @@
     <option name="ANALYZE_TEST_SOURCES" value="false" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7dac204a-c329-4c67-bff4-88ff57ef4aa3" name="Default" comment="sql query method create">
+    <list default="true" id="7dac204a-c329-4c67-bff4-88ff57ef4aa3" name="Default" comment="add all proprieties">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/oolite.oxp.Day.DiplomacyDebugger.oxp/Scripts/DayDiplomacy_Debugger.js" beforeDir="false" afterPath="$PROJECT_DIR$/oolite.oxp.Day.DiplomacyDebugger.oxp/Scripts/DayDiplomacy_Debugger.js" afterDir="false" />
     </list>
@@ -129,8 +129,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.DiplomacyDebugger.oxp/Scripts/DayDiplomacy_Debugger.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="34" column="31" lean-forward="true" selection-start-line="34" selection-start-column="31" selection-end-line="34" selection-end-column="31" />
+            <state relative-caret-position="177">
+              <caret line="54" column="8" lean-forward="true" selection-start-line="54" selection-start-column="8" selection-end-line="54" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -562,14 +562,7 @@
       <workItem from="1551460626637" duration="1616000" />
       <workItem from="1551463090045" duration="8429000" />
       <workItem from="1551524921320" duration="14752000" />
-      <workItem from="1551865009514" duration="3547000" />
-    </task>
-    <task id="LOCAL-00001" summary="Cleaning before commit.">
-      <created>1490222603097</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1490222603097</updated>
+      <workItem from="1551865009514" duration="12581000" />
     </task>
     <task id="LOCAL-00002" summary="Script de génération d'oxz">
       <created>1490255168684</created>
@@ -900,11 +893,25 @@
       <option name="project" value="LOCAL" />
       <updated>1551865490848</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="problems wit quotes">
+      <created>1551869237535</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1551869237535</updated>
+    </task>
+    <task id="LOCAL-00050" summary="add all proprieties">
+      <created>1551882165969</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1551882165969</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="757909000" />
+    <option name="totallyTimeSpent" value="766943000" />
   </component>
   <component name="TodoView" selected-index="2">
     <todo-panel id="selected-file">
@@ -916,7 +923,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23676248" />
@@ -1013,8 +1020,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Better readme, roadmap." />
-    <MESSAGE value="Solved a useless FIXME" />
     <MESSAGE value="Better systems observers initialization." />
     <MESSAGE value="Response to JOIN event is now initialized only once." />
     <MESSAGE value="Better news message." />
@@ -1038,7 +1043,9 @@
     <MESSAGE value="The History Happener becomes the Diplomacy Debugger." />
     <MESSAGE value="Cleaning" />
     <MESSAGE value="sql query method create" />
-    <option name="LAST_COMMIT_MESSAGE" value="sql query method create" />
+    <MESSAGE value="problems wit quotes" />
+    <MESSAGE value="add all proprieties" />
+    <option name="LAST_COMMIT_MESSAGE" value="add all proprieties" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -1232,8 +1239,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.DiplomacyDebugger.oxp/Scripts/DayDiplomacy_Debugger.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="34" column="31" lean-forward="true" selection-start-line="34" selection-start-column="31" selection-end-line="34" selection-end-column="31" />
+        <state relative-caret-position="177">
+          <caret line="54" column="8" lean-forward="true" selection-start-line="54" selection-start-column="8" selection-end-line="54" selection-end-column="8" />
         </state>
       </provider>
     </entry>
