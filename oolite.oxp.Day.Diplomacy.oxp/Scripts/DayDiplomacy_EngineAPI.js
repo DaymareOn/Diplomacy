@@ -107,6 +107,13 @@ this.$setField = function (anObject, fieldName, fieldValue) {
 this.$makeActorEventKnownToUniverse = function (actorId, anEventType, someArgs) {
     this._s.$makeActorEventKnownToUniverse(actorId, anEventType, someArgs);
 };
+/**
+ * FIXME
+ * @param name
+ * @param defaultValue
+ * @returns {*}
+ * @lends worldScripts.DayDiplomacy_002_EngineAPI.$initAndReturnSavedData
+ */
 this.$initAndReturnSavedData = function (name, defaultValue) {
     return this._s._State[name] || (this._s._State[name] = defaultValue);
 };
@@ -129,8 +136,12 @@ this.$getActorsIdByType = function (actorType) {
      */
     return this._S.actorsByType[actorType];
 };
+/**
+ * @name $getActors
+ * @returns {{}} - an object with {string} actorId as properties and for each, the corresponding Actor as value
+ * @lends worldScripts.DayDiplomacy_002_EngineAPI.$getActors
+ */
 this.$getActors = function () {
-    /** @returns {actorId => Actor} */
     return this._S.actors;
 };
 this.$getObservers = function (anActor, observersActorType) {

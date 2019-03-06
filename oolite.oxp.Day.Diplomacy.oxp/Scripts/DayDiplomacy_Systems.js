@@ -5,10 +5,18 @@ this.copyright = "(C) 2017 David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
 this.description = "This script creates systems.";
 
+/**
+ * An object identifying a planetary system
+ * @typedef {Object} planetarySystem
+ * @property {int} galaxyID - the galaxyID of the system
+ * @property {int} systemID - the systemID of the system
+ * @property {string} name - the name of the system
+ */
+
 /*************************** OXP private functions *******************************************************/
 this._setObservers = function (aGalaxyNb) {
     // We set the observers. No need to use an initAction as there won't be any more system.
-    var api = this._api;
+    var api = this._Engine;
     var actorsIdByType = api.$getActorsIdByType("SYSTEM");
     var actors = api.$getActors();
 
@@ -33,8 +41,24 @@ this._setObservers = function (aGalaxyNb) {
         }
     }
 };
+
+/*************************** OXP public functions *******************************************************/
+
+/**
+ * @name $retrieveNameFromSystem
+ * @param {int} galaxyID - Identifies the galaxy of the wanted system
+ * @param {int} systemID - Identifies the wanted system in the given galaxy
+ * @returns {String} - Returns the system name of the system defined by the given galaxyId and systemId
+ * @lends worldScripts.DayDiplomacy_010_Systems.$retrieveNameFromSystem
+ */
+this.$retrieveNameFromSystem = function (galaxyID, systemID) {
+    return this._Engine.$getActors()[this._systemsByGalaxyAndSystemId[galaxyID][systemID]].name;
+};
+
+/*************************** End OXP public functions ***************************************************/
+
 this._startUp = function () {
-    var api = this._api = worldScripts.DayDiplomacy_002_EngineAPI,
+    var api = this._Engine = worldScripts.DayDiplomacy_002_EngineAPI,
         sys = this._systemsByGalaxyAndSystemId = api.$initAndReturnSavedData("systemsByGalaxyAndSystemId", {});
 
     // Not initializing if already done.

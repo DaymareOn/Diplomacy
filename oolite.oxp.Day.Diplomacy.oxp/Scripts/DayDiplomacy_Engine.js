@@ -473,8 +473,17 @@ this.startUpComplete = function () {
 
     delete this.startUpComplete; // No need to startup twice
 };
-this._subscribers = []; // [ scriptName ]
-this.$subscribe = function (aScriptName) {
-    this._subscribers.push(aScriptName);
+// [ scriptName ]
+this._subscribers = [];
+
+/**
+ * Allows an external script to use the Diplomacy API.
+ * The external script must implement a function named _startUp() which will be called during the startUpComplete() function of the Diplomacy Engine.
+ * @name $subscribe
+ * @param {string} scriptName - the name property of the subscribing script object
+ * @lends worldScripts.DayDiplomacy_000_Engine.$subscribe
+ */
+this.$subscribe = function (scriptName) {
+    this._subscribers.push(scriptName);
 };
 /*************************** End of subscribing system for scripts order *********************************/
