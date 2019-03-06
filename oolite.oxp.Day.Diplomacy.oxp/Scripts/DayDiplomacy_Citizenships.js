@@ -8,7 +8,7 @@ this.description = "This script is the citizenships engine.";
 /* ************************** OXP private functions *******************************************************/
 /**
  Calls the necessary functions depending on the player's choice in the F4 interface
- @param {String} choice - predefined values: BUY, LOSE, DISPLAY_{int}
+ @param {String} choice - predefined values: 1_BUY, 2_LOSE, 3_DISPLAY_{int}, 4_HIDEFLAG, 5_EXIT
  @private
  */
 this._F4InterfaceCallback = function (choice) {
@@ -19,10 +19,19 @@ this._F4InterfaceCallback = function (choice) {
             this._publishNewsSubscribers();
         }
         this._runCitizenship(!success);
-    } else if (choice !== null && choice.substring(0, 10) === "3_DISPLAY_") {
-        // noinspection JSValidateTypes The string is casted as int.
-        player.ship.homeSystem = choice.substring(10);
-        this._runCitizenship(false);
+    } else {
+        var currentFlag = this._flag;
+        if (choice === "4_HIDEFLAG") {
+            delete currentFlag.galaxyID;
+            delete currentFlag.systemID;
+            delete currentFlag.name;
+        } else if (choice !== null && choice.substring(0, 10) === "3_DISPLAY_") {
+            var galaxyID = parseInt(choice.substring(10, 11)), systemID = parseInt(choice.substring(12));
+            currentFlag.galaxyID = galaxyID;
+            currentFlag.systemID = systemID;
+            currentFlag.name = this._Systems.$retrieveNameFromSystem(galaxyID, systemID);
+            this._runCitizenship(false);
+        }
     } // else EXIT
 };
 
@@ -91,20 +100,19 @@ this._runCitizenship = function (notEnoughMoney) {
     var info = system.info;
     var currentGalaxyID = info.galaxyID;
     var currentSystemID = info.systemID;
-    // FIXME fix what happens to the player ship homeSystem when the player jumps galaxy
     var currentSystemName = this._Systems.$retrieveNameFromSystem(currentGalaxyID, currentSystemID);
-    var currentDisplayedCitizenship = this._Systems.$retrieveNameFromSystem(currentGalaxyID, player.ship.homeSystem);
     var currentCitizenships = this._citizenships;
     var i = currentCitizenships.length;
     var price = this.$getCitizenshipPrice(system);
+    var currentFlag = this._flag;
     var opts = {
         screenID: "DiplomacyCitizenshipsScreenId",
         title: "Citizenship",
         allowInterrupt: true,
         exitScreen: "GUI_SCREEN_INTERFACES",
-        choices: {"4_EXIT": "Exit"},
+        choices: {"5_EXIT": "Exit"},
         message: (notEnoughMoney ? "You had not enough money to do this.\n" : "")
-            + "Your displayed citizenship: " + currentDisplayedCitizenship
+            + "Your displayed citizenship: " + (currentFlag.name || "stateless")
             + "\nYour citizenships: " + this.$buildCitizenshipsString(currentCitizenships)
     };
     var currentChoices = opts.choices;
@@ -116,10 +124,16 @@ this._runCitizenship = function (notEnoughMoney) {
 
     while (i--) {
         var planetarySystem = currentCitizenships[i];
-        if (currentDisplayedCitizenship !== planetarySystem.name) {
-            currentChoices["3_DISPLAY_" + planetarySystem.systemID] = "Make your ship display your " + planetarySystem.name + " citizenship";
+        // We don't propose the current flag
+        if (!(currentFlag.galaxyID === planetarySystem.galaxyID && currentFlag.systemID === planetarySystem.systemID)) {
+            currentChoices["3_DISPLAY_" + planetarySystem.galaxyID+"_"+planetarySystem.systemID] = "Make your ship display your " + planetarySystem.name + " flag";
         }
     }
+
+    if (currentFlag.name) {
+        currentChoices["4_HIDEFLAG"] = "Hide your flag";
+    }
+
     mission.runScreen(opts, this._F4InterfaceCallback.bind(this));
 };
 
@@ -245,18 +259,20 @@ this.missionScreenEnded = function () {
  */
 this._startUp = function () {
     this._Systems = worldScripts.DayDiplomacy_010_Systems;
+    var engineAPI = worldScripts.DayDiplomacy_002_EngineAPI;
 
-    var currentGalaxyID = system.info.galaxyID;
-    var originalHomeSystem = player.ship.homeSystem;
+    /**
+     * The flag of the player ship, saved. None by default.
+     * @type {planetarySystem}
+     * @private
+     */
+    this._flag = engineAPI.$initAndReturnSavedData("flag", {});
+
     /**
      * The object in which the player citizenships are saved. That object is saved into the saveGame file.
      * @type {planetarySystem[]}
      */
-    this._citizenships = worldScripts.DayDiplomacy_002_EngineAPI.$initAndReturnSavedData("citizenships", [{
-        "galaxyID": currentGalaxyID,
-        "systemID": originalHomeSystem,
-        "name": this._Systems.$retrieveNameFromSystem(currentGalaxyID, originalHomeSystem)
-    }]);
+    this._citizenships = engineAPI.$initAndReturnSavedData("citizenships", []);
 
     this._initF4Interface();
     delete this._startUp; // No need to startup twice
