@@ -7,35 +7,6 @@ this.description = "This script is the citizenships engine.";
 
 /* ************************** OXP private functions *******************************************************/
 /**
- Calls the necessary functions depending on the player's choice in the F4 interface
- @param {String} choice - predefined values: 1_BUY, 2_LOSE, 3_DISPLAY_{int}, 4_HIDEFLAG, 5_EXIT
- @private
- */
-this._F4InterfaceCallback = function (choice) {
-    if (choice === "1_BUY" || choice === "2_LOSE") {
-        var info = system.info;
-        var success = (choice === "1_BUY" ? this._buyCitizenship : this._loseCitizenship)(info.galaxyID, info.systemID);
-        if (success) {
-            this._publishNewsSubscribers();
-        }
-        this._runCitizenship(!success);
-    } else {
-        var currentFlag = this._flag;
-        if (choice === "4_HIDEFLAG") {
-            delete currentFlag.galaxyID;
-            delete currentFlag.systemID;
-            delete currentFlag.name;
-        } else if (choice !== null && choice.substring(0, 10) === "3_DISPLAY_") {
-            var galaxyID = parseInt(choice.substring(10, 11)), systemID = parseInt(choice.substring(12));
-            currentFlag.galaxyID = galaxyID;
-            currentFlag.systemID = systemID;
-            currentFlag.name = this._Systems.$retrieveNameFromSystem(galaxyID, systemID);
-            this._runCitizenship(false);
-        }
-    } // else EXIT
-};
-
-/**
  * Pays for citizenship changes
  * @returns {boolean} true if there was enough money to pay
  * @private
@@ -82,6 +53,11 @@ this._loseCitizenship = function (galaxyID, systemID) {
         while (i--) {
             var planetarySystem = citizenships[i];
             if (planetarySystem.galaxyID === galaxyID && planetarySystem.systemID === systemID) {
+                if (this._flag.galaxyID === galaxyID && this._flag.systemID === systemID) {
+                    delete this._flag.galaxyID;
+                    delete this._flag.systemID;
+                    delete this._flag.name;
+                }
                 citizenships.splice(i, 1);
                 return true;
             }
@@ -97,6 +73,7 @@ this._loseCitizenship = function (galaxyID, systemID) {
  * @private
  */
 this._runCitizenship = function (notEnoughMoney) {
+    player.ship.hudHidden || (player.ship.hudHidden = true);
     var info = system.info;
     var currentGalaxyID = info.galaxyID;
     var currentSystemID = info.systemID;
@@ -111,22 +88,23 @@ this._runCitizenship = function (notEnoughMoney) {
         allowInterrupt: true,
         exitScreen: "GUI_SCREEN_INTERFACES",
         choices: {"5_EXIT": "Exit"},
-        message: (notEnoughMoney ? "You had not enough money to do this.\n" : "")
+        message: "Your credits: " + player.credits + " ₢\n"
+            + (notEnoughMoney ? "You had not enough money to do this.\n" : "")
             + "Your displayed citizenship: " + (currentFlag.name || "stateless")
-            + "\nYour citizenships: " + this.$buildCitizenshipsString(currentCitizenships)
+            + "\nYour citizenships: " + (i ? this.$buildCitizenshipsString(currentCitizenships) : "none")
     };
     var currentChoices = opts.choices;
     if (this.$hasPlayerCitizenship(currentGalaxyID, currentSystemID)) {
-        currentChoices["2_LOSE"] = "Renounce " + currentSystemName + " citizenship for " + price + " ₢";
+        currentChoices["2_LOSE"] = "Renounce " + currentSystemName + " citizenship for a cost of " + price + " ₢";
     } else {
-        currentChoices["1_BUY"] = "Acquire " + currentSystemName + " citizenship for " + price + " ₢";
+        currentChoices["1_BUY"] = "Acquire " + currentSystemName + " citizenship for a cost of " + price + " ₢";
     }
 
     while (i--) {
         var planetarySystem = currentCitizenships[i];
         // We don't propose the current flag
         if (!(currentFlag.galaxyID === planetarySystem.galaxyID && currentFlag.systemID === planetarySystem.systemID)) {
-            currentChoices["3_DISPLAY_" + planetarySystem.galaxyID+"_"+planetarySystem.systemID] = "Make your ship display your " + planetarySystem.name + " flag";
+            currentChoices["3_DISPLAY_" + planetarySystem.galaxyID + "_" + planetarySystem.systemID] = "Make your ship display your " + planetarySystem.name + " flag";
         }
     }
 
@@ -138,11 +116,40 @@ this._runCitizenship = function (notEnoughMoney) {
 };
 
 /**
+ Calls the necessary functions depending on the player's choice in the F4 interface
+ @param {String} choice - predefined values: 1_BUY, 2_LOSE, 3_DISPLAY_{int}, 4_HIDEFLAG, 5_EXIT
+ @private
+ */
+this._F4InterfaceCallback = function (choice) {
+    if (choice === "1_BUY" || choice === "2_LOSE") {
+        var info = system.info;
+        var success = choice === "1_BUY" ? this._buyCitizenship(info.galaxyID, info.systemID) : this._loseCitizenship(info.galaxyID, info.systemID);
+        if (success) {
+            this._publishNewsSubscribers();
+        }
+        this._runCitizenship(!success);
+    } else {
+        var currentFlag = this._flag;
+        if (choice === "4_HIDEFLAG") {
+            delete currentFlag.galaxyID;
+            delete currentFlag.systemID;
+            delete currentFlag.name;
+            this._runCitizenship(false);
+        } else if (choice !== null && choice.substring(0, 10) === "3_DISPLAY_") {
+            var galaxyID = parseInt(choice.substring(10, 11)), systemID = parseInt(choice.substring(12));
+            currentFlag.galaxyID = galaxyID;
+            currentFlag.systemID = systemID;
+            currentFlag.name = this._Systems.$retrieveNameFromSystem(galaxyID, systemID);
+            this._runCitizenship(false);
+        }
+    } // else EXIT
+};
+
+/**
  * Hides the HUD and displays the F4 interface
  * @private
  */
 this._displayF4Interface = function () {
-    player.ship.hudHidden || (player.ship.hudHidden = true);
     this._runCitizenship(false);
 };
 
@@ -228,9 +235,7 @@ this.$buildCitizenshipsString = function (citizenships) {
  * @lends worldScripts.DayDiplomacy_060_Citizenships.$subscribeToPlayerCitizenshipsUpdates
  */
 this.$subscribeToPlayerCitizenshipsUpdates = function (scriptName) {
-    // {String[]} _playerCitizenshipsUpdatesSubscribers - an array containing the names of the scripts which have subscribed to receive notifications when the player citizenships have changed.
-    this._playerCitizenshipsUpdatesSubscribers || (this._playerCitizenshipsUpdatesSubscribers = []);
-    this._playerCitizenshipsUpdatesSubscribers.push(scriptName);
+    (this._playerCitizenshipsUpdatesSubscribers || (this._playerCitizenshipsUpdatesSubscribers = [])).push(scriptName);
 };
 /* ************************** End OXP public functions ****************************************************/
 
@@ -260,6 +265,9 @@ this.missionScreenEnded = function () {
 this._startUp = function () {
     worldScripts.XenonUI && worldScripts.XenonUI.$addMissionScreenException("DiplomacyCitizenshipsScreenId");
     worldScripts.XenonReduxUI && worldScripts.XenonReduxUI.$addMissionScreenException("DiplomacyCitizenshipsScreenId");
+
+    // {String[]} _playerCitizenshipsUpdatesSubscribers - an array containing the names of the scripts which have subscribed to receive notifications when the player citizenships have changed.
+    this._playerCitizenshipsUpdatesSubscribers || (this._playerCitizenshipsUpdatesSubscribers = []);
 
     this._Systems = worldScripts.DayDiplomacy_010_Systems;
     var engineAPI = worldScripts.DayDiplomacy_002_EngineAPI;
