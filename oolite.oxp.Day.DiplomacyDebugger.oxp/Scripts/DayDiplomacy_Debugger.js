@@ -23,17 +23,39 @@ this._F4InterfaceCallback = function (choice) {
 this._logSqlDisplay=function(){
     var ships=system.allShips;
     var i = ships.length;
-    var database="create table Ship (\n" +
+    var database="create table Ship (" +
         "id bigint," +
         "ooliteID bigint UNIQUE," +
         "name text," +
-        "primary key(id)" +
-        ");";
+        "homeSystem bigint," +
+        "AI text," +
+        "datakey text,"+
+        "displayName text,"+
+        "isBeacon boolean," +
+        "isBoulder boolean,"+
+        "isCargo boolean,"+
+        "isFrangible boolean,"+
+        "isJamming boolean,"+
+        "isMinable boolean,"+
+        "isMine boolean,"+
+        "isMissile boolean,"+
+        "isPiloted boolean,"+
+        "isPirate boolean,"+
+        "isPirateVictim boolean,"+
+        "isPolice boolean,"+
+        "isRock boolean,"+
+        "isThargoid boolean,"+
+        "isTrader boolean,"+
+        "isTurret boolean,"+
+        "isWeapon boolean,"+
+        "primaryRole text,"+
+        "shipClassName text,"+
+        "shipUniqueName text,"+
+        "primary key(id));\n";
     while (i--){
-        log("shipsname",ships[i].name);
-        var req="insert into Ship (name) values ("ships[i].name");";
-        log ("sql querry",req);
+        database+="insert into Ship (name,homeSystem) values ('"+ships[i].name+"','"+ships[i].homeSystem+"','"+ships[i].AI+"','"+ships[i].dataKey+"','"+ships[i].displayName+"','"+ships[i].isBeacon+"','"+ships[i].isBoulder+"','"+ships[i].isCargo+"','"+ships[i].isFrangible+"','"+ships[i].isJamming +"','"+ships[i].isMinable+"','"+ships[i].isMine+"','"+ships[i].isMissile+"','"+ships[i].isPiloted+"','"+ships[i].isPirate+"','"+ships[i].isPirateVictim+"','"+ships[i].isPolice+"','"+ships[i].isRock+"','"+ships[i].isThargoid+"','"+ships[i].isTrader+"','"+ships[i].isTurret+"','"+ships[i].isWeapon+"','"+ships[i].primaryRole+"','"+ships[i].shipClassName+"','"+ships[i].shipUniqueName+"');\n";
     }
+    log ("sql query",database);
 };
 
 this._displayF4Interface = function () {
