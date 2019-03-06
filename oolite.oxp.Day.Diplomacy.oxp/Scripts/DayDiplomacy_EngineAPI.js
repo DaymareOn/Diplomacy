@@ -15,6 +15,11 @@ this.$buildNewEventId = function () {
 this.$buildNewResponseId = function () {
     return this._s.$getNewResponseId();
 };
+/**
+ *
+ * @return {string}
+ * @lends worldScripts.DayDiplomacy_002_EngineAPI.$buildNewActorId
+ */
 this.$buildNewActorId = function () {
     return this._s.$getNewActorId();
 };
@@ -48,11 +53,15 @@ this.$buildResponse = function (id, eventType, actorType, responseFunctionId) {
      */
     return {id: id, eventType: eventType, actorType: actorType, responseFunctionId: responseFunctionId};
 };
+/**
+ * A planetary system or an alliance, or whatever you wish :)
+ * An actor is {id:id, actorType:actorType, responsesIdByEventType:{eventType:[responseIds]}, observers:{actorType:[actorIds]}}
+ * @param {string} actorType
+ * @param {string} id
+ * @return {{actorType: *, id: *, responsesIdByEventType: {}, observers: {}}}
+ * @lends worldScripts.DayDiplomacy_002_EngineAPI.$buildActor
+ */
 this.$buildActor = function (actorType, id) {
-    /**
-     * A planetary system or an alliance, or whatever you wish :)
-     * An actor is {id:id, actorType:actorType, responsesIdByEventType:{eventType:[responseIds]}, observers:{actorType:[actorIds]}}
-     */
     return {id: id, actorType: actorType, responsesIdByEventType: {}, observers: {}};
 };
 /*************************** End of Factory functions ****************************************************/
@@ -61,9 +70,20 @@ this.$buildActor = function (actorType, id) {
 this.$addEventType = function (name, position) {
     this._s.$addEventType(name, position);
 };
+/**
+ *
+ * @param {string} name
+ * @param {int} position
+ * @lends worldScripts.DayDiplomacy_002_EngineAPI.$addActorType
+ */
 this.$addActorType = function (name, position) {
     this._s.$addActorType(name, position);
 };
+/**
+ *
+ * @param {Object} anActor
+ * @lends worldScripts.DayDiplomacy_002_EngineAPI.$addActor
+ */
 this.$addActor = function (anActor) {
     this._s.$addActor(anActor);
 };
@@ -94,9 +114,23 @@ this.$setResponse = function (aResponse) {
 // this.$unsetResponse = function (aResponse) {
 //     this._s.unsetResponse(aResponse);
 // };
+/**
+ *
+ * @param {string} anObserverId
+ * @param {string} anObserverActorType
+ * @param {Object} anActor
+ * @lends worldScripts.DayDiplomacy_002_EngineAPI.$addObserverToActor
+ */
 this.$addObserverToActor = function (anObserverId, anObserverActorType, anActor) {
+    // FIXME the order of parameters, one more reason to remove the API
     this._s.$addObserverToActor(anActor, anObserverActorType, anObserverId);
 };
+/**
+ * @param {Object} anObject
+ * @param {string} fieldName
+ * @param {Object} fieldValue
+ * @lends worldScripts.DayDiplomacy_002_EngineAPI.$setField
+ */
 this.$setField = function (anObject, fieldName, fieldValue) {
     if (anObject.hasOwnProperty("_State")) { // We put the field into _State
         anObject._State[fieldName] = fieldValue;
@@ -129,11 +163,13 @@ this.$getEventTypes = function () {
     /** @returns [string: eventType] */
     return this._S.eventTypes;
 };
+/**
+ *
+ * @param {string} actorType
+ * @returns {string[]} the list of actorId having the type given as parameter
+ * @lends worldScripts.DayDiplomacy_002_EngineAPI.$getActorsIdByType
+ */
 this.$getActorsIdByType = function (actorType) {
-    /**
-     * @param actorType
-     * @returns [actorIds]
-     */
     return this._S.actorsByType[actorType];
 };
 /**
@@ -144,8 +180,14 @@ this.$getActorsIdByType = function (actorType) {
 this.$getActors = function () {
     return this._S.actors;
 };
+/**
+ *
+ * @param {Object} anActor
+ * @param {string} observersActorType
+ * @returns {string[]} the list of the actorId's of the observers of the given actor, which are of the given type
+ * @lends worldScripts.DayDiplomacy_002_EngineAPI.$getObservers
+ */
 this.$getObservers = function (anActor, observersActorType) {
-    /** @returns [observerActorId] */
     return anActor.observers[observersActorType];
 };
 this.$getEvents = function () {

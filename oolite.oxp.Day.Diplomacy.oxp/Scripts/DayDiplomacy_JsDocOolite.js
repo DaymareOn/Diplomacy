@@ -7,7 +7,16 @@
  * @property {SystemInfo} info {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_System#info}
  * @property {int} productivity {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_System#productivity}
  * @property {int} population {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_System#population}
+ * @property {function} infoForSystem {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_System#infoForSystem}
  * @see {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_System}
+ */
+
+/**
+ * @function System.infoForSystem
+ * @param {int} galaxyID
+ * @param {int} systemID
+ * @return {SystemInfo}
+ * @see {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_System#infoForSystem}
  */
 
 /**
@@ -15,7 +24,15 @@
  * @typedef SystemInfo
  * @property {int} galaxyID {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_SystemInfo#galaxyID}
  * @property {int} systemID {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_SystemInfo#systemID}
+ * @property {function} systemsInRange {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_SystemInfo#systemsInRange}
  * @see {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_SystemInfo}
+ */
+
+/**
+ *  Returns the SystemInfo of the systems nearer than 7 ly from the original SystemInfo
+ * @function SystemInfo.systemsInRange
+ * @instance
+ * @return {SystemInfo[]}
  */
 
 // Note: player.ship doesn't exist in the Oolite player wiki.
