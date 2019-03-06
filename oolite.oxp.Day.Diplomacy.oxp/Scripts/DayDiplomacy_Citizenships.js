@@ -5,23 +5,16 @@ this.copyright = "(C) 2019 Loic Coissard, David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
 this.description = "This script is the citizenships engine.";
 
-/*************************** OXP private functions *******************************************************/
+/* ************************** OXP private functions *******************************************************/
 /**
  Calls the necessary functions depending on the player's choice in the F4 interface
  @param {String} choice - predefined values: BUY, LOSE, DISPLAY_{int}
  @private
  */
 this._F4InterfaceCallback = function (choice) {
-    if (choice === "1_BUY") {
+    if (choice === "1_BUY" || choice === "2_LOSE") {
         var info = system.info;
-        var success = this._buyCitizenship(info.galaxyID, info.systemID);
-        if (success) {
-            this._publishNewsSubscribers();
-        }
-        this._runCitizenship(!success);
-    } else if (choice === "2_LOSE") {
-        var info = system.info;
-        var success = this._loseCitizenship(info.galaxyID, info.systemID);
+        var success = (choice === "1_BUY" ? this._buyCitizenship : this._loseCitizenship)(info.galaxyID, info.systemID);
         if (success) {
             this._publishNewsSubscribers();
         }
@@ -165,9 +158,9 @@ this._publishNewsSubscribers = function () {
         worldScripts[subscribers[l]].$playerCitizenshipsUpdated(citizenships);
     }
 };
-/*************************** End OXP private functions ***************************************************/
+/* ************************** End OXP private functions ***************************************************/
 
-/*************************** OXP public functions ********************************************************/
+/* ************************** OXP public functions ********************************************************/
 
 /**
  * This formula would put the US citizenship at 5.700.000 USD in 2016 and the french one at 3.700.000 USD.
@@ -217,17 +210,18 @@ this.$buildCitizenshipsString = function (citizenships) {
 /**
  * Allows the script which name is given as argument to be called through the method $playerCitizenshipsUpdated
  * each time the player citizenships are updated. The script must implement that method: this.$playerCitizenshipsUpdated = function(citizenships) {}
- * @param {string} scriptname the script.name
+ * @param {string} scriptName the script.name
  * @lends worldScripts.DayDiplomacy_060_Citizenships.$subscribeToPlayerCitizenshipsUpdates
  */
-this.$subscribeToPlayerCitizenshipsUpdates = function (scriptname) {
+this.$subscribeToPlayerCitizenshipsUpdates = function (scriptName) {
     // {String[]} _playerCitizenshipsUpdatesSubscribers - an array containing the names of the scripts which have subscribed to receive notifications when the player citizenships have changed.
     this._playerCitizenshipsUpdatesSubscribers || (this._playerCitizenshipsUpdatesSubscribers = []);
-    this._playerCitizenshipsUpdatesSubscribers.push(scriptname);
+    this._playerCitizenshipsUpdatesSubscribers.push(scriptName);
 };
-/*************************** End OXP public functions ****************************************************/
+/* ************************** End OXP public functions ****************************************************/
 
-/*************************** Oolite events ***************************************************************/
+/* ************************** Oolite events ***************************************************************/
+// noinspection JSUnusedLocalSymbols Called by Oolite itself
 /**
  * Displays the citizenship's line in the F4 interface when the player is docked.
  * @param {Object} station an Oolite object where the ship is docked. We don't use it.
@@ -236,6 +230,7 @@ this.shipDockedWithStation = function (station) {
     this._initF4Interface();
 };
 
+// noinspection JSUnusedGlobalSymbols Called by Oolite itself
 /**
  * We stop hiding the HUD when we exit our citizenship interface
  */
@@ -254,7 +249,7 @@ this._startUp = function () {
     var currentGalaxyID = system.info.galaxyID;
     var originalHomeSystem = player.ship.homeSystem;
     /**
-     * The object in which the player citizenships are saved. That object is saved into the savegame file.
+     * The object in which the player citizenships are saved. That object is saved into the saveGame file.
      * @type {planetarySystem[]}
      */
     this._citizenships = worldScripts.DayDiplomacy_002_EngineAPI.$initAndReturnSavedData("citizenships", [{
@@ -271,4 +266,4 @@ this.startUp = function () {
     worldScripts.DayDiplomacy_000_Engine.$subscribe(this.name);
     delete this.startUp; // No need to startup twice
 };
-/*************************** End Oolite events ***********************************************************/
+/* ************************** End Oolite events ***********************************************************/
