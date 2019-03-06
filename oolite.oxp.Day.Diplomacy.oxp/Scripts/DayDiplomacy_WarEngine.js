@@ -35,6 +35,19 @@ this.$setWarThreshold = function (threshold) {
     this._F.warCouncilRecurrentAction.warThreshold = threshold;
     this._s._State.warThreshold = threshold;
 };
+this.$getAllianceThreshold = function() {
+    return this._s._State.allianceThreshold;
+};
+this.$getWarThreshold = function() {
+    return this._s._State.warThreshold;
+};
+this.$getAlliancesAndWars = function() {
+    return this._a;
+};
+this.$getScores = function() {
+    return this._as;
+};
+
 /*************************** End OXP public functions ****************************************************/
 
 /*************************** OXP private functions *******************************************************/

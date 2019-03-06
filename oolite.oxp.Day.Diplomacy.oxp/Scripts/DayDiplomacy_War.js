@@ -20,7 +20,7 @@ this._initSystemsScores = function (aGalaxyNb) {
     var actorsIdByType = api.$getActorsIdByType("SYSTEM");
     var actors = api.$getActors();
     var z = actorsIdByType.length;
-    var wapi = this._wapi;
+    var we = this._we;
     while (z--) {
         var thisActor = actors[actorsIdByType[z]];
         if (thisActor.galaxyNb != aGalaxyNb) {
@@ -29,12 +29,12 @@ this._initSystemsScores = function (aGalaxyNb) {
         var observersId = thisActor.observers["SYSTEM"];
         var y = observersId.length;
         while (y--) {
-            wapi.$recalculateScores(actors[observersId[y]], thisActor);
+            we.$recalculateScores(actors[observersId[y]], thisActor);
         }
     }
 };
 this._drawDiplomaticMap = function () {
-    var scores = this._wapi.$getScores();
+    var scores = this._we.$getScores();
     var actors = this._api.$getActors();
     var links = [];
 
@@ -76,7 +76,7 @@ this._drawDiplomaticMap = function () {
     this._drawMap(links);
 };
 this._drawWarMap = function () {
-    var alliancesAndWars = this._wapi.$getAlliancesAndWars();
+    var alliancesAndWars = this._we.$getAlliancesAndWars();
     var actors = this._api.$getActors();
     var links = [];
 
@@ -186,12 +186,12 @@ this._initF4Interface = function () {
 this._startUp = function () {
     this._storedNews = []; // No real need to save it
     var api = this._api = worldScripts.DayDiplomacy_002_EngineAPI;
-    var wapi = this._wapi = worldScripts.DayDiplomacy_042_WarEngineAPI;
-    var sf = wapi.$getScoringFunctions();
+    var we = this._we = worldScripts.DayDiplomacy_040_WarEngine;
+    var sf = we.$getScoringFunctions();
 
     // Economy comparison
     if (sf.indexOf("EconomyComparison") === -1) {
-        wapi.$addScoringFunction("EconomyComparison", function (observer, observed) {
+        we.$addScoringFunction("EconomyComparison", function (observer, observed) {
             var map = {
                 0: {0: +0.5, 1: -1.0, 2: -0.5, 3: -1.0, 4: -1.0, 5: -0.5, 6: -0.5, 7: -0.5}, // Anarchy
                 1: {0: +0.0, 1: +0.5, 2: -0.5, 3: -0.5, 4: -1.0, 5: -0.5, 6: -1.0, 7: -0.5}, // Feudal
@@ -208,16 +208,16 @@ this._startUp = function () {
 
     // Alliances influence on score, this function is and should be last executed.
     if (sf.indexOf("alliancesAndWarsInfluence") === -1) {
-        wapi.$addScoringFunction("alliancesAndWarsInfluence", function alliancesAndWarsInfluence(observer, observed) {
+        we.$addScoringFunction("alliancesAndWarsInfluence", function alliancesAndWarsInfluence(observer, observed) {
 
             /* This function calculates the relation bonus given by observer to observed, depending on observed allies and foes.
              * If their allies are considered nice by observer, they get a bonus.
              * If their foes are considered baddies by observer, they get a bonus.
              * And vice-versa. */
             var that = alliancesAndWarsInfluence;
-            var wapi = that.wapi || (that.wapi = worldScripts.DayDiplomacy_042_WarEngineAPI);
-            var observedAlliesAndFoes = wapi.$getAlliancesAndWars()[observed.id];
-            var allScores = wapi.$getScores();
+            var we = that.we || (that.we = worldScripts.DayDiplomacy_040_WarEngine);
+            var observedAlliesAndFoes = we.$getAlliancesAndWars()[observed.id];
+            var allScores = we.$getScores();
             var observerId = observer.id;
 
             var result = 0;
