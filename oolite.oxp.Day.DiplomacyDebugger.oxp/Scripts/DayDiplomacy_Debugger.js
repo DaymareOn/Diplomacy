@@ -23,9 +23,15 @@ this._F4InterfaceCallback = function (choice) {
 this._logSqlDisplay=function(){
     var ships=system.allShips;
     var i = ships.length;
+    var database="create table Ship (\n" +
+        "id bigint," +
+        "ooliteID bigint UNIQUE," +
+        "name text," +
+        "primary key(id)" +
+        ");";
     while (i--){
         log("shipsname",ships[i].name);
-        var req="insert into Ship (name) values ("+"ships[i].name"+");";
+        var req="insert into Ship (name) values ("ships[i].name");";
         log ("sql querry",req);
     }
 };
