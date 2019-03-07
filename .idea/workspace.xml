@@ -4,7 +4,7 @@
     <option name="ANALYZE_TEST_SOURCES" value="false" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7dac204a-c329-4c67-bff4-88ff57ef4aa3" name="Default" comment="add all proprieties">
+    <list default="true" id="7dac204a-c329-4c67-bff4-88ff57ef4aa3" name="Default" comment="sql ok">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/oolite.oxp.Day.DiplomacyDebugger.oxp/Scripts/DayDiplomacy_Debugger.js" beforeDir="false" afterPath="$PROJECT_DIR$/oolite.oxp.Day.DiplomacyDebugger.oxp/Scripts/DayDiplomacy_Debugger.js" afterDir="false" />
     </list>
@@ -129,8 +129,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.DiplomacyDebugger.oxp/Scripts/DayDiplomacy_Debugger.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="177">
-              <caret line="54" column="8" lean-forward="true" selection-start-line="54" selection-start-column="8" selection-end-line="54" selection-end-column="8" />
+            <state relative-caret-position="1122">
+              <caret line="66" column="14" selection-start-line="66" selection-start-column="14" selection-end-line="66" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -160,40 +160,68 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>DayDiplomacy_030_AlliancesEngin</find>
-      <find>DayDiplomacy_032_AlliancesEngineAPI</find>
-      <find>DayDiplomacy_032_AlliancesEngin</find>
-      <find>DayDiplomacy_040_Alliances</find>
-      <find>DayDiplomacy_020_Tax</find>
-      <find>DayDiplomacy_020_History</find>
-      <find>Tax</find>
-      <find>DayDiplomacy_030_Tax</find>
-      <find>fire</find>
-      <find>$setField</find>
-      <find>system.info</find>
-      <find>$subscr</find>
-      <find>_nextState</find>
-      <find>_gatherEventsToPublish</find>
-      <find>_sapi</find>
-      <find>_api</find>
-      <find>log</find>
-      <find>0.1</find>
-      <find>equipment</find>
-      <find>snooper</find>
-      <find>_debug</find>
-      <find>reset</find>
-      <find>rese</find>
-      <find>resetLinks</find>
       <find>jump</find>
       <find>hudHidden</find>
       <find>_drawWarMap</find>
       <find>_resetLinks</find>
       <find>DiplomacyDiplomaticScreenId</find>
       <find>_initF4Interface</find>
+      <find>isweapon</find>
+      <find>homeSystem</find>
+      <find>AI</find>
+      <find>displayName</find>
+      <find>is</find>
+      <find>isBeacon</find>
+      <find>isBoulder</find>
+      <find>isCargo</find>
+      <find>isFra</find>
+      <find>isJamming</find>
+      <find>isMinable</find>
+      <find>isMissile</find>
+      <find>isPiloted</find>
+      <find>isPirate</find>
+      <find>isPirateVictim</find>
+      <find>isPolice</find>
+      <find>isRock</find>
+      <find>isThargoid</find>
+      <find>isTrader</find>
+      <find>isWeapon</find>
+      <find>PrimaryRole</find>
+      <find>shipClassName</find>
+      <find>shipUniqueName</find>
+      <find>float</find>
     </findStrings>
     <replaceStrings>
-      <replace>logName</replace>
-      <replace>_e</replace>
+      <replace>ship</replace>
+      <replace>ai</replace>
+      <replace>display_name</replace>
+      <replace>is_beacon</replace>
+      <replace>is_boulder</replace>
+      <replace>is_cargo</replace>
+      <replace>is_frangible</replace>
+      <replace>is_jamming</replace>
+      <replace>is_minable</replace>
+      <replace>is_missile</replace>
+      <replace>is_mine</replace>
+      <replace>is_piloted</replace>
+      <replace>is_pirate</replace>
+      <replace>is_pirate_victim</replace>
+      <replace>is_police</replace>
+      <replace>is_rock</replace>
+      <replace>is_thargoid</replace>
+      <replace>is_trader</replace>
+      <replace>is_turret</replace>
+      <replace>is_weapon</replace>
+      <replace>primary_role</replace>
+      <replace>ship_class_name</replace>
+      <replace>ship_unique_name</replace>
+      <replace>BIGINT</replace>
+      <replace>TEXT</replace>
+      <replace>PRIMARY KEY</replace>
+      <replace>FOREIGN KEY</replace>
+      <replace>REFERENCES</replace>
+      <replace>BOOLEAN</replace>
+      <replace>FLOAT</replace>
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp</dir>
@@ -310,6 +338,35 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <expand>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="Diplomacy" type="cbb8eebc:String" user="Diplomacy" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="Diplomacy" type="cbb8eebc:String" user="Diplomacy" />
+              <item name="oolite.oxp.Day.Diplomacy.oxp" type="cbb8eebc:String" user="oolite.oxp.Day.Diplomacy.oxp" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="Diplomacy" type="cbb8eebc:String" user="Diplomacy" />
+              <item name="oolite.oxp.Day.Diplomacy.oxp" type="cbb8eebc:String" user="oolite.oxp.Day.Diplomacy.oxp" />
+              <item name="Config" type="cbb8eebc:String" user="Config" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="Diplomacy" type="cbb8eebc:String" user="Diplomacy" />
+              <item name="oolite.oxp.Day.Diplomacy.oxp" type="cbb8eebc:String" user="oolite.oxp.Day.Diplomacy.oxp" />
+              <item name="Scripts" type="cbb8eebc:String" user="Scripts" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -349,40 +406,12 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <expand>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="Diplomacy" type="cbb8eebc:String" user="Diplomacy" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="Diplomacy" type="cbb8eebc:String" user="Diplomacy" />
-              <item name="oolite.oxp.Day.Diplomacy.oxp" type="cbb8eebc:String" user="oolite.oxp.Day.Diplomacy.oxp" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="Diplomacy" type="cbb8eebc:String" user="Diplomacy" />
-              <item name="oolite.oxp.Day.Diplomacy.oxp" type="cbb8eebc:String" user="oolite.oxp.Day.Diplomacy.oxp" />
-              <item name="Config" type="cbb8eebc:String" user="Config" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="Diplomacy" type="cbb8eebc:String" user="Diplomacy" />
-              <item name="oolite.oxp.Day.Diplomacy.oxp" type="cbb8eebc:String" user="oolite.oxp.Day.Diplomacy.oxp" />
-              <item name="Scripts" type="cbb8eebc:String" user="Scripts" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="TODO_SCOPE" value="All Places" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
     <property name="js.eslint.eslintPackage" value="" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_WarEngineAPI.js" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -562,14 +591,8 @@
       <workItem from="1551460626637" duration="1616000" />
       <workItem from="1551463090045" duration="8429000" />
       <workItem from="1551524921320" duration="14752000" />
-      <workItem from="1551865009514" duration="12581000" />
-    </task>
-    <task id="LOCAL-00002" summary="Script de génération d'oxz">
-      <created>1490255168684</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1490255168684</updated>
+      <workItem from="1551865009514" duration="16505000" />
+      <workItem from="1551948054836" duration="5505000" />
     </task>
     <task id="LOCAL-00003" summary="0.2 Package">
       <created>1490255208881</created>
@@ -907,11 +930,18 @@
       <option name="project" value="LOCAL" />
       <updated>1551882165969</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="sql ok">
+      <created>1551885580979</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1551885581010</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="766943000" />
+    <option name="totallyTimeSpent" value="776372000" />
   </component>
   <component name="TodoView" selected-index="2">
     <todo-panel id="selected-file">
@@ -924,9 +954,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23676248" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24054463" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Nl-Palette" order="2" />
       <window_info id="Capture Tool" order="3" />
@@ -1020,7 +1049,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Better systems observers initialization." />
     <MESSAGE value="Response to JOIN event is now initialized only once." />
     <MESSAGE value="Better news message." />
     <MESSAGE value="News are now stored in case of unavailability of snoopers engine.&#10;Stored news are displayed when the player changes screen, or another news has been displayed.&#10;Added FIXMEs." />
@@ -1045,7 +1073,8 @@
     <MESSAGE value="sql query method create" />
     <MESSAGE value="problems wit quotes" />
     <MESSAGE value="add all proprieties" />
-    <option name="LAST_COMMIT_MESSAGE" value="add all proprieties" />
+    <MESSAGE value="sql ok" />
+    <option name="LAST_COMMIT_MESSAGE" value="sql ok" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -1239,8 +1268,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.DiplomacyDebugger.oxp/Scripts/DayDiplomacy_Debugger.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="54" column="8" lean-forward="true" selection-start-line="54" selection-start-column="8" selection-end-line="54" selection-end-column="8" />
+        <state relative-caret-position="1122">
+          <caret line="66" column="14" selection-start-line="66" selection-start-column="14" selection-end-line="66" selection-end-column="14" />
         </state>
       </provider>
     </entry>
