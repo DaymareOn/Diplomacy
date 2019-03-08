@@ -40,8 +40,17 @@
  * The Player class is represents the player. There is always exactly one Player object in existence, which can be accessed through the player global property.
  * @typedef Player
  * @property {PlayerShip} ship
- * @property {Number} credits
+ * @property {Number} credits {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_Player#credits}
+ * @property {int} bounty {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_Player#bounty}
+ * @property {function} commsMessage  {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_Player#commsMessage}
  * @see {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_Player}
+ */
+
+/**
+ * @function Player.commsMessage
+ * @param {string} message
+ * @instance
+ * @see {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_Player#commsMessage}
  */
 
 /**

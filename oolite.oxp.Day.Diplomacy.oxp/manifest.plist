@@ -12,6 +12,12 @@
     	{
     		"identifier" = "oolite.oxp.Svengali.Snoopers";
     		"description" = "Adds the galactic news network channels.";
+    		"version" = "0";
+    	},
+    	{
+    		"identifier" = "oolite.oxp.Commander_McLane.Anarchies";
+    		"description" = "Adds the attackers in the systems at war with the player flag.";
+    		"version" = "0";
     	}
     );
 }

@@ -16,7 +16,19 @@ this._F4InterfaceCallback = function (choice) {
         case "3_MONEY":
             player.credits += 1000000;
             break;
-        default: // "4_EXIT":
+        case "4_TECH_LEVEL":
+            system.techLevel = 15;
+            break;
+        case "5_WAR":
+            var flag = worldScripts.DayDiplomacy_060_Citizenships._flag;
+            var flagActorId = worldScripts.DayDiplomacy_010_Systems.$getSystemsActorIdsByGalaxyAndSystemId()[flag.galaxyID][flag.systemID];
+            var currentSystemActorId = worldScripts.DayDiplomacy_010_Systems.$getSystemsActorIdsByGalaxyAndSystemId()[system.info.galaxyID][system.info.systemID];
+            worldScripts.DayDiplomacy_040_WarEngine._declareWar(flagActorId, currentSystemActorId);
+            break;
+        case "6_DISO":
+            worldScripts.DayDiplomacy_060_Citizenships._buyCitizenship(1,7);
+            break;
+        default: // "7_EXIT":
     }
 };
 
@@ -33,7 +45,10 @@ this._displayF4Interface = function () {
             "1_ADVANCE": "Advance History one turn",
             "2_ANA": "Add Advanced Navigational Array equipment to ship to see the star wars maps",
             "3_MONEY": "Earn 1.000.000 ₢",
-            "4_EXIT": "Exit"
+            "4_TECH_LEVEL": "Set current system to tech level 15",
+            "5_WAR": "Set current system at war with your flag",
+            "6_DISO": "Buy Esrilees citizenship",
+            "7_EXIT": "Exit"
         }
     };
     mission.runScreen(opts, this._F4InterfaceCallback.bind(this));

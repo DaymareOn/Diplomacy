@@ -2,8 +2,7 @@ Diplomacy roadmap
 =================
 
 Next version might include:
-0.15 The player may acquire a Citizenship in their current system, and choose which one of their citizenships is displayed.
-0.16 War declaration generates an immediate gdp growth increase!
+0.17 War declaration generates an immediate gdp growth increase!
 
 ---------------------------------------------------------------
 
