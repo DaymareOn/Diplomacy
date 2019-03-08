@@ -7,6 +7,10 @@ this.description = "This script is the economy engine of the Diplomacy OXP. It m
     " The idea here is to use the system GDP, called 'productivity' in Oolite," +
     " and a 'tax level' on GDP which adds to the system's government's 'treasury'.";
 
+/* Credit monetary policy is such that the total number of credits in the Ooniverse is always the same.
+   This is needed to avoid game imbalances leading to exploding monetary mass, or monetary mass converging to zero.
+   This implies that the money cannot be produced, destroyed or counterfeited, which is a mystery in itself. */
+
 this.$GOVERNMENT_DEFAULT_TAX_LEVEL = {
     "0": 0.0, // Anarchy => no tax
     "1": 0.3, // Feudal => not everybody is taxed
@@ -42,7 +46,7 @@ this._startUp = function () {
     var api = worldScripts.DayDiplomacy_002_EngineAPI;
 
     // Not initializing if already done.
-    if (api.$getEventTypes().indexOf("SELFTAX") != -1) {
+    if (api.$getEventTypes().indexOf("SELFTAX") !== -1) {
         return;
     }
 

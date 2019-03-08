@@ -2,14 +2,12 @@
 	"identifier" = "oolite.oxp.Day.DiplomacyDebugger";
 	"required_oolite_version" = "1.81";
 	"title" = "Diplomacy Debugger";
-	"version" = "0.1";
+	"version" = "0.2";
 	"category" = "Ambience";
-	"description" = "Allows to add the Advanced Navigational Array and to advance History turn by turn";
+	"description" = "For devs: used to debug the Diplomacy OXP";
 	"author" = "Day";
 	"information_url" = "http://wiki.alioth.net/index.php/DiplomacyDebugger";
 	"license" = "CC BY-NC-SA 4";
-
-   	"file_size" = "3826930";
 	"requires_oxps" = (
     	{
     		"identifier" = "oolite.oxp.Day.Diplomacy";

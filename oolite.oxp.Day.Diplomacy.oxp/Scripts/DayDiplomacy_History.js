@@ -56,7 +56,7 @@ this.missionScreenEnded = function () {
 
 this._startUp = function () {
     var api = this._api = worldScripts.DayDiplomacy_002_EngineAPI;
-    this._sapi = worldScripts.DayDiplomacy_012_SystemsAPI;
+    this._sapi = worldScripts.DayDiplomacy_010_Systems;
     this._F = api.$getFunctions();
     this._selectedSystemActorId = this._sapi.$getCurrentGalaxySystemsActorIdsBySystemsId()[system.info.systemID]; // FIXME perfectperf?
     this._eff = api.$initAndReturnSavedData("eventFormatingFunctionsIds", {}); // { eventType => functionId }

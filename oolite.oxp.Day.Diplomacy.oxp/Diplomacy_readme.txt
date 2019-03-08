@@ -54,17 +54,20 @@ News!
     Some Snooper news are now displayed when an alliance is formed or broken between two systems,
     or when a war starts or ends between two systems, and the player is in one of those systems.
 
+Citizenships!
+    The player may acquire, or renounce, a system citizenship when visiting this system, for the right price. They may
+    choose which one of their citizenships is announced as the flag of their ship.
+
 ==============================
 What's currently implemented technically?
 
-The oxp contains Engines which may be accessed through APIs:
-- EngineAPI,
-- WarEngineAPI,
-- HistoryAPI,
-- SystemsAPI,
-- EconomyEngineAPI.
-
-The APIs are designed to be easy to use by developers to implement interesting galaxy-spanning events.
+The oxp contains Engines which may be use by developers to implement interesting galaxy-spanning events:
+- Engine,
+- War,
+- History,
+- Systems,
+- Economy,
+- Citizenships.
 
 ==============================
 Effects on game difficulty
@@ -106,6 +109,12 @@ None.
 ==============================
 Changelog
 
+0.15    Improvement, flavor: the player may acquire or renounce the citizenship of the system they are in.
+        Improvement, flavor: the player may display one of their citizenships as the flag of their ship.
+        Improvement, dev func: other scripts may subscribe to be informed of a citizenship change of the player.
+        Improvement, dev func: citizenships prices are dynamic and available to other scripts.
+        Improvement, dev func: other scripts may inquire if the player has a particular citizenship.
+        Improvement, code quality: introduced JsDoc comments, including some allowing to document the Oolite javascript hooks!
 0.14    Improvement, flavor: War declaration! Peace! Snooper news about them!
         Improvement, flavor: Wars map!
         Improvement, dev func: the war threshold and the alliance threshold are scriptable through the WarEngineAPI.

@@ -225,3 +225,17 @@ We could have (gravitic?) radars which results are shared ad-hoc (like wifi) by 
 That way, ships are detected, and space content is better known.
 
 Using these, from the point of view of the ship commander, space isn't empty or big anymore; it's crowded and interaction are possibly frequent.
+
+=========================
+FIXME 0.z citizenship could be linked to a corporation instead of to a system (Cyberpunk meme)
+FIXME 0.z manage the lack of citizenship of an anarchist system, for the player, and for other pilots
+FIXME 0.z pilots attack the player (and other pilots) depending on their citizenship
+FIXME 0.z obligations may weight on the player depending on their citizenship (missions, battles...)
+FIXME 0.z the player may acquire a citizenship through missions, falsified papers, stolen papers from a captured pilot, marriage with a crew member, another pilot or an inhabitant
+FIXME 0.z the player may lose their citizenship through lack of system visit per year, treason, attack on the local army, simultaneous citizenship with an enemy system
+FIXME 0.z the player, citizen of a warring system, may be taxed, enroled into battles, or be given missions
+FIXME 0.z other pilots react on a ship without a flag? maybe in a corporate world?
+FIXME 0.z customs ships checking your papers in case of no flag?
+FIXME 0.z authorities signaling obligation to show a flag under a certain time in case of no flag? paying visa?
+
+FIXME 0.z manage supernovas

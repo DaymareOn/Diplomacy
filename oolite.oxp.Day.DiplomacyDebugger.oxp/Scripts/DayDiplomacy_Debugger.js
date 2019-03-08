@@ -3,20 +3,23 @@ this.name = "DayDiplomacy_080_Debugger";
 this.author = "David (Day) Pradier";
 this.copyright = "(C) 2017 David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
-this.description = "This script scripts the Diplomacy Debugger F4 interface, which lets the player advance History as if it had jumped and add an ANA to their ship";
+this.description = "This script scripts the Diplomacy Debugger F4 interface";
 
 this._F4InterfaceCallback = function (choice) {
     switch (choice) {
-        case "ADVANCE":
+        case "1_ADVANCE":
             worldScripts.DayDiplomacy_000_Engine.shipExitedWitchspace();
             break;
-        case "ANA":
+        case "2_ANA":
             player.ship.awardEquipment("EQ_ADVANCED_NAVIGATIONAL_ARRAY");
             break;
         case "SQL":
             this._logSqlDisplay();
             break;
-        default: // "EXIT":
+        case "3_MONEY":
+            player.credits += 1000000;
+            break;
+        default: // "4_EXIT":
     }
 };
 
@@ -78,12 +81,13 @@ this._displayF4Interface = function () {
         title: "Diplomacy Debugger",
         allowInterrupt: true,
         exitScreen: "GUI_SCREEN_INTERFACES",
-        message: "You may advance one History turn and add Advanced Navigational Array to your ship",
-        choices:{
-            ADVANCE:"Avance History one turn",
-            ANA:"Add ANA equipment to ship",
+        message: "Make your choice",
+        choices: {
+            "1_ADVANCE": "Advance History one turn",
+            "2_ANA": "Add Advanced Navigational Array equipment to ship to see the star wars maps",
             SQL:"export the oolite state in SQL in the log file",
-            EXIT:"Exit"
+            "3_MONEY": "Earn 1.000.000 ₢",
+            "4_EXIT": "Exit"
         }
     };
     mission.runScreen(opts, this._F4InterfaceCallback.bind(this));
