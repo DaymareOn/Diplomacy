@@ -99,34 +99,81 @@ this._State = {
     /** @type ActorType */
     currentActorType: "",
 
-    // FIXME
+    /** @type {Object[]} */
     shortStack: []
 };
-this._Functions = {};// { functionId (string) => function }
+
+/**
+ * @type {Object.<FunctionId,function>}
+ * @private
+ */
+this._Functions = {};
+
+/**
+ * @return {ActorId}
+ * @lends worldScripts.DayDiplomacy_000_Engine.$getNewActorId
+ */
 this.$getNewActorId = function () {
     return "DAr_" + this._State.actorMaxId++;
 };
+
+/**
+ * @return {ResponseId}
+ * @lends worldScripts.DayDiplomacy_000_Engine.$getNewResponseId
+ */
 this.$getNewResponseId = function () {
     return "DR_" + this._State.responseMaxId++;
 };
+
+/**
+ * @return {ActionId}
+ * @lends worldScripts.DayDiplomacy_000_Engine.$getNewActionId
+ */
 this.$getNewActionId = function () {
     return "DAn_" + this._State.actionMaxId++;
 };
+
+/**
+ * @return {FunctionId}
+ * @lends worldScripts.DayDiplomacy_000_Engine.$getNewFunctionId
+ */
 this.$getNewFunctionId = function () {
     return "DFn_" + this._State.functionMaxId++;
 };
+
+/**
+ * @return {EventId}
+ * @lends worldScripts.DayDiplomacy_000_Engine.$getNewEventId
+ */
 this.$getNewEventId = function () {
     return "DEt_" + this._State.eventMaxId++;
 };
+
+/**
+ *
+ * @param {Actor} anActor
+ * @param {Action} anAction
+ */
 this.$letActorExecuteAction = function (anActor, anAction) {
     this._Functions[anAction.actionFunctionId](anActor);
 };
+
+/**
+ * @param {ActorId} actorId
+ * @param {EventType} anEventType
+ * @param {Object[]} someArgs
+ */
 this.$makeActorEventKnownToUniverse = function (actorId, anEventType, someArgs) {
     this._record({id: this.$getNewEventId(), eventType: anEventType, actorId: actorId, args: someArgs});
 };
+
 // this.$Actor.prototype.actNextTurn = function (anEventType, someArgs) {
 //     this.recordForNextTurn({id:eventId, eventType: anEventType, actorId: this._State.id, args: someArgs});
 // };
+
+/**
+ * @param {Actor} anActor
+ */
 this.$addActor = function (anActor) {
     var state = this._State, responsesByType = state.responsesByType, initActions = state.initActions,
         initActionsByType = state.initActionsByType, eventTypes = state.eventTypes, actorType = anActor.actorType,
@@ -155,30 +202,53 @@ this.$addActor = function (anActor) {
         this.$letActorExecuteAction(anActor, initActions[initActionsToExecute[z]]);
     }
 };
+
 // Consistent with history usage.
 // this.disableActor = function (anActor) {
 //     var engineState = this._State, actorState = anActor._State, arr = engineState.actorsByType[actorState.actorType];
 //     arr.splice(arr.indexOf(actorState.id), 1);
 //     delete engineState.actors[actorState.id];
 // };
+
+/**
+ * @param {Actor} anActor
+ * @param {ActorType} thatObserverType
+ * @param {ActorId} thatObserverId
+ */
 this.$addObserverToActor = function (anActor, thatObserverType, thatObserverId) {
     var observers = anActor.observers;
     (observers[thatObserverType] || (observers[thatObserverType] = [])).push(thatObserverId);
 };
+
+/**
+ * @param {DiplomacyResponse} aResponse
+ * @param {Actor} anActor
+ */
 this.$addResponseToActor = function (aResponse, anActor) {
     var responsesIdByEventType = anActor.responsesIdByEventType;
     (responsesIdByEventType[aResponse.eventType] || (responsesIdByEventType[aResponse.eventType] = [])).push(aResponse.id);
 };
+
 // this.$Actor.prototype.removeResponse = function (aResponse) {
 //     var arr = this._State.responses[aResponse.eventType];
 //     arr.splice(arr.indexOf(aResponse.id), 1);
 // };
+
+/**
+ * @param {FunctionId} anId
+ * @param {function} aFunction
+ */
 this.$setFunction = function (anId, aFunction) {
     this._Functions[anId] = aFunction;
 };
+
+/**
+ * @param {Action} anInitAction
+ */
 this.$setInitAction = function (anInitAction) {
     var initActions = this._State.initActions, initActionActorType = anInitAction.actorType;
     // We add the initAction to initActions
+    // FIXME bug we do not add to initActionsByType, and we add with the wrong types
     (initActions[initActionActorType] || (initActions[initActionActorType] = {}))[anInitAction.id] = anInitAction;
 
     // We execute the action on the existing actors in an ordered fashion.
@@ -275,6 +345,11 @@ this._nextState = function (type, currentState) {
     var newIndex = arr.indexOf(currentState) + 1;
     return newIndex === arr.length ? "" : arr[newIndex];
 };
+
+/**
+ * @param {DiplomacyEvent} anEvent
+ * @private
+ */
 this._record = function (anEvent) {
     var eventsToPublish = this._State.eventsToPublish, eventType = anEvent.eventType, date = this._clock.seconds,
         eventId = anEvent.id, eventActorId = anEvent.actorId, actorsEvents = this._State.actorsEvents;
@@ -437,7 +512,6 @@ this._ourFrameCallback = function (delta) {
     if (this._debug) log(this.name, "No more jump token");
     this._removeFrameCallback(); // We have finished, we remove the callback
 }.bind(this);
-/* ************************** End of engine ***************************************************************/
 
 /* ************************** Methods to save/restore *****************************************************/
 this._functionReplacer = function (key, value) {
@@ -460,7 +534,6 @@ this._functionReviver = (function () {
     innerFn._functionReplaceRegexp = new RegExp("^\\/Function\\(([\\s\\S]*)\\)\\/$");
     return innerFn;
 }.bind(this))();
-/* ************************** End of methods to save/restore **********************************************/
 
 /* ************************** Oolite events ***************************************************************/
 this._startUp = function () {
@@ -494,7 +567,6 @@ this.shipDockedWithStation = function (station) {
 this.shipWillLaunchFromStation = function (station) {
     this._removeFrameCallback();
 };
-/* ************************** End of oolite events ********************************************************/
 
 /* ************************** Subscribing system for scripts order ****************************************/
 this.startUp = function () {
@@ -527,4 +599,3 @@ this._subscribers = [];
 this.$subscribe = function (scriptName) {
     this._subscribers.push(scriptName);
 };
-/* ************************** End of subscribing system for scripts order *********************************/
