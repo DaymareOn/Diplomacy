@@ -317,7 +317,7 @@ this._startUp = function () {
     worldScripts.XenonReduxUI && worldScripts.XenonReduxUI.$addMissionScreenException("DiplomacyCitizenshipsScreenId");
 
     this._Systems = worldScripts.DayDiplomacy_010_Systems;
-    var engineAPI = worldScripts.DayDiplomacy_002_EngineAPI;
+    var engine = worldScripts.DayDiplomacy_000_Engine;
 
     // {String[]} _playerCitizenshipsUpdatesSubscribers - an array containing the names of the scripts which have subscribed to receive notifications when the player citizenships have changed.
     this._playerCitizenshipsUpdatesSubscribers || (this._playerCitizenshipsUpdatesSubscribers = []);
@@ -327,7 +327,7 @@ this._startUp = function () {
      * @type {PlanetarySystem}
      * @private
      */
-    this._flag = engineAPI.$initAndReturnSavedData("flag", {});
+    this._flag = engine.$initAndReturnSavedData("flag", {});
 
     /**
      * The value is only set when the player is in an enemy system; else it is 'null'.
@@ -336,13 +336,13 @@ this._startUp = function () {
      * @param {int} value
      * @private
      */
-    this._peacefulSystemsBounty = engineAPI.$initAndReturnSavedData("_peacefulSystemsBounty", {value: null});
+    this._peacefulSystemsBounty = engine.$initAndReturnSavedData("_peacefulSystemsBounty", {value: null});
 
     /**
      * The object in which the player citizenships are saved. That object is saved into the saveGame file.
      * @type {PlanetarySystem[]}
      */
-    this._citizenships = engineAPI.$initAndReturnSavedData("citizenships", []);
+    this._citizenships = engine.$initAndReturnSavedData("citizenships", []);
 
     this._initF4Interface();
     delete this._startUp; // No need to startup twice

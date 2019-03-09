@@ -308,6 +308,17 @@ this.$setRecurrentAction = function (anAction) {
     recurrentActions[anAction.id] = anAction;
 };
 
+/**
+ * FIXME
+ * @param {string} name
+ * @param {*} defaultValue
+ * @returns {*}
+ * @lends worldScripts.DayDiplomacy_000_Engine.$initAndReturnSavedData
+ */
+this.$initAndReturnSavedData = function (name, defaultValue) {
+    return this._State[name] || (this._State[name] = defaultValue);
+};
+
 this.$executeAction = function (anAction) {
     var ourActorIds = this._State.actorsByType[anAction.actorType], actors = this._State.actors;
     var z = ourActorIds.length;
