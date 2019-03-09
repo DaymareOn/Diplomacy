@@ -223,6 +223,7 @@ this.$getActors = function () {
 this.$getObservers = function (anActor, observersActorType) {
     return anActor.observers[observersActorType];
 };
+
 /**
  * Returns the events dictionary with {@link EventId} as keys, and {@link Event} as values
  * @return {{}}
@@ -231,6 +232,7 @@ this.$getObservers = function (anActor, observersActorType) {
 this.$getEvents = function () {
     return this._S.events;
 };
+
 /**
  * @param {ActorId} actorId
  * @return {EventId[]}

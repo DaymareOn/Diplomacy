@@ -187,6 +187,16 @@ this._initF4Interface = function () {
     }
 };
 this._startUp = function () {
+    // FIXME 0.perfectstyle hmff, this might have to be into its own function.
+    // Nope, it would be contrary to perfectperf. Explain that in TechnicalPrinciples.txt.
+    // XenonUI would overlay over our mission screens without these exception.
+    // FIXME 0.perfectstyle i should have a list of screens, rather than copying here their names, to avoid forgetting
+    // to update here when I add or change a screen.
+    worldScripts.XenonUI && worldScripts.XenonUI.$addMissionScreenException("DiplomacyDiplomaticScreenId");
+    worldScripts.XenonUI && worldScripts.XenonUI.$addMissionScreenException("DiplomacyWarScreenId");
+    worldScripts.XenonReduxUI && worldScripts.XenonReduxUI.$addMissionScreenException("DiplomacyDiplomaticScreenId");
+    worldScripts.XenonReduxUI && worldScripts.XenonReduxUI.$addMissionScreenException("DiplomacyWarScreenId");
+
     this._storedNews = []; // No real need to save it
     var api = this._api = worldScripts.DayDiplomacy_002_EngineAPI;
     var we = this._we = worldScripts.DayDiplomacy_040_WarEngine;
@@ -387,16 +397,6 @@ this._startUp = function () {
         api.$setFunction(peaceResponseFunctionId, diplomacyAlliancesOnSystemPeaceFunction);
         api.$setResponse(api.$buildResponse(api.$buildNewResponseId(), "PEACE", "SYSTEM", peaceResponseFunctionId));
     }
-
-    // FIXME 0.perfectstyle hmff, this might have to be into its own function.
-    // Nope, it would be contrary to perfectperf. Explain that in TechnicalPrinciples.txt.
-    // XenonUI would overlay over our mission screens without these exception.
-    // FIXME 0.perfectstyle i should have a list of screens, rather than copying here their names, to avoid forgetting
-    // to update here when I add or change a screen.
-    worldScripts.XenonUI && worldScripts.XenonUI.$addMissionScreenException("DiplomacyDiplomaticScreenId");
-    worldScripts.XenonUI && worldScripts.XenonUI.$addMissionScreenException("DiplomacyWarScreenId");
-    worldScripts.XenonReduxUI && worldScripts.XenonReduxUI.$addMissionScreenException("DiplomacyDiplomaticScreenId");
-    worldScripts.XenonReduxUI && worldScripts.XenonReduxUI.$addMissionScreenException("DiplomacyWarScreenId");
 
     this._initF4Interface();
 

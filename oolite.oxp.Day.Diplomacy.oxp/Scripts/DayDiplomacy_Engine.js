@@ -173,7 +173,31 @@ this.$getEventTypes = function () {
 };
 
 /**
- *
+ * @return {Object<FunctionId, function>}
+ * @lends worldScripts.DayDiplomacy_000_Engine.$getFunctions
+ */
+this.$getFunctions = function() {
+    return this._Functions;
+};
+
+/**
+ * @return {Object<EventId,DiplomacyEvent>}
+ * @lends worldScripts.DayDiplomacy_000_Engine.$getEvents
+ */
+this.$getEvents = function () {
+    return this._State.events;
+};
+
+/**
+ * @param {ActorId} actorId
+ * @return {EventId[]}
+ * @lends worldScripts.DayDiplomacy_000_Engine.$getActorEvents
+ */
+this.$getActorEvents = function (actorId) {
+    return this._State.actorsEvents[actorId] || [];
+};
+
+/**
  * @param {Actor} anActor
  * @param {Action} anAction
  */

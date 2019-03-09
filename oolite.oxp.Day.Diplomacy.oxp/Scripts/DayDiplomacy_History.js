@@ -11,7 +11,7 @@ this._displayF4Interface = function () {
     player.ship.hudHidden || (player.ship.hudHidden = true);
     // for each event in history for this system, we add a line
     var ourMessage = "", f = this._F, eff = this._eff,
-        ourEventsIds = this._api.$getActorEvents(this._selectedSystemActorId), events = this._api.$getEvents(),
+        ourEventsIds = this._Engine.$getActorEvents(this._selectedSystemActorId), events = this._Engine.$getEvents(),
         y = ourEventsIds.length, _clock = clock;
     while (y--) {
         // Anti-chronological order
@@ -44,15 +44,16 @@ this._initF4Interface = function () {
  * @param {function} func
  */
 this.$setEventFormattingFunction = function(eventType, func) {
-    var api = this._api, fid = api.$buildNewFunctionId();
-    api.$setFunction(fid, func);
+    var engine = this._Engine;
+    var fid = engine.$getNewFunctionId();
+    engine.$setFunction(fid, func);
     this._eff[eventType] = fid;
 };
 
 /* ************************** Oolite events ***************************************************************/
 
 this.infoSystemChanged = function (currentSystemId, previousSystemId) {
-    this._selectedSystemActorId = this._sapi.$getCurrentGalaxySystemsActorIdsBySystemsId()[currentSystemId];
+    this._selectedSystemActorId = this._Systems.$getCurrentGalaxySystemsActorIdsBySystemsId()[currentSystemId];
 };
 this.shipDockedWithStation = function (station) {
     this._initF4Interface();
@@ -62,14 +63,14 @@ this.missionScreenEnded = function () {
 };
 
 this._startUp = function () {
-    var api = this._api = worldScripts.DayDiplomacy_002_EngineAPI;
-    this._sapi = worldScripts.DayDiplomacy_010_Systems;
-    this._F = api.$getFunctions();
-    this._selectedSystemActorId = this._sapi.$getCurrentGalaxySystemsActorIdsBySystemsId()[system.info.systemID]; // FIXME perfectperf?
-    this._eff = api.$initAndReturnSavedData("eventFormatingFunctionsIds", {}); // { eventType => functionId }
-
     worldScripts.XenonUI && worldScripts.XenonUI.$addMissionScreenException("DiplomacyHistoryScreenId");
     worldScripts.XenonReduxUI && worldScripts.XenonReduxUI.$addMissionScreenException("DiplomacyHistoryScreenId");
+
+    var engine = this._Engine = worldScripts.DayDiplomacy_000_Engine;
+    this._Systems = worldScripts.DayDiplomacy_010_Systems;
+    this._F = engine.$getFunctions();
+    this._selectedSystemActorId = this._Systems.$getCurrentGalaxySystemsActorIdsBySystemsId()[system.info.systemID]; // FIXME perfectperf?
+    this._eff = engine.$initAndReturnSavedData("eventFormatingFunctionsIds", {}); // { eventType => functionId }
 
     this._initF4Interface();
 
