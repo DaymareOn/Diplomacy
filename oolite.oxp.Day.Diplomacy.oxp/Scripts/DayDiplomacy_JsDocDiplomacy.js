@@ -1,4 +1,75 @@
 "use strict";
+
+/**
+ * An id identifying an {@link Actor}
+ * @typedef ActorId
+ * @alias {string}
+ */
+
+/**
+ * An id identifying an {@link Action}
+ * @typedef ActionId
+ * @alias {string}
+ */
+
+/**
+ * An id identifying a {@link DiplomacyEvent}
+ * @typedef EventId
+ * @alias {string}
+ */
+
+/**
+ * An id identifying a {@link DiplomacyFunction}
+ * @typedef FunctionId
+ * @alias {string}
+ */
+
+/**
+ * An id identifying a {@link DiplomacyResponse}
+ * @typedef ResponseId
+ * @alias {string}
+ */
+
+/**
+ * A type of {@link DiplomacyEvent}
+ * @typedef EventType
+ * @alias {string}
+ */
+
+/**
+ * A type of {@link Actor}
+ * @typedef ActorType
+ * @alias {string}
+ */
+
+/**
+ @typedef DiplomacyEvent
+ @property {EventId} id
+ @property {EventType} eventType
+ @property {ActorId} actorId
+ @property {Object[]} args
+ */
+
+/**
+ @typedef DiplomacyResponse
+ @property {ResponseId} id
+ */
+
+/**
+ @typedef Actor
+ @property {ActorId} id
+ @property {string} name
+ */
+
+/**
+ @typedef Action
+ @property {ActionId} id
+ @property {EventType} anEventType is used to order the actions and events execution. For a same eventType, Actions are executed before Events.
+ @property {ActorType} anActorType Only actors of the type will execute the action.
+ @property {FunctionId} the id of a function which must take one and only one argument: the actor which will "act".
+
+ */
+
 /**
  * @typedef Script
  * @property {string} name FIXME
@@ -27,10 +98,22 @@ worldScripts.DayDiplomacy_002_EngineAPI;
 worldScripts.DayDiplomacy_010_Systems;
 
 /**
+ * The Diplomacy Economy script
+ * @type Script
+ */
+worldScripts.DayDiplomacy_030_EconomyEngine;
+
+/**
  * The Diplomacy War Engine script
  * @type Script
  */
 worldScripts.DayDiplomacy_040_WarEngine;
+
+/**
+ * The Diplomacy War script
+ * @type Script
+ */
+worldScripts.DayDiplomacy_045_War;
 
 /**
  * The Diplomacy Citizenships script
