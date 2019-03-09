@@ -1,7 +1,9 @@
 "use strict";
 this.name = "DayDiplomacy_080_Debugger";
 this.author = "David (Day) Pradier";
+// noinspection JSUnusedGlobalSymbols Used by Oolite itself
 this.copyright = "(C) 2017 David Pradier";
+// noinspection JSUnusedGlobalSymbols Used by Oolite itself
 this.licence = "CC-NC-by-SA 4.0";
 this.description = "This script scripts the Diplomacy Debugger F4 interface";
 
@@ -63,10 +65,8 @@ this._initF4Interface = function () {
         });
 };
 
-/*************************** OXP public functions ********************************************************/
-/*************************** End OXP public functions ****************************************************/
+/* ************************** Oolite events ***************************************************************/
 
-/*************************** Oolite events ***************************************************************/
 this.shipDockedWithStation = function (station) {
     this._initF4Interface();
 };
@@ -85,4 +85,3 @@ this.startUp = function () {
     worldScripts.DayDiplomacy_000_Engine.$subscribe(this.name);
     delete this.startUp; // No need to startup twice
 };
-/*************************** End Oolite events ***********************************************************/

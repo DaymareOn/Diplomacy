@@ -522,6 +522,7 @@ this._ourFrameCallback = function (delta) {
 }.bind(this);
 
 /* ************************** Methods to save/restore *****************************************************/
+
 this._functionReplacer = function (key, value) {
     return typeof value == 'function' ? '/Function(' + value.toString() + ')/' : value;
 };
@@ -544,6 +545,7 @@ this._functionReviver = (function () {
 }.bind(this))();
 
 /* ************************** Oolite events ***************************************************************/
+
 this._startUp = function () {
     var as = this._State;
     var sa = this._missionVariables.DayDiplomacyEngine_EngineState;
@@ -577,6 +579,7 @@ this.shipWillLaunchFromStation = function (station) {
 };
 
 /* ************************** Subscribing system for scripts order ****************************************/
+
 this.startUp = function () {
     worldScripts.DayDiplomacy_000_Engine.$subscribe(this.name);
     delete this.startUp; // No need to startup twice

@@ -1,7 +1,9 @@
 "use strict";
 this.name = "DayDiplomacy_045_War";
 this.author = "David (Day) Pradier";
+// noinspection JSUnusedGlobalSymbols Used by Oolite itself
 this.copyright = "(C) 2017 David Pradier";
+// noinspection JSUnusedGlobalSymbols Used by Oolite itself
 this.licence = "CC-NC-by-SA 4.0";
 this.description = "This script makes systems ally to each other," +
     " break their alliances," +
@@ -9,7 +11,8 @@ this.description = "This script makes systems ally to each other," +
     " publish the related news," +
     " draw the war and the diplomatic maps.";
 
-/*************************** OXP private functions *******************************************************/
+/* ************************** OXP private functions *******************************************************/
+
 // FIXME 0.14 make that as long as we are not in 1.0, the diplomacy save data is erased when there is a new version?
 this._initSystemsScores = function (aGalaxyNb) {
     // Initializing static scores
@@ -407,15 +410,15 @@ this._publishNews = function (news) {
         worldScripts.DayDiplomacy_045_War._storedNews.push(news);
     } // else: everything is okay.
 };
-/*************************** End OXP private functions ***************************************************/
 
-/*************************** Snoopers events *************************************************************/
+/* ************************** Snoopers events *************************************************************/
+
 this.newsDisplayed = function (msg) {
     this._storedNews.length && this._publishNews(this._storedNews.shift());
 };
-/*************************** End Snoopers events *********************************************************/
 
-/*************************** Oolite events ***************************************************************/
+/* ************************** Oolite events ***************************************************************/
+
 this.startUp = function () {
     this._s = worldScripts.DayDiplomacy_000_Engine;
     this._s.$subscribe(this.name);
@@ -439,4 +442,3 @@ this.missionScreenEnded = function () {
     player.ship.hudHidden = false;
     this._resetLinks();
 };
-/*************************** End Oolite events ***********************************************************/

@@ -1,11 +1,14 @@
 "use strict";
 this.name = "DayDiplomacy_040_WarEngine";
 this.author = "David (Day) Pradier";
+// noinspection JSUnusedGlobalSymbols Used by Oolite itself
 this.copyright = "(C) 2017 David Pradier";
+// noinspection JSUnusedGlobalSymbols Used by Oolite itself
 this.licence = "CC-NC-by-SA 4.0";
 this.description = "This script is the war engine of the Diplomacy OXP.";
 
-/*************************** OXP public functions ********************************************************/
+/* ************************** OXP public functions ********************************************************/
+
 this.$getScoringFunctions = function () {
     return this._asf;
 };
@@ -67,9 +70,8 @@ this.$areActorsWarring = function (actorIdA, actorIdB) {
     return tmp && tmp[actorIdB] === -1
 };
 
-/*************************** End OXP public functions ****************************************************/
+/* ************************** OXP private functions *******************************************************/
 
-/*************************** OXP private functions *******************************************************/
 /**
  *
  * @param {ActorId} aSystemId
@@ -285,12 +287,11 @@ this._startUp = function () {
 
     delete this._startUp; // No need to startup twice
 };
-/*************************** End OXP private functions ***************************************************/
 
-/*************************** Oolite events ***************************************************************/
+/* ************************** Oolite events ***************************************************************/
+
 this.startUp = function () {
     this._s = worldScripts.DayDiplomacy_000_Engine;
     this._s.$subscribe(this.name);
     delete this.startUp; // No need to startup twice
 };
-/*************************** End Oolite events ***********************************************************/

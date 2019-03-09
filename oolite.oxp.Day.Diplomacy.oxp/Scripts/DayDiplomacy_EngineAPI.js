@@ -1,11 +1,14 @@
 "use strict";
 this.name = "DayDiplomacy_002_EngineAPI";
 this.author = "David (Day) Pradier";
+// noinspection JSUnusedGlobalSymbols Used by Oolite itself
 this.copyright = "(C) 2017 David Pradier";
+// noinspection JSUnusedGlobalSymbols Used by Oolite itself
 this.licence = "CC-NC-by-SA 4.0";
 this.description = "This script is the Diplomacy engine API for external scripts.";
 
 /* ************************** Factory functions ***********************************************************/
+
 /**
  * @return {ActionId}
  * @lends worldScripts.DayDiplomacy_002_EngineAPI.$buildNewActionId
@@ -81,9 +84,9 @@ this.$buildResponse = function (id, eventType, actorType, responseFunctionId) {
 this.$buildActor = function (actorType, id) {
     return {id: id, actorType: actorType, responsesIdByEventType: {}, observers: {}};
 };
-/* ************************** End of Factory functions ****************************************************/
 
 /* ************************** Action functions ************************************************************/
+
 this.$addEventType = function (name, position) {
     this._s.$addEventType(name, position);
 };
@@ -177,10 +180,10 @@ this.$makeActorEventKnownToUniverse = function (actorId, anEventType, someArgs) 
 this.$initAndReturnSavedData = function (name, defaultValue) {
     return this._s._State[name] || (this._s._State[name] = defaultValue);
 };
-/* ************************** End of Action functions *****************************************************/
 
 /* ************************** Getter functions ************************************************************/
 /* ******* Make sure you don't modify that or its content. Copy it before if you need to modify it. *******/
+
 /**
  * Make sure you don't modify that or its content. Copy it before if you need to modify it.
  * @return {string[]} The ActorType list
@@ -236,9 +239,9 @@ this.$getEvents = function () {
 this.$getActorEvents = function (actorId) {
     return this._S.actorsEvents[actorId] || [];
 };
-/* ************************** End of Getter functions *****************************************************/
 
 /* ************************** Oolite events ***************************************************************/
+
 this._startUp = function () {
     this._S = this._s._State;
     this._F = this._s._Functions;
@@ -249,4 +252,3 @@ this.startUp = function () {
     this._s.$subscribe(this.name);
     delete this.startUp; // No need to startup twice
 };
-/* ************************** End Oolite events ***********************************************************/

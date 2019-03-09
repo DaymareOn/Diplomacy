@@ -273,7 +273,6 @@ this._checkPlayerStatusInWar = function () {
         this._peacefulSystemsBounty.value = null;
     }
 };
-/* ************************** End OXP private functions ***************************************************/
 
 /* ************************** Oolite events ***************************************************************/
 

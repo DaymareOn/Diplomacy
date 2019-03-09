@@ -1,7 +1,9 @@
 "use strict";
 this.name = "DayDiplomacy_020_History";
 this.author = "David (Day) Pradier";
+// noinspection JSUnusedGlobalSymbols Used by Oolite itself
 this.copyright = "(C) 2017 David Pradier";
+// noinspection JSUnusedGlobalSymbols Used by Oolite itself
 this.licence = "CC-NC-by-SA 4.0";
 this.description = "This script displays an Interface showing the F7 system history.";
 
@@ -36,19 +38,19 @@ this._initF4Interface = function () {
 };
 
 /* ************************** OXP public functions ********************************************************/
+
 /**
- *
  * @param {EventType} eventType
- * @param func
+ * @param {function} func
  */
 this.$setEventFormattingFunction = function(eventType, func) {
     var api = this._api, fid = api.$buildNewFunctionId();
     api.$setFunction(fid, func);
     this._eff[eventType] = fid;
 };
-/* ************************** End OXP public functions ****************************************************/
 
 /* ************************** Oolite events ***************************************************************/
+
 this.infoSystemChanged = function (currentSystemId, previousSystemId) {
     this._selectedSystemActorId = this._sapi.$getCurrentGalaxySystemsActorIdsBySystemsId()[currentSystemId];
 };
@@ -77,4 +79,3 @@ this.startUp = function () {
     worldScripts.DayDiplomacy_000_Engine.$subscribe(this.name);
     delete this.startUp; // No need to startup twice
 };
-/* ************************** End Oolite events ***********************************************************/

@@ -1,7 +1,9 @@
 "use strict";
 this.name = "DayDiplomacy_010_Systems";
 this.author = "David (Day) Pradier";
+// noinspection JSUnusedGlobalSymbols Used by Oolite itself
 this.copyright = "(C) 2017 David Pradier";
+// noinspection JSUnusedGlobalSymbols Used by Oolite itself
 this.licence = "CC-NC-by-SA 4.0";
 this.description = "This script creates systems.";
 
@@ -41,9 +43,9 @@ this.$getSystemsActorIdsByGalaxyAndSystemId = function() {
 this.$getCurrentGalaxySystemsActorIdsBySystemsId = function() {
     return this._systemsByGalaxyAndSystemId[system.info.galaxyID];
 };
-/* ************************** End OXP public functions ****************************************************/
 
 /* ************************** OXP private functions *******************************************************/
+
 /**
  * @param {int} aGalaxyNb
  * @private
@@ -105,7 +107,6 @@ this._startUp = function () {
     this._setObservers(system.info.galaxyID);
     delete this._startUp; // No need to startup twice
 };
-/* ************************** End OXP private functions ***************************************************/
 
 /* ************************** Oolite events ***************************************************************/
 
@@ -118,4 +119,3 @@ this.startUp = function () {
     worldScripts.DayDiplomacy_000_Engine.$subscribe(this.name);
     delete this.startUp; // No need to startup twice
 };
-/* ************************** End Oolite events ***********************************************************/

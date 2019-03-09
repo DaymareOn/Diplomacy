@@ -3,11 +3,12 @@
  * The System class represents the current system. There is always one System object, available through the global property system.
  * @typedef System
  * @property {int} ID {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_System#ID}
- * @property {string} name {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_System#name}
  * @property {SystemInfo} info {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_System#info}
- * @property {int} productivity {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_System#productivity}
- * @property {int} population {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_System#population}
  * @property {function} infoForSystem {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_System#infoForSystem}
+ * @property {string} name {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_System#name}
+ * @property {int} population {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_System#population}
+ * @property {int} productivity {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_System#productivity}
+ * @property {int} techLevel {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_System#techLevel}
  * @see {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_System}
  */
 

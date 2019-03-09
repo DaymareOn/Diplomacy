@@ -47,7 +47,8 @@ this.$moveProductivityToNeighborsDependingOnDistanceInCredits = function(fromSys
     // FIXME 0.15 TODO
 };
 
-/*************************** Oolite events ***************************************************************/
+/* ************************** Oolite events ***************************************************************/
+
 this._startUp = function () {
     var api = worldScripts.DayDiplomacy_002_EngineAPI;
 
@@ -107,4 +108,3 @@ this.startUp = function() {
     worldScripts.DayDiplomacy_000_Engine.$subscribe(this.name);
     delete this.startUp; // No need to startup twice
 };
-/*************************** End Oolite events ***********************************************************/
