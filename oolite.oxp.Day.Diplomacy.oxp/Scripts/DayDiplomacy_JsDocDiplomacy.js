@@ -59,14 +59,17 @@
  @typedef Actor
  @property {ActorId} id
  @property {string} name
+ @property {ActorType} actorType
+ @property {Object<ActorType,ActorId[]>} observers
+ @property {Object<EventType,ResponseId[]>} responsesIdByEventType
  */
 
 /**
  @typedef Action
  @property {ActionId} id
  @property {EventType} anEventType is used to order the actions and events execution. For a same eventType, Actions are executed before Events.
- @property {ActorType} anActorType Only actors of the type will execute the action.
- @property {FunctionId} the id of a function which must take one and only one argument: the actor which will "act".
+ @property {ActorType} actorType - Only actors of the type will execute the action.
+ @property {FunctionId} actionFunctionId - the id of a function which must take one and only one argument: the actor which will "act".
 
  */
 
