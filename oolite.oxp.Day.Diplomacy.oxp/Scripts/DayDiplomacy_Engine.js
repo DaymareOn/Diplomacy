@@ -264,6 +264,7 @@ this.$setRecurrentAction = function (anAction) {
     (eventTypeActions[actionActorType] || (eventTypeActions[actionActorType] = [])).push(anAction.id);
     recurrentActions[anAction.id] = anAction;
 };
+
 this.$executeAction = function (anAction) {
     var ourActorIds = this._State.actorsByType[anAction.actorType], actors = this._State.actors;
     var z = ourActorIds.length;
@@ -301,11 +302,12 @@ this.$setResponse = function (aResponse) {
 //         actors[ourActorIds[z]].removeResponse(aResponse);
 //     }
 // };
+
+/**
+ * name must be different from already existing names.
+ * We don't allow to remove eventTypes as it would make the history inconsistent.
+ */
 this.$addEventType = function (name, position) {
-    /**
-     * name must be different from already existing names.
-     * We don't allow to remove eventTypes as it would make the history inconsistent.
-     */
     var state = this._State;
     state.eventTypes.splice(position, 0, name);
     log("DiplomacyEngine", "Added " + name + " event type in position " + position + ". Current event types: " + state.eventTypes);
@@ -337,12 +339,13 @@ this.$addActorType = function (name, position) {
         recurrentActions[eventType][name] = [];
     }
 };
+
+/**
+ * Gives the next state. Returns empty string if array is finished.
+ * @param {EventType | ActorType} type
+ * @param currentState FIXME document what's a state
+ */
 this._nextState = function (type, currentState) {
-    /**
-     * Gives the next state. Returns empty string if array is finished.
-     * @param type: "eventTypes" or "actorTypes"
-     * @param currentState
-     */
     var arr = this._State[type];
     var newIndex = arr.indexOf(currentState) + 1;
     return newIndex === arr.length ? "" : arr[newIndex];
@@ -371,6 +374,7 @@ this._record = function (anEvent) {
 //     var eventsToPublishNextTurn = this._State.eventsToPublishNextTurn, eventType = anEvent.eventType;
 //     (eventsToPublishNextTurn[eventType] || (eventsToPublishNextTurn[eventType] = [])).push(anEvent);
 // };
+
 this._gatherEventsToPublish = function () {
     var state = this._State;
     var currentEventType = state.currentEventType, eventsToPublishNextTurn = state.eventsToPublishNextTurn;
@@ -392,8 +396,9 @@ this._gatherEventsToPublish = function () {
     state.currentActorType = state.actorTypes[0];
     return !newEventType;
 };
+
+/** @return {boolean} - true when everything is finished, else false. */
 this._populateStack = function () {
-    /** @return Returns true when everything is finished, else false. */
     var state = this._State, currentEventType = state.currentEventType, currentActorType = state.currentActorType,
         firstActorType = state.actorTypes[0];
     if (!state.recurrentActionsIsDoneForCurrentEventType) {
@@ -464,8 +469,9 @@ this._putEventOntoStack = function (thatEvent, currentActorType) {
         }
     }
 };
+
+/** @return {boolean} true if finished (empty stack), false otherwise. */
 this._executeStack = function () {
-    /** @return return true if finished (empty stack), false otherwise. */
     var s = this._State;
     var action = s.shortStack.shift();
     if (action === undefined) {
@@ -588,7 +594,10 @@ this.startUpComplete = function () {
 
     delete this.startUpComplete; // No need to startup twice
 };
-// [ scriptName ]
+
+// FIXME create a type ScriptName?
+/**  names of scripts
+ * @type {string[]} */
 this._subscribers = [];
 
 /**
