@@ -198,6 +198,57 @@ this.$getActorEvents = function (actorId) {
 };
 
 /**
+ * Make sure you don't modify that or its content. Copy it before if you need to modify it.
+ * @return {ActorType[]} The ActorType list
+ * @lends worldScripts.DayDiplomacy_000_Engine.$getActorTypes
+ */
+this.$getActorTypes = function () {
+    return this._State.actorTypes;
+};
+
+/**
+ * @param {ActorType} actorType
+ * @returns {ActorId[]} the list of actorId having the type given as parameter
+ * @lends worldScripts.DayDiplomacy_000_Engine.$getActorsIdByType
+ */
+this.$getActorsIdByType = function (actorType) {
+    return this._State.actorsByType[actorType];
+};
+
+/**
+ * @name $getActors
+ * @returns {Object.<ActorId,Actor>} - an object with {@link ActorId} as keys and as value the corresponding {@link Actor}
+ * @lends worldScripts.DayDiplomacy_000_Engine.$getActors
+ */
+this.$getActors = function () {
+    return this._State.actors;
+};
+
+/**
+ * A planetary system or an alliance, or whatever you wish :)
+ * An actor is {id:id, actorType:actorType, responsesIdByEventType:{eventType:[responseIds]}, observers:{actorType:[actorIds]}}
+ * @param {ActorType} actorType
+ * @param {ActorId} id
+ * @return {Actor}
+ * @lends worldScripts.DayDiplomacy_000_Engine.$buildActor
+ */
+this.$buildActor = function (actorType, id) {
+    /** @type {Actor} */
+    return {id: id, actorType: actorType, responsesIdByEventType: {}, observers: {}};
+};
+
+/**
+ *
+ * @param {Actor} anActor
+ * @param {ActorType} observersActorType
+ * @returns {ActorId[]} the list of the actorId's of the observers of the given actor, which are of the given type
+ * @lends worldScripts.DayDiplomacy_000_Engine.$getObservers
+ */
+this.$getObservers = function (anActor, observersActorType) {
+    return anActor.observers[observersActorType];
+};
+
+/**
  * @param {Actor} anActor
  * @param {Action} anAction
  */
@@ -261,6 +312,7 @@ this.$addActor = function (anActor) {
  * @param {Actor} anActor
  * @param {ActorType} thatObserverType
  * @param {ActorId} thatObserverId
+ * @lends worldScripts.DayDiplomacy_000_Engine.$addObserverToActor
  */
 this.$addObserverToActor = function (anActor, thatObserverType, thatObserverId) {
     var observers = anActor.observers;
@@ -404,6 +456,11 @@ this.$addEventType = function (name, position) {
     state.eventsToPublishNextTurn[name] = [];
 };
 
+/**
+ * @param {ActorType} name
+ * @param {int} position
+ * @lends worldScripts.DayDiplomacy_000_Engine.$addActorType
+ */
 this.$addActorType = function (name, position) {
     var state = this._State;
     state.actorTypes.splice(position, 0, name);

@@ -90,6 +90,7 @@ this.$buildActor = function (actorType, id) {
 this.$addEventType = function (name, position) {
     this._s.$addEventType(name, position);
 };
+
 /**
  *
  * @param {string} name
@@ -99,6 +100,7 @@ this.$addEventType = function (name, position) {
 this.$addActorType = function (name, position) {
     this._s.$addActorType(name, position);
 };
+
 /**
  *
  * @param {Object} anActor
@@ -134,17 +136,19 @@ this.$setResponse = function (aResponse) {
 // this.$unsetResponse = function (aResponse) {
 //     this._s.unsetResponse(aResponse);
 // };
+
 /**
  *
- * @param {string} anObserverId
- * @param {string} anObserverActorType
- * @param {Object} anActor
+ * @param {ActorId} anObserverId
+ * @param {ActorType} anObserverActorType
+ * @param {Actor} anActor
  * @lends worldScripts.DayDiplomacy_002_EngineAPI.$addObserverToActor
  */
 this.$addObserverToActor = function (anObserverId, anObserverActorType, anActor) {
     // FIXME the order of parameters, one more reason to remove the API
     this._s.$addObserverToActor(anActor, anObserverActorType, anObserverId);
 };
+
 /**
  * @param {Object} anObject
  * @param {string} fieldName
@@ -192,10 +196,12 @@ this.$initAndReturnSavedData = function (name, defaultValue) {
 this.$getActorTypes = function () {
     return this._S.actorTypes;
 };
+
 this.$getEventTypes = function () {
     /** @returns [string: eventType] */
     return this._S.eventTypes;
 };
+
 /**
  *
  * @param {string} actorType
@@ -205,6 +211,7 @@ this.$getEventTypes = function () {
 this.$getActorsIdByType = function (actorType) {
     return this._S.actorsByType[actorType];
 };
+
 /**
  * @name $getActors
  * @returns {{}} - an object with {@link ActorId} as keys and as value the corresponding {@link Actor}
@@ -213,6 +220,7 @@ this.$getActorsIdByType = function (actorType) {
 this.$getActors = function () {
     return this._S.actors;
 };
+
 /**
  *
  * @param {Object} anActor

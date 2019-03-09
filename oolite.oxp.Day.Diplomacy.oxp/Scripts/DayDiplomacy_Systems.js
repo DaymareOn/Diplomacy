@@ -52,14 +52,14 @@ this.$getCurrentGalaxySystemsActorIdsBySystemsId = function() {
  */
 this._setObservers = function (aGalaxyNb) {
     // We set the observers. No need to use an initAction as there won't be any more system.
-    var api = this._Engine;
-    var actorsIdByType = api.$getActorsIdByType("SYSTEM");
-    var actors = api.$getActors();
+    var engine = this._Engine;
+    var actorsIdByType = engine.$getActorsIdByType("SYSTEM");
+    var actors = engine.$getActors();
 
     var galaxyFirstSystem = actors[actorsIdByType[255 + 256 * (7 - aGalaxyNb)]];
     var galaxyLastSystem = actors[actorsIdByType[256 * (7 - aGalaxyNb)]];
-    var firstSystemKnownObservers = api.$getObservers(galaxyFirstSystem, "SYSTEM");
-    var lastSystemKnownObservers = api.$getObservers(galaxyLastSystem, "SYSTEM");
+    var firstSystemKnownObservers = engine.$getObservers(galaxyFirstSystem, "SYSTEM");
+    var lastSystemKnownObservers = engine.$getObservers(galaxyLastSystem, "SYSTEM");
     if (firstSystemKnownObservers && firstSystemKnownObservers.length && lastSystemKnownObservers.length) {
         return; // Already initialized
     }
@@ -72,33 +72,33 @@ this._setObservers = function (aGalaxyNb) {
             var y = observers.length;
             while (y--) {
                 var observer = observers[y];
-                api.$addObserverToActor(sys[observer.galaxyID][observer.systemID], "SYSTEM", thisActor);
+                engine.$addObserverToActor(thisActor, "SYSTEM", sys[observer.galaxyID][observer.systemID]);
             }
         }
     }
 };
 
 this._startUp = function () {
-    var api = this._Engine = worldScripts.DayDiplomacy_002_EngineAPI,
-        sys = this._systemsByGalaxyAndSystemId = api.$initAndReturnSavedData("systemsByGalaxyAndSystemId", {});
+    var engine = this._Engine = worldScripts.DayDiplomacy_000_Engine;
+    var sys = this._systemsByGalaxyAndSystemId = engine.$initAndReturnSavedData("systemsByGalaxyAndSystemId", {});
 
     // Not initializing if already done.
-    if (api.$getActorTypes().indexOf("SYSTEM") !== -1) {
+    if (engine.$getActorTypes().indexOf("SYSTEM") !== -1) {
         return;
     }
-    api.$addActorType("SYSTEM", 0);
+    engine.$addActorType("SYSTEM", 0);
 
     // We initiate the systems
     var i = 8;
     while (i--) {
         var j = 256;
         while (j--) {
-            var id = api.$buildNewActorId();
-            var aSystem = api.$buildActor("SYSTEM", id);
+            var id = engine.$getNewActorId();
+            var aSystem = engine.$buildActor("SYSTEM", id);
             // FIXME why do I use setField here rather than directly 'aSystem.galaxyNb = '?
-            api.$setField(aSystem, "galaxyNb", i);
-            api.$setField(aSystem, "systemId", j);
-            api.$addActor(aSystem);
+            engine.$setField(aSystem, "galaxyNb", i);
+            engine.$setField(aSystem, "systemId", j);
+            engine.$addActor(aSystem);
             (sys[i] || (sys[i] = {}))[j] = id; // Needed for quick access in the next part.
         }
     }

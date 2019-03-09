@@ -11,7 +11,7 @@ this._displayF4Interface = function () {
     player.ship.hudHidden || (player.ship.hudHidden = true);
     // for each event in history for this system, we add a line
     var ourMessage = "", f = this._F, eff = this._eff,
-        ourEventsIds = this._Engine.$getActorEvents(this._selectedSystemActorId), events = this._Engine.$getEvents(),
+        ourEventsIds = this._EngineAPI.$getActorEvents(this._selectedSystemActorId), events = this._EngineAPI.$getEvents(),
         y = ourEventsIds.length, _clock = clock;
     while (y--) {
         // Anti-chronological order
@@ -44,7 +44,7 @@ this._initF4Interface = function () {
  * @param {function} func
  */
 this.$setEventFormattingFunction = function(eventType, func) {
-    var engine = this._Engine;
+    var engine = this._EngineAPI;
     var fid = engine.$getNewFunctionId();
     engine.$setFunction(fid, func);
     this._eff[eventType] = fid;
@@ -66,7 +66,7 @@ this._startUp = function () {
     worldScripts.XenonUI && worldScripts.XenonUI.$addMissionScreenException("DiplomacyHistoryScreenId");
     worldScripts.XenonReduxUI && worldScripts.XenonReduxUI.$addMissionScreenException("DiplomacyHistoryScreenId");
 
-    var engine = this._Engine = worldScripts.DayDiplomacy_000_Engine;
+    var engine = this._EngineAPI = worldScripts.DayDiplomacy_000_Engine;
     this._Systems = worldScripts.DayDiplomacy_010_Systems;
     this._F = engine.$getFunctions();
     this._selectedSystemActorId = this._Systems.$getCurrentGalaxySystemsActorIdsBySystemsId()[system.info.systemID]; // FIXME perfectperf?
