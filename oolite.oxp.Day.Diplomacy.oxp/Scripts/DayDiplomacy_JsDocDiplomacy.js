@@ -31,7 +31,7 @@
  */
 
 /**
- * A type of {@link DiplomacyEvent}
+ * A type qualifying a {@link DiplomacyEvent}
  * @typedef EventType
  * @alias {string}
  */

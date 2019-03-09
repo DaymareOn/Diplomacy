@@ -150,6 +150,29 @@ this.$getNewEventId = function () {
 };
 
 /**
+ * An action, whether it is init or recurrent isn't put into the History. Only Events are.
+ * @param {ActionId} id -
+ * @param {EventType} eventType - is used to order the actions and events execution. For a same eventType, Actions are executed before Events.
+ * @param {ActorType} actorType - Only actors of the type will execute the action.
+ * @param {FunctionId} actionFunctionId - the id of a function which must take one and only one argument: the actor which will "act".
+ * @return {Action}
+ * @lends worldScripts.DayDiplomacy_000_Engine.$buildAction
+ */
+this.$buildAction = function (id, eventType, actorType, actionFunctionId) {
+    /** @type {Action} */
+    return {id: id, eventType: eventType, actorType: actorType, actionFunctionId: actionFunctionId};
+};
+
+/**
+ * To copy before modifying
+ * @return {EventType[]}
+ * @lends worldScripts.DayDiplomacy_000_Engine.$getEventTypes
+ */
+this.$getEventTypes = function () {
+    return this._State.eventTypes;
+};
+
+/**
  *
  * @param {Actor} anActor
  * @param {Action} anAction
@@ -237,13 +260,29 @@ this.$addResponseToActor = function (aResponse, anActor) {
 /**
  * @param {FunctionId} anId
  * @param {function} aFunction
+ * @lends worldScripts.DayDiplomacy_000_Engine.$setFunction
  */
 this.$setFunction = function (anId, aFunction) {
     this._Functions[anId] = aFunction;
 };
 
 /**
+ * @param {Object} anObject
+ * @param {string} fieldName
+ * @param {Object} fieldValue
+ * @lends worldScripts.DayDiplomacy_000_Engine.$setField
+ */
+this.$setField = function (anObject, fieldName, fieldValue) {
+    if (anObject.hasOwnProperty("_State")) { // We put the field into _State
+        anObject._State[fieldName] = fieldValue;
+    } else {
+        anObject[fieldName] = fieldValue;
+    }
+};
+
+/**
  * @param {Action} anInitAction
+ * @lends worldScripts.DayDiplomacy_000_Engine.$setInitAction
  */
 this.$setInitAction = function (anInitAction) {
     var initActions = this._State.initActions, initActionsByType = this._State.initActionsByType, initActionActorType = anInitAction.actorType;
@@ -256,6 +295,10 @@ this.$setInitAction = function (anInitAction) {
     this.$executeAction(anInitAction);
 };
 
+/**
+ * @param {Action} anAction
+ * @lends worldScripts.DayDiplomacy_000_Engine.$setRecurrentAction
+ */
 this.$setRecurrentAction = function (anAction) {
     // We add the action to recurrentActions
     var recurrentActionsByType = this._State.recurrentActionsByType, recurrentActions = this._State.recurrentActions,
@@ -304,13 +347,15 @@ this.$setResponse = function (aResponse) {
 // };
 
 /**
- * name must be different from already existing names.
  * We don't allow to remove eventTypes as it would make the history inconsistent.
+ * @param {EventType} name - name of the new eventType, it must be different from already existing names.
+ * @param {int} position - the position in the ordered list of existing types
+ * @lends worldScripts.DayDiplomacy_000_Engine.$addEventType
  */
 this.$addEventType = function (name, position) {
     var state = this._State;
     state.eventTypes.splice(position, 0, name);
-    log("DiplomacyEngine", "Added " + name + " event type in position " + position + ". Current event types: " + state.eventTypes);
+    if (this._debug) log("DiplomacyEngine", "Added " + name + " event type in position " + position + ". Current event types: " + state.eventTypes);
     var ourResponses = (state.responsesByType[name] = {});
     var ourRecurrentActions = (state.recurrentActionsByType[name] = {});
     var actorTypes = state.actorTypes;
@@ -323,6 +368,7 @@ this.$addEventType = function (name, position) {
     state.eventsToPublish[name] = [];
     state.eventsToPublishNextTurn[name] = [];
 };
+
 this.$addActorType = function (name, position) {
     var state = this._State;
     state.actorTypes.splice(position, 0, name);

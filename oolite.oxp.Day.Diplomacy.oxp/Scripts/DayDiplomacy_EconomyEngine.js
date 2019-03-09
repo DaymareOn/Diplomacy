@@ -50,58 +50,58 @@ this.$moveProductivityToNeighborsDependingOnDistanceInCredits = function(fromSys
 /* ************************** Oolite events ***************************************************************/
 
 this._startUp = function () {
-    var api = worldScripts.DayDiplomacy_002_EngineAPI;
+    var engine = worldScripts.DayDiplomacy_000_Engine;
 
     // Not initializing if already done.
-    if (api.$getEventTypes().indexOf("SELFTAX") !== -1) {
+    if (engine.$getEventTypes().indexOf("SELFTAX") !== -1) {
         return;
     }
 
     // This eventType means a system government taxes the system GDP (economic output) to fund its treasury.
-    api.$addEventType("SELFTAX", 0);
+    engine.$addEventType("SELFTAX", 0);
 
     /**
-     *
+     * @function
      * @param {Actor} aSystem
      */
     var diplomacyTaxInitAction = function diplomacyTaxInitAction(aSystem) {
         var that = diplomacyTaxInitAction;
-        var api = that.api || (that.api = worldScripts.DayDiplomacy_002_EngineAPI);
+        var engine = that.engine || (that.engine = worldScripts.DayDiplomacy_000_Engine);
         var taxLevel = that.taxLevel || (that.taxLevel = worldScripts.DayDiplomacy_030_EconomyEngine.$GOVERNMENT_DEFAULT_TAX_LEVEL);
         var sys = that.sys || (that.sys = System);
         var cloc = that.cloc || (that.cloc = clock);
         var ourSystemInOolite = sys.infoForSystem(aSystem.galaxyNb, aSystem.systemId);
         var government = ourSystemInOolite.government;
-        api.$setField(aSystem, "government", government);
+        engine.$setField(aSystem, "government", government);
         // Necessary for alliancesAndWars. Bad location but avoids other system initialization :/
         // FIXME 0.perfectstyle fields should be inited in the systems part. Make it all fields?
         // FIXME 0.f move treasury and tax level to a F4 Diplomacy system information including the history.
         // Or use the new description system?
-        api.$setField(aSystem, "name", ourSystemInOolite.name);
-        api.$setField(aSystem, "taxLevel", taxLevel[government]);
-        api.$setField(aSystem, "treasury", 0); // Everybody begins with treasury = 0.
-        api.$setField(aSystem, "lastTaxDate", cloc.seconds);
+        engine.$setField(aSystem, "name", ourSystemInOolite.name);
+        engine.$setField(aSystem, "taxLevel", taxLevel[government]);
+        engine.$setField(aSystem, "treasury", 0); // Everybody begins with treasury = 0.
+        engine.$setField(aSystem, "lastTaxDate", cloc.seconds);
         ourSystemInOolite.description += " Tax level: " + aSystem.taxLevel + " Treasury: 0 €";
     };
-    var functionId = api.$buildNewFunctionId();
-    api.$setFunction(functionId, diplomacyTaxInitAction);
-    api.$setInitAction(api.$buildAction(api.$buildNewActionId(), "SELFTAX", "SYSTEM", functionId));
+    var functionId = engine.$getNewFunctionId();
+    engine.$setFunction(functionId, diplomacyTaxInitAction);
+    engine.$setInitAction(engine.$buildAction(engine.$getNewActionId(), "SELFTAX", "SYSTEM", functionId));
 
     // Recurrent tax.
     var diplomacyTaxRecurrentAction = function diplomacyTaxRecurrentAction(aSystem) {
         var that = diplomacyTaxRecurrentAction;
-        var api = that.api || (that.api = worldScripts.DayDiplomacy_002_EngineAPI);
+        var engine = that.engine || (that.engine = worldScripts.DayDiplomacy_000_Engine);
         var sys = that.sys || (that.sys = System);
         var cloc = that.cloc || (that.cloc = clock);
         var ourSystemInOolite = sys.infoForSystem(aSystem.galaxyNb, aSystem.systemId);
         var now = cloc.seconds;
-        api.$setField(aSystem, "treasury", aSystem.treasury + Math.floor(ourSystemInOolite.productivity * (now - parseInt(aSystem.lastTaxDate)) / 31.5576 * aSystem.taxLevel));
-        api.$setField(aSystem, "lastTaxDate", now);
+        engine.$setField(aSystem, "treasury", aSystem.treasury + Math.floor(ourSystemInOolite.productivity * (now - parseInt(aSystem.lastTaxDate)) / 31.5576 * aSystem.taxLevel));
+        engine.$setField(aSystem, "lastTaxDate", now);
         ourSystemInOolite.description = ourSystemInOolite.description.replace(new RegExp(/Tax.*€/), "Tax level: " + aSystem.taxLevel + " Treasury: " + aSystem.treasury + " €");
     };
-    var fid =  api.$buildNewFunctionId();
-    api.$setFunction(fid, diplomacyTaxRecurrentAction);
-    api.$setRecurrentAction(api.$buildAction(api.$buildNewActionId(), "SELFTAX", "SYSTEM", fid));
+    var fid =  engine.$getNewFunctionId();
+    engine.$setFunction(fid, diplomacyTaxRecurrentAction);
+    engine.$setRecurrentAction(engine.$buildAction(engine.$getNewActionId(), "SELFTAX", "SYSTEM", fid));
     delete this._startUp; // No need to startup twice
 };
 this.startUp = function() {
