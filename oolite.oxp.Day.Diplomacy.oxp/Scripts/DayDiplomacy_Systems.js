@@ -7,7 +7,7 @@ this.description = "This script creates systems.";
 
 /**
  * An object identifying a planetary system
- * @typedef {Object} planetarySystem
+ * @typedef {Object} PlanetarySystem
  * @property {int} galaxyID - the galaxyID of the system
  * @property {int} systemID - the systemID of the system
  * @property {string} name - the name of the system
@@ -27,16 +27,15 @@ this.$retrieveNameFromSystem = function (galaxyID, systemID) {
 };
 
 /**
- * @name $getSystemsActorIdsByGalaxyAndSystemId
- * @returns {Object} a dictionary with {int} galaxyId key and as value: a dictionary with {int} systemId key and as value: the corresponding {string} ActorId
+ * @returns {Object} a dictionary with {int} galaxyId key and as value: a dictionary with {int} systemId key and as value: the corresponding {@link ActorId}
  * @lends worldScripts.DayDiplomacy_010_Systems.$getSystemsActorIdsByGalaxyAndSystemId
  */
 this.$getSystemsActorIdsByGalaxyAndSystemId = function() {
     return this._systemsByGalaxyAndSystemId;
 };
 /**
- *
- * @returns {*}
+ * For the current galaxy only
+ * @returns {Object} a dictionary with {int} systemId key and as value: the corresponding {@link ActorId}
  * @lends worldScripts.DayDiplomacy_010_Systems.$getCurrentGalaxySystemsActorIdsBySystemsId
  */
 this.$getCurrentGalaxySystemsActorIdsBySystemsId = function() {
