@@ -246,14 +246,16 @@ this.$setFunction = function (anId, aFunction) {
  * @param {Action} anInitAction
  */
 this.$setInitAction = function (anInitAction) {
-    var initActions = this._State.initActions, initActionActorType = anInitAction.actorType;
-    // We add the initAction to initActions
-    // FIXME bug we do not add to initActionsByType, and we add with the wrong types
-    (initActions[initActionActorType] || (initActions[initActionActorType] = {}))[anInitAction.id] = anInitAction;
+    var initActions = this._State.initActions, initActionsByType = this._State.initActionsByType, initActionActorType = anInitAction.actorType;
+
+    // We add the initAction to initActions and initActionsByType
+    initActions[anInitAction.id] = anInitAction;
+    (initActionsByType[initActionActorType] || (initActionsByType[initActionActorType] = [])).push(anInitAction.id);
 
     // We execute the action on the existing actors in an ordered fashion.
     this.$executeAction(anInitAction);
 };
+
 this.$setRecurrentAction = function (anAction) {
     // We add the action to recurrentActions
     var recurrentActionsByType = this._State.recurrentActionsByType, recurrentActions = this._State.recurrentActions,
