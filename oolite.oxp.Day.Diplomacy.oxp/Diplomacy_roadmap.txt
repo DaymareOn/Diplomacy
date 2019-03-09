@@ -238,3 +238,8 @@ FIXME 0.z customs ships checking your papers in case of no flag?
 FIXME 0.z authorities signaling obligation to show a flag under a certain time in case of no flag? paying visa?
 
 FIXME 0.z manage supernovas
+
+FIXME 0.z what's the price to be stateless? docking refused in corporates, dictatorships and communists
+FIXME 0.z a visa would be cheaper, and allow to board a station without having an official citizenship /
+FIXME 0.z visa per system visa avec date d'expiration / if needed, visa offered for the player for current system at init
+FIXME 0.z visa buyable in ambassads
