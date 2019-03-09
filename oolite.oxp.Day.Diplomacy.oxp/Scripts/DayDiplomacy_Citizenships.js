@@ -1,11 +1,15 @@
 "use strict";
+
 this.name = "DayDiplomacy_060_Citizenships";
 this.author = "Loic Coissard, David Pradier";
+// noinspection JSUnusedGlobalSymbols Used by Oolite itself
 this.copyright = "(C) 2019 Loic Coissard, David Pradier";
+// noinspection JSUnusedGlobalSymbols Used by Oolite itself
 this.licence = "CC-NC-by-SA 4.0";
 this.description = "This script is the citizenships engine.";
 
 /* ************************** OXP private functions *******************************************************/
+
 /**
  * Pays for citizenship changes
  * @returns {boolean} true if there was enough money to pay
@@ -180,6 +184,10 @@ this._publishNewsSubscribers = function () {
     }
 };
 
+/**
+ * This function makes sure that the player is considered as a fugitive in an enemy system.
+ * @private
+ */
 this._checkPlayerStatusInWar = function () {
     var worldScriptsVar = worldScripts;
     var systemInfo = system.info;
@@ -265,10 +273,11 @@ this.$subscribeToPlayerCitizenshipsUpdates = function (scriptName) {
 /* ************************** End OXP public functions ****************************************************/
 
 /* ************************** Oolite events ***************************************************************/
+
 // noinspection JSUnusedLocalSymbols Called by Oolite itself
 /**
  * Displays the citizenship's line in the F4 interface when the player is docked.
- * @param {Object} station an Oolite object where the ship is docked. We don't use it.
+ * @param {Station} station an Oolite object where the ship is docked. We don't use it.
  */
 this.shipDockedWithStation = function (station) {
     this._initF4Interface();
@@ -288,6 +297,10 @@ this.shipExitedWitchspace = function () {
 };
 
 // noinspection JSUnusedGlobalSymbols Called by Oolite itself
+/**
+ *
+ * @param {Station} station
+ */
 this.shipLaunchedFromStation = function (station) {
     this._checkPlayerStatusInWar();
 };
@@ -301,15 +314,15 @@ this._startUp = function () {
     worldScripts.XenonUI && worldScripts.XenonUI.$addMissionScreenException("DiplomacyCitizenshipsScreenId");
     worldScripts.XenonReduxUI && worldScripts.XenonReduxUI.$addMissionScreenException("DiplomacyCitizenshipsScreenId");
 
-    // {String[]} _playerCitizenshipsUpdatesSubscribers - an array containing the names of the scripts which have subscribed to receive notifications when the player citizenships have changed.
-    this._playerCitizenshipsUpdatesSubscribers || (this._playerCitizenshipsUpdatesSubscribers = []);
-
     this._Systems = worldScripts.DayDiplomacy_010_Systems;
     var engineAPI = worldScripts.DayDiplomacy_002_EngineAPI;
 
+    // {String[]} _playerCitizenshipsUpdatesSubscribers - an array containing the names of the scripts which have subscribed to receive notifications when the player citizenships have changed.
+    this._playerCitizenshipsUpdatesSubscribers || (this._playerCitizenshipsUpdatesSubscribers = []);
+
     /**
      * The flag of the player ship, saved. None by default.
-     * @type {planetarySystem}
+     * @type {PlanetarySystem}
      * @private
      */
     this._flag = engineAPI.$initAndReturnSavedData("flag", {});
@@ -317,7 +330,7 @@ this._startUp = function () {
     /**
      * The value is only set when the player is in an enemy system; else it is 'null'.
      * When beginning to use the Diplomacy Oxp, the player is not in an enemy system.
-     * @type {{}}
+     * @type {Object}
      * @param {int} value
      * @private
      */
@@ -325,7 +338,7 @@ this._startUp = function () {
 
     /**
      * The object in which the player citizenships are saved. That object is saved into the saveGame file.
-     * @type {planetarySystem[]}
+     * @type {PlanetarySystem[]}
      */
     this._citizenships = engineAPI.$initAndReturnSavedData("citizenships", []);
 
@@ -337,4 +350,3 @@ this.startUp = function () {
     worldScripts.DayDiplomacy_000_Engine.$subscribe(this.name);
     delete this.startUp; // No need to startup twice
 };
-/* ************************** End Oolite events ***********************************************************/
