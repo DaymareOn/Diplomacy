@@ -35,15 +35,20 @@ this._initF4Interface = function () {
         });
 };
 
-/*************************** OXP public functions ********************************************************/
+/* ************************** OXP public functions ********************************************************/
+/**
+ *
+ * @param {EventType} eventType
+ * @param func
+ */
 this.$setEventFormattingFunction = function(eventType, func) {
     var api = this._api, fid = api.$buildNewFunctionId();
     api.$setFunction(fid, func);
     this._eff[eventType] = fid;
 };
-/*************************** End OXP public functions ****************************************************/
+/* ************************** End OXP public functions ****************************************************/
 
-/*************************** Oolite events ***************************************************************/
+/* ************************** Oolite events ***************************************************************/
 this.infoSystemChanged = function (currentSystemId, previousSystemId) {
     this._selectedSystemActorId = this._sapi.$getCurrentGalaxySystemsActorIdsBySystemsId()[currentSystemId];
 };
@@ -72,4 +77,4 @@ this.startUp = function () {
     worldScripts.DayDiplomacy_000_Engine.$subscribe(this.name);
     delete this.startUp; // No need to startup twice
 };
-/*************************** End Oolite events ***********************************************************/
+/* ************************** End Oolite events ***********************************************************/
