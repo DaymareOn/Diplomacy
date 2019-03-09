@@ -1,18 +1,29 @@
 "use strict";
 this.name = "DayDiplomacy_000_Engine";
 this.author = "David (Day) Pradier";
+// noinspection JSUnusedGlobalSymbols Used by Oolite itself
 this.copyright = "(C) 2017 David Pradier";
+// noinspection JSUnusedGlobalSymbols Used by Oolite itself
 this.licence = "CC-NC-by-SA 4.0";
 this.description = "This script is the engine of the Diplomacy OXP.";
 
-/*************************** Closures ********************************************************************/
+/* ************************** Closures ********************************************************************/
+
 this._missionVariables = missionVariables;
 this._clock = clock;
 this._JSON = JSON;
-/*************************** End of closures *************************************************************/
 
-/*************************** Engine **********************************************************************/
-this._debug = false; // Set this to true to have events working as if you just spent a turn and entered the station.
+/* ************************** Engine **********************************************************************/
+
+// FIXME use the debugger set _debug to true
+this._debug = false;
+
+/**
+ * Loads state from the saved game
+ * @param toBeModifiedState
+ * @param sourceState
+ * @private
+ */
 this._loadState = function (toBeModifiedState, sourceState) {
     for (var id in sourceState) {
         if (sourceState.hasOwnProperty(id)) { // Avoiding prototypes' fields
@@ -20,28 +31,75 @@ this._loadState = function (toBeModifiedState, sourceState) {
         }
     }
 };
+
+// FIXME should _State be of a defined state? That would be what would make stable the savefile... ?
 this._State = {
-    actors: {}, // {actorId => actor}
-    initActions: {}, // { actionId => action }
-    recurrentActions: {}, // { actionId => action }
-    events: {}, // { eventId => event }
-    responses: {}, // { responseId => response }
-    actorsByType: {}, // { actorType => [ actorId ]}
-    initActionsByType: {}, // { actorType => [ actionId ] }
-    recurrentActionsByType: {}, // { eventType => { actorType => [ actionId ] } }
-    responsesByType: {}, // { eventType => { actorType => [ responseId ] } }
+
+    /** @type {Object.<ActorId,Actor>}*/
+    actors: {},
+
+    /** @type {Object.<ActionId,Action>}*/
+    initActions: {},
+
+    /** @type {Object.<ActionId,Action>}*/
+    recurrentActions: {},
+
+    /** @type {Object.<EventId,DiplomacyEvent>}*/
+    events: {},
+
+    /** @type {Object.<ResponseId,DiplomacyResponse>}*/
+    responses: {},
+
+    /** @type {Object.<ActorType,ActorId[]>}*/
+    actorsByType: {},
+
+    /** @type {Object.<ActorType,ActionId[]>}*/
+    initActionsByType: {},
+
+    /** @type {Object.<EventType,Object.<ActorType,ActionId[]>>}*/
+    recurrentActionsByType: {},
+
+    /** @type {Object.<EventType,Object.<ActorType,ResponseId[]>>}*/
+    responsesByType: {},
+
+    /** @type {int} */
     actorMaxId: 1,
-    actionMaxId: 1, // Useful to remove recurrentActions and initActions.
+
+    /** Useful to remove recurrentActions and initActions.
+     *  @type {int} */
+    actionMaxId: 1,
+
+    /** @type {int} */
     eventMaxId: 1,
+
+    /** @type {int} */
     responseMaxId: 1,
+
+    /** @type {int} */
     functionMaxId: 1,
+
+    /** @type {EventType[]} */
     eventTypes: [],
+
+    /** @type {ActorType[]} */
     actorTypes: [],
-    actorsEvents: {}, // { actorId => [ eventIds ]}
-    eventsToPublish: {}, // { eventType => [ eventIds ] }
-    eventsToPublishNextTurn: {}, // { eventType => [ eventIds ] }
+
+    /** @type {Object.<ActorId,EventId[]>}*/
+    actorsEvents: {},
+
+    /** @type {Object.<EventType,EventId[]>}*/
+    eventsToPublish: {},
+
+    /** @type {Object.<EventType,EventId[]>}*/
+    eventsToPublishNextTurn: {},
+
+    /** @type EventType */
     currentEventType: "",
+
+    /** @type ActorType */
     currentActorType: "",
+
+    // FIXME
     shortStack: []
 };
 this._Functions = {};// { functionId (string) => function }
@@ -251,9 +309,8 @@ this._gatherEventsToPublish = function () {
 
     // We go to next eventType
     var newEventType = this._nextState("eventTypes", currentEventType);
-    if (this._debug && newEventType !== "") {
-        log(this.name, "Gathering events to publish for state: " + newEventType);
-    }
+    if (this._debug && newEventType !== "") log(this.name, "Gathering events to publish for state: " + newEventType);
+
     state.currentEventType = newEventType || state.eventTypes[0];
     state.currentActorType = state.actorTypes[0];
     return !newEventType;
@@ -263,9 +320,7 @@ this._populateStack = function () {
     var state = this._State, currentEventType = state.currentEventType, currentActorType = state.currentActorType,
         firstActorType = state.actorTypes[0];
     if (!state.recurrentActionsIsDoneForCurrentEventType) {
-        if (this._debug) {
-            log(this.name, "Putting recurrent actions onto stack for event type: " + currentEventType + " and actor type: " + state.currentActorType);
-        }
+        if (this._debug) log(this.name, "Putting recurrent actions onto stack for event type: " + currentEventType + " and actor type: " + state.currentActorType);
         this._putRecurrentActionsOntoStack(currentEventType, currentActorType);
 
         // We go to next actorType
@@ -291,9 +346,7 @@ this._populateStack = function () {
     state.currentActorType = firstActorType;
     state.recurrentActionsIsDoneForCurrentEventType = false;
     var newEventType = this._nextState("eventTypes", currentEventType);
-    if (this._debug && newEventType !== "") {
-        log(this.name, "Gathering events to publish for state: " + newEventType);
-    }
+    if (this._debug && newEventType !== "") log(this.name, "Gathering events to publish for state: " + newEventType);
     // We may have finished: no more eventType, no more actorType, no more recurrentAction, no more event to respond to.
     state.currentEventType = newEventType || state.eventTypes[0];
     return !newEventType;
@@ -351,18 +404,14 @@ this._executeStack = function () {
 };
 this._addFrameCallback = function () {
     this._removeFrameCallback();
-    if (this._debug) {
-        log(this.name, "Adding frame callback");
-    }
+    if (this._debug) log(this.name, "Adding frame callback");
     this._State.callback = addFrameCallback(this._ourFrameCallback);
 };
 this._removeFrameCallback = function () {
     if (this._State.callback) {
         removeFrameCallback(this._State.callback);
         delete this._State.callback;
-        if (this._debug) {
-            log(this.name, "Removed frame callback");
-        }
+        if (this._debug) log(this.name, "Removed frame callback");
     }
 };
 this._ourFrameCallback = function (delta) {
@@ -385,14 +434,12 @@ this._ourFrameCallback = function (delta) {
         return; // we did enough this time
     }
 
-    if (this._debug) {
-        log(this.name, "No more jump token");
-    }
+    if (this._debug) log(this.name, "No more jump token");
     this._removeFrameCallback(); // We have finished, we remove the callback
 }.bind(this);
-/*************************** End of engine ***************************************************************/
+/* ************************** End of engine ***************************************************************/
 
-/*************************** Methods to save/restore *****************************************************/
+/* ************************** Methods to save/restore *****************************************************/
 this._functionReplacer = function (key, value) {
     return typeof value == 'function' ? '/Function(' + value.toString() + ')/' : value;
 };
@@ -413,9 +460,9 @@ this._functionReviver = (function () {
     innerFn._functionReplaceRegexp = new RegExp("^\\/Function\\(([\\s\\S]*)\\)\\/$");
     return innerFn;
 }.bind(this))();
-/*************************** End of methods to save/restore **********************************************/
+/* ************************** End of methods to save/restore **********************************************/
 
-/*************************** Oolite events ***************************************************************/
+/* ************************** Oolite events ***************************************************************/
 this._startUp = function () {
     var as = this._State;
     var sa = this._missionVariables.DayDiplomacyEngine_EngineState;
@@ -439,9 +486,7 @@ this.shipExitedWitchspace = function () {
     var s = this._State;
     s.jumpTokenNb || (s.jumpTokenNb = 0);
     s.jumpTokenNb++;
-    if (this._debug) {
-        log(this.name, "Added jump token");
-    }
+    if (this._debug) log(this.name, "Added jump token");
 };
 this.shipDockedWithStation = function (station) {
     this._addFrameCallback();
@@ -449,9 +494,9 @@ this.shipDockedWithStation = function (station) {
 this.shipWillLaunchFromStation = function (station) {
     this._removeFrameCallback();
 };
-/*************************** End of oolite events ********************************************************/
+/* ************************** End of oolite events ********************************************************/
 
-/*************************** Subscribing system for scripts order ****************************************/
+/* ************************** Subscribing system for scripts order ****************************************/
 this.startUp = function () {
     worldScripts.DayDiplomacy_000_Engine.$subscribe(this.name);
     delete this.startUp; // No need to startup twice
@@ -465,10 +510,6 @@ this.startUpComplete = function () {
         log(s[y - z], "startUp in ms: " + (new Date().getTime() - startDate.getTime()));
     }
 
-    // If in debug mode when starting, it's set to true to have events working as if you just spent a turn and entered the station.
-    if (this._debug) {
-        this.shipExitedWitchspace();
-    }
     this.shipDockedWithStation(null); // When starting, the player is docked.
 
     delete this.startUpComplete; // No need to startup twice
@@ -486,4 +527,4 @@ this._subscribers = [];
 this.$subscribe = function (scriptName) {
     this._subscribers.push(scriptName);
 };
-/*************************** End of subscribing system for scripts order *********************************/
+/* ************************** End of subscribing system for scripts order *********************************/
