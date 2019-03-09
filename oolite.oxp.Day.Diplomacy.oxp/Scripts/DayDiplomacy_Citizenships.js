@@ -8,6 +8,67 @@ this.copyright = "(C) 2019 Loic Coissard, David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
 this.description = "This script is the citizenships engine.";
 
+// FIXME replace citizenship by embassy and passport when possible
+// FIXME What should be the price to acquire a visa? 10% of monthly personal productivity: productivity / population / 120 ; proposed visas a for not enemy neighbor countries
+// FIXME special visa for going onto the planet, different price
+
+/* ************************** Public functions ********************************************************/
+
+/**
+ * This formula would put the US citizenship at 5.700.000 USD in 2016 and the french one at 3.700.000 USD.
+ * @param {System} aSystem
+ * @returns {number} the price to acquire or renounce this citizenship in credits
+ * @lends worldScripts.DayDiplomacy_060_Citizenships.$getCitizenshipPrice
+ */
+this.$getCitizenshipPrice = function (aSystem) {
+    return aSystem.productivity * 100 / aSystem.population;
+};
+
+/**
+ * @param {int} galaxyID
+ * @param {int} systemID
+ * @returns {boolean} true is the player has the citizenship
+ * @lends worldScripts.DayDiplomacy_060_Citizenships.$hasPlayerCitizenship
+ */
+this.$hasPlayerCitizenship = function (galaxyID, systemID) {
+    var citizenships = this._citizenships;
+    var i = citizenships.length;
+    while (i--) {
+        var planetarySystem = citizenships[i];
+        if (planetarySystem.galaxyID === galaxyID && planetarySystem.systemID === systemID) {
+            return true;
+        }
+    }
+    return false;
+};
+
+/**
+ * @param {PlanetarySystem[]} citizenships
+ * @returns {string} a displayable list of citizenships
+ * @lends worldScripts.DayDiplomacy_060_Citizenships.$buildCitizenshipsString
+ */
+this.$buildCitizenshipsString = function (citizenships) {
+    var result = "";
+    var i = citizenships.length;
+    while (i--) {
+        result += citizenships[i].name + ", ";
+    }
+    if (result.length) { // We delete the comma at the end of the string
+        result = result.substring(0, result.length - 2);
+    }
+    return result;
+};
+
+/**
+ * Allows the script which name is given as argument to be called through the method $playerCitizenshipsUpdated
+ * each time the player citizenships are updated. The script must implement that method: this.$playerCitizenshipsUpdated = function(citizenships) {}
+ * @param {string} scriptName the script.name
+ * @lends worldScripts.DayDiplomacy_060_Citizenships.$subscribeToPlayerCitizenshipsUpdates
+ */
+this.$subscribeToPlayerCitizenshipsUpdates = function (scriptName) {
+    (this._playerCitizenshipsUpdatesSubscribers || (this._playerCitizenshipsUpdatesSubscribers = [])).push(scriptName);
+};
+
 /* ************************** OXP private functions *******************************************************/
 
 /**
@@ -213,64 +274,6 @@ this._checkPlayerStatusInWar = function () {
     }
 };
 /* ************************** End OXP private functions ***************************************************/
-
-/* ************************** OXP public functions ********************************************************/
-
-/**
- * This formula would put the US citizenship at 5.700.000 USD in 2016 and the french one at 3.700.000 USD.
- * @param {System} aSystem
- * @returns {number} the price to acquire or renounce this citizenship in credits
- * @lends worldScripts.DayDiplomacy_060_Citizenships.$getCitizenshipPrice
- */
-this.$getCitizenshipPrice = function (aSystem) {
-    return aSystem.productivity * 100 / aSystem.population;
-};
-
-/**
- * @param {int} galaxyID
- * @param {int} systemID
- * @returns {boolean} true is the player has the citizenship
- * @lends worldScripts.DayDiplomacy_060_Citizenships.$hasPlayerCitizenship
- */
-this.$hasPlayerCitizenship = function (galaxyID, systemID) {
-    var citizenships = this._citizenships;
-    var i = citizenships.length;
-    while (i--) {
-        var planetarySystem = citizenships[i];
-        if (planetarySystem.galaxyID === galaxyID && planetarySystem.systemID === systemID) {
-            return true;
-        }
-    }
-    return false;
-};
-
-/**
- * @param {planetarySystem[]} citizenships
- * @returns {string} a displayable list of citizenships
- * @lends worldScripts.DayDiplomacy_060_Citizenships.$buildCitizenshipsString
- */
-this.$buildCitizenshipsString = function (citizenships) {
-    var result = "";
-    var i = citizenships.length;
-    while (i--) {
-        result += citizenships[i].name + ", ";
-    }
-    if (result.length) { // We delete the comma at the end of the string
-        result = result.substring(0, result.length - 2);
-    }
-    return result;
-};
-
-/**
- * Allows the script which name is given as argument to be called through the method $playerCitizenshipsUpdated
- * each time the player citizenships are updated. The script must implement that method: this.$playerCitizenshipsUpdated = function(citizenships) {}
- * @param {string} scriptName the script.name
- * @lends worldScripts.DayDiplomacy_060_Citizenships.$subscribeToPlayerCitizenshipsUpdates
- */
-this.$subscribeToPlayerCitizenshipsUpdates = function (scriptName) {
-    (this._playerCitizenshipsUpdatesSubscribers || (this._playerCitizenshipsUpdatesSubscribers = [])).push(scriptName);
-};
-/* ************************** End OXP public functions ****************************************************/
 
 /* ************************** Oolite events ***************************************************************/
 
