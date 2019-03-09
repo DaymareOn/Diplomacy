@@ -86,6 +86,13 @@
  */
 
 /**
+ * The clock global object is used to tell the time. Apart from absoluteSeconds, all its properties have to do with game clock time.
+ * @typedef Clock
+ * @property {function} clockStringForTime {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:Clock#clockStringForTime}
+ * @see {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_Clock}
+ */
+
+/**
  * @name system
  * @type System
  * */
@@ -104,8 +111,31 @@ var player;
 var mission;
 
 /**
+ * @name missionVariables
+ * @type Object
+ * @see {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_Global#missionVariables}
+ * */
+var missionVariables;
+
+
+/**
+ * The dictionary of all available oxp scripts.
  * @name worldScripts
  * @type Object
  * @see {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_Global#worldScripts}
  */
 var worldScripts;
+
+/**
+ * @name clock
+ * @type Clock
+ * */
+var clock;
+
+/**
+ * @function
+ * @param {string} prefix prefix
+ * @param {string} textToLog text to log
+ * @see {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_Global#log}
+ */
+var log = function(prefix, textToLog) {};
