@@ -89,12 +89,6 @@
 worldScripts.DayDiplomacy_000_Engine;
 
 /**
- * The Diplomacy Engine API script
- * @type Script
- */
-worldScripts.DayDiplomacy_002_EngineAPI;
-
-/**
  * The Diplomacy Planetary Systems script
  * @type Script
  */

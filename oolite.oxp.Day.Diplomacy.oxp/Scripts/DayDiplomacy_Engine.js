@@ -243,6 +243,17 @@ this.$buildActor = function (actorType, id) {
 };
 
 /**
+ * @param {EventId} id
+ * @param {EventType} eventType
+ * @param {ActorId} actorId
+ * @param {Object[]} args  Have to be compatible with our implementation of JSON stringify/parse. Those are the information/arguments which will be given to the response function.
+ * @return {DiplomacyEvent}
+ */
+this.$buildEvent = function (id, eventType, actorId, args) {
+    return {id: id, eventType: eventType, actorId: actorId, args: args};
+};
+
+/**
  *
  * @param {Actor} anActor
  * @param {ActorType} observersActorType
@@ -269,7 +280,7 @@ this.$letActorExecuteAction = function (anActor, anAction) {
  * @lends worldScripts.DayDiplomacy_000_Engine.$makeActorEventKnownToUniverse
  */
 this.$makeActorEventKnownToUniverse = function (actorId, anEventType, someArgs) {
-    this._record({id: this.$getNewEventId(), eventType: anEventType, actorId: actorId, args: someArgs});
+    this._record(this.$buildEvent(this.$getNewEventId(), anEventType, actorId, someArgs));
 };
 
 // this.$Actor.prototype.actNextTurn = function (anEventType, someArgs) {

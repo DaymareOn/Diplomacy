@@ -1,6 +1,5 @@
 (
     "DayDiplomacy_Engine.js",
-    "DayDiplomacy_EngineAPI.js",
     "DayDiplomacy_Systems.js",
     "DayDiplomacy_Economy.js",
     "DayDiplomacy_WarEngine.js",
