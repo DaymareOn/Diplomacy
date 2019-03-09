@@ -86,7 +86,9 @@ this._startUp = function () {
     if (engine.$getActorTypes().indexOf("SYSTEM") !== -1) {
         return;
     }
-    engine.$addActorType("SYSTEM", 0);
+    /** @type {ActorType} */
+    var actorType = "SYSTEM";
+    engine.$addActorType(actorType, 0);
 
     // We initiate the systems
     var i = 8;

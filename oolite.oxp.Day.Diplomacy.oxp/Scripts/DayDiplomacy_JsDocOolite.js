@@ -89,6 +89,7 @@
 /**
  * The clock global object is used to tell the time. Apart from absoluteSeconds, all its properties have to do with game clock time.
  * @typedef Clock
+ * @property {int} seconds
  * @property {function} clockStringForTime {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:Clock#clockStringForTime}
  * @see {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_Clock}
  */
@@ -140,3 +141,18 @@ var clock;
  * @see {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_Global#log}
  */
 var log = function(prefix, textToLog) {};
+
+/**
+ * @function
+ * @param {function} callback
+ * @return {string} trackingID
+ * @see {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_Global#addFrameCallback}
+ */
+var addFrameCallback = function (callback) {};
+
+/**
+ * @function
+ * @param {string} trackingID
+ * @see {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_Global#removeFrameCallback}
+ */
+var removeFrameCallback = function (trackingID) {};

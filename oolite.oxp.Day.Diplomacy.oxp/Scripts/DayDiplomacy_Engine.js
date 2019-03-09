@@ -156,9 +156,9 @@ this.$getNewEventId = function () {
 
 /**
  * An action, whether it is init or recurrent isn't put into the History. Only Events are.
- * @param {ActionId} id -
- * @param {EventType} eventType - is used to order the actions and events execution. For a same eventType, Actions are executed before Events.
- * @param {ActorType} actorType - Only actors of the type will execute the action.
+ * @param {ActionId}id -
+ * @param {EventType}eventType - is used to order the actions and events execution. For a same eventType, Actions are executed before Events.
+ * @param {ActorType}actorType - Only actors of the type will execute the action.
  * @param {FunctionId} actionFunctionId - the id of a function which must take one and only one argument: the actor which will "act".
  * @return {Action}
  * @lends worldScripts.DayDiplomacy_000_Engine.$buildAction
@@ -181,7 +181,7 @@ this.$getEventTypes = function () {
  * @return {Object<FunctionId, function>}
  * @lends worldScripts.DayDiplomacy_000_Engine.$getFunctions
  */
-this.$getFunctions = function() {
+this.$getFunctions = function () {
     return this._Functions;
 };
 
@@ -244,13 +244,13 @@ this.$buildActor = function (actorType, id) {
 
 /**
  * @param {EventId} id
- * @param {EventType} eventType
+ * @param {EventType}eventType
  * @param {ActorId} actorId
  * @param {Object[]} args  Have to be compatible with our implementation of JSON stringify/parse. Those are the information/arguments which will be given to the response function.
  * @return {DiplomacyEvent}
  */
 this.$buildEvent = function (id, eventType, actorId, args) {
-    return {id: id, eventType: eventType, actorId: actorId, args: args};
+    return {id: id, eventType: eventType, actorId: actorId, args: args, date:0};
 };
 
 /**
@@ -275,7 +275,7 @@ this.$letActorExecuteAction = function (anActor, anAction) {
 /**
  *
  * @param {ActorId} actorId
- * @param {EventType} anEventType
+ * @param {EventType}anEventType
  * @param {Object[]} someArgs
  * @lends worldScripts.DayDiplomacy_000_Engine.$makeActorEventKnownToUniverse
  */
@@ -289,6 +289,7 @@ this.$makeActorEventKnownToUniverse = function (actorId, anEventType, someArgs) 
 
 /**
  * @param {Actor} anActor
+ * @lends worldScripts.DayDiplomacy_000_Engine.$addActor
  */
 this.$addActor = function (anActor) {
     var state = this._State, responsesByType = state.responsesByType, initActions = state.initActions,
@@ -338,8 +339,8 @@ this.$addObserverToActor = function (anActor, thatObserverType, thatObserverId) 
 };
 
 /**
- * @param {DiplomacyResponse} aResponse
- * @param {Actor} anActor
+ * @param {DiplomacyResponse}aResponse
+ * @param {Actor}anActor
  */
 this.$addResponseToActor = function (aResponse, anActor) {
     var responsesIdByEventType = anActor.responsesIdByEventType;
@@ -362,7 +363,7 @@ this.$setFunction = function (anId, aFunction) {
 
 /**
  * @param {Object} anObject
- * @param {string} fieldName
+ * @param {string} fieldName
  * @param {Object} fieldValue
  * @lends worldScripts.DayDiplomacy_000_Engine.$setField
  */
@@ -375,11 +376,12 @@ this.$setField = function (anObject, fieldName, fieldValue) {
 };
 
 /**
- * @param {Action} anInitAction
+ * @param {Action} anInitAction
  * @lends worldScripts.DayDiplomacy_000_Engine.$setInitAction
  */
 this.$setInitAction = function (anInitAction) {
-    var initActions = this._State.initActions, initActionsByType = this._State.initActionsByType, initActionActorType = anInitAction.actorType;
+    var initActions = this._State.initActions, initActionsByType = this._State.initActionsByType,
+        initActionActorType = anInitAction.actorType;
 
     // We add the initAction to initActions and initActionsByType
     initActions[anInitAction.id] = anInitAction;
@@ -426,10 +428,11 @@ this.$executeAction = function (anAction) {
  * The responseFunction must take as first argument the responding actor,
  * 2nd argument the eventActor, and may take as many additional arguments as you wish.
  * The actorType is the type of the responding actors.
- * @param {ResponseId} id
- * @param {EventType} eventType
- * @param {ActorType} actorType
- * @param {FunctionId} responseFunctionId
+ *
+ * @param {ResponseId}id
+ * @param {EventType}eventType
+ * @param {ActorType}actorType
+ * @param {FunctionId}responseFunctionId
  * @return {DiplomacyResponse}
  * @lends worldScripts.DayDiplomacy_000_Engine.$buildResponse
  */
@@ -438,7 +441,7 @@ this.$buildResponse = function (id, eventType, actorType, responseFunctionId) {
 };
 
 /**
- * @param {DiplomacyResponse} aResponse
+ * @param {DiplomacyResponse} aResponse
  * @lends worldScripts.DayDiplomacy_000_Engine.$setResponse
  */
 this.$setResponse = function (aResponse) {
@@ -497,8 +500,8 @@ this.$addEventType = function (name, position) {
 };
 
 /**
- * @param {ActorType} name
- * @param {int} position
+ * @param {ActorType} name
+ * @param {int} position
  * @lends worldScripts.DayDiplomacy_000_Engine.$addActorType
  */
 this.$addActorType = function (name, position) {
@@ -534,11 +537,11 @@ this._nextState = function (type, currentState) {
  * @private
  */
 this._record = function (anEvent) {
-    var eventsToPublish = this._State.eventsToPublish, eventType = anEvent.eventType, date = this._clock.seconds,
+    var eventsToPublish = this._State.eventsToPublish, eventType = anEvent.eventType,
         eventId = anEvent.id, eventActorId = anEvent.actorId, actorsEvents = this._State.actorsEvents;
 
     // Stamping the event
-    anEvent.date = date;
+    anEvent.date = this._clock.seconds;
 
     // Recording the history. This is ordered by insertion, so ordered by date.
     (actorsEvents[eventActorId] || (actorsEvents[eventActorId] = [])).push(eventId);

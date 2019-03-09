@@ -9,13 +9,30 @@ this.description = "This script is the war engine of the Diplomacy OXP.";
 
 /* ************************** OXP public functions ********************************************************/
 
+/**
+ * @return {Object.<string,FunctionId>}
+ * @lends worldScripts.DayDiplomacy_040_WarEngine.$getScoringFunctions
+ */
 this.$getScoringFunctions = function () {
     return this._asf;
 };
+
+/**
+ * @param {FunctionId}keyword FIXME is the keyword used as a FunctionId ??
+ * @param {function}f
+ * @param {int}position
+ * @lends worldScripts.DayDiplomacy_040_WarEngine.$addScoringFunction
+ */
 this.$addScoringFunction = function (keyword, f, position) {
     this._s.$setFunction(keyword, f);
     this._asf.splice(position, 0, keyword);
 };
+
+/**
+ * @param {Actor}observedActor
+ * @param {Actor}observerActor
+ * @lends worldScripts.DayDiplomacy_040_WarEngine.$recalculateScores
+ */
 this.$recalculateScores = function (observedActor, observerActor) {
     var asf = this._asf, funcs = this._F, as = this._as;
     var observedId = observedActor.id, observerId = observerActor.id;
@@ -30,29 +47,62 @@ this.$recalculateScores = function (observedActor, observerActor) {
     }
     score.SCORE = finalScore;
 };
+
+/**
+ *
+ * @param {number}threshold
+ * @lends worldScripts.DayDiplomacy_040_WarEngine.$setAllianceThreshold
+ */
 this.$setAllianceThreshold = function (threshold) {
+    // warCouncilRecurrentAction is a function defined at the beginning of this WarEngine.
     this._F.warCouncilRecurrentAction.allianceThreshold = threshold;
     this._s._State.allianceThreshold = threshold;
 };
+
+/**
+ *
+ * @param {number}threshold
+ * @lends worldScripts.DayDiplomacy_040_WarEngine.$setWarThreshold
+ */
 this.$setWarThreshold = function (threshold) {
+    // warCouncilRecurrentAction is a function defined at the beginning of this WarEngine.
     this._F.warCouncilRecurrentAction.warThreshold = threshold;
     this._s._State.warThreshold = threshold;
 };
+
+/**
+ *
+ * @return {number}
+ * @lends worldScripts.DayDiplomacy_040_WarEngine.$getAllianceThreshold
+ */
 this.$getAllianceThreshold = function () {
     return this._s._State.allianceThreshold;
 };
+
+/**
+ *
+ * @return {number}
+ * @lends worldScripts.DayDiplomacy_040_WarEngine.$getWarThreshold
+ */
 this.$getWarThreshold = function () {
     return this._s._State.warThreshold;
 };
+
 /**
  * Returns a dictionary with an {@link ActorId} as key, and as value: a dictionary with another {@link ActorId} as key,
  * and as value: -1 is there's a war between those 2 actors, 1 if there's an alliance.
- * @return {{}}
+ * @return {Object.<ActorId,Object.<ActorId,number>>}
  * @lends worldScripts.DayDiplomacy_040_WarEngine.$getAlliancesAndWars
  */
 this.$getAlliancesAndWars = function () {
     return this._a;
 };
+
+/**
+ *
+ * @return {Object.<ActorId,Object.<ActorId,Object.<string,number>>>}
+ * @lends worldScripts.DayDiplomacy_040_WarEngine.$getScores
+ */
 this.$getScores = function () {
     return this._as;
 };
@@ -61,8 +111,8 @@ this.$getScores = function () {
  *  true if those 2 actors are at war
  * @param {ActorId} actorIdA  an actorId
  * @param {ActorId} actorIdB  another actorId
- * @lends worldScripts.DayDiplomacy_040_WarEngine.$areActorsWarring
  * @return {boolean}
+ * @lends worldScripts.DayDiplomacy_040_WarEngine.$areActorsWarring
  */
 this.$areActorsWarring = function (actorIdA, actorIdB) {
     // FIXME use hasOwnProperty ?
@@ -74,8 +124,8 @@ this.$areActorsWarring = function (actorIdA, actorIdB) {
 
 /**
  *
- * @param {ActorId} aSystemId
- * @param {ActorId} anotherSystemId
+ * @param {ActorId}aSystemId
+ * @param {ActorId}anotherSystemId
  * @private
  */
 this._ally = function (aSystemId, anotherSystemId) {
@@ -92,8 +142,8 @@ this._ally = function (aSystemId, anotherSystemId) {
 
 /**
  *
- * @param {ActorId} aSystemId
- * @param {ActorId} anotherSystemId
+ * @param {ActorId}aSystemId
+ * @param {ActorId}anotherSystemId
  * @private
  */
 this._breakAlliance = function (aSystemId, anotherSystemId) {
@@ -108,8 +158,8 @@ this._breakAlliance = function (aSystemId, anotherSystemId) {
 
 /**
  *
- * @param {ActorId} aSystemId
- * @param {ActorId} anotherSystemId
+ * @param {ActorId}aSystemId
+ * @param {ActorId}anotherSystemId
  * @private
  */
 this._declareWar = function (aSystemId, anotherSystemId) {
@@ -126,7 +176,7 @@ this._declareWar = function (aSystemId, anotherSystemId) {
 
 /**
  *
- * @param {ActorId} aSystem
+ * @param {ActorId} aSystemId
  * @param {ActorId} anotherSystemId
  * @private
  */
@@ -140,6 +190,10 @@ this._makePeace = function (aSystemId, anotherSystemId) {
     // log("DiplomacyWarEngine", "Peace between " + aSystemId + " and " + anotherSystemId);
 };
 
+/**
+ *
+ * @private
+ */
 this._initAllyScore = function () {
     var engine = this._s;
 
@@ -280,6 +334,7 @@ this._init = function () {
     this.$setAllianceThreshold(1); // Default value for the very first initialization
     this.$setWarThreshold(-1); // Default value for the very first initialization
 };
+
 this._startUp = function () {
     var engine = this._s;
     this._F = engine.$getFunctions();

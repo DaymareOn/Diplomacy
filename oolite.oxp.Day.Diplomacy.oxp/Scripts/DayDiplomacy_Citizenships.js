@@ -301,7 +301,7 @@ this.shipExitedWitchspace = function () {
 // noinspection JSUnusedGlobalSymbols Called by Oolite itself
 /**
  *
- * @param {Station} station
+ * @param {Station}station - the station from which the ship is launched
  */
 this.shipLaunchedFromStation = function (station) {
     this._checkPlayerStatusInWar();

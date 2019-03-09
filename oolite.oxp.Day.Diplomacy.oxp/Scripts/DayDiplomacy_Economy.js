@@ -62,7 +62,7 @@ this._startUp = function () {
 
     /**
      * @function
-     * @param {Actor} aSystem
+     * @param {Actor}aSystem
      */
     var diplomacyTaxInitAction = function diplomacyTaxInitAction(aSystem) {
         var that = diplomacyTaxInitAction;
@@ -77,6 +77,7 @@ this._startUp = function () {
         // FIXME 0.perfectstyle fields should be inited in the systems part. Make it all fields?
         // FIXME 0.f move treasury and tax level to a F4 Diplomacy system information including the history.
         // Or use the new description system?
+        // FIXME Should the Actor aSystem be typed ActorSystem? mwofff
         engine.$setField(aSystem, "name", ourSystemInOolite.name);
         engine.$setField(aSystem, "taxLevel", taxLevel[government]);
         engine.$setField(aSystem, "treasury", 0); // Everybody begins with treasury = 0.

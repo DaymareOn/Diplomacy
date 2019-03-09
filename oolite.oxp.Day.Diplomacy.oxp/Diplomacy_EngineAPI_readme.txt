@@ -1,3 +1,4 @@
+FIXME reintegrate this to DayDiplomacy_JsDocDiplomacy.js
 An 'EventType' is a string defined by an oxp developer. As an example, the system taxation EventType is "SELFTAX".
 EventTypes are stored in an ordered array, so that "Event"s' "Response"s and "Action"s may be executed in a designed order
 (for example, "VICTORY" should follow "ATTACK" and not happen before :) ).

@@ -48,17 +48,20 @@
  @property {EventType} eventType
  @property {ActorId} actorId - actorId
  @property {Object[]} args
+ @property {number} date - seconds since epoch
  */
 
 /**
  @typedef DiplomacyResponse
  @property {ResponseId} id
+ @property {EventType} eventType
+ @property {ActorType} actorType
+ @property {FunctionId} responseFunctionId
  */
 
 /**
  @typedef Actor
  @property {ActorId} id
- @property {string} name
  @property {ActorType} actorType
  @property {Object<ActorType,ActorId[]>} observers
  @property {Object<EventType,ResponseId[]>} responsesIdByEventType
