@@ -35,27 +35,34 @@ this.$setWarThreshold = function (threshold) {
     this._F.warCouncilRecurrentAction.warThreshold = threshold;
     this._s._State.warThreshold = threshold;
 };
-this.$getAllianceThreshold = function() {
+this.$getAllianceThreshold = function () {
     return this._s._State.allianceThreshold;
 };
-this.$getWarThreshold = function() {
+this.$getWarThreshold = function () {
     return this._s._State.warThreshold;
 };
-this.$getAlliancesAndWars = function() {
+/**
+ * Returns a dictionary with an {@link ActorId} as key, and as value: a dictionary with another {@link ActorId} as key,
+ * and as value: -1 is there's a war between those 2 actors, 1 if there's an alliance.
+ * @return {{}}
+ * @lends worldScripts.DayDiplomacy_040_WarEngine.$getAlliancesAndWars
+ */
+this.$getAlliancesAndWars = function () {
     return this._a;
 };
-this.$getScores = function() {
+this.$getScores = function () {
     return this._as;
 };
-// FIXME what's the price to be stateless?
-// FIXME turn string into type
+
 /**
- * @param {string} actorIdA an actorId
- * @param {string} actorIdB another actorId
- * @return {boolean} true if those 2 actors are at war
+ *  true if those 2 actors are at war
+ * @param {ActorId} actorIdA  an actorId
+ * @param {ActorId} actorIdB  another actorId
  * @lends worldScripts.DayDiplomacy_040_WarEngine.$areActorsWarring
+ * @return {boolean}
  */
-this.$areActorsWarring = function(actorIdA, actorIdB) {
+this.$areActorsWarring = function (actorIdA, actorIdB) {
+    // FIXME use hasOwnProperty ?
     var tmp = this._a[actorIdA];
     return tmp && tmp[actorIdB] === -1
 };
@@ -63,26 +70,46 @@ this.$areActorsWarring = function(actorIdA, actorIdB) {
 /*************************** End OXP public functions ****************************************************/
 
 /*************************** OXP private functions *******************************************************/
-this._ally = function (aSystem, anotherSystemId) {
+/**
+ *
+ * @param {ActorId} aSystemId
+ * @param {ActorId} anotherSystemId
+ * @private
+ */
+this._ally = function (aSystemId, anotherSystemId) {
     var a = this._a; // alliances and wars
-    var aSystemId = aSystem.id;
     a[aSystemId] = a[aSystemId] || {};
     a[aSystemId][anotherSystemId] = 1; // Alliance
     a[anotherSystemId] = a[anotherSystemId] || {};
     a[anotherSystemId][aSystemId] = 1; // Alliance
     this._api.$makeActorEventKnownToUniverse(aSystemId, "ALLY", [anotherSystemId]);
     this._api.$makeActorEventKnownToUniverse(anotherSystemId, "ALLY", [aSystemId]);
-    log("DiplomacyWarEngine", "Alliance between " + aSystemId + " and " + anotherSystemId);
+    // Commented out because closure
+    // log("DiplomacyWarEngine", "Alliance between " + aSystemId + " and " + anotherSystemId);
 };
-this._breakAlliance = function (aSystem, anotherSystemId) {
+
+/**
+ *
+ * @param {ActorId} aSystemId
+ * @param {ActorId} anotherSystemId
+ * @private
+ */
+this._breakAlliance = function (aSystemId, anotherSystemId) {
     var a = this._a; // Alliances and wars
-    var aSystemId = aSystem.id;
     a[aSystemId] && a[aSystemId] === 1 && (delete a[aSystemId][anotherSystemId]); // Breaking alliance
     a[anotherSystemId] && a[anotherSystemId] === 1 && (delete a[anotherSystemId][aSystemId]); // Breaking alliance
     this._api.$makeActorEventKnownToUniverse(aSystemId, "BREAK", [anotherSystemId]);
     this._api.$makeActorEventKnownToUniverse(anotherSystemId, "BREAK", [aSystemId]);
-    log("DiplomacyWarEngine", "Alliance broken between " + aSystemId + " and " + anotherSystemId);
+    // Commented out because closure
+    // log("DiplomacyWarEngine", "Alliance broken between " + aSystemId + " and " + anotherSystemId);
 };
+
+/**
+ *
+ * @param {ActorId} aSystemId
+ * @param {ActorId} anotherSystemId
+ * @private
+ */
 this._declareWar = function (aSystemId, anotherSystemId) {
     var a = this._a; // Alliances and wars
     a[aSystemId] = a[aSystemId] || {};
@@ -91,17 +118,26 @@ this._declareWar = function (aSystemId, anotherSystemId) {
     a[anotherSystemId][aSystemId] = -1; // War
     this._api.$makeActorEventKnownToUniverse(aSystemId, "WAR", [anotherSystemId]);
     this._api.$makeActorEventKnownToUniverse(anotherSystemId, "WAR", [aSystemId]);
-    log("DiplomacyWarEngine", "War between " + aSystemId + " and " + anotherSystemId);
+    // Commented out because closure
+    // log("DiplomacyWarEngine", "War between " + aSystemId + " and " + anotherSystemId);
 };
-this._makePeace = function (aSystem, anotherSystemId) {
+
+/**
+ *
+ * @param {ActorId} aSystem
+ * @param {ActorId} anotherSystemId
+ * @private
+ */
+this._makePeace = function (aSystemId, anotherSystemId) {
     var a = this._a; // Alliances and wars
-    var aSystemId = aSystem.id;
     a[aSystemId] && a[aSystemId] === -1 && (delete a[aSystemId][anotherSystemId]); // Making peace
     a[anotherSystemId] && a[anotherSystemId] === -1 && (delete a[anotherSystemId][aSystemId]); // Making peace
     this._api.$makeActorEventKnownToUniverse(aSystemId, "PEACE", [anotherSystemId]);
     this._api.$makeActorEventKnownToUniverse(anotherSystemId, "PEACE", [aSystemId]);
-    log("DiplomacyWarEngine", "Peace between " + aSystemId + " and " + anotherSystemId);
+    // Commented out because closure
+    // log("DiplomacyWarEngine", "Peace between " + aSystemId + " and " + anotherSystemId);
 };
+
 this._initAllyScore = function (api) {
     if (api.$getEventTypes().indexOf("ALLYSCORE") === -1) {
         api.$addEventType("ALLYSCORE", 1);
@@ -139,22 +175,45 @@ this._init = function (api, hapi) {
     api.$addEventType("PEACE", 6);
 
     // Managing history sentences
-    hapi.$setEventFormattingFunction("BREAK", function breakEventFormattingFunction(breakEvent) {
-        var f = breakEventFormattingFunction, api = f._api || (f._api = worldScripts.DayDiplomacy_002_EngineAPI);
-        var actors = api.$getActors();
-        return actors[breakEvent.actorId].name + " broke their alliance with " + actors[breakEvent.args[0]].name + ".";
-    });
-    hapi.$setEventFormattingFunction("ALLY", function allyEventFormattingFunction(allyEvent) {
+    hapi.$setEventFormattingFunction("BREAK",
+        /**
+         * @param {DiplomacyEvent} breakEvent
+         * @return {string} the formatted message
+         */
+        function breakEventFormattingFunction(breakEvent) {
+            var f = breakEventFormattingFunction, api = f._api || (f._api = worldScripts.DayDiplomacy_002_EngineAPI);
+            var actors = api.$getActors();
+            return actors[breakEvent.actorId].name + " broke their alliance with " + actors[breakEvent.args[0]].name + ".";
+        });
+    hapi.$setEventFormattingFunction("ALLY",
+        /**
+         * FIXME create a type AllyEvent?
+         * @param  {DiplomacyEvent} allyEvent
+         * @return {string}
+         */
+        function allyEventFormattingFunction(allyEvent) {
         var f = allyEventFormattingFunction, api = f._api || (f._api = worldScripts.DayDiplomacy_002_EngineAPI);
         var actors = api.$getActors();
         return actors[allyEvent.actorId].name + " allied with " + actors[allyEvent.args[0]].name + ".";
     });
-    hapi.$setEventFormattingFunction("WAR", function warEventFormattingFunction(warEvent) {
+    hapi.$setEventFormattingFunction("WAR",
+        /**
+         *
+         * @param  {DiplomacyEvent} warEvent
+         * @return {string}
+         */
+        function warEventFormattingFunction(warEvent) {
         var f = warEventFormattingFunction, api = f._api || (f._api = worldScripts.DayDiplomacy_002_EngineAPI);
         var actors = api.$getActors();
         return actors[warEvent.actorId].name + " declared war with " + actors[warEvent.args[0]].name + ".";
     });
-    hapi.$setEventFormattingFunction("PEACE", function peaceEventFormattingFunction(peaceEvent) {
+    hapi.$setEventFormattingFunction("PEACE",
+        /**
+         *
+         * @param  {DiplomacyEvent} peaceEvent
+         * @return {string}
+         */
+        function peaceEventFormattingFunction(peaceEvent) {
         var f = peaceEventFormattingFunction, api = f._api || (f._api = worldScripts.DayDiplomacy_002_EngineAPI);
         var actors = api.$getActors();
         return actors[peaceEvent.actorId].name + " made peace with " + actors[peaceEvent.args[0]].name + ".";
@@ -177,26 +236,26 @@ this._init = function (api, hapi) {
                 if ((!a.hasOwnProperty(targetId) || !a[targetId].hasOwnProperty(aSystemId) || a[targetId][aSystemId] !== 1) // Not yet allied
                     && aSystemScores[targetId].SCORE >= allianceThreshold
                     && alliancesScores[targetId][aSystemId].SCORE >= allianceThreshold) { // Both are willing
-                    warEngine._ally(aSystem, targetId);
+                    warEngine._ally(aSystemId, targetId);
                 }
 
                 // Break
                 if ((a.hasOwnProperty(targetId) && a[targetId][aSystemId] === 1) // Allied
                     && (aSystemScores[targetId].SCORE < allianceThreshold
                         || alliancesScores[targetId][aSystemId].SCORE < allianceThreshold)) { // One is willing to break
-                    warEngine._breakAlliance(aSystem, targetId);
+                    warEngine._breakAlliance(aSystemId, targetId);
                 }
 
                 // War
                 if ((!a.hasOwnProperty(targetId) || !a[targetId].hasOwnProperty(aSystemId) || a[targetId][aSystemId] !== -1) // Not yet warring
                     && (aSystemScores[targetId].SCORE <= warThreshold || alliancesScores[targetId][aSystemId].SCORE <= warThreshold)) { // One is willing
-                    warEngine._declareWar(aSystem.id, targetId);
+                    warEngine._declareWar(aSystemId, targetId);
                 }
 
                 // Peace
                 if ((a.hasOwnProperty(targetId) && a[targetId][aSystemId] === -1) // Warring
                     && aSystemScores[targetId].SCORE > warThreshold && alliancesScores[targetId][aSystemId].SCORE > warThreshold) { // Both are willing
-                    warEngine._makePeace(aSystem, proposerId);
+                    warEngine._makePeace(aSystemId, proposerId);
                 }
             }
         }
