@@ -5,7 +5,7 @@ this.copyright = "(C) 2017 David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
 this.description = "This script is the Diplomacy engine API for external scripts.";
 
-/*************************** Factory functions ***********************************************************/
+/* ************************** Factory functions ***********************************************************/
 this.$buildNewActionId = function () {
     return this._s.$getNewActionId();
 };
@@ -16,13 +16,16 @@ this.$buildNewResponseId = function () {
     return this._s.$getNewResponseId();
 };
 /**
- *
- * @return {string}
+ * @return {ActorId}
  * @lends worldScripts.DayDiplomacy_002_EngineAPI.$buildNewActorId
  */
 this.$buildNewActorId = function () {
     return this._s.$getNewActorId();
 };
+/**
+ * @return {FunctionId}
+ * @lends worldScripts.DayDiplomacy_002_EngineAPI.$buildNewFunctionId
+ */
 this.$buildNewFunctionId = function () {
     return this._s.$getNewFunctionId();
 };
@@ -35,38 +38,43 @@ this.$buildAction = function (id, eventType, actorType, actionFunctionId) {
      */
     return {id: id, eventType: eventType, actorType: actorType, actionFunctionId: actionFunctionId};
 };
+
+/**
+ *
+ * @param {EventId} id
+ * @param {EventType} eventType
+ * @param {ActorId} actorId
+ * @param {Object[]} args  Have to be compatible with our implementation of JSON stringify/parse. Those are the information/arguments which will be given to the response function.
+ * @return {DiplomacyEvent}
+ */
 this.$buildEvent = function (id, eventType, actorId, args) {
-    /**
-     * @param string: anEventType
-     * @param string: anActorId
-     * @param []: someArgs Have to be compatible with our implementation of JSON stringify/parse.
-     * Those are the information/arguments which will be given to the response function.
-     */
     return {id: id, eventType: eventType, actorId: actorId, args: args};
 };
-this.$buildResponse = function (id, eventType, actorType, responseFunctionId) {
+// FIXME define the Response type
     /**
      * A Response contains a behaviour to be executed when a certain event happens.
      * The responseFunction must take as first argument the responding actor,
      * 2nd argument the eventActor, and may take as many additional arguments as you wish.
      * The actorType is the type of the responding actors.
      */
+this.$buildResponse = function (id, eventType, actorType, responseFunctionId) {
     return {id: id, eventType: eventType, actorType: actorType, responseFunctionId: responseFunctionId};
 };
+
 /**
  * A planetary system or an alliance, or whatever you wish :)
  * An actor is {id:id, actorType:actorType, responsesIdByEventType:{eventType:[responseIds]}, observers:{actorType:[actorIds]}}
  * @param {string} actorType
- * @param {string} id
+ * @param {ActorId} id
  * @return {{actorType: *, id: *, responsesIdByEventType: {}, observers: {}}}
  * @lends worldScripts.DayDiplomacy_002_EngineAPI.$buildActor
  */
 this.$buildActor = function (actorType, id) {
     return {id: id, actorType: actorType, responsesIdByEventType: {}, observers: {}};
 };
-/*************************** End of Factory functions ****************************************************/
+/* ************************** End of Factory functions ****************************************************/
 
-/*************************** Action functions ************************************************************/
+/* ************************** Action functions ************************************************************/
 this.$addEventType = function (name, position) {
     this._s.$addEventType(name, position);
 };
@@ -138,9 +146,18 @@ this.$setField = function (anObject, fieldName, fieldValue) {
         anObject[fieldName] = fieldValue;
     }
 };
+
+/**
+ *
+ * @param {ActorId} actorId
+ * @param {EventType} anEventType
+ * @param {Object[]} someArgs
+ * @lends worldScripts.DayDiplomacy_002_EngineAPI.$makeActorEventKnownToUniverse
+ */
 this.$makeActorEventKnownToUniverse = function (actorId, anEventType, someArgs) {
     this._s.$makeActorEventKnownToUniverse(actorId, anEventType, someArgs);
 };
+
 /**
  * FIXME
  * @param name
@@ -151,10 +168,10 @@ this.$makeActorEventKnownToUniverse = function (actorId, anEventType, someArgs) 
 this.$initAndReturnSavedData = function (name, defaultValue) {
     return this._s._State[name] || (this._s._State[name] = defaultValue);
 };
-/*************************** End of Action functions *****************************************************/
+/* ************************** End of Action functions *****************************************************/
 
-/*************************** Getter functions ************************************************************/
-/******** Make sure you don't modify that or its content. Copy it before if you need to modify it. *******/
+/* ************************** Getter functions ************************************************************/
+/* ******* Make sure you don't modify that or its content. Copy it before if you need to modify it. *******/
 /**
  * Make sure you don't modify that or its content. Copy it before if you need to modify it.
  * @return {string[]} The ActorType list
@@ -178,7 +195,7 @@ this.$getActorsIdByType = function (actorType) {
 };
 /**
  * @name $getActors
- * @returns {{}} - an object with {string} actorId as properties and for each, the corresponding Actor as value
+ * @returns {{}} - an object with {@link ActorId} as keys and as value the corresponding {@link Actor}
  * @lends worldScripts.DayDiplomacy_002_EngineAPI.$getActors
  */
 this.$getActors = function () {
@@ -194,17 +211,25 @@ this.$getActors = function () {
 this.$getObservers = function (anActor, observersActorType) {
     return anActor.observers[observersActorType];
 };
+/**
+ * Returns the events dictionary with {@link EventId} as keys, and {@link Event} as values
+ * @return {{}}
+ * @lends worldScripts.DayDiplomacy_002_EngineAPI.$getEvents
+ */
 this.$getEvents = function () {
-    /** @returns {eventId => Event} */
     return this._S.events;
 };
+/**
+ * @param {ActorId} actorId
+ * @return {EventId[]}
+ * @lends worldScripts.DayDiplomacy_002_EngineAPI.$getActorEvents
+ */
 this.$getActorEvents = function (actorId) {
-    /** @returns [eventId] */
     return this._S.actorsEvents[actorId] || [];
 };
-/*************************** End of Getter functions *****************************************************/
+/* ************************** End of Getter functions *****************************************************/
 
-/*************************** Oolite events ***************************************************************/
+/* ************************** Oolite events ***************************************************************/
 this._startUp = function () {
     this._S = this._s._State;
     this._F = this._s._Functions;
@@ -215,4 +240,4 @@ this.startUp = function () {
     this._s.$subscribe(this.name);
     delete this.startUp; // No need to startup twice
 };
-/*************************** End Oolite events ***********************************************************/
+/* ************************** End Oolite events ***********************************************************/
