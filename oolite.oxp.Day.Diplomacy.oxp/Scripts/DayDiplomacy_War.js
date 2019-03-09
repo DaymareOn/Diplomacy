@@ -267,7 +267,7 @@ this._startUp = function () {
             // On ALLY event, if the player is in a responder system, a news is generated.
             // This could be optimized, but the role of this function should be to manage all responses.
             if (system.info.name === respondingActor.name) {
-                var allyName = worldScripts.DayDiplomacy_002_EngineAPI.$getActors()[alliedActorId].name;
+                var allyName = worldScripts.DayDiplomacy_000_Engine.$getActors()[alliedActorId].name;
                 if (respondingActor.name === allyName) {
                     var news = {
                         ID: "DayDiplomacy_045_War", // Script name copied to avoid a closure.
@@ -304,7 +304,7 @@ this._startUp = function () {
 
             // On BREAK event, if the player is in a responder system, a news is generated.
             if (system.info.name === respondingActor.name) {
-                var allyName = worldScripts.DayDiplomacy_002_EngineAPI.$getActors()[alliedActorId].name;
+                var allyName = worldScripts.DayDiplomacy_000_Engine.$getActors()[alliedActorId].name;
                 if (respondingActor.name === allyName) {
                     var news = {
                         ID: "DayDiplomacy_045_War", // Script name copied to avoid a closure.
@@ -341,7 +341,7 @@ this._startUp = function () {
 
             // On WAR event, if the player is in a responder system, a news is generated.
             if (system.info.name === respondingActor.name) {
-                var foeName = worldScripts.DayDiplomacy_002_EngineAPI.$getActors()[foeActorId].name;
+                var foeName = worldScripts.DayDiplomacy_000_Engine.$getActors()[foeActorId].name;
                 if (respondingActor.name === foeName) {
                     var news = {
                         ID: "DayDiplomacy_045_War", // Script name copied to avoid a closure.
@@ -379,7 +379,7 @@ this._startUp = function () {
 
             // On PEACE event, if the player is in a responder system, a news is generated.
             if (system.info.name === respondingActor.name) {
-                var foeName = worldScripts.DayDiplomacy_002_EngineAPI.$getActors()[foeActorId].name;
+                var foeName = worldScripts.DayDiplomacy_000_Engine.$getActors()[foeActorId].name;
                 if (respondingActor.name === foeName) {
                     var news = {
                         ID: "DayDiplomacy_045_War", // Script name copied to avoid a closure.
