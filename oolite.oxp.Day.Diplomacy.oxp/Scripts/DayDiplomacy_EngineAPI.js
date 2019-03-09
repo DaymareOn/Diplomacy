@@ -6,6 +6,10 @@ this.licence = "CC-NC-by-SA 4.0";
 this.description = "This script is the Diplomacy engine API for external scripts.";
 
 /* ************************** Factory functions ***********************************************************/
+/**
+ * @return {ActionId}
+ * @lends worldScripts.DayDiplomacy_002_EngineAPI.$buildNewActionId
+ */
 this.$buildNewActionId = function () {
     return this._s.$getNewActionId();
 };
@@ -29,13 +33,18 @@ this.$buildNewActorId = function () {
 this.$buildNewFunctionId = function () {
     return this._s.$getNewFunctionId();
 };
+
+/**
+ * An action, whether it is init or recurrent isn't put into the History. Only Events are.
+ * @param {ActionId} id -
+ * @param {EventType} eventType - is used to order the actions and events execution. For a same eventType, Actions are executed before Events.
+ * @param {ActorType} actorType - Only actors of the type will execute the action.
+ * @param {FunctionId} actionFunctionId - the id of a function which must take one and only one argument: the actor which will "act".
+ * @return {Action}
+ * @lends worldScripts.DayDiplomacy_002_EngineAPI.$buildAction
+ */
 this.$buildAction = function (id, eventType, actorType, actionFunctionId) {
-    /**
-     * An action, whether it is init or recurrent isn't put into the History. Only Events are.
-     * @param string: anEventType is used to order the actions and events execution. For a same eventType, Actions are executed before Events.
-     * @param string: anActorType Only actors of the type will execute the action.
-     * @param functionId the id of a function which must take one and only one argument: the actor which will "act".
-     */
+    /** @type {Action} */
     return {id: id, eventType: eventType, actorType: actorType, actionFunctionId: actionFunctionId};
 };
 
