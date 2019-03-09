@@ -33,6 +33,11 @@ this._loadState = function (toBeModifiedState, sourceState) {
 };
 
 // FIXME should _State be of a defined state? That would be what would make stable the savefile... ?
+/**
+ * @type {{shortStack: Array, eventsToPublish: {}, initActions: {}, eventMaxId: number, actorTypes: Array, initActionsByType: {}, recurrentActionsByType: {}, actorsEvents: {}, functionMaxId: number, eventTypes: Array, actorMaxId: number, actors: {}, recurrentActions: {}, responseMaxId: number, actionMaxId: number, responsesByType: {}, actorsByType: {}, eventsToPublishNextTurn: {}, responses: {}, currentActorType: string, currentEventType: string, events: {}}}
+ * @private
+ * @lends worldScripts.DayDiplomacy_000_Engine._State
+ */
 this._State = {
 
     /** @type {Object.<ActorId,Actor>}*/
@@ -257,9 +262,11 @@ this.$letActorExecuteAction = function (anActor, anAction) {
 };
 
 /**
+ *
  * @param {ActorId} actorId
- * @param {EventType} anEventType
+ * @param {EventType} anEventType
  * @param {Object[]} someArgs
+ * @lends worldScripts.DayDiplomacy_000_Engine.$makeActorEventKnownToUniverse
  */
 this.$makeActorEventKnownToUniverse = function (actorId, anEventType, someArgs) {
     this._record({id: this.$getNewEventId(), eventType: anEventType, actorId: actorId, args: someArgs});

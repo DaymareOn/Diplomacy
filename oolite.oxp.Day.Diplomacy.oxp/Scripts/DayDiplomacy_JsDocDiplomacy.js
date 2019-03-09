@@ -46,7 +46,7 @@
  @typedef DiplomacyEvent
  @property {EventId} id
  @property {EventType} eventType
- @property {ActorId} actorId
+ @property {ActorId} actorId - actorId
  @property {Object[]} args
  */
 
@@ -67,7 +67,7 @@
 /**
  @typedef Action
  @property {ActionId} id
- @property {EventType} anEventType is used to order the actions and events execution. For a same eventType, Actions are executed before Events.
+ @property {EventType} eventType - anEventType is used to order the actions and events execution. For a same eventType, Actions are executed before Events.
  @property {ActorType} actorType - Only actors of the type will execute the action.
  @property {FunctionId} actionFunctionId - the id of a function which must take one and only one argument: the actor which will "act".
 
@@ -99,6 +99,13 @@ worldScripts.DayDiplomacy_002_EngineAPI;
  * @type Script
  */
 worldScripts.DayDiplomacy_010_Systems;
+
+
+/**
+ * The Diplomacy History script
+ * @type Script
+ */
+worldScripts.DayDiplomacy_020_History;
 
 /**
  * The Diplomacy Economy script

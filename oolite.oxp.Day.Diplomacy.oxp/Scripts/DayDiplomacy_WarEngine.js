@@ -13,7 +13,7 @@ this.$getScoringFunctions = function () {
     return this._asf;
 };
 this.$addScoringFunction = function (keyword, f, position) {
-    this._api.$setFunction(keyword, f);
+    this._s.$setFunction(keyword, f);
     this._asf.splice(position, 0, keyword);
 };
 this.$recalculateScores = function (observedActor, observerActor) {
@@ -84,8 +84,8 @@ this._ally = function (aSystemId, anotherSystemId) {
     a[aSystemId][anotherSystemId] = 1; // Alliance
     a[anotherSystemId] = a[anotherSystemId] || {};
     a[anotherSystemId][aSystemId] = 1; // Alliance
-    this._api.$makeActorEventKnownToUniverse(aSystemId, "ALLY", [anotherSystemId]);
-    this._api.$makeActorEventKnownToUniverse(anotherSystemId, "ALLY", [aSystemId]);
+    this._s.$makeActorEventKnownToUniverse(aSystemId, "ALLY", [anotherSystemId]);
+    this._s.$makeActorEventKnownToUniverse(anotherSystemId, "ALLY", [aSystemId]);
     // Commented out because closure
     // log("DiplomacyWarEngine", "Alliance between " + aSystemId + " and " + anotherSystemId);
 };
@@ -100,8 +100,8 @@ this._breakAlliance = function (aSystemId, anotherSystemId) {
     var a = this._a; // Alliances and wars
     a[aSystemId] && a[aSystemId] === 1 && (delete a[aSystemId][anotherSystemId]); // Breaking alliance
     a[anotherSystemId] && a[anotherSystemId] === 1 && (delete a[anotherSystemId][aSystemId]); // Breaking alliance
-    this._api.$makeActorEventKnownToUniverse(aSystemId, "BREAK", [anotherSystemId]);
-    this._api.$makeActorEventKnownToUniverse(anotherSystemId, "BREAK", [aSystemId]);
+    this._s.$makeActorEventKnownToUniverse(aSystemId, "BREAK", [anotherSystemId]);
+    this._s.$makeActorEventKnownToUniverse(anotherSystemId, "BREAK", [aSystemId]);
     // Commented out because closure
     // log("DiplomacyWarEngine", "Alliance broken between " + aSystemId + " and " + anotherSystemId);
 };
@@ -118,8 +118,8 @@ this._declareWar = function (aSystemId, anotherSystemId) {
     a[aSystemId][anotherSystemId] = -1; // War
     a[anotherSystemId] = a[anotherSystemId] || {};
     a[anotherSystemId][aSystemId] = -1; // War
-    this._api.$makeActorEventKnownToUniverse(aSystemId, "WAR", [anotherSystemId]);
-    this._api.$makeActorEventKnownToUniverse(anotherSystemId, "WAR", [aSystemId]);
+    this._s.$makeActorEventKnownToUniverse(aSystemId, "WAR", [anotherSystemId]);
+    this._s.$makeActorEventKnownToUniverse(anotherSystemId, "WAR", [aSystemId]);
     // Commented out because closure
     // log("DiplomacyWarEngine", "War between " + aSystemId + " and " + anotherSystemId);
 };
@@ -134,15 +134,17 @@ this._makePeace = function (aSystemId, anotherSystemId) {
     var a = this._a; // Alliances and wars
     a[aSystemId] && a[aSystemId] === -1 && (delete a[aSystemId][anotherSystemId]); // Making peace
     a[anotherSystemId] && a[anotherSystemId] === -1 && (delete a[anotherSystemId][aSystemId]); // Making peace
-    this._api.$makeActorEventKnownToUniverse(aSystemId, "PEACE", [anotherSystemId]);
-    this._api.$makeActorEventKnownToUniverse(anotherSystemId, "PEACE", [aSystemId]);
+    this._s.$makeActorEventKnownToUniverse(aSystemId, "PEACE", [anotherSystemId]);
+    this._s.$makeActorEventKnownToUniverse(anotherSystemId, "PEACE", [aSystemId]);
     // Commented out because closure
     // log("DiplomacyWarEngine", "Peace between " + aSystemId + " and " + anotherSystemId);
 };
 
-this._initAllyScore = function (api) {
-    if (api.$getEventTypes().indexOf("ALLYSCORE") === -1) {
-        api.$addEventType("ALLYSCORE", 1);
+this._initAllyScore = function () {
+    var engine = this._s;
+
+    if (engine.$getEventTypes().indexOf("ALLYSCORE") === -1) {
+        engine.$addEventType("ALLYSCORE", 1);
         // Function to calculate scores, here is the system for which scores are calculated
         var diplomacyAlliancesScoringRecurrentAction = function diplomacyAlliancesScoringRecurrentAction(aSystem) {
             // FIXME perfectfunc should be actor-agnostic
@@ -152,73 +154,82 @@ this._initAllyScore = function (api) {
             }
             var that = diplomacyAlliancesScoringRecurrentAction;
             var we = that.warEngine || (that.warEngine = worldScripts.DayDiplomacy_040_WarEngine);
-            var api = that.api || (that.api = worldScripts.DayDiplomacy_002_EngineAPI);
-            var actors = api.$getActors();
+            var engine = that._engine || (that._engine = worldScripts.DayDiplomacy_000_Engine);
+            var actors = engine.$getActors();
             var y = observersId.length;
             while (y--) {
                 we.$recalculateScores(actors[observersId[y]], aSystem);
             }
         };
         var fid = "diplomacyAlliancesScoringRecurrentAction";
-        api.$setFunction(fid, diplomacyAlliancesScoringRecurrentAction);
-        api.$setRecurrentAction(api.$buildAction(api.$buildNewActionId(), "ALLYSCORE", "SYSTEM", fid));
+        engine.$setFunction(fid, diplomacyAlliancesScoringRecurrentAction);
+        engine.$setRecurrentAction(engine.$buildAction(engine.$getNewActionId(), "ALLYSCORE", "SYSTEM", fid));
     }
 };
-this._init = function (api, hapi) {
-    if (api.$getEventTypes().indexOf("BREAK") !== -1) {
+
+/**
+ * @private
+ */
+this._init = function () {
+    var engine = this._s;
+    var history = worldScripts.DayDiplomacy_020_History;
+
+    if (engine.$getEventTypes().indexOf("BREAK") !== -1) {
         return; // Already initialized
     }
 
     // Creating events
-    api.$addEventType("WARCOUNCIL", 2);
-    api.$addEventType("BREAK", 3);
-    api.$addEventType("ALLY", 4);
-    api.$addEventType("WAR", 5);
-    api.$addEventType("PEACE", 6);
+    engine.$addEventType("WARCOUNCIL", 2);
+    engine.$addEventType("BREAK", 3);
+    engine.$addEventType("ALLY", 4);
+    engine.$addEventType("WAR", 5);
+    engine.$addEventType("PEACE", 6);
 
     // Managing history sentences
-    hapi.$setEventFormattingFunction("BREAK",
+    history.$setEventFormattingFunction("BREAK",
         /**
          * @param {DiplomacyEvent} breakEvent
          * @return {string} the formatted message
          */
         function breakEventFormattingFunction(breakEvent) {
-            var f = breakEventFormattingFunction, api = f._api || (f._api = worldScripts.DayDiplomacy_002_EngineAPI);
-            var actors = api.$getActors();
+            var f = breakEventFormattingFunction;
+            var engine = f._engine || (f._engine = worldScripts.DayDiplomacy_000_Engine);
+            var actors = engine.$getActors();
             return actors[breakEvent.actorId].name + " broke their alliance with " + actors[breakEvent.args[0]].name + ".";
         });
-    hapi.$setEventFormattingFunction("ALLY",
+    history.$setEventFormattingFunction("ALLY",
         /**
          * FIXME create a type AllyEvent?
          * @param  {DiplomacyEvent} allyEvent
          * @return {string}
          */
         function allyEventFormattingFunction(allyEvent) {
-        var f = allyEventFormattingFunction, api = f._api || (f._api = worldScripts.DayDiplomacy_002_EngineAPI);
-        var actors = api.$getActors();
-        return actors[allyEvent.actorId].name + " allied with " + actors[allyEvent.args[0]].name + ".";
+            var f = allyEventFormattingFunction;
+            var engine = f._engine || (f._engine = worldScripts.DayDiplomacy_000_Engine);
+            var actors = engine.$getActors();
+            return actors[allyEvent.actorId].name + " allied with " + actors[allyEvent.args[0]].name + ".";
     });
-    hapi.$setEventFormattingFunction("WAR",
+    history.$setEventFormattingFunction("WAR",
         /**
-         *
          * @param  {DiplomacyEvent} warEvent
          * @return {string}
          */
         function warEventFormattingFunction(warEvent) {
-        var f = warEventFormattingFunction, api = f._api || (f._api = worldScripts.DayDiplomacy_002_EngineAPI);
-        var actors = api.$getActors();
-        return actors[warEvent.actorId].name + " declared war with " + actors[warEvent.args[0]].name + ".";
+            var f = warEventFormattingFunction;
+            var engine = f._engine || (f._engine = worldScripts.DayDiplomacy_000_Engine);
+            var actors = engine.$getActors();
+            return actors[warEvent.actorId].name + " declared war with " + actors[warEvent.args[0]].name + ".";
     });
-    hapi.$setEventFormattingFunction("PEACE",
+    history.$setEventFormattingFunction("PEACE",
         /**
-         *
          * @param  {DiplomacyEvent} peaceEvent
          * @return {string}
          */
         function peaceEventFormattingFunction(peaceEvent) {
-        var f = peaceEventFormattingFunction, api = f._api || (f._api = worldScripts.DayDiplomacy_002_EngineAPI);
-        var actors = api.$getActors();
-        return actors[peaceEvent.actorId].name + " made peace with " + actors[peaceEvent.args[0]].name + ".";
+            var f = peaceEventFormattingFunction;
+            var engine = f._engine || (f._engine = worldScripts.DayDiplomacy_000_Engine);
+            var actors = engine.$getActors();
+            return actors[peaceEvent.actorId].name + " made peace with " + actors[peaceEvent.args[0]].name + ".";
     });
 
     // Function to ally, break alliance, declare war or peace: here, aSystem is the system to which the action might be directed.
@@ -263,24 +274,24 @@ this._init = function (api, hapi) {
         }
     };
     var fid = "warCouncilRecurrentAction";
-    api.$setFunction(fid, warCouncilRecurrentAction);
-    api.$setRecurrentAction(api.$buildAction(api.$buildNewActionId(), "WARCOUNCIL", "SYSTEM", fid));
+    engine.$setFunction(fid, warCouncilRecurrentAction);
+    engine.$setRecurrentAction(engine.$buildAction(engine.$getNewActionId(), "WARCOUNCIL", "SYSTEM", fid));
 
     this.$setAllianceThreshold(1); // Default value for the very first initialization
     this.$setWarThreshold(-1); // Default value for the very first initialization
 };
 this._startUp = function () {
-    var api = this._api = worldScripts.DayDiplomacy_002_EngineAPI;
-    this._F = api.$getFunctions();
+    var engine = this._s;
+    this._F = engine.$getFunctions();
 
     // Alliances Scoring _Functions: { keyword => fid }
-    this._asf = api.$initAndReturnSavedData("alliancesScoringFunctions", []);
+    this._asf = engine.$initAndReturnSavedData("alliancesScoringFunctions", []);
     // Alliances Scores: { observedId => { observerId => { keyword => score } } }
-    this._as = api.$initAndReturnSavedData("alliancesScores", {});
-    this._a = api.$initAndReturnSavedData("alliancesAndWars", {});
+    this._as = engine.$initAndReturnSavedData("alliancesScores", {});
+    this._a = engine.$initAndReturnSavedData("alliancesAndWars", {});
 
-    this._initAllyScore(api);
-    this._init(api, worldScripts.DayDiplomacy_020_History); // ALLY/BREAK/WAR/PEACE
+    this._initAllyScore();
+    this._init(); // ALLY/BREAK/WAR/PEACE
 
     this.$setAllianceThreshold(this._s._State.allianceThreshold); // Startup init using saved value
     this.$setWarThreshold(this._s._State.warThreshold); // Startup init using saved value

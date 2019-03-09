@@ -42,6 +42,7 @@ this._initF4Interface = function () {
 /**
  * @param {EventType} eventType
  * @param {function} func
+ * @lends worldScripts.DayDiplomacy_020_History.$setEventFormattingFunction
  */
 this.$setEventFormattingFunction = function(eventType, func) {
     var engine = this._EngineAPI;
