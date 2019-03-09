@@ -402,6 +402,27 @@ this.$executeAction = function (anAction) {
         this.$letActorExecuteAction(actors[ourActorIds[z]], anAction);
     }
 };
+
+/**
+ * A Response contains a behaviour to be executed when a certain event happens.
+ * The responseFunction must take as first argument the responding actor,
+ * 2nd argument the eventActor, and may take as many additional arguments as you wish.
+ * The actorType is the type of the responding actors.
+ * @param {ResponseId} id
+ * @param {EventType} eventType
+ * @param {ActorType} actorType
+ * @param {FunctionId} responseFunctionId
+ * @return {DiplomacyResponse}
+ * @lends worldScripts.DayDiplomacy_000_Engine.$buildResponse
+ */
+this.$buildResponse = function (id, eventType, actorType, responseFunctionId) {
+    return {id: id, eventType: eventType, actorType: actorType, responseFunctionId: responseFunctionId};
+};
+
+/**
+ * @param {DiplomacyResponse} aResponse
+ * @lends worldScripts.DayDiplomacy_000_Engine.$setResponse
+ */
 this.$setResponse = function (aResponse) {
     var state = this._State, actors = state.actors;
     // We add the response to responses
@@ -415,6 +436,7 @@ this.$setResponse = function (aResponse) {
         this.$addResponseToActor(aResponse, actors[ourActorIds[z]]);
     }
 };
+
 // this.unsetInitAction = function (anInitAction) { // This doesn't impact History.
 //     delete this._State.initActions[anInitAction.actorType][anInitAction.id];
 // };

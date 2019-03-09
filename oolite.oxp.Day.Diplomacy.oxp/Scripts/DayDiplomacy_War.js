@@ -19,9 +19,9 @@ this._initSystemsScores = function (aGalaxyNb) {
     // For a given galaxy, for each system in the galaxy, for each system it observes,
     // it must assign a score to some properties, then recalculate the final score.
     // FIXME perfectstyle shouldn't this script be actorType-agnostic?
-    var api = this._api;
-    var actorsIdByType = api.$getActorsIdByType("SYSTEM");
-    var actors = api.$getActors();
+    var engine = this._s;
+    var actorsIdByType = engine.$getActorsIdByType("SYSTEM");
+    var actors = engine.$getActors();
     var z = actorsIdByType.length;
     var we = this._we;
     while (z--) {
@@ -38,7 +38,7 @@ this._initSystemsScores = function (aGalaxyNb) {
 };
 this._drawDiplomaticMap = function () {
     var scores = this._we.$getScores();
-    var actors = this._api.$getActors();
+    var actors = this._s.$getActors();
     var links = [];
 
     for (var observedId in scores) {
@@ -80,7 +80,7 @@ this._drawDiplomaticMap = function () {
 };
 this._drawWarMap = function () {
     var alliancesAndWars = this._we.$getAlliancesAndWars();
-    var actors = this._api.$getActors();
+    var actors = this._s.$getActors();
     var links = [];
 
     for (var actorId in alliancesAndWars) {
@@ -198,7 +198,7 @@ this._startUp = function () {
     worldScripts.XenonReduxUI && worldScripts.XenonReduxUI.$addMissionScreenException("DiplomacyWarScreenId");
 
     this._storedNews = []; // No real need to save it
-    var api = this._api = worldScripts.DayDiplomacy_002_EngineAPI;
+    var engine = this._s;
     var we = this._we = worldScripts.DayDiplomacy_040_WarEngine;
     var sf = we.$getScoringFunctions();
 
@@ -249,7 +249,7 @@ this._startUp = function () {
 
     // We set the response to the ALLY event.
     var allyResponseFunctionId = "diplomacyAlliancesOnSystemAllyFunction";
-    if (!api.$getFunctions()[allyResponseFunctionId]) {
+    if (!engine.$getFunctions()[allyResponseFunctionId]) {
         // We use a recurrent action to recalculate the scores,
         // as doing it on every event would generate LOTS of calculus.
         // Currently, we only generate the news.
@@ -281,13 +281,13 @@ this._startUp = function () {
             }
 
         };
-        api.$setFunction(allyResponseFunctionId, diplomacyAlliancesOnSystemAllyFunction);
-        api.$setResponse(api.$buildResponse(api.$buildNewResponseId(), "ALLY", "SYSTEM", allyResponseFunctionId));
+        engine.$setFunction(allyResponseFunctionId, diplomacyAlliancesOnSystemAllyFunction);
+        engine.$setResponse(engine.$buildResponse(engine.$getNewResponseId(), "ALLY", "SYSTEM", allyResponseFunctionId));
     }
 
     // We set the response to the BREAK event.
     var breakResponseFunctionId = "diplomacyAlliancesOnSystemBreakFunction";
-    if (!api.$getFunctions()[breakResponseFunctionId]) {
+    if (!engine.$getFunctions()[breakResponseFunctionId]) {
         // We use a recurrent action to recalculate the scores,
         // as doing it on every event would generate LOTS of calculus.
         // Currently, we only generate the news.
@@ -318,13 +318,13 @@ this._startUp = function () {
             }
 
         };
-        api.$setFunction(breakResponseFunctionId, diplomacyAlliancesOnSystemBreakFunction);
-        api.$setResponse(api.$buildResponse(api.$buildNewResponseId(), "BREAK", "SYSTEM", breakResponseFunctionId));
+        engine.$setFunction(breakResponseFunctionId, diplomacyAlliancesOnSystemBreakFunction);
+        engine.$setResponse(engine.$buildResponse(engine.$getNewResponseId(), "BREAK", "SYSTEM", breakResponseFunctionId));
     }
 
     // We set the response to the WAR event.
     var warResponseFunctionId = "diplomacyAlliancesOnSystemWarFunction";
-    if (!api.$getFunctions()[warResponseFunctionId]) {
+    if (!engine.$getFunctions()[warResponseFunctionId]) {
         // We use a recurrent action to recalculate the scores,
         // as doing it on every event would generate LOTS of calculus.
         // Currently, we only generate the news.
@@ -356,13 +356,13 @@ this._startUp = function () {
             }
 
         };
-        api.$setFunction(warResponseFunctionId, diplomacyAlliancesOnSystemWarFunction);
-        api.$setResponse(api.$buildResponse(api.$buildNewResponseId(), "WAR", "SYSTEM", warResponseFunctionId));
+        engine.$setFunction(warResponseFunctionId, diplomacyAlliancesOnSystemWarFunction);
+        engine.$setResponse(engine.$buildResponse(engine.$getNewResponseId(), "WAR", "SYSTEM", warResponseFunctionId));
     }
 
     // We set the response to the PEACE event.
     var peaceResponseFunctionId = "diplomacyAlliancesOnSystemPeaceFunction";
-    if (!api.$getFunctions()[peaceResponseFunctionId]) {
+    if (!engine.$getFunctions()[peaceResponseFunctionId]) {
         // We use a recurrent action to recalculate the scores,
         // as doing it on every event would generate LOTS of calculus.
         // Currently, we only generate the news.
@@ -394,8 +394,8 @@ this._startUp = function () {
             }
 
         };
-        api.$setFunction(peaceResponseFunctionId, diplomacyAlliancesOnSystemPeaceFunction);
-        api.$setResponse(api.$buildResponse(api.$buildNewResponseId(), "PEACE", "SYSTEM", peaceResponseFunctionId));
+        engine.$setFunction(peaceResponseFunctionId, diplomacyAlliancesOnSystemPeaceFunction);
+        engine.$setResponse(engine.$buildResponse(engine.$getNewResponseId(), "PEACE", "SYSTEM", peaceResponseFunctionId));
     }
 
     this._initF4Interface();

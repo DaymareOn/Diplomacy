@@ -62,7 +62,7 @@ this.$buildAction = function (id, eventType, actorType, actionFunctionId) {
 this.$buildEvent = function (id, eventType, actorId, args) {
     return {id: id, eventType: eventType, actorId: actorId, args: args};
 };
-// FIXME define the Response type
+
     /**
      * A Response contains a behaviour to be executed when a certain event happens.
      * The responseFunction must take as first argument the responding actor,
