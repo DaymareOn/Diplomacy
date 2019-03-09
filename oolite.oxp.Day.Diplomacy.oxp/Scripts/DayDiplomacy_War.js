@@ -150,8 +150,8 @@ this._runWarMapScreen = function () {
         exitScreen: "GUI_SCREEN_INTERFACES",
         choices: {"TO_DIPLOMACY": "Go to diplomatic map", "EXIT": "Exit"},
         message: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" + // 17 lines: the map's height + 1
-        "Red: war\n" +
-        "Green: alliance"
+            "Red: war\n" +
+            "Green: alliance"
     };
     mission.runScreen(opts, this._F4InterfaceCallback.bind(this));
     this._drawWarMap();
@@ -166,8 +166,8 @@ this._runDiplomaticMapScreen = function () {
         exitScreen: "GUI_SCREEN_INTERFACES",
         choices: {"TO_WARS": "Go to wars map", "EXIT": "Exit"},
         message: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" + // 17 lines: the map's height + 1
-        "Green:Love Blue:Love+Neutrality Gray:Neutrality\n" +
-        "Yellow:Love+Hate Orange:Neutrality+Hate Red:Hate"
+            "Green:Love Blue:Love+Neutrality Gray:Neutrality\n" +
+            "Yellow:Love+Hate Orange:Neutrality+Hate Red:Hate"
     };
     mission.runScreen(opts, this._F4InterfaceCallback.bind(this));
     this._drawDiplomaticMap();
@@ -242,7 +242,15 @@ this._startUp = function () {
         // Currently, we only generate the news.
         var diplomacyAlliancesOnSystemAllyFunction = function diplomacyAlliancesOnSystemAllyFunction(argsArray) {
 
-            var respondingActor = argsArray[0], eventActor = argsArray[1], alliedActorId = argsArray[2];
+            /** @type {Actor} */
+            var respondingActor = argsArray[0];
+
+            /** @type {Actor} */
+            var eventActor = argsArray[1];
+
+            /** @type {ActorId} */
+            var alliedActorId = argsArray[2];
+
             // On ALLY event, if the player is in a responder system, a news is generated.
             // This could be optimized, but the role of this function should be to manage all responses.
             if (system.info.name === respondingActor.name) {
@@ -253,7 +261,7 @@ this._startUp = function () {
                         Direct: true,
                         Agency: 1,
                         Message: "YOU might be interested in knowing that " + eventActor.name + " just allied with " + allyName
-                        + ".\n\nAs Commander Diziet Sma, currently aboard the \"Blackwidow\" Pitviper S.E., famously said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
+                            + ".\n\nAs Commander Diziet Sma, currently aboard the \"Blackwidow\" Pitviper S.E., famously said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
                     };
                     worldScripts.DayDiplomacy_045_War._publishNews(news);
                 }
@@ -272,7 +280,15 @@ this._startUp = function () {
         // Currently, we only generate the news.
         var diplomacyAlliancesOnSystemBreakFunction = function diplomacyAlliancesOnSystemBreakFunction(argsArray) {
 
-            var respondingActor = argsArray[0], eventActor = argsArray[1], alliedActorId = argsArray[2];
+            /** @type {Actor} */
+            var respondingActor = argsArray[0];
+
+            /** @type {Actor} */
+            var eventActor = argsArray[1];
+
+            /** @type {ActorId} */
+            var alliedActorId = argsArray[2];
+
             // On BREAK event, if the player is in a responder system, a news is generated.
             if (system.info.name === respondingActor.name) {
                 var allyName = worldScripts.DayDiplomacy_002_EngineAPI.$getActors()[alliedActorId].name;
@@ -282,7 +298,7 @@ this._startUp = function () {
                         Direct: true,
                         Agency: 1,
                         Message: "YOU might be interested in knowing that " + eventActor.name + " just broke their alliance with " + allyName
-                        + ".\n\nAs Commander Diziet Sma, currently aboard the \"Blackwidow\" Pitviper S.E., famously said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
+                            + ".\n\nAs Commander Diziet Sma, currently aboard the \"Blackwidow\" Pitviper S.E., famously said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
                     };
                     worldScripts.DayDiplomacy_045_War._publishNews(news);
                 }
@@ -301,7 +317,15 @@ this._startUp = function () {
         // Currently, we only generate the news.
         var diplomacyAlliancesOnSystemWarFunction = function diplomacyAlliancesOnSystemWarFunction(argsArray) {
 
-            var respondingActor = argsArray[0], eventActor = argsArray[1], foeActorId = argsArray[2];
+            /** @type {Actor} */
+            var respondingActor = argsArray[0];
+
+            /** @type {Actor} */
+            var eventActor = argsArray[1];
+
+            /** @type {ActorId} */
+            var foeActorId = argsArray[2];
+
             // On WAR event, if the player is in a responder system, a news is generated.
             if (system.info.name === respondingActor.name) {
                 var foeName = worldScripts.DayDiplomacy_002_EngineAPI.$getActors()[foeActorId].name;
@@ -312,7 +336,7 @@ this._startUp = function () {
                         Agency: 1,
                         // FIXME 0.14 make different citation for war and peace
                         Message: "YOU might be interested in knowing that " + eventActor.name + " just declared war with " + foeName
-                        + ".\n\nAs Commander Diziet Sma, currently aboard the \"Blackwidow\" Pitviper S.E., famously said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
+                            + ".\n\nAs Commander Diziet Sma, currently aboard the \"Blackwidow\" Pitviper S.E., famously said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
                     };
                     worldScripts.DayDiplomacy_045_War._publishNews(news);
                 }
@@ -331,7 +355,15 @@ this._startUp = function () {
         // Currently, we only generate the news.
         var diplomacyAlliancesOnSystemPeaceFunction = function diplomacyAlliancesOnSystemPeaceFunction(argsArray) {
 
-            var respondingActor = argsArray[0], eventActor = argsArray[1], foeActorId = argsArray[2];
+            /** @type {Actor} */
+            var respondingActor = argsArray[0];
+
+            /** @type {Actor} */
+            var eventActor = argsArray[1];
+
+            /** @type {ActorId} */
+            var foeActorId = argsArray[2];
+
             // On PEACE event, if the player is in a responder system, a news is generated.
             if (system.info.name === respondingActor.name) {
                 var foeName = worldScripts.DayDiplomacy_002_EngineAPI.$getActors()[foeActorId].name;
@@ -342,7 +374,7 @@ this._startUp = function () {
                         Agency: 1,
                         // FIXME 0.14 make different citation for war and peace
                         Message: "YOU might be interested in knowing that " + eventActor.name + " just made peace with " + foeName
-                        + ".\n\nAs Commander Diziet Sma, currently aboard the \"Blackwidow\" Pitviper S.E., famously said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
+                            + ".\n\nAs Commander Diziet Sma, currently aboard the \"Blackwidow\" Pitviper S.E., famously said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
                     };
                     worldScripts.DayDiplomacy_045_War._publishNews(news);
                 }
@@ -392,7 +424,7 @@ this.startUp = function () {
 this.shipDockedWithStation = function (station) {
     this._initF4Interface();
 };
-this.equipmentAdded = function(equipmentKey) {
+this.equipmentAdded = function (equipmentKey) {
     if (equipmentKey === "EQ_ADVANCED_NAVIGATIONAL_ARRAY") {
         this._initF4Interface();
     }
