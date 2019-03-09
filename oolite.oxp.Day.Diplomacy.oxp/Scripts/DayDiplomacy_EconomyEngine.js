@@ -1,7 +1,9 @@
 "use strict";
 this.name = "DayDiplomacy_030_EconomyEngine";
 this.author = "David (Day) Pradier";
+// noinspection JSUnusedGlobalSymbols Used by Oolite itself
 this.copyright = "(C) 2017 David Pradier";
+// noinspection JSUnusedGlobalSymbols Used by Oolite itself
 this.licence = "CC-NC-by-SA 4.0";
 this.description = "This script is the economy engine of the Diplomacy OXP. It makes systems tax themselves." +
     " The idea here is to use the system GDP, called 'productivity' in Oolite," +
@@ -10,7 +12,11 @@ this.description = "This script is the economy engine of the Diplomacy OXP. It m
 /* Credit monetary policy is such that the total number of credits in the Ooniverse is always the same.
    This is needed to avoid game imbalances leading to exploding monetary mass, or monetary mass converging to zero.
    This implies that the money cannot be produced, destroyed or counterfeited, which is a mystery in itself. */
-
+/**
+ *
+ * @type {{"0": number, "1": number, "2": number, "3": number, "4": number, "5": number, "6": number, "7": number}}
+ * @lends worldScripts.DayDiplomacy_030_EconomyEngine.$GOVERNMENT_DEFAULT_TAX_LEVEL;
+ */
 this.$GOVERNMENT_DEFAULT_TAX_LEVEL = {
     "0": 0.0, // Anarchy => no tax
     "1": 0.3, // Feudal => not everybody is taxed
@@ -53,6 +59,10 @@ this._startUp = function () {
     // This eventType means a system government taxes the system GDP (economic output) to fund its treasury.
     api.$addEventType("SELFTAX", 0);
 
+    /**
+     *
+     * @param {Actor} aSystem
+     */
     var diplomacyTaxInitAction = function diplomacyTaxInitAction(aSystem) {
         var that = diplomacyTaxInitAction;
         var api = that.api || (that.api = worldScripts.DayDiplomacy_002_EngineAPI);
