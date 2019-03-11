@@ -254,7 +254,7 @@ this._checkPlayerStatusInWar = function () {
     var systemInfo = system.info;
     var flag = this._flag;
     var systemsActorIdsByGalaxyAndSystemId = worldScriptsVar.DayDiplomacy_010_Systems.$getSystemsActorIdsByGalaxyAndSystemId();
-    var inEnemySystem = worldScriptsVar.DayDiplomacy_040_WarEngine.$areActorsWarring(
+    var inEnemySystem = flag.systemID && worldScriptsVar.DayDiplomacy_040_WarEngine.$areActorsWarring(
         // current system ActorId
         systemsActorIdsByGalaxyAndSystemId[systemInfo.galaxyID][systemInfo.systemID],
         // current flag ActorId
