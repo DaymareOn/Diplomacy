@@ -8,7 +8,7 @@ this.copyright = "(C) 2019 Loic Coissard, David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
 this.description = "This script is the citizenships engine.";
 
-// FIXME replace citizenship by embassy and passport when possible
+// FIXME show enemy planets on the main map, allied planets, needs a visa planet ; new script enemies: war+citizenship
 // FIXME What should be the price to acquire a visa? 10% of monthly personal productivity: productivity / population / 120 ; proposed visas a for not enemy neighbor countries
 // FIXME special visa for going onto the planet, different price
 
@@ -149,18 +149,18 @@ this._runCitizenship = function (notEnoughMoney) {
     var currentFlag = this._flag;
     var opts = {
         screenID: "DiplomacyCitizenshipsScreenId",
-        title: "Citizenship",
+        title: "Embassy",
         allowInterrupt: true,
         exitScreen: "GUI_SCREEN_INTERFACES",
         choices: {"5_EXIT": "Exit"},
         message: "Your credits: " + player.credits + " ₢\n"
             + (notEnoughMoney ? "You had not enough money to do this.\n" : "")
-            + "Your displayed citizenship: " + (currentFlag.name || "stateless")
-            + "\nYour citizenships: " + (i ? this.$buildCitizenshipsString(currentCitizenships) : "none")
+            + "Your flag: " + (currentFlag.name || "stateless")
+            + "\nYour passports: " + (i ? this.$buildCitizenshipsString(currentCitizenships) : "none")
     };
     var currentChoices = opts.choices;
     if (this.$hasPlayerCitizenship(currentGalaxyID, currentSystemID)) {
-        currentChoices["2_LOSE"] = "Renounce " + currentSystemName + " citizenship for a cost of " + price + " ₢";
+        currentChoices["2_LOSE"] = "Renounce your " + currentSystemName + "ian passport for a cost of " + price + " ₢";
     } else {
         currentChoices["1_BUY"] = "Acquire " + currentSystemName + " citizenship for a cost of " + price + " ₢";
     }
@@ -225,7 +225,7 @@ this._displayF4Interface = function () {
 this._initF4Interface = function () {
     player.ship.dockedStation.setInterface("DiplomacyCitizenships",
         {
-            title: "Citizenships",
+            title: "Embassy",
             category: "Diplomacy",
             summary: "You may see current citizenships",
             callback: this._displayF4Interface.bind(this)
