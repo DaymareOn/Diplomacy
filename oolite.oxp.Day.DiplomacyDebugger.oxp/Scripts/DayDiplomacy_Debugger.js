@@ -26,7 +26,12 @@ this._F4InterfaceCallback = function (choice) {
 this._logSqlDisplay=function(){
     var ships=system.allShips;
     var i = ships.length;
-    var database="create table ship (" +
+    var database="create table role (" +
+        "id BIGINT AUTO_INCREMENT," +
+        "role TEXT NOT NULL," +
+        "PRIMARY KEY(id));\n" +
+
+        "create table ship (" +
         "id BIGINT AUTO_INCREMENT," +
         "name TEXT," +
         "home_system BIGINT," +
@@ -50,25 +55,35 @@ this._logSqlDisplay=function(){
         "is_trader BOOLEAN,"+
         "is_turret BOOLEAN,"+
         "is_weapon BOOLEAN,"+
-        "primary_role TEXT,"+
+        "primary_role BIGINT,"+
         "ship_class_name TEXT,"+
         "ship_unique_name TEXT,"+
-        "PRIMARY KEY(id));\n" +
+        "PRIMARY KEY(id)," +
+        "FOREIGN KEY (primary_role) REFERENCES role(id));\n" +
 
-        "create table roles (" +
-        "id BIGINT AUTO_INCREMENT," +
-        "primary_role TEXT," +
-        "PRIMARY KEY(id));\n" +
-
-        "create table roleWeights(" +
-        "id_ship BIGINT,"+
-        "id_roles BIGINT,"+
-        "weight FLOAT,"+
+        "create table roleWeight(" +
+        "id_ship BIGINT NOT NULL,"+
+        "id_role BIGINT NOT NULL,"+
+        "weight FLOAT NOT NULL,"+
         "FOREIGN KEY (id_ship) REFERENCES ship(id)," +
-        "FOREIGN KEY (id_roles) REFERENCES roles(id));\n";
+        "FOREIGN KEY (id_role) REFERENCES role(id)," +
+        "UNIQUE KEY weight (id_ship,id_role));\n";
 
     while (i--){
-        database+="insert into ship (name,home_system,ai,datakey,display_name,is_beacon,is_boulder,is_cargo,is_frangible,is_jamming,is_minable,is_mine,is_missile,is_piloted,is_pirate,is_pirate_victim,is_police,is_rock,is_thargoid,is_trader,is_turret,is_weapon,primary_role,ship_class_name,ship_unique_name) values ('"+ships[i].name+"','"+ships[i].homeSystem+"','"+ships[i].AI+"','"+ships[i].dataKey+"','"+ships[i].displayName+"','"+ships[i].isBeacon+"','"+ships[i].isBoulder+"','"+ships[i].isCargo+"','"+ships[i].isFrangible+"','"+ships[i].isJamming +"','"+ships[i].isMinable+"','"+ships[i].isMine+"','"+ships[i].isMissile+"','"+ships[i].isPiloted+"','"+ships[i].isPirate+"','"+ships[i].isPirateVictim+"','"+ships[i].isPolice+"','"+ships[i].isRock+"','"+ships[i].isThargoid+"','"+ships[i].isTrader+"','"+ships[i].isTurret+"','"+ships[i].isWeapon+"','"+ships[i].primaryRole+"','"+ships[i].shipClassName+"','"+ships[i].shipUniqueName+"');\n";
+        var j=ships[i].roles.length;
+        while (j--){
+            var req="insert into role (role) values ('" + ships[i].roles[j] + "');\n";
+            if (database.indexOf(req)==-1) {
+                database += req;
+            }
+        }
+        database+="START TRANSACTION;\n";
+        database+="insert into ship (name,home_system,ai,datakey,display_name,is_beacon,is_boulder,is_cargo,is_frangible,is_jamming,is_minable,is_mine,is_missile,is_piloted,is_pirate,is_pirate_victim,is_police,is_rock,is_thargoid,is_trader,is_turret,is_weapon,primary_role,ship_class_name,ship_unique_name) values ('"+ships[i].name+"','"+ships[i].homeSystem+"','"+ships[i].AI+"','"+ships[i].dataKey+"','"+ships[i].displayName+"','"+ships[i].isBeacon+"','"+ships[i].isBoulder+"','"+ships[i].isCargo+"','"+ships[i].isFrangible+"','"+ships[i].isJamming +"','"+ships[i].isMinable+"','"+ships[i].isMine+"','"+ships[i].isMissile+"','"+ships[i].isPiloted+"','"+ships[i].isPirate+"','"+ships[i].isPirateVictim+"','"+ships[i].isPolice+"','"+ships[i].isRock+"','"+ships[i].isThargoid+"','"+ships[i].isTrader+"','"+ships[i].isTurret+"','"+ships[i].isWeapon+"',(SELECT id FROM role WHERE role ='"+ships[i].primaryRole+"'),'"+ships[i].shipClassName+"','"+ships[i].shipUniqueName+"');\n";
+        j=ships[i].roles.length;
+        while (j--){
+            database+="insert into roleWeight (id_ship, id_role, weight) values ((SELECT MAX(id) FROM ship),(SELECT id FROM role WHERE role ='"+ships[i].roles[j]+"'),"+ships[i].roleWeights[ships[i].roles[j]]+");\n";
+        }
+        database+="COMMIT;\n";
     }
     log ("sql query",database);
 };

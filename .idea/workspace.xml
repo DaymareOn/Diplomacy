@@ -4,33 +4,9 @@
     <option name="ANALYZE_TEST_SOURCES" value="false" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7dac204a-c329-4c67-bff4-88ff57ef4aa3" name="Default" comment="sql ok">
+    <list default="true" id="7dac204a-c329-4c67-bff4-88ff57ef4aa3" name="Default" comment="avoid mig">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diplomacy.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Diplomacy.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Config/world-scripts.plist" beforeDir="false" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Config/world-scripts.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_EngineAPI_readme.txt" beforeDir="false" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_EngineAPI_readme.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_readme.txt" beforeDir="false" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_readme.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_roadmap.txt" beforeDir="false" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Diplomacy_roadmap.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_EconomyEngine.js" beforeDir="false" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_EconomyEngine.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_EconomyEngineAPI.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Engine.js" beforeDir="false" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Engine.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_EngineAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_EngineAPI.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_History.js" beforeDir="false" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_History.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_HistoryAPI.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Systems.js" beforeDir="false" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Systems.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_SystemsAPI.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_War.js" beforeDir="false" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_War.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_WarEngine.js" beforeDir="false" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_WarEngine.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_WarEngineAPI.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/manifest.plist" beforeDir="false" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/manifest.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/requires.plist" beforeDir="false" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/requires.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxz" beforeDir="false" afterPath="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxz" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oolite.oxp.Day.DiplomacyDebugger.oxp/Config/world-scripts.plist" beforeDir="false" afterPath="$PROJECT_DIR$/oolite.oxp.Day.DiplomacyDebugger.oxp/Config/world-scripts.plist" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/oolite.oxp.Day.DiplomacyDebugger.oxp/Scripts/DayDiplomacy_Debugger.js" beforeDir="false" afterPath="$PROJECT_DIR$/oolite.oxp.Day.DiplomacyDebugger.oxp/Scripts/DayDiplomacy_Debugger.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oolite.oxp.Day.DiplomacyDebugger.oxp/manifest.plist" beforeDir="false" afterPath="$PROJECT_DIR$/oolite.oxp.Day.DiplomacyDebugger.oxp/manifest.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oolite.oxp.Day.DiplomacyDebugger.oxp/requires.plist" beforeDir="false" afterPath="$PROJECT_DIR$/oolite.oxp.Day.DiplomacyDebugger.oxp/requires.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oolite.oxp.Day.DiplomacyDebugger.oxz" beforeDir="false" afterPath="$PROJECT_DIR$/oolite.oxp.Day.DiplomacyDebugger.oxz" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.sh" beforeDir="false" afterPath="$PROJECT_DIR$/package.sh" afterDir="false" />
     </list>
     <list id="30f7f518-8667-4361-b59c-fe0e9fde6fca" name="Diplomacy" comment="" />
     <list id="d482df24-c1c0-4ac9-bd3a-c61854b4bd47" name="v12" comment="" />
@@ -90,8 +66,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.DiplomacyDebugger.oxp/Scripts/DayDiplomacy_Debugger.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="87" column="65" selection-start-line="87" selection-start-column="65" selection-end-line="87" selection-end-column="65" />
+            <state relative-caret-position="17">
+              <caret line="34" column="33" selection-start-line="34" selection-start-column="19" selection-end-line="34" selection-end-column="33" />
             </state>
           </provider>
         </entry>
@@ -107,18 +83,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>jump</find>
-      <find>hudHidden</find>
-      <find>_drawWarMap</find>
-      <find>_resetLinks</find>
-      <find>DiplomacyDiplomaticScreenId</find>
-      <find>_initF4Interface</find>
-      <find>isweapon</find>
-      <find>homeSystem</find>
-      <find>AI</find>
-      <find>displayName</find>
-      <find>is</find>
-      <find>isBeacon</find>
       <find>isBoulder</find>
       <find>isCargo</find>
       <find>isFra</find>
@@ -137,6 +101,18 @@
       <find>shipClassName</find>
       <find>shipUniqueName</find>
       <find>float</find>
+      <find>primary</find>
+      <find>primary_rol</find>
+      <find>primary_role</find>
+      <find>currentFlag</find>
+      <find>choice</find>
+      <find>citizenships</find>
+      <find>home</find>
+      <find>id</find>
+      <find>log</find>
+      <find>dis</find>
+      <find>display</find>
+      <find>currentFl</find>
     </findStrings>
     <replaceStrings>
       <replace>ship</replace>
@@ -274,8 +250,8 @@
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="49" />
     <option name="y" value="-4" />
-    <option name="width" value="1871" />
-    <option name="height" value="1084" />
+    <option name="width" value="1386" />
+    <option name="height" value="788" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -285,34 +261,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <expand>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="Diplomacy" type="cbb8eebc:String" user="Diplomacy" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="Diplomacy" type="cbb8eebc:String" user="Diplomacy" />
-              <item name="oolite.oxp.Day.Diplomacy.oxp" type="cbb8eebc:String" user="oolite.oxp.Day.Diplomacy.oxp" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="Diplomacy" type="cbb8eebc:String" user="Diplomacy" />
-              <item name="oolite.oxp.Day.Diplomacy.oxp" type="cbb8eebc:String" user="oolite.oxp.Day.Diplomacy.oxp" />
-              <item name="Config" type="cbb8eebc:String" user="Config" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="Diplomacy" type="cbb8eebc:String" user="Diplomacy" />
-              <item name="oolite.oxp.Day.Diplomacy.oxp" type="cbb8eebc:String" user="oolite.oxp.Day.Diplomacy.oxp" />
-              <item name="Scripts" type="cbb8eebc:String" user="Scripts" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -359,12 +307,41 @@
         </subPane>
       </pane>
       <pane id="PackagesPane" />
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <expand>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="Diplomacy" type="cbb8eebc:String" user="Diplomacy" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="Diplomacy" type="cbb8eebc:String" user="Diplomacy" />
+              <item name="oolite.oxp.Day.Diplomacy.oxp" type="cbb8eebc:String" user="oolite.oxp.Day.Diplomacy.oxp" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="Diplomacy" type="cbb8eebc:String" user="Diplomacy" />
+              <item name="oolite.oxp.Day.Diplomacy.oxp" type="cbb8eebc:String" user="oolite.oxp.Day.Diplomacy.oxp" />
+              <item name="Config" type="cbb8eebc:String" user="Config" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="Diplomacy" type="cbb8eebc:String" user="Diplomacy" />
+              <item name="oolite.oxp.Day.Diplomacy.oxp" type="cbb8eebc:String" user="oolite.oxp.Day.Diplomacy.oxp" />
+              <item name="Scripts" type="cbb8eebc:String" user="Scripts" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="TODO_SCOPE" value="All Places" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1552053837588" />
     <property name="js.eslint.eslintPackage" value="" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_WarEngineAPI.js" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -548,21 +525,11 @@
       <workItem from="1551948054836" duration="5505000" />
       <workItem from="1551955296957" duration="1509000" />
       <workItem from="1551969914130" duration="608000" />
-      <workItem from="1552029472625" duration="317000" />
-    </task>
-    <task id="LOCAL-00003" summary="0.2 Package">
-      <created>1490255208881</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1490255208881</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Added the Diplomacy Engine API.&#10;Reimplemented the Systems and Tax script using that API.&#10;Probably solved a bug in the Tax script recurrent tax task after a savefile load.&#10;">
-      <created>1490303878751</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1490303878751</updated>
+      <workItem from="1552029472625" duration="12567000" />
+      <workItem from="1552054617393" duration="1756000" />
+      <workItem from="1552294497019" duration="16023000" />
+      <workItem from="1552381751785" duration="3130000" />
+      <workItem from="1552468039601" duration="1076000" />
     </task>
     <task id="LOCAL-00005" summary="New, oxp dev func: delivered DiplomacyEngineAPI for oxp developers, provided a dedicated readme file.&#10;New, doc: provided a dedicated file DiplomacyRoadmap.txt&#10;&#10;Improvement, code consistency: the Systems and Tax js script now use the API rather than the native engine calls.&#10;Improvement, speed: optimized the loops in the engine&#10;Improvement, speed: one action per 20 frames&#10;&#10;Bugfix: the init action using the api wasn't working after a restore from the savefile.&#10;Cleaning: log cleaning, file cleaning.">
       <created>1490379596077</created>
@@ -893,11 +860,25 @@
       <option name="project" value="LOCAL" />
       <updated>1551885581010</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="migration to 0.15">
+      <created>1552029819911</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1552029819911</updated>
+    </task>
+    <task id="LOCAL-00053" summary="migration to 0.15">
+      <created>1552029855402</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1552029855402</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="778806000" />
+    <option name="totallyTimeSpent" value="813041000" />
   </component>
   <component name="TodoView" selected-index="2">
     <todo-panel id="selected-file">
@@ -912,7 +893,7 @@
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25189108" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2677761" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Nl-Palette" order="2" />
       <window_info id="Capture Tool" order="3" />
@@ -1006,7 +987,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Response to JOIN event is now initialized only once." />
     <MESSAGE value="Better news message." />
     <MESSAGE value="News are now stored in case of unavailability of snoopers engine.&#10;Stored news are displayed when the player changes screen, or another news has been displayed.&#10;Added FIXMEs." />
     <MESSAGE value="Used a system name instead of its id the news message." />
@@ -1031,7 +1011,8 @@
     <MESSAGE value="problems wit quotes" />
     <MESSAGE value="add all proprieties" />
     <MESSAGE value="sql ok" />
-    <option name="LAST_COMMIT_MESSAGE" value="sql ok" />
+    <MESSAGE value="migration to 0.15" />
+    <option name="LAST_COMMIT_MESSAGE" value="migration to 0.15" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -1081,51 +1062,12 @@
     <entry file="file://$PROJECT_DIR$/.idea/libraries/Oolite.xml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.es5.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="1068" column="14" selection-start-line="1068" selection-start-column="14" selection-end-line="1068" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_OoliteGlobalVariables.js" />
     <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.HistoryHappener.oxp/Config/equipment.plist" />
     <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.HistoryHappener.oxp/Readme.txt" />
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_EconomyEngineAPI.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="388">
-          <caret line="32" column="20" selection-start-line="32" selection-start-column="20" selection-end-line="32" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_EngineAPI.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1772">
-          <caret line="9" column="19" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_HistoryAPI.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="63" selection-start-line="5" selection-start-column="63" selection-end-line="5" selection-end-column="88" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Systems.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-17">
-          <caret line="40" column="8" selection-start-line="40" selection-start-column="8" selection-end-line="40" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_WarEngineAPI.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="32" selection-start-line="32" selection-end-line="32" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_EconomyEngineAPI.js" />
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_HistoryAPI.js" />
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_WarEngineAPI.js" />
     <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/requires.plist">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -1157,13 +1099,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Engine.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6902">
-          <caret line="406" column="52" selection-start-line="406" selection-start-column="52" selection-end-line="406" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_History.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1088">
@@ -1171,13 +1106,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_SystemsAPI.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="7" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_SystemsAPI.js" />
     <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_EconomyEngine.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
@@ -1230,10 +1159,59 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.es5.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="197">
+          <caret line="410" column="4" selection-start-line="410" selection-start-column="4" selection-end-line="410" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Systems.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-961">
+          <caret line="40" column="3" selection-start-line="40" selection-start-column="3" selection-end-line="40" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Engine.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24">
+          <caret line="406" column="52" selection-start-line="406" selection-start-column="52" selection-end-line="406" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../oolite.oxp.Day.Diplomacy/Scripts/DayDiplomacy_Citizenships.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="35" selection-start-line="5" selection-start-column="32" selection-end-line="5" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_EngineAPI.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="17" column="3" selection-start-line="17" selection-end-line="17" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../oolite.oxp.Day.Diplomacy/Scripts/DayDiplomacy_CitizenshipsEngine.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="142" column="37" selection-start-line="142" selection-start-column="30" selection-end-line="142" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.Diplomacy.oxp/Scripts/DayDiplomacy_Citizenships.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4743">
+          <caret line="279" column="4" selection-start-line="279" selection-start-column="4" selection-end-line="279" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/oolite.oxp.Day.DiplomacyDebugger.oxp/Scripts/DayDiplomacy_Debugger.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="87" column="65" selection-start-line="87" selection-start-column="65" selection-end-line="87" selection-end-column="65" />
+        <state relative-caret-position="17">
+          <caret line="34" column="33" selection-start-line="34" selection-start-column="19" selection-end-line="34" selection-end-column="33" />
         </state>
       </provider>
     </entry>
