@@ -179,6 +179,31 @@ this._publishNewsSubscribers = function () {
         worldScripts[subscribers[l]].$playerCitizenshipsUpdated(citizenships);
     }
 };
+
+this._checkPlayerStatusInWar = function () {
+    var worldScriptsVar = worldScripts;
+    var systemInfo = system.info;
+    var flag = this._flag;
+    var systemsActorIdsByGalaxyAndSystemId = worldScriptsVar.DayDiplomacy_010_Systems.$getSystemsActorIdsByGalaxyAndSystemId();
+    var inEnemySystem = worldScriptsVar.DayDiplomacy_040_WarEngine.$areActorsWarring(
+        // current system ActorId
+        systemsActorIdsByGalaxyAndSystemId[systemInfo.galaxyID][systemInfo.systemID],
+        // current flag ActorId
+        systemsActorIdsByGalaxyAndSystemId[flag.galaxyID][flag.systemID]
+    );
+    var comingFromEnemySystem = this._peacefulSystemsBounty.value !== null;
+
+    if (inEnemySystem) {
+        if (!comingFromEnemySystem) { // Entering enemy system
+            this._peacefulSystemsBounty.value = player.bounty;
+        }
+        player.bounty = 200;
+        player.commsMessage("It seems we are in an enemy system, fights are probable...");
+    } else if (comingFromEnemySystem) { // Exiting enemy system
+        player.bounty = this._peacefulSystemsBounty.value;
+        this._peacefulSystemsBounty.value = null;
+    }
+};
 /* ************************** End OXP private functions ***************************************************/
 
 /* ************************** OXP public functions ********************************************************/
@@ -257,6 +282,16 @@ this.missionScreenEnded = function () {
     player.ship.hudHidden = false;
 };
 
+// noinspection JSUnusedGlobalSymbols Called by Oolite itself
+this.shipExitedWitchspace = function () {
+    this._checkPlayerStatusInWar();
+};
+
+// noinspection JSUnusedGlobalSymbols Called by Oolite itself
+this.shipLaunchedFromStation = function (station) {
+    this._checkPlayerStatusInWar();
+};
+
 /**
  * Loads the player citizenship from the save file, loads the scripts which are subscribed to the
  * playerCitizenshipsUpdates, and initialises the F4 interface.
@@ -278,6 +313,15 @@ this._startUp = function () {
      * @private
      */
     this._flag = engineAPI.$initAndReturnSavedData("flag", {});
+
+    /**
+     * The value is only set when the player is in an enemy system; else it is 'null'.
+     * When beginning to use the Diplomacy Oxp, the player is not in an enemy system.
+     * @type {{}}
+     * @param {int} value
+     * @private
+     */
+    this._peacefulSystemsBounty = engineAPI.$initAndReturnSavedData("_peacefulSystemsBounty", {value: null});
 
     /**
      * The object in which the player citizenships are saved. That object is saved into the saveGame file.

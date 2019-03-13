@@ -27,6 +27,12 @@ worldScripts.DayDiplomacy_002_EngineAPI;
 worldScripts.DayDiplomacy_010_Systems;
 
 /**
+ * The Diplomacy War Engine script
+ * @type Script
+ */
+worldScripts.DayDiplomacy_040_WarEngine;
+
+/**
  * The Diplomacy Citizenships script
  * @type Script
  */

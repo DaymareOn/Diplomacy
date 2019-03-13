@@ -47,6 +47,18 @@ this.$getAlliancesAndWars = function() {
 this.$getScores = function() {
     return this._as;
 };
+// FIXME what's the price to be stateless?
+// FIXME turn string into type
+/**
+ * @param {string} actorIdA an actorId
+ * @param {string} actorIdB another actorId
+ * @return {boolean} true if those 2 actors are at war
+ * @lends worldScripts.DayDiplomacy_040_WarEngine.$areActorsWarring
+ */
+this.$areActorsWarring = function(actorIdA, actorIdB) {
+    var tmp = this._a[actorIdA];
+    return tmp && tmp[actorIdB] === -1
+};
 
 /*************************** End OXP public functions ****************************************************/
 
@@ -71,9 +83,8 @@ this._breakAlliance = function (aSystem, anotherSystemId) {
     this._api.$makeActorEventKnownToUniverse(anotherSystemId, "BREAK", [aSystemId]);
     log("DiplomacyWarEngine", "Alliance broken between " + aSystemId + " and " + anotherSystemId);
 };
-this._declareWar = function (aSystem, anotherSystemId) {
+this._declareWar = function (aSystemId, anotherSystemId) {
     var a = this._a; // Alliances and wars
-    var aSystemId = aSystem.id;
     a[aSystemId] = a[aSystemId] || {};
     a[aSystemId][anotherSystemId] = -1; // War
     a[anotherSystemId] = a[anotherSystemId] || {};
@@ -179,7 +190,7 @@ this._init = function (api, hapi) {
                 // War
                 if ((!a.hasOwnProperty(targetId) || !a[targetId].hasOwnProperty(aSystemId) || a[targetId][aSystemId] !== -1) // Not yet warring
                     && (aSystemScores[targetId].SCORE <= warThreshold || alliancesScores[targetId][aSystemId].SCORE <= warThreshold)) { // One is willing
-                    warEngine._declareWar(aSystem, targetId);
+                    warEngine._declareWar(aSystem.id, targetId);
                 }
 
                 // Peace

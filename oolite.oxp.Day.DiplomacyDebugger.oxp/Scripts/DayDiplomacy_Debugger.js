@@ -3,7 +3,7 @@ this.name = "DayDiplomacy_080_Debugger";
 this.author = "David (Day) Pradier";
 this.copyright = "(C) 2017 David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
-this.description = "This script scripts the Diplomacy Debugger F4 interface";
+this.description = "This script scripts the Diplomacy Debugger F4 interface, which lets the player advance History as if it had jumped and add an ANA to their ship";
 
 this._F4InterfaceCallback = function (choice) {
     switch (choice) {
@@ -13,13 +13,25 @@ this._F4InterfaceCallback = function (choice) {
         case "2_ANA":
             player.ship.awardEquipment("EQ_ADVANCED_NAVIGATIONAL_ARRAY");
             break;
-        case "SQL":
-            this._logSqlDisplay();
-            break;
         case "3_MONEY":
             player.credits += 1000000;
             break;
-        default: // "4_EXIT":
+        case "4_TECH_LEVEL":
+            system.techLevel = 15;
+            break;
+        case "5_WAR":
+            var flag = worldScripts.DayDiplomacy_060_Citizenships._flag;
+            var flagActorId = worldScripts.DayDiplomacy_010_Systems.$getSystemsActorIdsByGalaxyAndSystemId()[flag.galaxyID][flag.systemID];
+            var currentSystemActorId = worldScripts.DayDiplomacy_010_Systems.$getSystemsActorIdsByGalaxyAndSystemId()[system.info.galaxyID][system.info.systemID];
+            worldScripts.DayDiplomacy_040_WarEngine._declareWar(flagActorId, currentSystemActorId);
+            break;
+        case "6_DISO":
+            worldScripts.DayDiplomacy_060_Citizenships._buyCitizenship(1,7);
+            break;
+        case "SQL":
+            this._logSqlDisplay();
+            break;
+        default: // "7_EXIT":
     }
 };
 
@@ -100,9 +112,12 @@ this._displayF4Interface = function () {
         choices: {
             "1_ADVANCE": "Advance History one turn",
             "2_ANA": "Add Advanced Navigational Array equipment to ship to see the star wars maps",
-            SQL:"export the oolite state in SQL in the log file",
             "3_MONEY": "Earn 1.000.000 ₢",
-            "4_EXIT": "Exit"
+            "4_TECH_LEVEL": "Set current system to tech level 15",
+            "5_WAR": "Set current system at war with your flag",
+            "6_DISO": "Buy Esrilees citizenship",
+            SQL:"export the oolite state in SQL in the log file",
+            "7_EXIT": "Exit"
         }
     };
     mission.runScreen(opts, this._F4InterfaceCallback.bind(this));

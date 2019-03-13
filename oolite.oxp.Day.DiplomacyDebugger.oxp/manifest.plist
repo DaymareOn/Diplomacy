@@ -11,7 +11,8 @@
 	"requires_oxps" = (
     	{
     		"identifier" = "oolite.oxp.Day.Diplomacy";
-    		"description" = "Wars! History happening!";
+    		"description" = "Diplomacy OXP: Wars! History happening!";
+    		"version" = "0";
     	}
     );
 }
