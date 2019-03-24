@@ -15,7 +15,7 @@ this._JSON = JSON;
 
 /* ************************** Engine **********************************************************************/
 
-// FIXME use the debugger set _debug to true
+// FIXME use the debugger to set _debug to true
 this._debug = false;
 
 /**

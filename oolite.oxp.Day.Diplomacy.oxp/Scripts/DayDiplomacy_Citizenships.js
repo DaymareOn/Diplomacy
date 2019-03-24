@@ -8,10 +8,6 @@ this.copyright = "(C) 2019 Loic Coissard, David Pradier";
 this.licence = "CC-NC-by-SA 4.0";
 this.description = "This script is the citizenships engine.";
 
-// FIXME show enemy planets on the main map, allied planets, needs a visa planet ; new script enemies: war+citizenship
-// FIXME What should be the price to acquire a visa? 10% of monthly personal productivity: productivity / population / 120 ; proposed visas a for not enemy neighbor countries
-// FIXME special visa for going onto the planet, different price
-
 /* ************************** Public functions ********************************************************/
 
 /**

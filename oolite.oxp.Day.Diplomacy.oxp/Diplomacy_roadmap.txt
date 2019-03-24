@@ -2,7 +2,18 @@ Diplomacy roadmap
 =================
 
 Next version might include:
-0.17 War declaration generates an immediate gdp growth increase!
+- no "Ambassads district" in anarchies, no citizenship in an Anarchy
+- when stateless, docking refused in corporates, dictatorships and communists without having a visa
+- the player may buy a visa in the "Ambassads district" in a neighbouring, non-enemy system from the destination system
+- the visa duration is decided by the player, and the visa costs: productivity / population / 365 * visaDaysNb
+- when your visa duration is finished in the system you are in, you're ejected from the station and wormholed to the nearest system you have a passport of, or which doesn't require a visa
+- 1-day visa offered for the player for current system at init
+- mandatory visa, more expensive visa to go planetSide, costs slashed planetSide (90% custom rebate...)
+- citizenships may be acquired planetSide only
+
+0.17 player taxation depending on the number of citizenships (CreditDiff / timeInDaysSinceLastSystemVisit * n * (n - 1))
+
+0.18 War declaration generates an immediate gdp growth increase!
 
 ---------------------------------------------------------------
 
@@ -227,21 +238,13 @@ Using these, from the point of view of the ship commander, space isn't empty or 
 
 =========================
 FIXME 0.z citizenship could be linked to a corporation instead of to a system (Cyberpunk meme)
-FIXME 0.z manage the lack of citizenship of an anarchist system, for the player, and for other pilots
-FIXME 0.z pilots attack the player (and other pilots) depending on their citizenship
 FIXME 0.z obligations may weight on the player depending on their citizenship (missions, battles...)
 FIXME 0.z the player may acquire a citizenship through missions, falsified papers, stolen papers from a captured pilot, marriage with a crew member, another pilot or an inhabitant
 FIXME 0.z the player may lose their citizenship through lack of system visit per year, treason, attack on the local army, simultaneous citizenship with an enemy system
 FIXME 0.z the player, citizen of a warring system, may be taxed, enroled into battles, or be given missions
-FIXME 0.z other pilots react on a ship without a flag? maybe in a corporate world?
-FIXME 0.z customs ships checking your papers in case of no flag?
-FIXME 0.z authorities signaling obligation to show a flag under a certain time in case of no flag? paying visa?
+
+FIXME show enemy planets on the main map, allied planets, needs a visa planet ; new script enemies: war+citizenship
 
 FIXME 0.z manage supernovas
-
-FIXME 0.z what's the price to be stateless? docking refused in corporates, dictatorships and communists
-FIXME 0.z a visa would be cheaper, and allow to board a station without having an official citizenship /
-FIXME 0.z visa per system visa avec date d'expiration / if needed, visa offered for the player for current system at init
-FIXME 0.z visa buyable in ambassads
 
 FIXME convoys oxp to have convoys + military oxp to have military ships, to create battles...
