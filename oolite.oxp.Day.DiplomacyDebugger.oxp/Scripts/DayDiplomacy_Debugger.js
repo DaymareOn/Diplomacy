@@ -81,7 +81,61 @@ this._logSqlDisplay=function(){
         "weight FLOAT NOT NULL,"+
         "FOREIGN KEY (id_ship) REFERENCES ship(id)," +
         "FOREIGN KEY (id_role) REFERENCES role(id)," +
-        "UNIQUE KEY weight (id_ship,id_role));\n";
+        "UNIQUE KEY weight (id_ship,id_role));\n"+
+
+        "CREATE TABLE coordinates ("+
+        "id BIGINT AUTO_INCREMENT,"+
+        "x_coordinate FLOAT,"+
+        "y_coordinate FLOAT,"+
+        "z_coordinate FLOAT,"+
+        "PRIMARY KEY(id));\n" +
+
+        "CREATE TABLE government("+
+        "id BIGINT,"+
+        "government TEXT,"+
+        "PRIMARY KEY(id));\n" +
+
+        "CREATE TABLE economy("+
+        "id BIGINT,"+
+        "economy TEXT,"+
+        "PRIMARY KEY(id));\n" +
+
+        "CREATE TABLE system("+
+        "galaxy_id BIGINT,"+
+        "system_id BIGINT,"+
+        "name TEXT,"+
+        "description TEXT,"+
+        "id_coordinates BIGINT,"+
+        "tech_level BIGINT,"+
+        "id_government BIGINT,"+
+        "id_economy BIGINT,"+
+        "productivity BIGINT,"+
+        "inhabitants TEXT,"+
+        "population BIGINT,"+
+        "populator TEXT,"+
+        "market TEXT,"+
+        "market_script TEXT,"+
+        "PRIMARY KEY(galaxy_id, system_id),"+
+        "FOREIGN KEY id_government REFERENCES government(id),"+
+        "FOREIGN KEY id_economy REFERENCES economy(id));\n"+
+
+    "INSERT INTO government VALUES (0, 'Anarchy');"+
+    "INSERT INTO government VALUES (1, 'Feudal');"+
+    "INSERT INTO government VALUES (2, 'Multi-Governmental');"+
+    "INSERT INTO government VALUES (3, 'Dictatorship');"+
+    "INSERT INTO government VALUES (4, 'Communist');"+
+    "INSERT INTO government VALUES (5, 'Confederacy');"+
+    "INSERT INTO government VALUES (6, 'Democracy');"+
+    "INSERT INTO government VALUES (7, 'Corporate State');"+
+
+    "INSERT INTO economy VALUES (0, 'Rich Industrial');"+
+    "INSERT INTO economy VALUES (1, 'Average Industrial');"+
+    "INSERT INTO economy VALUES (2, 'Poor Industrial');"+
+    "INSERT INTO economy VALUES (3, 'Mainly Industrial');"+
+    "INSERT INTO economy VALUES (4, 'Mainly Agricultural');"+
+    "INSERT INTO economy VALUES (5, 'Rich Agricultural');"+
+    "INSERT INTO economy VALUES (6, 'Average Agricultural');"+
+    "INSERT INTO economy VALUES (7, 'Poor Agricultura');";
 
     while (i--){
         var j=ships[i].roles.length;
