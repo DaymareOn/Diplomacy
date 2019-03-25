@@ -219,9 +219,13 @@ this._displayF4Interface = function () {
  * @private
  */
 this._initF4Interface = function () {
+
+    // No Embassy district in anarchies
+    if (system.government === 0) return;
+
     player.ship.dockedStation.setInterface("DiplomacyCitizenships",
         {
-            title: "Embassy",
+            title: "Embassy district",
             category: "Diplomacy",
             summary: "You may see current citizenships",
             callback: this._displayF4Interface.bind(this)
@@ -332,7 +336,7 @@ this._startUp = function () {
      * @param {int} value
      * @private
      */
-    this._peacefulSystemsBounty = engine.$initAndReturnSavedData("_peacefulSystemsBounty", {value: null});
+    this._peacefulSystemsBounty = engine.$initAndReturnSavedData("peacefulSystemsBounty", {value: null});
 
     /**
      * The object in which the player citizenships are saved. That object is saved into the saveGame file.

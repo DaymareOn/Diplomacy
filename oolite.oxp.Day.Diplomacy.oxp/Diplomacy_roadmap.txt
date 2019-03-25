@@ -2,7 +2,6 @@ Diplomacy roadmap
 =================
 
 Next version might include:
-- no "Ambassads district" in anarchies, no citizenship in an Anarchy
 - when stateless, docking refused in corporates, dictatorships and communists without having a visa
 - the player may buy a visa in the "Ambassads district" in a neighbouring, non-enemy system from the destination system
 - the visa duration is decided by the player, and the visa costs: productivity / population / 365 * visaDaysNb

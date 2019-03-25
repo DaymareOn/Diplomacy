@@ -9,6 +9,7 @@
  * @property {int} population {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_System#population}
  * @property {int} productivity {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_System#productivity}
  * @property {int} techLevel {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_System#techLevel}
+ * @property {int} government {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_System#government}
  * @see {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_System}
  */
 

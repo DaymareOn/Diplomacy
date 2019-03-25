@@ -58,6 +58,7 @@ Citizenships!
     The player may acquire, or renounce, a system citizenship when visiting this system, for the right price. They may
     choose which one of their citizenships is announced as the flag of their ship.
     The player is considered fugitive when in systems warring with their flag.
+    Anarchies provide no citizenship and have no embassy district.
 
 ==============================
 What's currently implemented technically?
@@ -112,6 +113,7 @@ None.
 Changelog
 
 0.16    Improvement, flavor: the player is considered fugitive when in systems warring with their flag.
+        Improvement, flavor: no "Embassy district" in anarchies, no citizenship in an Anarchy
         Improvement, performance: the API are removed in favor of JsDoc.
         Bugfix: the initActions wasn't set as it should be. In particular, initActionsByType wasn't set when adding an initAction, and initActions was set with an ActorType as key instead of an ActionId.
 0.15    Improvement, flavor: the player may acquire or renounce the citizenship of the system they are in.
