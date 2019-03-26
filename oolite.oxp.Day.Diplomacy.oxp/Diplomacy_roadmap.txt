@@ -2,17 +2,18 @@ Diplomacy roadmap
 =================
 
 Next version might include:
-- when stateless, docking refused in corporates, dictatorships and communists without having a visa
-- the player may buy a visa in the "Ambassads district" in a neighbouring, non-enemy system from the destination system
-- the visa duration is decided by the player, and the visa costs: productivity / population / 365 * visaDaysNb
-- when your visa duration is finished in the system you are in, you're ejected from the station and wormholed to the nearest system you have a passport of, or which doesn't require a visa
+- when your visa duration is finished in the system you are in, if you don't have the money, you're ejected from the station and wormholed to the nearest system you have a passport of, or which doesn't require a visa
 - 1-day visa offered for the player for current system at init
-- mandatory visa, more expensive visa to go planetSide, costs slashed planetSide (90% custom rebate...)
-- citizenships may be acquired planetSide only
+- when stateless, docking refused in corporates, dictatorships and communists without having a visa
+- bugfix: alliances don't appear on the map
+- improvement: scalable map?
 
-0.17 player taxation depending on the number of citizenships (CreditDiff / timeInDaysSinceLastSystemVisit * n * (n - 1))
+0.17 - mandatory visa, more expensive visa to go planetSide, costs slashed planetSide (90% custom rebate...)
+     - citizenships may be acquired planetSide only
 
-0.18 War declaration generates an immediate gdp growth increase!
+0.18 player taxation depending on the number of citizenships (CreditDiff / timeInDaysSinceLastSystemVisit * n * (n - 1))
+
+0.19 War declaration generates an immediate gdp growth increase!
 
 ---------------------------------------------------------------
 

@@ -26,6 +26,8 @@
  * @typedef SystemInfo
  * @property {int} galaxyID {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_SystemInfo#galaxyID}
  * @property {int} systemID {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_SystemInfo#systemID}
+ * @property {int} productivity
+ * @property {int} population
  * @property {function} systemsInRange {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_SystemInfo#systemsInRange}
  * @see {@link http://wiki.alioth.net/index.php/Oolite_JavaScript_Reference:_SystemInfo}
  */

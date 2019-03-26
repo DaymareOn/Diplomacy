@@ -17,7 +17,17 @@ this.description = "This script is the citizenships engine.";
  * @lends worldScripts.DayDiplomacy_060_Citizenships.$getCitizenshipPrice
  */
 this.$getCitizenshipPrice = function (aSystem) {
-    return aSystem.productivity * 100 / aSystem.population;
+    return Math.round(aSystem.productivity * 100 / aSystem.population * 10) / 10;
+};
+
+/**
+ * This formula would put the US 1-day visa at 156 USD in 2016 and the french one at 101 USD.
+ * @param {SystemInfo} aSystem
+ * @returns {number} the price to acquire or renounce the visa for 1 day in credits
+ * @lends worldScripts.DayDiplomacy_060_Citizenships.$getVisaPrice
+ */
+this.$getVisaPrice = function (aSystem) {
+    return Math.round(aSystem.productivity / aSystem.population / 365 * 10) / 10;
 };
 
 /**
@@ -55,6 +65,29 @@ this.$buildCitizenshipsString = function (citizenships) {
     return result;
 };
 
+this.$buildVisasString = function () {
+    this._cleaningVisas(); // Cleaning obsolete visas before displaying visas
+    var visas = this._visas;
+    var result = "";
+    var now = clock.seconds;
+    for (var systemID in visas) {
+        if (visas.hasOwnProperty(systemID)) {
+            var systemInfo = System.infoForSystem(system.info.galaxyID, systemID);
+            var remainingTime = visas[systemID] - now;
+            var remainingHours = Math.floor(remainingTime / 3600);
+            var remainingMinutes = Math.floor((remainingTime - remainingHours * 3600) / 60);
+            result += "\n   " + systemInfo.name + ": " + remainingHours + " h " + remainingMinutes + " min" + ","
+        }
+    }
+
+    if (result.length) { // We delete the comma at the end of the string
+        result = result.substring(0, result.length - 1);
+    } else {
+        result = "none";
+    }
+    return result;
+};
+
 /**
  * Allows the script which name is given as argument to be called through the method $playerCitizenshipsUpdated
  * each time the player citizenships are updated. The script must implement that method: this.$playerCitizenshipsUpdated = function(citizenships) {}
@@ -76,6 +109,23 @@ this._payForCitizenshipChanges = function () {
     var CitizenshipPrice = this.$getCitizenshipPrice(system);
     if (player.credits >= CitizenshipPrice) {
         player.credits -= CitizenshipPrice;
+        return true;
+    }
+    return false;
+};
+
+// FIXME use a single method payIfCapable(price)
+
+/**
+ * Pays for 1 day of visa for the system which systemInfo is given in argument
+ * @param {SystemInfo} systemInfo
+ * @returns {boolean} true if there was enough money to pay
+ * @private
+ */
+this._payFor1DayVisa = function (systemInfo) {
+    var visaPrice = this.$getVisaPrice(systemInfo);
+    if (player.credits >= visaPrice) {
+        player.credits -= visaPrice;
         return true;
     }
     return false;
@@ -128,6 +178,22 @@ this._loseCitizenship = function (galaxyID, systemID) {
 };
 
 /**
+ *
+ * @private
+ */
+this._cleaningVisas = function () {
+    var now = clock.seconds;
+    var visas = this._visas;
+    for (var systemID in visas) {
+        if (visas.hasOwnProperty(systemID)) {
+            if (visas[systemID] <= now) {
+                delete visas[systemID];
+            }
+        }
+    }
+};
+
+/**
  * Displays the citizenship's screen allowing the player to buy and lose citizenships, to display their citizenships
  * and to choose which citizenship is displayed.
  * @param {boolean} notEnoughMoney set to true if a previous command failed because the player had not enough money
@@ -135,6 +201,7 @@ this._loseCitizenship = function (galaxyID, systemID) {
  */
 this._runCitizenship = function (notEnoughMoney) {
     player.ship.hudHidden || (player.ship.hudHidden = true);
+
     var info = system.info;
     var currentGalaxyID = info.galaxyID;
     var currentSystemID = info.systemID;
@@ -143,17 +210,22 @@ this._runCitizenship = function (notEnoughMoney) {
     var i = currentCitizenships.length;
     var price = this.$getCitizenshipPrice(system);
     var currentFlag = this._flag;
+
+    // Exit choice, and displayed information
     var opts = {
         screenID: "DiplomacyCitizenshipsScreenId",
         title: "Embassy",
         allowInterrupt: true,
         exitScreen: "GUI_SCREEN_INTERFACES",
-        choices: {"5_EXIT": "Exit"},
-        message: "Your credits: " + player.credits + " ₢\n"
+        choices: {"6_EXIT": "Exit"},
+        message: "Your credits: " + (Math.round(player.credits * 10) / 10) + " ₢\n"
             + (notEnoughMoney ? "You had not enough money to do this.\n" : "")
             + "Your flag: " + (currentFlag.name || "stateless")
             + "\nYour passports: " + (i ? this.$buildCitizenshipsString(currentCitizenships) : "none")
+            + "\nYour visas: " + this.$buildVisasString()
     };
+
+    // Choices to acquire or renounce the system citizenship
     var currentChoices = opts.choices;
     if (this.$hasPlayerCitizenship(currentGalaxyID, currentSystemID)) {
         currentChoices["2_LOSE"] = "Renounce your " + currentSystemName + "ian passport for a cost of " + price + " ₢";
@@ -161,16 +233,40 @@ this._runCitizenship = function (notEnoughMoney) {
         currentChoices["1_BUY"] = "Acquire " + currentSystemName + " citizenship for a cost of " + price + " ₢";
     }
 
+    // Choosing which among the owned citizenships to display as the flagship
     while (i--) {
         var planetarySystem = currentCitizenships[i];
-        // We don't propose the current flag
+        // We don't propose the current flagship
         if (!(currentFlag.galaxyID === planetarySystem.galaxyID && currentFlag.systemID === planetarySystem.systemID)) {
             currentChoices["3_DISPLAY_" + planetarySystem.galaxyID + "_" + planetarySystem.systemID] = "Make your ship display your " + planetarySystem.name + " flag";
         }
     }
 
+    // Choice to hide the flagship
     if (currentFlag.name) {
         currentChoices["4_HIDEFLAG"] = "Hide your flag";
+    }
+
+    // Choices to buy a visa for the neighbouring, non-enemy, dictator, communist or corporate systems
+    var theseSystems = info.systemsInRange(), j = theseSystems.length;
+    if (j) {
+        var systemsActorIdsByGalaxyAndSystemId = this._Systems.$getSystemsActorIdsByGalaxyAndSystemId();
+        var war = worldScripts.DayDiplomacy_040_WarEngine;
+        while (j--) {
+            var thatSystemInfo = theseSystems[j];
+            var gov = thatSystemInfo.government;
+            if (gov === 3 || gov === 4 || gov === 7) { // dictator, communist, corporate
+                var isEnemy = war.$areActorsWarring(
+                    // current system ActorId
+                    systemsActorIdsByGalaxyAndSystemId[currentGalaxyID][currentSystemID],
+                    // other system ActorId
+                    systemsActorIdsByGalaxyAndSystemId[currentGalaxyID][thatSystemInfo.systemID]
+                );
+                if (!isEnemy) {
+                    currentChoices["5_BUYVISA_" + thatSystemInfo.systemID] = "Buy a one-day visa for " + thatSystemInfo.name + " for a cost of " + this.$getVisaPrice(thatSystemInfo) + " ₢";
+                }
+            }
+        }
     }
 
     mission.runScreen(opts, this._F4InterfaceCallback.bind(this));
@@ -202,6 +298,19 @@ this._F4InterfaceCallback = function (choice) {
             currentFlag.systemID = systemID;
             currentFlag.name = this._Systems.$retrieveNameFromSystem(galaxyID, systemID);
             this._runCitizenship(false);
+        } else if (choice !== null && choice.substring(0, 10) === "5_BUYVISA_") {
+            var systemID = parseInt(choice.substring(10));
+            var thatSystemInfo = System.infoForSystem(system.info.galaxyID, systemID);
+            var paid = this._payFor1DayVisa(thatSystemInfo);
+            if (paid) {
+                var now = clock.seconds;
+                if (this._visas[systemID] > now) {
+                    this._visas[systemID] += 3600 * 24;
+                } else {
+                    this._visas[systemID] = now + 3600 * 24;
+                }
+            }
+            this._runCitizenship(!paid);
         }
     } // else EXIT
 };
@@ -343,6 +452,12 @@ this._startUp = function () {
      * @type {PlanetarySystem[]}
      */
     this._citizenships = engine.$initAndReturnSavedData("citizenships", []);
+
+    /**
+     * The object in which the player visas are saved. That object is saved into the saveGame file. The first int is the systemID, the second the end date of the visa in seconds.
+     * @type {Object<int,int>}
+     */
+    this._visas = engine.$initAndReturnSavedData("visas", {});
 
     this._initF4Interface();
     delete this._startUp; // No need to startup twice
