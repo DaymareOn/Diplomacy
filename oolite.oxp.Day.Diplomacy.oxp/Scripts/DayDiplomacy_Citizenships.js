@@ -455,24 +455,14 @@ this._startUp = function () {
      * @type {Object<int,int>}
      */
     this._visas = engine.$initAndReturnSavedDataAndInitialize("visas", visasDefaultValue, function() {
-        worldScripts.DayDiplomacy_015_Snoopers.$publishNews({
-            ID: "DayDiplomacy_015_Snoopers",
-            Direct: true,
-            Agency: 1,
-            Message: "To ensure their security, corporate systems have agreed in a shocking political twist to require a visa for all undocumented travelers. Are you up-to-date on your citizenship papers, Commanders?"
-        });
-        worldScripts.DayDiplomacy_015_Snoopers.$publishNews({
-            ID: "DayDiplomacy_015_Snoopers",
-            Direct: true,
-            Agency: 1,
-            Message: "UPDATE: dictatorships and communist systems have happily joined the ranks of the planetary systems requiring a visa. The President of Ceesxe, the first-rate corporate system, told us: \"We are appalled that our well-meant initiatives and technologies be used by rogue planetary systems.\" How could that be, we wonder?"
-        });
-        worldScripts.DayDiplomacy_015_Snoopers.$publishNews({
-            ID: "DayDiplomacy_015_Snoopers",
-            Direct: true,
-            Agency: 1,
-            Message: "UPDATE 2: to avoid an economic freeze due to the newly introduced visa requirements, all pilots currently in a system requiring a visa will be provided a 1-day visa free of charge. The President of Ceesxe, the first-rate corporate system, confided in us: \"The first shot is always free. That's only good business, after all.\" What he meant, we wonder?"
-        });
+        worldScripts.DayDiplomacy_015_GNN.$publishNews(
+             "Serious news! To ensure their security, corporate systems have agreed to require a visa for all undocumented travelers."
+            +" Are you up-to-date on your citizenship papers, Commanders?\n"
+            +"\nIn a shocking political twist, dictatorships and communist systems have happily adopted the same law."
+            +" The President of Ceesxe, the Preeminent Corporate Planet, told us: \"We are appalled that our well-meant initiatives and technologies are copied by rogue governments.\"\n"
+            +"\nTo avoid an economic freeze due to the newly introduced laws, all pilots currently in a system requiring a visa will be provided a 1-day visa free of charge."
+            +" The Ceesxe President confided in us: \"The first shot is always free. That's only good business, after all.\"\n"
+            +" What he meant by this, the truth is, we don't know.");
     });
 
     this._initF4Interface();

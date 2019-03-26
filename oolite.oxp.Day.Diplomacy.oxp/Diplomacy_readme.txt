@@ -19,10 +19,9 @@ Description
 
 Hello everybody,
 
-this is the Diplomacy OXP. Its intended goal is to allow historical events to happen between systems (attacks, loots,
- alliances, taxes...), and to have actions depending on this (news, massed flottillas, state racket, who knows?).
-Technically, I see it as a war/diplomacy framework.
-It includes an easy API for oxp developers.
+this OXP intended goal is to allow historical events to happen between systems (attacks, loots,
+ alliances, taxes...), and to have actions depending on this (news, massed flotillas, state racket, who knows?).
+Technically, I see it as a war/diplomacy framework. It includes a good JsDoc for oxp developers.
 
 It is STILL a Work In Progress.
 
@@ -51,7 +50,7 @@ Systems alliances, wars!
     New F4 Interface screen: the Systems History!
 
 News!
-    Some Snooper news are now displayed when an alliance is formed or broken between two systems,
+    Some GNN news are now displayed when an alliance is formed or broken between two systems,
       or when a war starts or ends between two systems, and the player is in one of those systems.
 
 Citizenships!
@@ -77,6 +76,7 @@ The oxp contains Engines which may be use by developers to implement interesting
 Effects on game difficulty
 
 + the player is considered fugitive when in systems warring with their flag.
++ some new ways to spend money: passports, visas.
 
 ==============================
 Effects on game performance
@@ -92,7 +92,7 @@ Compatibility
 ==============================
 Dependencies
 
-- Snoopers OXP
+- GNN OXP
 - Anarchies OXP
 
 ==============================
@@ -118,8 +118,10 @@ Changelog
         Improvement, flavor: no "Embassy district" in anarchies, no citizenship in an Anarchy
         Improvement, flavor: the player may buy days of visa (cost: productivity / population / 365 per day) in the embassy district in a neighbouring, non-enemy from the destination system.
         Improvement, flavor: the first time the Diplomacy OXP is used, if a visa is needed in the current system, we give the player a 1-day visa.
+        Improvement, flavor: a GNN news introduces the Visa Law.
         Improvement, performance: the API are removed in favor of JsDoc.
-        Improvement, code quality: moved Snoopers connection to external script.
+        Improvement, code quality: the Snoopers dependency, which is deprecated, is replaced by the GNN dependency. Oolite minimal required version is now 1.88, because of this.
+        Improvement, code quality: moved the GNN connection to external script.
         Bugfix: the initActions wasn't set as it should be. In particular, initActionsByType wasn't set when adding an initAction, and initActions was set with an ActorType as key instead of an ActionId.
 0.15    Improvement, flavor: the player may acquire or renounce the citizenship of the system they are in.
         Improvement, flavor: the player may display one of their citizenships as the flag of their ship.

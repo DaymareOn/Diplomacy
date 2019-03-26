@@ -1,22 +1,27 @@
 {
 	"identifier" = "oolite.oxp.Day.Diplomacy";
-	"required_oolite_version" = "1.81";
+	"required_oolite_version" = "1.88";
 	"title" = "Diplomacy";
-	"version" = "0.15";
+	"version" = "0.16";
 	"category" = "Ambience";
-	"description" = "WIP: wars maps and History! Snooper news concerning alliances! Treasuries! Citizenships! Taxes!";
+	"description" = "WIP: wars maps and History! GNN news concerning alliances and wars! Treasuries! Citizenships! Taxes!
+Systems treasury! Wars require money, and countries are defeated either by battles or by bankruptcy, sometimes the latter producing the former.
+Strategic maps! New F4 Interface screens: the Wars Map! The Diplomatic Map!
+Systems alliances, wars! Two systems within 7ly of each other may now form an alliance, break their alliance, wage war on each other, and make peace too :) !
+News! Some GNN news are now displayed when alliance/break/war/peace happens, and the player is in one of those systems.
+Citizenships! The player may acquire, or renounce, a system citizenship when visiting this system, for the right price. They may choose which of their citizenships is displayed as their flagship. The player is considered fugitive when in systems warring with their flag. The player may buy visas in the Embassy district.";
 	"author" = "Day";
 	"information_url" = "http://wiki.alioth.net/index.php/Diplomacy";
 	"license" = "CC BY-NC-SA 4";
 	"requires_oxps" = (
     	{
-    		"identifier" = "oolite.oxp.Svengali.Snoopers";
-    		"description" = "Adds the galactic news network channels.";
+    		"identifier" = "oolite.oxp.Svengali.GNN";
+    		"description" = "GNN OXP: adds the galactic news network channels.";
     		"version" = "0";
     	},
     	{
     		"identifier" = "oolite.oxp.Commander_McLane.Anarchies";
-    		"description" = "Adds the attackers in the systems at war with the player flag.";
+    		"description" = "Anarchies OXP: adds the attackers in the systems at war with the player flag.";
     		"version" = "0";
     	}
     );

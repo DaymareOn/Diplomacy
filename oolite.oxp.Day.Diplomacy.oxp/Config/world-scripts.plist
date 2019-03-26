@@ -6,5 +6,5 @@
     "DayDiplomacy_War.js",
     "DayDiplomacy_History.js",
     "DayDiplomacy_Citizenships.js",
-    "DayDiplomacy_SnoopersConnector.js"
+    "DayDiplomacy_GNNConnector.js"
 )

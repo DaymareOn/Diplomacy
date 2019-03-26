@@ -59,7 +59,7 @@ FIXME 0.f equipment/commodities prices vary depending on war/system richness
 FIXME 0.f identifying player as citizen from some system (Citizenship), consequences
 FIXME 0.f player taxation
 FIXME 0.f the strategic map should be available through an equipment, or a role (commander ;) ); through the oxp GalacticRegistry (Galcop maps)?
-FIXME 0.f provide Diplomacy lore (the deep comments in the code) to the player through other oxps. Snoopers army? Spacebars? The oxp from which you're the hero?
+FIXME 0.f provide Diplomacy lore (the deep comments in the code) to the player through other oxps. GNN army? Spacebars? The oxp from which you're the hero?
 
 FIXME 0.n manage versioning of savefiles (last step before 1.0)
 
@@ -74,7 +74,7 @@ FIXME 0.z some systems could have their citizens not taxed? free passage? by som
 FIXME 0.z "Troll wars" (noble Troll specie against human cultural trolls)
 FIXME 0.z "Trumble wars" (trumbles are used as weapons to disrupt blockades)
 FIXME 0.z "Day of the Tentacle"
-FIXME 0.z the events history could be visualized through Snoopers
+FIXME 0.z the events history could be visualized through GNN
 FIXME 0.z the events history could be visualized through a map
 
 FIXME 0.z: implement scoring of relations between systems
@@ -207,7 +207,7 @@ FIXME 0.z tax evasion
 FIXME 0.z factions?
 FIXME 0.z news, depending on player current system, player citizenship system, propaganda?
  maybe the right way is to generate LOTS of news and let the player register to those they want?
- Snoopers, citizenship news company
+ GNN, citizenship news company
 FIXME 0.z blockades
 FIXME 0.z each turn, a system has an event card: a sun explodes, or a native singer becomes famous, which changes taxes, or alliances, or fights, or... Use some mega bomb for a supernova style event
 FIXME 0.z what about the story of a war writing itself?
@@ -216,8 +216,6 @@ FIXME 0.z player's greed is the key
 FIXME 0.z "OXP that adds another eight galaxies" !!
 FIXME 0.z what happens if the player lands on an enemy planet?
 FIXME 0.z ideology and richness change in a system after a victory/defeat
-
-FIXME 0.f make Snoopers optional? replace snoopers by library?
 
 FIXME extract the main engine into its own OXP
 

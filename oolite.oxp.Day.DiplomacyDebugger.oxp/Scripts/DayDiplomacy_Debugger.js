@@ -33,6 +33,10 @@ this._F4InterfaceCallback = function (choice) {
         case "7_SQL":
             this._logSqlDisplay();
             break;
+        case "8_REMOVEVISAS":
+            worldScripts.DayDiplomacy_060_Citizenships._visas = null;
+            delete worldScripts.DayDiplomacy_000_Engine._State.visas;
+            break;
         default: // "7_EXIT":
     }
 };
@@ -172,8 +176,9 @@ this._displayF4Interface = function () {
             "4_TECH_LEVEL": "Set current system to tech level 15",
             "5_WAR": "Set current system at war with your flag",
             "6_DISO": "Buy Esrilees citizenship",
-            "7_SQL":"export the oolite state in SQL in the log file",
-            "8_EXIT": "Exit"
+            "7_SQL":"Export the oolite state in SQL in the log file",
+            "8_REMOVEVISAS":"Remove the player visas",
+            "9_EXIT": "Exit"
         }
     };
     mission.runScreen(opts, this._F4InterfaceCallback.bind(this));

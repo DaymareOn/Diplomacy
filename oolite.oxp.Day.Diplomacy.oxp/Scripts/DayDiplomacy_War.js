@@ -269,14 +269,8 @@ this._startUp = function () {
             if (system.info.name === respondingActor.name) {
                 var allyName = worldScripts.DayDiplomacy_000_Engine.$getActors()[alliedActorId].name;
                 if (respondingActor.name === allyName) {
-                    var news = {
-                        ID: "DayDiplomacy_015_Snoopers",
-                        Direct: true,
-                        Agency: 1,
-                        Message: "YOU might be interested in knowing that " + eventActor.name + " just allied with " + allyName
-                            + ".\n\nAs Commander Diziet Sma, currently aboard the \"Blackwidow\" Pitviper S.E., famously said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
-                    };
-                    worldScripts.DayDiplomacy_015_Snoopers.$publishNews(news);
+                    worldScripts.DayDiplomacy_015_GNN.$publishNews("YOU might be interested in knowing that " + eventActor.name + " just allied with " + allyName
+                        + ".\n\nAs Commander Diziet Sma, currently aboard the \"Blackwidow\" Pitviper S.E., famously said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!");
                 }
             }
 
@@ -306,14 +300,8 @@ this._startUp = function () {
             if (system.info.name === respondingActor.name) {
                 var allyName = worldScripts.DayDiplomacy_000_Engine.$getActors()[alliedActorId].name;
                 if (respondingActor.name === allyName) {
-                    var news = {
-                        ID: "DayDiplomacy_015_Snoopers",
-                        Direct: true,
-                        Agency: 1,
-                        Message: "YOU might be interested in knowing that " + eventActor.name + " just broke their alliance with " + allyName
-                            + ".\n\nAs Commander Diziet Sma, currently aboard the \"Blackwidow\" Pitviper S.E., famously said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
-                    };
-                    worldScripts.DayDiplomacy_015_Snoopers.$publishNews(news);
+                    worldScripts.DayDiplomacy_015_GNN.$publishNews("YOU might be interested in knowing that " + eventActor.name + " just broke their alliance with " + allyName
+                        + ".\n\nAs Commander Diziet Sma, currently aboard the \"Blackwidow\" Pitviper S.E., famously said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!");
                 }
             }
 
@@ -343,15 +331,9 @@ this._startUp = function () {
             if (system.info.name === respondingActor.name) {
                 var foeName = worldScripts.DayDiplomacy_000_Engine.$getActors()[foeActorId].name;
                 if (respondingActor.name === foeName) {
-                    var news = {
-                        ID: "DayDiplomacy_015_Snoopers",
-                        Direct: true,
-                        Agency: 1,
-                        // FIXME 0.14 make different citation for war and peace
-                        Message: "YOU might be interested in knowing that " + eventActor.name + " just declared war with " + foeName
-                            + ".\n\nAs Commander Diziet Sma, currently aboard the \"Blackwidow\" Pitviper S.E., famously said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
-                    };
-                    worldScripts.DayDiplomacy_015_Snoopers.$publishNews(news);
+                    // FIXME 0.14 make different citation for war and peace
+                    worldScripts.DayDiplomacy_015_GNN.$publishNews("YOU might be interested in knowing that " + eventActor.name + " just declared war with " + foeName
+                        + ".\n\nAs Commander Diziet Sma, currently aboard the \"Blackwidow\" Pitviper S.E., famously said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!");
                 }
             }
 
@@ -381,15 +363,9 @@ this._startUp = function () {
             if (system.info.name === respondingActor.name) {
                 var foeName = worldScripts.DayDiplomacy_000_Engine.$getActors()[foeActorId].name;
                 if (respondingActor.name === foeName) {
-                    var news = {
-                        ID: "DayDiplomacy_015_Snoopers",
-                        Direct: true,
-                        Agency: 1,
-                        // FIXME 0.14 make different citation for war and peace
-                        Message: "YOU might be interested in knowing that " + eventActor.name + " just made peace with " + foeName
-                            + ".\n\nAs Commander Diziet Sma, currently aboard the \"Blackwidow\" Pitviper S.E., famously said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
-                    };
-                    worldScripts.DayDiplomacy_015_Snoopers.$publishNews(news);
+                    // FIXME 0.14 make different citation for war and peace
+                    worldScripts.DayDiplomacy_015_GNN.$publishNews("YOU might be interested in knowing that " + eventActor.name + " just made peace with " + foeName
+                        + ".\n\nAs Commander Diziet Sma, currently aboard the \"Blackwidow\" Pitviper S.E., famously said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!");
                 }
             }
 

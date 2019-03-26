@@ -101,7 +101,7 @@ worldScripts.DayDiplomacy_010_Systems;
  * The Diplomacy-Snoopers connector script
  * @type Script
  */
-worldScripts.DayDiplomacy_015_Snoopers;
+worldScripts.DayDiplomacy_015_GNN;
 
 /**
  * The Diplomacy History script
