@@ -97,6 +97,11 @@ worldScripts.DayDiplomacy_000_Engine;
  */
 worldScripts.DayDiplomacy_010_Systems;
 
+/**
+ * The Diplomacy-Snoopers connector script
+ * @type Script
+ */
+worldScripts.DayDiplomacy_015_Snoopers;
 
 /**
  * The Diplomacy History script

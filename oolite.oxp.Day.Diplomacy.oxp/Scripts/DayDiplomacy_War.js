@@ -270,13 +270,13 @@ this._startUp = function () {
                 var allyName = worldScripts.DayDiplomacy_000_Engine.$getActors()[alliedActorId].name;
                 if (respondingActor.name === allyName) {
                     var news = {
-                        ID: "DayDiplomacy_045_War", // Script name copied to avoid a closure.
+                        ID: "DayDiplomacy_015_Snoopers",
                         Direct: true,
                         Agency: 1,
                         Message: "YOU might be interested in knowing that " + eventActor.name + " just allied with " + allyName
                             + ".\n\nAs Commander Diziet Sma, currently aboard the \"Blackwidow\" Pitviper S.E., famously said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
                     };
-                    worldScripts.DayDiplomacy_045_War._publishNews(news);
+                    worldScripts.DayDiplomacy_015_Snoopers.$publishNews(news);
                 }
             }
 
@@ -307,13 +307,13 @@ this._startUp = function () {
                 var allyName = worldScripts.DayDiplomacy_000_Engine.$getActors()[alliedActorId].name;
                 if (respondingActor.name === allyName) {
                     var news = {
-                        ID: "DayDiplomacy_045_War", // Script name copied to avoid a closure.
+                        ID: "DayDiplomacy_015_Snoopers",
                         Direct: true,
                         Agency: 1,
                         Message: "YOU might be interested in knowing that " + eventActor.name + " just broke their alliance with " + allyName
                             + ".\n\nAs Commander Diziet Sma, currently aboard the \"Blackwidow\" Pitviper S.E., famously said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
                     };
-                    worldScripts.DayDiplomacy_045_War._publishNews(news);
+                    worldScripts.DayDiplomacy_015_Snoopers.$publishNews(news);
                 }
             }
 
@@ -344,14 +344,14 @@ this._startUp = function () {
                 var foeName = worldScripts.DayDiplomacy_000_Engine.$getActors()[foeActorId].name;
                 if (respondingActor.name === foeName) {
                     var news = {
-                        ID: "DayDiplomacy_045_War", // Script name copied to avoid a closure.
+                        ID: "DayDiplomacy_015_Snoopers",
                         Direct: true,
                         Agency: 1,
                         // FIXME 0.14 make different citation for war and peace
                         Message: "YOU might be interested in knowing that " + eventActor.name + " just declared war with " + foeName
                             + ".\n\nAs Commander Diziet Sma, currently aboard the \"Blackwidow\" Pitviper S.E., famously said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
                     };
-                    worldScripts.DayDiplomacy_045_War._publishNews(news);
+                    worldScripts.DayDiplomacy_015_Snoopers.$publishNews(news);
                 }
             }
 
@@ -382,14 +382,14 @@ this._startUp = function () {
                 var foeName = worldScripts.DayDiplomacy_000_Engine.$getActors()[foeActorId].name;
                 if (respondingActor.name === foeName) {
                     var news = {
-                        ID: "DayDiplomacy_045_War", // Script name copied to avoid a closure.
+                        ID: "DayDiplomacy_015_Snoopers",
                         Direct: true,
                         Agency: 1,
                         // FIXME 0.14 make different citation for war and peace
                         Message: "YOU might be interested in knowing that " + eventActor.name + " just made peace with " + foeName
                             + ".\n\nAs Commander Diziet Sma, currently aboard the \"Blackwidow\" Pitviper S.E., famously said, 'the neatest definition of diplomacy I've seen is \"The art of saying 'nice doggy' while you reach behind you for a rock to throw.\"'.\n\nSo with that in mind, Who will gain? Who will lose?\n\nTruth is, we don't know!"
                     };
-                    worldScripts.DayDiplomacy_045_War._publishNews(news);
+                    worldScripts.DayDiplomacy_015_Snoopers.$publishNews(news);
                 }
             }
 
@@ -401,20 +401,6 @@ this._startUp = function () {
     this._initF4Interface();
 
     delete this._startUp; // No need to startup twice
-};
-this._publishNews = function (news) {
-    var returnCode = worldScripts.snoopers.insertNews(news);
-    if (returnCode > 0 && returnCode !== 30) { // A prerequisite is wrong
-        log("DiplomacyWar.diplomacyWarOnSystem*Function", "Snoopers ERROR: " + returnCode);
-    } else if (returnCode < 0 || returnCode === 30) { // A buffer is full, we will resend the news later.
-        worldScripts.DayDiplomacy_045_War._storedNews.push(news);
-    } // else: everything is okay.
-};
-
-/* ************************** Snoopers events *************************************************************/
-
-this.newsDisplayed = function (msg) {
-    this._storedNews.length && this._publishNews(this._storedNews.shift());
 };
 
 /* ************************** Oolite events ***************************************************************/
@@ -434,9 +420,6 @@ this.equipmentAdded = function (equipmentKey) {
 };
 this.playerEnteredNewGalaxy = function (galaxyNumber) {
     this._initSystemsScores(galaxyNumber);
-};
-this.missionScreenOpportunity = function () {
-    this._storedNews.length && this._publishNews(this._storedNews.shift());
 };
 this.missionScreenEnded = function () {
     player.ship.hudHidden = false;
