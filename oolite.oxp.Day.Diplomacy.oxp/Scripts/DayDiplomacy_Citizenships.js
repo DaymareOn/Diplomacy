@@ -449,7 +449,26 @@ this._startUp = function () {
      * The first time the Diplomacy OXP is used, if a visa is needed in the current system, we give the player a 1-day visa.
      * @type {Object<int,int>}
      */
-    this._visas = engine.$initAndReturnSavedData("visas", visasDefaultValue);
+    this._visas = engine.$initAndReturnSavedDataAndInitialize("visas", visasDefaultValue, function() {
+        worldScripts.DayDiplomacy_015_Snoopers.$publishNews({
+            ID: "DayDiplomacy_015_Snoopers",
+            Direct: true,
+            Agency: 1,
+            Message: "To ensure their security, corporate systems have agreed in a shocking political twist to require a visa for all undocumented travelers. Are you up-to-date on your citizenship papers, Commanders?"
+        });
+        worldScripts.DayDiplomacy_015_Snoopers.$publishNews({
+            ID: "DayDiplomacy_015_Snoopers",
+            Direct: true,
+            Agency: 1,
+            Message: "UPDATE: dictatorships and communist systems have happily joined the ranks of the planetary systems requiring a visa. The President of Ceesxe, the first-rate corporate system, told us: \"We are appalled that our well-meant initiatives and technologies be used by rogue planetary systems.\" How could that be, we wonder?"
+        });
+        worldScripts.DayDiplomacy_015_Snoopers.$publishNews({
+            ID: "DayDiplomacy_015_Snoopers",
+            Direct: true,
+            Agency: 1,
+            Message: "UPDATE 2: to avoid an economic freeze due to the newly introduced visa requirements, all pilots currently in a system requiring a visa will be provided a 1-day visa free of charge. The President of Ceesxe, the first-rate corporate system, confided in us: \"The first shot is always free. That's only good business, after all.\" What he meant, we wonder?"
+        });
+    });
 
     this._initF4Interface();
     delete this._startUp; // No need to startup twice

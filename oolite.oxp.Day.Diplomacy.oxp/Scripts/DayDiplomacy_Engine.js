@@ -415,6 +415,20 @@ this.$initAndReturnSavedData = function (name, defaultValue) {
     return this._State[name] || (this._State[name] = defaultValue);
 };
 
+/**
+ * FIXME
+ * @param {string} name
+ * @param {*} defaultValue
+ * @returns {*}
+ * @lends worldScripts.DayDiplomacy_000_Engine.$initAndReturnSavedDataAndInitialize
+ */
+this.$initAndReturnSavedDataAndInitialize = function (name, defaultValue, initFunction) {
+    if (this._State[name] === undefined) {
+        initFunction();
+    }
+    return this._State[name] || (this._State[name] = defaultValue);
+};
+
 this.$executeAction = function (anAction) {
     var ourActorIds = this._State.actorsByType[anAction.actorType], actors = this._State.actors;
     var z = ourActorIds.length;
