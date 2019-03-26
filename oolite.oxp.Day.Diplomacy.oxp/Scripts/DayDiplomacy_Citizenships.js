@@ -101,31 +101,13 @@ this.$subscribeToPlayerCitizenshipsUpdates = function (scriptName) {
 /* ************************** OXP private functions *******************************************************/
 
 /**
- * Pays for citizenship changes
+ * @param {number} price
  * @returns {boolean} true if there was enough money to pay
  * @private
  */
-this._payForCitizenshipChanges = function () {
-    var CitizenshipPrice = this.$getCitizenshipPrice(system);
-    if (player.credits >= CitizenshipPrice) {
-        player.credits -= CitizenshipPrice;
-        return true;
-    }
-    return false;
-};
-
-// FIXME use a single method payIfCapable(price)
-
-/**
- * Pays for 1 day of visa for the system which systemInfo is given in argument
- * @param {SystemInfo} systemInfo
- * @returns {boolean} true if there was enough money to pay
- * @private
- */
-this._payFor1DayVisa = function (systemInfo) {
-    var visaPrice = this.$getVisaPrice(systemInfo);
-    if (player.credits >= visaPrice) {
-        player.credits -= visaPrice;
+this._payIfCapable = function(price) {
+    if (player.credits >= price) {
+        player.credits -= price;
         return true;
     }
     return false;
@@ -139,7 +121,7 @@ this._payFor1DayVisa = function (systemInfo) {
  * @private
  */
 this._buyCitizenship = function (galaxyID, systemID) {
-    if (this._payForCitizenshipChanges()) {
+    if (this._payIfCapable(this.$getCitizenshipPrice(system))) {
         this._citizenships.push({
             "galaxyID": galaxyID,
             "systemID": systemID,
@@ -158,7 +140,7 @@ this._buyCitizenship = function (galaxyID, systemID) {
  * @private
  */
 this._loseCitizenship = function (galaxyID, systemID) {
-    if (this._payForCitizenshipChanges()) {
+    if (this._payIfCapable(this.$getCitizenshipPrice(system))) {
         var citizenships = this._citizenships;
         var i = citizenships.length;
         while (i--) {
@@ -301,7 +283,7 @@ this._F4InterfaceCallback = function (choice) {
         } else if (choice !== null && choice.substring(0, 10) === "5_BUYVISA_") {
             var systemID = parseInt(choice.substring(10));
             var thatSystemInfo = System.infoForSystem(system.info.galaxyID, systemID);
-            var paid = this._payFor1DayVisa(thatSystemInfo);
+            var paid = this._payIfCapable(this.$getVisaPrice(thatSystemInfo));
             if (paid) {
                 var now = clock.seconds;
                 if (this._visas[systemID] > now) {
