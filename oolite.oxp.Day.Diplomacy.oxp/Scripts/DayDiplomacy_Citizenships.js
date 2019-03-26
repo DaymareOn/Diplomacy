@@ -11,22 +11,27 @@ this.description = "This script is the citizenships engine.";
 /* ************************** Public functions ********************************************************/
 
 /**
- * This formula would put the US citizenship at 5.700.000 USD in 2016 and the french one at 3.700.000 USD.
+ * This formula would put the US citizenship at 57.000.000 USD in 2016 and the french one at 37.000.000 USD.
+ * Remember everything is a lot more expensive in space!
  * @param {System} aSystem
  * @returns {number} the price to acquire or renounce this citizenship in credits
  * @lends worldScripts.DayDiplomacy_060_Citizenships.$getCitizenshipPrice
  */
 this.$getCitizenshipPrice = function (aSystem) {
-    return Math.round(aSystem.productivity * 100 / aSystem.population * 10) / 10;
+    // productivity is in 10^6 credits units, and population is in 10^8 people units
+    // the price is 1000 years of 1-person productivity: prod*10^6 *1000 / (pop *10^8) = 10*prod/pop
+    return Math.round(10 * aSystem.productivity / aSystem.population * 10) / 10;
 };
 
 /**
- * This formula would put the US 1-day visa at 156 USD in 2016 and the french one at 101 USD.
+ * This formula would put the US 1-day visa at 15.600 USD in 2016 and the french one at 10.100 USD.
+ * Remember everything is a lot more expensive in space!
  * @param {SystemInfo} aSystem
  * @returns {number} the price to acquire or renounce the visa for 1 day in credits
  * @lends worldScripts.DayDiplomacy_060_Citizenships.$getVisaPrice
  */
 this.$getVisaPrice = function (aSystem) {
+    // the price is 100 days of 1-person productivity: prod*10^6 / (pop*10^8) /365 * 100 = prod/pop/365
     return Math.round(aSystem.productivity / aSystem.population / 365 * 10) / 10;
 };
 
