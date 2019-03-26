@@ -117,6 +117,7 @@ Changelog
 0.16    Improvement, flavor: the player is considered fugitive when in systems warring with their flag.
         Improvement, flavor: no "Embassy district" in anarchies, no citizenship in an Anarchy
         Improvement, flavor: the player may buy days of visa (cost: productivity / population / 365 per day) in the embassy district in a neighbouring, non-enemy from the destination system.
+        Improvement, flavor: the first time the Diplomacy OXP is used, if a visa is needed in the current system, we give the player a 1-day visa.
         Improvement, performance: the API are removed in favor of JsDoc.
         Bugfix: the initActions wasn't set as it should be. In particular, initActionsByType wasn't set when adding an initAction, and initActions was set with an ActorType as key instead of an ActionId.
 0.15    Improvement, flavor: the player may acquire or renounce the citizenship of the system they are in.

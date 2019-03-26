@@ -121,7 +121,7 @@ this._payIfCapable = function(price) {
  * @private
  */
 this._buyCitizenship = function (galaxyID, systemID) {
-    if (this._payIfCapable(this.$getCitizenshipPrice(system))) {
+    if (this._payIfCapable(this.$getCitizenshipPrice(system))) { // FIXME incorrect price if not asking for the current system
         this._citizenships.push({
             "galaxyID": galaxyID,
             "systemID": systemID,
@@ -140,7 +140,7 @@ this._buyCitizenship = function (galaxyID, systemID) {
  * @private
  */
 this._loseCitizenship = function (galaxyID, systemID) {
-    if (this._payIfCapable(this.$getCitizenshipPrice(system))) {
+    if (this._payIfCapable(this.$getCitizenshipPrice(system))) { // FIXME incorrect price if not asking for the current system
         var citizenships = this._citizenships;
         var i = citizenships.length;
         while (i--) {
@@ -203,7 +203,7 @@ this._runCitizenship = function (notEnoughMoney) {
         message: "Your credits: " + (Math.round(player.credits * 10) / 10) + " ₢\n"
             + (notEnoughMoney ? "You had not enough money to do this.\n" : "")
             + "Your flag: " + (currentFlag.name || "stateless")
-            + "\nYour passports: " + (i ? this.$buildCitizenshipsString(currentCitizenships) : "none")
+            + "\nYour passports: " + (i ? this.$buildCitizenshipsString(currentCitizenships) : "none") // FIXME "none" should be in the $build
             + "\nYour visas: " + this.$buildVisasString()
     };
 
@@ -254,6 +254,15 @@ this._runCitizenship = function (notEnoughMoney) {
     mission.runScreen(opts, this._F4InterfaceCallback.bind(this));
 };
 
+this._add1DayVisa = function (systemID) {
+    var now = clock.seconds;
+    if (this._visas[systemID] > now) {
+        this._visas[systemID] += 3600 * 24;
+    } else {
+        this._visas[systemID] = now + 3600 * 24;
+    }
+};
+
 /**
  Calls the necessary functions depending on the player's choice in the F4 interface
  @param {String} choice - predefined values: 1_BUY, 2_LOSE, 3_DISPLAY_{int}, 4_HIDEFLAG, 5_EXIT
@@ -285,12 +294,7 @@ this._F4InterfaceCallback = function (choice) {
             var thatSystemInfo = System.infoForSystem(system.info.galaxyID, systemID);
             var paid = this._payIfCapable(this.$getVisaPrice(thatSystemInfo));
             if (paid) {
-                var now = clock.seconds;
-                if (this._visas[systemID] > now) {
-                    this._visas[systemID] += 3600 * 24;
-                } else {
-                    this._visas[systemID] = now + 3600 * 24;
-                }
+                this._add1DayVisa(systemID);
             }
             this._runCitizenship(!paid);
         }
@@ -435,11 +439,17 @@ this._startUp = function () {
      */
     this._citizenships = engine.$initAndReturnSavedData("citizenships", []);
 
+    var visasDefaultValue = {};
+    var gov = system.government;
+    if (gov == 3 || gov == 4 || gov == 7) {
+        visasDefaultValue[system.info.systemID] = clock.seconds + 24*3600;
+    }
     /**
      * The object in which the player visas are saved. That object is saved into the saveGame file. The first int is the systemID, the second the end date of the visa in seconds.
+     * The first time the Diplomacy OXP is used, if a visa is needed in the current system, we give the player a 1-day visa.
      * @type {Object<int,int>}
      */
-    this._visas = engine.$initAndReturnSavedData("visas", {});
+    this._visas = engine.$initAndReturnSavedData("visas", visasDefaultValue);
 
     this._initF4Interface();
     delete this._startUp; // No need to startup twice
