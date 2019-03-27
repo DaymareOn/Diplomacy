@@ -54,6 +54,17 @@ this.$hasPlayerCitizenship = function (galaxyID, systemID) {
 };
 
 /**
+ *
+ * @param systemID
+ * @return {boolean}
+ * @lends worldScripts.DayDiplomacy_060_Citizenships.$hasPlayerVisa
+ */
+this.$hasPlayerVisa = function(systemID) {
+    this._cleaningVisas();
+    return this._visas.hasOwnProperty(systemID);
+};
+
+/**
  * @param {PlanetarySystem[]} citizenships
  * @returns {string} a displayable list of citizenships
  * @lends worldScripts.DayDiplomacy_060_Citizenships.$buildCitizenshipsString
@@ -393,9 +404,39 @@ this.missionScreenEnded = function () {
     player.ship.hudHidden = false;
 };
 
+/**
+ *
+ * @private
+ */
+this._setStationsVisaRequirements = function () {
+    var gov = system.government;
+    if (gov === 3 || gov === 4 || gov === 7) {
+        var checker = function (ship) {
+            return !(ship instanceof PlayerShip) // Only for the player ship
+                || worldScripts.DayDiplomacy_060_Citizenships._citizenships.length // No problem if the player has a citizenship
+                || worldScripts.DayDiplomacy_060_Citizenships.$hasPlayerVisa(system.info.systemID); // No problem if the player has a visa
+        };
+        var ss = system.stations, z = ss.length;
+        while (z--) {
+            var station = ss[z];
+            var al = station.allegiance;
+            if (al === "galcop" || al === "neutral") {
+                var ses = station.subEntities, y = ses.length;
+                while (y--) {
+                    var se = ses[y];
+                    if (se.isDock) {
+                        se.acceptDockingRequestFrom = checker;
+                    }
+                }
+            }
+        }
+    }
+};
+
 // noinspection JSUnusedGlobalSymbols Called by Oolite itself
 this.shipExitedWitchspace = function () {
     this._checkPlayerStatusInWar();
+    this._setStationsVisaRequirements();
 };
 
 // noinspection JSUnusedGlobalSymbols Called by Oolite itself

@@ -59,7 +59,7 @@ Citizenships!
     The player is considered fugitive when in systems warring with their flag.
     Anarchies provide no citizenship and have no embassy district.
     The player may buy days of visa in the Embassy district in a neighbouring, non-enemy from the destination, system.
-
+    Corporate systems, dictatorships and communists refuse docking to the player when stateless and visaless.
 
 ==============================
 What's currently implemented technically?
@@ -119,6 +119,7 @@ Changelog
         Improvement, flavor: the player may buy days of visa (cost: productivity / population / 365 per day) in the embassy district in a neighbouring, non-enemy from the destination system.
         Improvement, flavor: the first time the Diplomacy OXP is used, if a visa is needed in the current system, we give the player a 1-day visa.
         Improvement, flavor: a GNN news introduces the Visa Law.
+        Improvement, flavor: when stateless, docking is refused in corporates, dictatorships and communists without having a visa.
         Improvement, performance: the API are removed in favor of JsDoc.
         Improvement, code quality: the Snoopers dependency, which is deprecated, is replaced by the GNN dependency. Oolite minimal required version is now 1.88, because of this.
         Improvement, code quality: moved the GNN connection to external script.
