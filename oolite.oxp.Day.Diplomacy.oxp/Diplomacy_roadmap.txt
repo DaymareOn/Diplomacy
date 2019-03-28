@@ -2,7 +2,6 @@ Diplomacy roadmap
 =================
 
 Next version might include:
-- when your visa duration is finished in the system you are in, if you don't have the money, you're ejected from the station and wormholed to the nearest system you have a passport of, or which doesn't require a visa
 - bugfix: alliances don't appear on the map
 - improvement: scalable map?
 

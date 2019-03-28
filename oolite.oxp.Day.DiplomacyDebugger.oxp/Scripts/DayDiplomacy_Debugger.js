@@ -34,8 +34,7 @@ this._F4InterfaceCallback = function (choice) {
             this._logSqlDisplay();
             break;
         case "8_REMOVEVISAS":
-            worldScripts.DayDiplomacy_060_Citizenships._visas = null;
-            delete worldScripts.DayDiplomacy_000_Engine._State.visas;
+            worldScripts.DayDiplomacy_000_Engine._State.visas = worldScripts.DayDiplomacy_060_Citizenships._visas = {};
             break;
         default: // "7_EXIT":
     }

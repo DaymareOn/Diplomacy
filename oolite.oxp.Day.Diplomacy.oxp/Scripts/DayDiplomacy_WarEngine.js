@@ -322,7 +322,7 @@ this._init = function () {
                 // Peace
                 if ((a.hasOwnProperty(targetId) && a[targetId][aSystemId] === -1) // Warring
                     && aSystemScores[targetId].SCORE > warThreshold && alliancesScores[targetId][aSystemId].SCORE > warThreshold) { // Both are willing
-                    warEngine._makePeace(aSystemId, proposerId);
+                    warEngine._makePeace(aSystemId, targetId);
                 }
             }
         }

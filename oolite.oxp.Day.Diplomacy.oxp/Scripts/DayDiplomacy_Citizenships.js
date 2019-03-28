@@ -412,9 +412,19 @@ this._setStationsVisaRequirements = function () {
     var gov = system.government;
     if (gov === 3 || gov === 4 || gov === 7) {
         var checker = function (ship) {
-            return !(ship instanceof PlayerShip) // Only for the player ship
-                || worldScripts.DayDiplomacy_060_Citizenships._citizenships.length // No problem if the player has a citizenship
-                || worldScripts.DayDiplomacy_060_Citizenships.$hasPlayerVisa(system.info.systemID); // No problem if the player has a visa
+            if (!(ship instanceof PlayerShip)) { // Only for the player ship
+                return true;
+            }
+            if (worldScripts.DayDiplomacy_060_Citizenships._citizenships.length) {
+                // No problem if the player has a citizenship
+                return true;
+            }
+            if (worldScripts.DayDiplomacy_060_Citizenships.$hasPlayerVisa(system.info.systemID)) {
+                // No problem if the player has a visa
+                return true;
+            }
+            this.commsMessage("WARNING - This station is accessible only to citizens and visa holders, Commander.", player.ship);
+            return false;
         };
         var ss = system.stations, z = ss.length;
         while (z--) {
@@ -425,7 +435,8 @@ this._setStationsVisaRequirements = function () {
                 while (y--) {
                     var se = ses[y];
                     if (se.isDock) {
-                        se.acceptDockingRequestFrom = checker;
+                        se.script.acceptDockingRequestFrom = checker.bind(station);
+                        break;
                     }
                 }
             }
@@ -506,6 +517,7 @@ this._startUp = function () {
             +" What he meant by this, the truth is, we don't know.");
     });
 
+    this._setStationsVisaRequirements();
     this._initF4Interface();
     delete this._startUp; // No need to startup twice
 };
