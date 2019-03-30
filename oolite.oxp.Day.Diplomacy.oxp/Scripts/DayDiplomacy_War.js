@@ -109,6 +109,28 @@ this._drawWarMap = function () {
 
     this._drawMap(links);
 };
+this._drawWarringMap = function () {
+    var alliancesAndWars = this._we.$getAlliancesAndWars();
+    var actors = this._s.$getActors();
+    var warringSystems = [];
+    var m = mission;
+
+    mainloop:
+        for (var actorId in alliancesAndWars) {
+            if (alliancesAndWars.hasOwnProperty(actorId)) {
+                var actorAlliancesAndWars = alliancesAndWars[actorId];
+                var systemNb = actors[actorId].systemId;
+                for (var targetId in actorAlliancesAndWars) {
+                    if (actorAlliancesAndWars.hasOwnProperty(targetId)) {
+                        if (actorAlliancesAndWars[targetId] === -1) {
+                            m.markSystem({system: systemNb, name: "DayDiplomacyWarringMap"});
+                            continue mainloop;
+                        }
+                    }
+                }
+            }
+        }
+};
 this._drawMap = function (links) {
     var systemInfo = SystemInfo;
     var z = links.length;
@@ -121,6 +143,12 @@ this._drawMap = function (links) {
     this._links = links;
 };
 this._resetLinks = function () {
+    var m = mission;
+    var i = 256;
+    while(i--) {
+        m.unmarkSystem({system:i, name:"DayDiplomacyWarringMap"});
+    }
+
     var links = this._links;
     if (!links) return;
     var systemInfo = SystemInfo;
@@ -183,14 +211,14 @@ this._F4InterfaceCallback = function (choice) {
     }
 
     // Default choice
-    choice = choice === "DiplomacyWars" ? "0_WARS_NO_TRAVEL" : choice;
+    choice = choice === "DiplomacyWars" ? "0_WARRING_NO_TRAVEL" : choice;
 
     // Choice
     var choices = choice.split("_");
     var no = choices[0], wd = choices[1], qs = choices[2], td = choices[3];
 
     // Options
-    var wdp = ["WARS", "DIPLOMACY"];
+    var wdp = ["WARRING", "WARS", "DIPLOMACY"];
     var qsp = ["QUICK", "SHORT", "NO"];
     var tdp = ["TARGET", "TRAVEL"];
 
@@ -202,6 +230,7 @@ this._F4InterfaceCallback = function (choice) {
     var bgs = {QUICK: "CUSTOM_CHART_QUICKEST", SHORT: "CUSTOM_CHART_SHORTEST", NO: "CUSTOM_CHART"};
 
     var texts = {
+        WARRING: "Display warring systems",
         WARS: "Display wars map",
         DIPLOMACY: "Display diplomacy map",
         QUICK: "Display quickest travel",
@@ -221,12 +250,12 @@ this._F4InterfaceCallback = function (choice) {
         title: "Star wars",
         allowInterrupt: true,
         exitScreen: "GUI_SCREEN_INTERFACES",
-        choices: {"5_EXIT": "Exit"},
+        choices: {"5_EXIT": "Exit"}
     };
 
     if (no === '4'/*Help*/) {
-        opts.message = "Diplomacy map:\n\nGreen: Love\nBlue: Love+Neutrality\nGray: Neutrality\nYellow: Love+Hate\nOrange: Neutrality+Hate\nRed: Hate\n"
-            + "\n\nWars map:\n\nRed: war\nGreen: alliance";
+        opts.message = "Warring systems map: red crosses\n\nDiplomacy map:\nGreen: Love\nBlue: Love+Neutrality\nGray: Neutrality\nYellow: Love+Hate\nOrange: Neutrality+Hate\nRed: Hate\n"
+            + "\n\nWars map:\nRed: war\nGreen: alliance";
     } else {
         // Screen
         var info = system.info;
@@ -243,7 +272,18 @@ this._F4InterfaceCallback = function (choice) {
 
         opts.customChartZoom = customZoom.zoom;
         opts.customChartCentreInLY = customZoom.center;
-        wd === "DIPLOMACY" ? this._drawDiplomaticMap() : this._drawWarMap();
+
+        switch (wd) {
+            case 'DIPLOMACY':
+                this._drawDiplomaticMap();
+                break;
+            case 'WARS':
+                this._drawWarMap();
+                break;
+            case 'WARRING':
+                this._drawWarringMap();
+                break;
+        }
     }
 
     opts.choices[[1, nextwd, qs, td].join('_')] = texts[nextwd];

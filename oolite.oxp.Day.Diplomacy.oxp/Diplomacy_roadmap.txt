@@ -2,7 +2,6 @@ Diplomacy roadmap
 =================
 
 Next version might include:
-- afficher les systèmes en guerre
 - bugfix: alliances don't appear on the map
 - FIXME before 1.0, saved functions are a bug factor
 

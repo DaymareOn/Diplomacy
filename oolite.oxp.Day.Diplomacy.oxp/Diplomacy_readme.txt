@@ -41,7 +41,7 @@ Systems treasury!
      depending on the time past since the last jump.
 
 Strategic maps!
-    New F4 Interface screens: the Wars Map! The Diplomatic Map!
+    Showing the warring systems, and the diplomatic relationships!
 
 Systems alliances, wars!
     Two systems within 7ly of each other may now form an alliance, if they like each other enough.
@@ -76,6 +76,7 @@ The oxp contains Engines which may be use by developers to implement interesting
 Effects on game difficulty
 
 + the player is considered fugitive when in systems warring with their flag.
++ the player is refused docking in some stations when they have not the requisite visa or passport.
 + some new ways to spend money: passports, visas.
 
 ==============================
@@ -120,9 +121,11 @@ Changelog
         Improvement, flavor: the first time the Diplomacy OXP is used, if a visa is needed in the current system, we give the player a 1-day visa.
         Improvement, flavor: a GNN news introduces the Visa Law.
         Improvement, flavor: when stateless, docking is refused in corporates, dictatorships and communists without having a visa.
+        Improvement, flavor: maps are centered and zoomed. Possibility to center on the target system, or on the whole trajectory. Possibility to display the short/quick trajectory, or no trajectory at all.
         Improvement, performance: the API are removed in favor of JsDoc.
         Improvement, code quality: the Snoopers dependency, which is deprecated, is replaced by the GNN dependency. Oolite minimal required version is now 1.88, because of this.
         Improvement, code quality: moved the GNN connection to external script.
+        Improvement, code quality: tax level and treasury are now displayed through mission.addMessageText rather than through a modification of the system description.
         Bugfix: the initActions wasn't set as it should be. In particular, initActionsByType wasn't set when adding an initAction, and initActions was set with an ActorType as key instead of an ActionId.
 0.15    Improvement, flavor: the player may acquire or renounce the citizenship of the system they are in.
         Improvement, flavor: the player may display one of their citizenships as the flag of their ship.
