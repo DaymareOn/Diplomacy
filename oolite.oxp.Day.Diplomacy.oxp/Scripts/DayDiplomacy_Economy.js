@@ -82,7 +82,6 @@ this._startUp = function () {
         engine.$setField(aSystem, "taxLevel", taxLevel[government]);
         engine.$setField(aSystem, "treasury", 0); // Everybody begins with treasury = 0.
         engine.$setField(aSystem, "lastTaxDate", cloc.seconds);
-        ourSystemInOolite.description += " Tax level: " + aSystem.taxLevel + " Treasury: 0 €";
     };
     var functionId = engine.$getNewFunctionId();
     engine.$setFunction(functionId, diplomacyTaxInitAction);
@@ -98,13 +97,20 @@ this._startUp = function () {
         var now = cloc.seconds;
         engine.$setField(aSystem, "treasury", aSystem.treasury + Math.floor(ourSystemInOolite.productivity * (now - parseInt(aSystem.lastTaxDate)) / 31.5576 * aSystem.taxLevel));
         engine.$setField(aSystem, "lastTaxDate", now);
-        ourSystemInOolite.description = ourSystemInOolite.description.replace(new RegExp(/Tax.*€/), "Tax level: " + aSystem.taxLevel + " Treasury: " + aSystem.treasury + " €");
     };
     var fid =  engine.$getNewFunctionId();
     engine.$setFunction(fid, diplomacyTaxRecurrentAction);
     engine.$setRecurrentAction(engine.$buildAction(engine.$getNewActionId(), "SELFTAX", "SYSTEM", fid));
     delete this._startUp; // No need to startup twice
 };
+
+this.guiScreenChanged = function(to, from) {
+    if (to == "GUI_SCREEN_SYSTEM_DATA") {
+        var targetSystem = worldScripts.DayDiplomacy_010_Systems.$retrieveActorFromSystem(system.info.galaxyID, player.ship.targetSystem);
+        mission.addMessageText("Tax level: " + targetSystem.taxLevel + " Treasury: " + targetSystem.treasury + " €");
+    }
+};
+
 this.startUp = function() {
     worldScripts.DayDiplomacy_000_Engine.$subscribe(this.name);
     delete this.startUp; // No need to startup twice

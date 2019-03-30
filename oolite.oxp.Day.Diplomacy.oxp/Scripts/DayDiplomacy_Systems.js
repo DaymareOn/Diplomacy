@@ -18,7 +18,17 @@ this.description = "This script creates systems.";
 /* ************************** OXP public functions *******************************************************/
 
 /**
- * @name $retrieveNameFromSystem
+ *
+ * @param {int} galaxyID - Identifies the galaxy of the wanted system
+ * @param {int} systemID - Identifies the wanted system in the given galaxy
+ * @return {Actor}
+ * @lends worldScripts.DayDiplomacy_010_Systems.$retrieveActorFromSystem
+ */
+this.$retrieveActorFromSystem = function (galaxyID, systemID) {
+    return this._Engine.$getActors()[this._systemsByGalaxyAndSystemId[galaxyID][systemID]];
+};
+
+/**
  * @param {int} galaxyID - Identifies the galaxy of the wanted system
  * @param {int} systemID - Identifies the wanted system in the given galaxy
  * @returns {String} - Returns the system name of the system defined by the given galaxyId and systemId

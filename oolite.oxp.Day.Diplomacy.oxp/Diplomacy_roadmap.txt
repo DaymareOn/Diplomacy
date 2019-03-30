@@ -2,11 +2,9 @@ Diplomacy roadmap
 =================
 
 Next version might include:
+- afficher les systèmes en guerre
 - bugfix: alliances don't appear on the map
 - FIXME before 1.0, saved functions are a bug factor
-FIXME afficher les systèmes en guerre
-FIXME addMessageText Can also be used to add text to other screens like the system data (F7) screen:
-http://oolite.aegidian.org/bb/viewtopic.php?t=17808
 
 0.17 - mandatory visa, more expensive visa to go planetSide, costs slashed planetSide (90% custom rebate...)
      - citizenships may be acquired planetSide only
