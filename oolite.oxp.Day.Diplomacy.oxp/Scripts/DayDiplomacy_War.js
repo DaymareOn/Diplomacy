@@ -131,50 +131,129 @@ this._resetLinks = function () {
     }
     this._links = null;
 };
-this._F4InterfaceCallback = function (choice) {
-    this._resetLinks();
-    switch (choice) {
-        case "TO_DIPLOMACY":
-            this._runDiplomaticMapScreen();
-            break;
-        case "TO_WARS":
-            this._runWarMapScreen();
-            break;
-        default: // "EXIT":
+
+/**
+ * If 2 vectors are given, center is the center of the vectors, and zoom the customChartCentreInLY value
+ * necessary to display the 2 vectors and 20% more space around.
+ * If only one vector is given, the center is that vector, and the zoom is 1.5.
+ * @param {Vector3D} v1
+ * @param {Vector3D} v2
+ * @return {{center: Vector3D, zoom: number}}
+ * @private
+ */
+this._getCustomZoom = function (v1, v2) {
+    var z = 1.5;
+    if (v2) {
+        var v = v1.subtract(v2).multiply(1.2);
+        z = Math.min(4, Math.max(1, Math.abs(v.x) / 100 * 4, Math.abs(v.y) / 50 * 4));
+    }
+    return {
+        center: v2 ? v1.add(v2).multiply(.5) : v1,
+        zoom: z
+    };
+};
+
+/**
+ * Save the target system and make as if there was no target system, so that no trajectory appears.
+ * @private
+ */
+this._saveTarget = function () {
+    if (!this._savedTarget) {
+        this._savedTarget = player.ship.targetSystem;
+        player.ship.targetSystem = system.info.systemID;
     }
 };
-this._runWarMapScreen = function () {
-    player.ship.hudHidden || (player.ship.hudHidden = true);
+/**
+ * Reloads the target system.
+ * @private
+ */
+this._loadTarget = function () {
+    if (this._savedTarget) {
+        player.ship.targetSystem = this._savedTarget;
+        this._savedTarget = undefined;
+    }
+};
+
+this._F4InterfaceCallback = function (choice) {
+    this._loadTarget();
+
+    // Exit
+    if (choice === "5_EXIT") {
+        return;
+    }
+
+    // Default choice
+    choice = choice === "DiplomacyWars" ? "0_WARS_NO_TRAVEL" : choice;
+
+    // Choice
+    var choices = choice.split("_");
+    var no = choices[0], wd = choices[1], qs = choices[2], td = choices[3];
+
+    // Options
+    var wdp = ["WARS", "DIPLOMACY"];
+    var qsp = ["QUICK", "SHORT", "NO"];
+    var tdp = ["TARGET", "TRAVEL"];
+
+    // Next proposed options
+    var nextwd = wdp[(wdp.indexOf(wd) + 1) % wdp.length];
+    var nextqs = qsp[(qsp.indexOf(qs) + 1) % qsp.length];
+    var nexttd = tdp[(tdp.indexOf(td) + 1) % tdp.length];
+
+    var bgs = {QUICK: "CUSTOM_CHART_QUICKEST", SHORT: "CUSTOM_CHART_SHORTEST", NO: "CUSTOM_CHART"};
+
+    var texts = {
+        WARS: "Display wars map",
+        DIPLOMACY: "Display diplomacy map",
+        QUICK: "Display quickest travel",
+        SHORT: "Display shortest travel",
+        NO: "Display no travel",
+        TARGET: "Display the target surroundings",
+        TRAVEL: "Display the travel surroundings"
+    };
+
+    // Init
+    this._resetLinks();
+    var playerShip = player.ship;
+    playerShip.hudHidden || (playerShip.hudHidden = true);
+
     var opts = {
         screenID: "DiplomacyWarScreenId",
-        title: "Wars map",
-        backgroundSpecial: "LONG_RANGE_CHART_SHORTEST",
+        title: "Star wars",
         allowInterrupt: true,
         exitScreen: "GUI_SCREEN_INTERFACES",
-        choices: {"TO_DIPLOMACY": "Go to diplomatic map", "EXIT": "Exit"},
-        message: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" + // 17 lines: the map's height + 1
-            "Red: war\n" +
-            "Green: alliance"
+        choices: {"5_EXIT": "Exit"},
     };
+
+    if (no === '4'/*Help*/) {
+        opts.message = "Diplomacy map:\n\nGreen: Love\nBlue: Love+Neutrality\nGray: Neutrality\nYellow: Love+Hate\nOrange: Neutrality+Hate\nRed: Hate\n"
+            + "\n\nWars map:\n\nRed: war\nGreen: alliance";
+    } else {
+        // Screen
+        var info = system.info;
+
+        var currentSystemCoordinates = info.coordinates;
+        var targetCoordinates = System.infoForSystem(info.galaxyID, playerShip.targetSystem).coordinates;
+        var customZoom = td === "TARGET"
+            ? this._getCustomZoom(targetCoordinates, undefined)
+            : this._getCustomZoom(currentSystemCoordinates, targetCoordinates);
+
+        if (qs === "NO") this._saveTarget();
+
+        opts.backgroundSpecial = bgs[qs];
+
+        opts.customChartZoom = customZoom.zoom;
+        opts.customChartCentreInLY = customZoom.center;
+        wd === "DIPLOMACY" ? this._drawDiplomaticMap() : this._drawWarMap();
+    }
+
+    opts.choices[[1, nextwd, qs, td].join('_')] = texts[nextwd];
+    opts.choices[[2, wd, nextqs, td].join('_')] = texts[nextqs];
+    opts.choices[[3, wd, qs, nexttd].join('_')] = texts[nexttd];
+    opts.choices[[4, wd, qs, td].join('_')] = "Help";
+
     mission.runScreen(opts, this._F4InterfaceCallback.bind(this));
-    this._drawWarMap();
 };
-this._runDiplomaticMapScreen = function () {
-    player.ship.hudHidden || (player.ship.hudHidden = true);
-    var opts = {
-        screenID: "DiplomacyDiplomaticScreenId",
-        title: "Diplomatic map",
-        backgroundSpecial: "LONG_RANGE_CHART_SHORTEST",
-        allowInterrupt: true,
-        exitScreen: "GUI_SCREEN_INTERFACES",
-        choices: {"TO_WARS": "Go to wars map", "EXIT": "Exit"},
-        message: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" + // 17 lines: the map's height + 1
-            "Green:Love Blue:Love+Neutrality Gray:Neutrality\n" +
-            "Yellow:Love+Hate Orange:Neutrality+Hate Red:Hate"
-    };
-    mission.runScreen(opts, this._F4InterfaceCallback.bind(this));
-    this._drawDiplomaticMap();
-};
+
 this._initF4Interface = function () {
     if (player.ship.hasEquipmentProviding("EQ_ADVANCED_NAVIGATIONAL_ARRAY")) {
         player.ship.dockedStation.setInterface("DiplomacyWars",
@@ -182,7 +261,7 @@ this._initF4Interface = function () {
                 title: "Star wars",
                 category: "Diplomacy",
                 summary: "Wars and diplomacy",
-                callback: this._runWarMapScreen.bind(this)
+                callback: this._F4InterfaceCallback.bind(this)
             });
     }
 };
@@ -192,9 +271,7 @@ this._startUp = function () {
     // XenonUI would overlay over our mission screens without these exception.
     // FIXME 0.perfectstyle i should have a list of screens, rather than copying here their names, to avoid forgetting
     // to update here when I add or change a screen.
-    worldScripts.XenonUI && worldScripts.XenonUI.$addMissionScreenException("DiplomacyDiplomaticScreenId");
     worldScripts.XenonUI && worldScripts.XenonUI.$addMissionScreenException("DiplomacyWarScreenId");
-    worldScripts.XenonReduxUI && worldScripts.XenonReduxUI.$addMissionScreenException("DiplomacyDiplomaticScreenId");
     worldScripts.XenonReduxUI && worldScripts.XenonReduxUI.$addMissionScreenException("DiplomacyWarScreenId");
 
     this._storedNews = []; // No real need to save it
@@ -400,4 +477,5 @@ this.playerEnteredNewGalaxy = function (galaxyNumber) {
 this.missionScreenEnded = function () {
     player.ship.hudHidden = false;
     this._resetLinks();
+    this._loadTarget();
 };
