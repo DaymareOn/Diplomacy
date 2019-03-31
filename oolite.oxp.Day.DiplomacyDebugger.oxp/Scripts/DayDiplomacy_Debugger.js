@@ -36,6 +36,11 @@ this._F4InterfaceCallback = function (choice) {
         case "8_REMOVEVISAS":
             worldScripts.DayDiplomacy_000_Engine._State.visas = worldScripts.DayDiplomacy_060_Citizenships._visas = {};
             break;
+        case "9_REINITDIPLOMACY":
+            worldScripts.DayDiplomacy_000_Engine._removeFrameCallback();
+            worldScripts.DayDiplomacy_000_Engine._State = worldScripts.DayDiplomacy_000_Engine._getInitState();
+            worldScripts.DayDiplomacy_000_Engine._Functions = {};
+            break;
         default: // "7_EXIT":
     }
 };
@@ -177,7 +182,8 @@ this._displayF4Interface = function () {
             "6_DISO": "Buy Esrilees citizenship",
             "7_SQL":"Export the oolite state in SQL in the log file",
             "8_REMOVEVISAS":"Remove the player visas",
-            "9_EXIT": "Exit"
+            "9_REINITDIPLOMACY":"Reinitialize Diplomacy. Then save and reload.",
+            "90_EXIT": "Exit"
         }
     };
     mission.runScreen(opts, this._F4InterfaceCallback.bind(this));

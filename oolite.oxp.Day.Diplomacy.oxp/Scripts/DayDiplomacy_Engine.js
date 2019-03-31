@@ -32,81 +32,91 @@ this._loadState = function (toBeModifiedState, sourceState) {
     }
 };
 
+/**
+ *
+ * @return {{shortStack: Array, eventsToPublish: {}, initActions: {}, eventMaxId: number, actorTypes: Array, initActionsByType: {}, recurrentActionsByType: {}, actorsEvents: {}, functionMaxId: number, eventTypes: Array, actorMaxId: number, actors: {}, recurrentActions: {}, responseMaxId: number, actionMaxId: number, responsesByType: {}, actorsByType: {}, eventsToPublishNextTurn: {}, responses: {}, currentActorType: string, currentEventType: string, events: {}}}
+ * @private
+ * @lends worldScripts.DayDiplomacy_000_Engine._getInitState
+ */
+this._getInitState = function () {
+  return {
+
+      /** @type {Object.<ActorId,Actor>}*/
+      actors: {},
+
+      /** @type {Object.<ActionId,Action>}*/
+      initActions: {},
+
+      /** @type {Object.<ActionId,Action>}*/
+      recurrentActions: {},
+
+      /** @type {Object.<EventId,DiplomacyEvent>}*/
+      events: {},
+
+      /** @type {Object.<ResponseId,DiplomacyResponse>}*/
+      responses: {},
+
+      /** @type {Object.<ActorType,ActorId[]>}*/
+      actorsByType: {},
+
+      /** @type {Object.<ActorType,ActionId[]>}*/
+      initActionsByType: {},
+
+      /** @type {Object.<EventType,Object.<ActorType,ActionId[]>>}*/
+      recurrentActionsByType: {},
+
+      /** @type {Object.<EventType,Object.<ActorType,ResponseId[]>>}*/
+      responsesByType: {},
+
+      /** @type {int} */
+      actorMaxId: 1,
+
+      /** Useful to remove recurrentActions and initActions.
+       *  @type {int} */
+      actionMaxId: 1,
+
+      /** @type {int} */
+      eventMaxId: 1,
+
+      /** @type {int} */
+      responseMaxId: 1,
+
+      /** @type {int} */
+      functionMaxId: 1,
+
+      /** @type {EventType[]} */
+      eventTypes: [],
+
+      /** @type {ActorType[]} */
+      actorTypes: [],
+
+      /** @type {Object.<ActorId,EventId[]>}*/
+      actorsEvents: {},
+
+      /** @type {Object.<EventType,EventId[]>}*/
+      eventsToPublish: {},
+
+      /** @type {Object.<EventType,EventId[]>}*/
+      eventsToPublishNextTurn: {},
+
+      /** @type EventType */
+      currentEventType: "",
+
+      /** @type ActorType */
+      currentActorType: "",
+
+      /** @type {Object[]} */
+      shortStack: []
+  };
+};
+
 // FIXME should _State be of a defined state? That would be what would make stable the savefile... ?
 /**
  * @type {{shortStack: Array, eventsToPublish: {}, initActions: {}, eventMaxId: number, actorTypes: Array, initActionsByType: {}, recurrentActionsByType: {}, actorsEvents: {}, functionMaxId: number, eventTypes: Array, actorMaxId: number, actors: {}, recurrentActions: {}, responseMaxId: number, actionMaxId: number, responsesByType: {}, actorsByType: {}, eventsToPublishNextTurn: {}, responses: {}, currentActorType: string, currentEventType: string, events: {}}}
  * @private
  * @lends worldScripts.DayDiplomacy_000_Engine._State
  */
-this._State = {
-
-    /** @type {Object.<ActorId,Actor>}*/
-    actors: {},
-
-    /** @type {Object.<ActionId,Action>}*/
-    initActions: {},
-
-    /** @type {Object.<ActionId,Action>}*/
-    recurrentActions: {},
-
-    /** @type {Object.<EventId,DiplomacyEvent>}*/
-    events: {},
-
-    /** @type {Object.<ResponseId,DiplomacyResponse>}*/
-    responses: {},
-
-    /** @type {Object.<ActorType,ActorId[]>}*/
-    actorsByType: {},
-
-    /** @type {Object.<ActorType,ActionId[]>}*/
-    initActionsByType: {},
-
-    /** @type {Object.<EventType,Object.<ActorType,ActionId[]>>}*/
-    recurrentActionsByType: {},
-
-    /** @type {Object.<EventType,Object.<ActorType,ResponseId[]>>}*/
-    responsesByType: {},
-
-    /** @type {int} */
-    actorMaxId: 1,
-
-    /** Useful to remove recurrentActions and initActions.
-     *  @type {int} */
-    actionMaxId: 1,
-
-    /** @type {int} */
-    eventMaxId: 1,
-
-    /** @type {int} */
-    responseMaxId: 1,
-
-    /** @type {int} */
-    functionMaxId: 1,
-
-    /** @type {EventType[]} */
-    eventTypes: [],
-
-    /** @type {ActorType[]} */
-    actorTypes: [],
-
-    /** @type {Object.<ActorId,EventId[]>}*/
-    actorsEvents: {},
-
-    /** @type {Object.<EventType,EventId[]>}*/
-    eventsToPublish: {},
-
-    /** @type {Object.<EventType,EventId[]>}*/
-    eventsToPublishNextTurn: {},
-
-    /** @type EventType */
-    currentEventType: "",
-
-    /** @type ActorType */
-    currentActorType: "",
-
-    /** @type {Object[]} */
-    shortStack: []
-};
+this._State = this._getInitState();
 
 /**
  * @type {Object.<FunctionId,function>}
@@ -742,10 +752,9 @@ this._functionReviver = (function () {
 /* ************************** Oolite events ***************************************************************/
 
 this._startUp = function () {
-    var as = this._State;
     var sa = this._missionVariables.DayDiplomacyEngine_EngineState;
     if (sa && sa.length) { // Loading if necessary.
-        this._loadState(as, this._JSON.parse(sa));
+        this._loadState(this._State, this._JSON.parse(sa));
         this._loadState(this._Functions, this._JSON.parse(this._missionVariables.DayDiplomacyEngine_Functions, this._functionReviver));
     }
 
