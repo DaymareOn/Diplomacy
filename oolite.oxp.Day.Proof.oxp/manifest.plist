@@ -1,0 +1,11 @@
+{
+	"identifier" = "oolite.oxp.Day.Proof";
+	"required_oolite_version" = "1.89";
+	"title" = "Proof";
+	"version" = "0.1";
+	"category" = "Ambience";
+	"description" = "Test";
+	"author" = "Day";
+	"information_url" = "http://wiki.alioth.net/index.php/Proof";
+	"license" = "CC BY-NC-SA 4";
+}
