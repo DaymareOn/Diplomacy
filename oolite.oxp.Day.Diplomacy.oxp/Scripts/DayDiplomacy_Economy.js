@@ -107,7 +107,7 @@ this._startUp = function () {
 this.guiScreenChanged = function(to, from) {
     if (to == "GUI_SCREEN_SYSTEM_DATA") {
         var targetSystem = worldScripts.DayDiplomacy_010_Systems.$retrieveActorFromSystem(system.info.galaxyID, player.ship.targetSystem);
-        mission.addMessageText("Tax level: " + targetSystem.taxLevel + " Treasury: " + targetSystem.treasury + " €");
+        mission.addMessageText("Tax level: " + targetSystem.taxLevel*100 + "% Treasury: " + Math.floor(targetSystem.treasury/1000) + " M€");
     }
 };
 
