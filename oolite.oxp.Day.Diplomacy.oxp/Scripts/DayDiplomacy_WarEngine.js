@@ -18,7 +18,7 @@ this.$getScoringFunctions = function () {
 };
 
 /**
- * @param {FunctionId}keyword FIXME is the keyword used as a FunctionId ??
+ * @param {FunctionId}keyword the keyword is used as a FunctionId
  * @param {function}f
  * @param {int}position
  * @lends worldScripts.DayDiplomacy_040_WarEngine.$addScoringFunction
@@ -331,7 +331,7 @@ this._init = function () {
     engine.$setFunction(fid, warCouncilRecurrentAction);
     engine.$setRecurrentAction(engine.$buildAction(engine.$getNewActionId(), "WARCOUNCIL", "SYSTEM", fid));
 
-    this.$setAllianceThreshold(1); // Default value for the very first initialization
+    this.$setAllianceThreshold(.5); // Default value for the very first initialization
     this.$setWarThreshold(-1); // Default value for the very first initialization
 };
 
