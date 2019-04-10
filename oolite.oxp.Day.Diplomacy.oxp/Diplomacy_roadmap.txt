@@ -1,11 +1,9 @@
 Diplomacy roadmap
 =================
 
-Next version might include:
-- bugfix: alliances don't appear on the map
-- FIXME before 1.0, saved functions are a bug factor
+Next versions might include:
 
-0.17 - mandatory visa, more expensive visa to go planetSide, costs slashed planetSide (90% custom rebate...)
+0.17 - more expensive visa to go planetSide, costs slashed planetSide (90% custom rebate ?...)
      - citizenships may be acquired planetSide only
 
 0.18 player taxation depending on the number of citizenships (CreditDiff / timeInDaysSinceLastSystemVisit * n * (n - 1))

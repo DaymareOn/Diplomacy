@@ -126,6 +126,7 @@ Changelog
         Improvement, code quality: the Snoopers dependency, which is deprecated, is replaced by the GNN dependency. Oolite minimal required version is now 1.88, because of this.
         Improvement, code quality: moved the GNN connection to external script.
         Improvement, code quality: tax level and treasury are now displayed through mission.addMessageText rather than through a modification of the system description.
+        Improvement, tweaking: the alliance threshold between systems is lowered.
         Bugfix: the initActions wasn't set as it should be. In particular, initActionsByType wasn't set when adding an initAction, and initActions was set with an ActorType as key instead of an ActionId.
 0.15    Improvement, flavor: the player may acquire or renounce the citizenship of the system they are in.
         Improvement, flavor: the player may display one of their citizenships as the flag of their ship.
