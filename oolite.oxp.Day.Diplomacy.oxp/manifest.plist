@@ -2,7 +2,7 @@
 	"identifier" = "oolite.oxp.Day.Diplomacy";
 	"required_oolite_version" = "1.88";
 	"title" = "Diplomacy";
-	"version" = "0.16";
+	"version" = "0.17";
 	"category" = "Ambience";
 	"description" = "WIP: wars maps and History! GNN news concerning alliances and wars! Treasuries! Citizenships! Taxes!
 Systems treasury! Wars require money, and countries are defeated either by battles or by bankruptcy, sometimes the latter producing the former.
