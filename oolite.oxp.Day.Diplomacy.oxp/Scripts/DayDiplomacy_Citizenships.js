@@ -261,7 +261,7 @@ this._runCitizenship = function (notEnoughMoney) {
                     systemsActorIdsByGalaxyAndSystemId[currentGalaxyID][thatSystemInfo.systemID]
                 );
                 if (!isEnemy) {
-                    currentChoices["5_BUYVISA_" + thatSystemInfo.systemID] = "Buy a one-day visa for " + thatSystemInfo.name + " for a cost of " + this.$getVisaPrice(thatSystemInfo) + " ₢";
+                    currentChoices["5_BUYVISA_" + thatSystemInfo.systemID] = "Extend your visa for " + thatSystemInfo.name + " by 24 hours for a cost of " + this.$getVisaPrice(thatSystemInfo) + " ₢";
                 }
             }
         }
