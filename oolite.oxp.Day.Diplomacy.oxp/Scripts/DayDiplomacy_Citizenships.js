@@ -38,7 +38,7 @@ this.$getVisaPrice = function (aSystem) {
 /**
  * @param {int} galaxyID
  * @param {int} systemID
- * @returns {boolean} true is the player has the citizenship
+ * @returns {boolean} true if the player has the citizenship
  * @lends worldScripts.DayDiplomacy_060_Citizenships.$hasPlayerCitizenship
  */
 this.$hasPlayerCitizenship = function (galaxyID, systemID) {
