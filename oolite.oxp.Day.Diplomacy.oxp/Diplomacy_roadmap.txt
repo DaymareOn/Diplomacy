@@ -3,12 +3,12 @@ Diplomacy roadmap
 
 Next versions might include:
 
-0.18 - more expensive visa to go planetSide, costs slashed planetSide (90% custom rebate ?...)
+0.19 - more expensive visa to go planetSide, costs slashed planetSide (90% custom rebate ?...)
      - citizenships may be acquired planetSide only
 
-0.19 player taxation depending on the number of citizenships (CreditDiff / timeInDaysSinceLastSystemVisit * n * (n - 1))
+0.20 player taxation depending on the number of citizenships (CreditDiff / timeInDaysSinceLastSystemVisit * n * (n - 1))
 
-0.20 War declaration generates an immediate gdp growth increase!
+0.21 War declaration generates an immediate gdp growth increase!
 
 ---------------------------------------------------------------
 
@@ -264,3 +264,6 @@ How about a picture of the planet (it need not revolve) for the System History F
 To what extent does buying citizenship of a system link in with Home System.oxp's inner workings?
 There you buy Home System Privileges for 15,000cr a pop, which leads to what seems to be a sort of super-citizenship.
 Should it automatically grant Diplomancy.oxp style citizenship as well?
+
+FIXME Use galcop logo for passports and visa: http://wiki.alioth.net/index.php/File:Logo-Gal-Cop01.png
+Cf http://aegidian.org/bb/viewtopic.php?p=274232#p274232

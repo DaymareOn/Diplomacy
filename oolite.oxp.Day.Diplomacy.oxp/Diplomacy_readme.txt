@@ -42,6 +42,7 @@ Systems treasury!
 
 Strategic maps!
     Showing the warring systems, and the diplomatic relationships!
+    Requires the advanced navigational array equipment.
 
 Systems alliances, wars!
     Two systems within 7ly of each other may now form an alliance, if they like each other enough.
@@ -115,6 +116,7 @@ None.
 ==============================
 Changelog
 
+0.18    Improvement, user-friendliness: the visa system in-game explanation is clearerer.
 0.17    Improvement, user-friendliness: the visa system in-game explanation is clearer.
 0.16    Improvement, flavor: the player is considered fugitive when in systems warring with their flag.
         Improvement, flavor: no "Embassy district" in anarchies, no citizenship in an Anarchy

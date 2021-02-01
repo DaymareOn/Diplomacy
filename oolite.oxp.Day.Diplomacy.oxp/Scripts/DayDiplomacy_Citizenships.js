@@ -261,7 +261,13 @@ this._runCitizenship = function (notEnoughMoney) {
                     systemsActorIdsByGalaxyAndSystemId[currentGalaxyID][thatSystemInfo.systemID]
                 );
                 if (!isEnemy) {
-                    currentChoices["5_BUYVISA_" + thatSystemInfo.systemID] = "Extend your visa for " + thatSystemInfo.name + " by 24 hours for a cost of " + this.$getVisaPrice(thatSystemInfo) + " ₢";
+                    if (this.$hasPlayerVisa(thatSystemInfo.systemID)) {
+                        currentChoices["5_BUYVISA_" + thatSystemInfo.systemID] =
+                            "Extend your visa for " + thatSystemInfo.name + " by 24 hours for a cost of " + this.$getVisaPrice(thatSystemInfo) + " ₢";
+                    } else {
+                        currentChoices["5_BUYVISA_" + thatSystemInfo.systemID] =
+                            "Buy 24 hours of visa for " + thatSystemInfo.name + " for a cost of " + this.$getVisaPrice(thatSystemInfo) + " ₢";
+                    }
                 }
             }
         }
