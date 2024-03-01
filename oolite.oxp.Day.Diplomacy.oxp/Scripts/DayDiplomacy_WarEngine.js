@@ -148,8 +148,8 @@ this._ally = function (aSystemId, anotherSystemId) {
  */
 this._breakAlliance = function (aSystemId, anotherSystemId) {
     var a = this._a; // Alliances and wars
-    a[aSystemId] && a[aSystemId] === 1 && (delete a[aSystemId][anotherSystemId]); // Breaking alliance
-    a[anotherSystemId] && a[anotherSystemId] === 1 && (delete a[anotherSystemId][aSystemId]); // Breaking alliance
+    a[aSystemId] && a[aSystemId][anotherSystemId]  === 1 && (delete a[aSystemId][anotherSystemId]); // Breaking alliance
+    a[anotherSystemId] && a[anotherSystemId][aSystemId] === 1 && (delete a[anotherSystemId][aSystemId]); // Breaking alliance
     this._s.$makeActorEventKnownToUniverse(aSystemId, "BREAK", [anotherSystemId]);
     this._s.$makeActorEventKnownToUniverse(anotherSystemId, "BREAK", [aSystemId]);
     // Commented out because closure
@@ -182,8 +182,8 @@ this._declareWar = function (aSystemId, anotherSystemId) {
  */
 this._makePeace = function (aSystemId, anotherSystemId) {
     var a = this._a; // Alliances and wars
-    a[aSystemId] && a[aSystemId] === -1 && (delete a[aSystemId][anotherSystemId]); // Making peace
-    a[anotherSystemId] && a[anotherSystemId] === -1 && (delete a[anotherSystemId][aSystemId]); // Making peace
+    a[aSystemId] && a[aSystemId][anotherSystemId] === -1 && (delete a[aSystemId][anotherSystemId]); // Making peace
+    a[anotherSystemId] && a[anotherSystemId][aSystemId] === -1 && (delete a[anotherSystemId][aSystemId]); // Making peace
     this._s.$makeActorEventKnownToUniverse(aSystemId, "PEACE", [anotherSystemId]);
     this._s.$makeActorEventKnownToUniverse(anotherSystemId, "PEACE", [aSystemId]);
     // Commented out because closure

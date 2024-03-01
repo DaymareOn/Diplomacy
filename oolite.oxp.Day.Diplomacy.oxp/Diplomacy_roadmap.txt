@@ -3,12 +3,12 @@ Diplomacy roadmap
 
 Next versions might include:
 
-0.19 - more expensive visa to go planetSide, costs slashed planetSide (90% custom rebate ?...)
+0.20 - more expensive visa to go planetSide, costs slashed planetSide (90% custom rebate ?...)
      - citizenships may be acquired planetSide only
 
-0.20 player taxation depending on the number of citizenships (CreditDiff / timeInDaysSinceLastSystemVisit * n * (n - 1))
+0.21 player taxation depending on the number of citizenships (CreditDiff / timeInDaysSinceLastSystemVisit * n * (n - 1))
 
-0.21 War declaration generates an immediate gdp growth increase!
+0.22 War declaration generates an immediate gdp growth increase!
 
 ---------------------------------------------------------------
 
